@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="8dp"
+    tools:context=".Tevekenyseg"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Gyakorlatválasztó"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+    <TextView
+        android:id="@+id/tvTestNev"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="XXX naplója"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+    <ListView
+        android:id="@+id/gyakrolatListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp" />
+</LinearLayout>

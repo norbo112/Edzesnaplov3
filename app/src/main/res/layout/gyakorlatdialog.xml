@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#4383A0"
+    android:orientation="vertical"
+    android:padding="8dp"
+    tools:context=".Tevekenyseg">
+
+    <TextView
+        android:id="@+id/tvGyakDialogCim"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="Új gyakorlat felvétele"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+    <EditText
+        android:id="@+id/etGyakDialogNev"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="#C0DAD7"
+        android:ems="10"
+        android:hint="gyakorlat neve..."
+        android:inputType="textPersonName"
+        android:padding="5dp" />
+
+    <EditText
+        android:id="@+id/etGyakDialogCsoport"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="#C0DAD7"
+        android:ems="10"
+        android:hint="izomcsoport... "
+        android:inputType="textPersonName"
+        android:padding="5dp" />
+
+    <EditText
+        android:id="@+id/etGyakDialogLeiras"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="#C0DAD7"
+        android:ems="10"
+        android:hint="kisebb leírás"
+        android:inputType="textPersonName"
+        android:padding="5dp" />
+
+    <EditText
+        android:id="@+id/etGyakDialogVideolink"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="#C0DAD7"
+        android:ems="10"
+        android:hint="video linkje"
+        android:inputType="textPersonName"
+        android:padding="5dp" />
+
+    <EditText
+        android:id="@+id/etGyakDialogVideoStartPoz"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="#C0DAD7"
+        android:ems="10"
+        android:hint="video pozicíó def=0"
+        android:inputType="number"
+        android:padding="5dp" />
+</LinearLayout>

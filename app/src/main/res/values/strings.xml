@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Edzesnaplo3</string>
+    <string name="welcome_title">Üdvözöllek az edzésnaplóban</string>
+    <string name="welcome_name_hint">Kérem a neved</string>
+    <string name="welcome_enter">belépés</string>
+    <string name="welcome_text_nev">XXX Naplója</string>
+    <string name="tev_kenys_g_oldql">Tevékenység oldql</string>
+</resources>

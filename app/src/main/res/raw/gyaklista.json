@@ -1,0 +1,667 @@
+{"gyakorlat":[
+  {
+    "gyak_id": "1",
+    "csoport": "Mell",
+    "megnevezes": "Fekvenyomás",
+    "leiras": "Lefekszünk a padra",
+    "videolink": "xsoUWuJglGc",
+    "videostartpoz": "22"
+  },
+  {
+    "gyak_id": "2",
+    "csoport": "Mell",
+    "megnevezes": "45°ba nyomás kétkezessel",
+    "leiras": "\r",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "3",
+    "csoport": "Mell",
+    "megnevezes": "30°ba nyomás kétkezessel",
+    "leiras": "\r",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "4",
+    "csoport": "Mell",
+    "megnevezes": "45°ba nyomás egykezessel",
+    "leiras": "\r",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "5",
+    "csoport": "Mell",
+    "megnevezes": "30°ba nyomás egykezessel",
+    "leiras": "\r",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "6",
+    "csoport": "Mell",
+    "megnevezes": "Tárogatás fekve",
+    "leiras": "\r",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "7",
+    "csoport": "Mell",
+    "megnevezes": "Tárogatás 30°ba",
+    "leiras": "\r",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "8",
+    "csoport": "Mell",
+    "megnevezes": "Tárogatás 45°ba",
+    "leiras": "\r",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "9",
+    "csoport": "Mell",
+    "megnevezes": "Felső csiga mell",
+    "leiras": "\r",
+    "videolink": "pEytdJdsR7o",
+    "videostartpoz": "296"
+  },
+  {
+    "gyak_id": "10",
+    "csoport": "Mell",
+    "megnevezes": "Alsó csiga mell",
+    "leiras": "\r",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "11",
+    "csoport": "Mell",
+    "megnevezes": "Fekvenyomás szűken",
+    "leiras": "\r",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "12",
+    "csoport": "Hát",
+    "megnevezes": "Húzódzkodás szélesen",
+    "leiras": "\r",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "13",
+    "csoport": "Hát",
+    "megnevezes": "Húzódzkodás nyakhoz",
+    "leiras": "\r",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "14",
+    "csoport": "Hát",
+    "megnevezes": "Húzódzkodás szűken",
+    "leiras": "\r",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "15",
+    "csoport": "Hát",
+    "megnevezes": "Kétkezes evezés szélesen",
+    "leiras": "\r",
+    "videolink": "D2km3fX9R7w",
+    "videostartpoz": "111"
+  },
+  {
+    "gyak_id": "16",
+    "csoport": "Hát",
+    "megnevezes": "Kétkezes evezés szűken",
+    "leiras": "\r",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "17",
+    "csoport": "Hát",
+    "megnevezes": "Egykezes evezés",
+    "leiras": "\r",
+    "videolink": "D2km3fX9R7w",
+    "videostartpoz": "268"
+  },
+  {
+    "gyak_id": "18",
+    "csoport": "Hát",
+    "megnevezes": "Evezés alsó csigán 3szöggel",
+    "leiras": "\r",
+    "videolink": "D2km3fX9R7w",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "19",
+    "csoport": "Hát",
+    "megnevezes": "Evezés alsó csigán szélesen",
+    "leiras": "\r",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "20",
+    "csoport": "Tricepsz",
+    "megnevezes": "Tolódzkodás",
+    "leiras": "\r",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "21",
+    "csoport": "Tricepsz",
+    "megnevezes": "Lenyomás vassal cs.",
+    "leiras": "\r",
+    "videolink": "AC8giuvnVIo",
+    "videostartpoz": "42"
+  },
+  {
+    "gyak_id": "22",
+    "csoport": "Tricepsz",
+    "megnevezes": "Lenyomás kötéllel cs.",
+    "leiras": "\r",
+    "videolink": "AC8giuvnVIo",
+    "videostartpoz": "183"
+  },
+  {
+    "gyak_id": "23",
+    "csoport": "Tricepsz",
+    "megnevezes": "Homlokra engedés fr.",
+    "leiras": "\r",
+    "videolink": "AC8giuvnVIo",
+    "videostartpoz": "300"
+  },
+  {
+    "gyak_id": "24",
+    "csoport": "Tricepsz",
+    "megnevezes": "Homlokra engedés egy.",
+    "leiras": "\r",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "25",
+    "csoport": "Tricepsz",
+    "megnevezes": "Lórúgás",
+    "leiras": "\r",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "26",
+    "csoport": "Tricepsz",
+    "megnevezes": "Lenyomás egykezessel",
+    "leiras": "\r",
+    "videolink": "AC8giuvnVIo",
+    "videostartpoz": "153"
+  },
+  {
+    "gyak_id": "27",
+    "csoport": "Tricepsz",
+    "megnevezes": "L. kötéllel fej felett",
+    "leiras": "\r",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "28",
+    "csoport": "Tricepsz",
+    "megnevezes": "Tolódzkodás két pad közt",
+    "leiras": "\r",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "29",
+    "csoport": "Bicepsz",
+    "megnevezes": "Állva kétkezessel bic",
+    "leiras": "\r",
+    "videolink": "IOnV6rj_yVk",
+    "videostartpoz": "134"
+  },
+  {
+    "gyak_id": "30",
+    "csoport": "Bicepsz",
+    "megnevezes": "Üllve koncentrált bic",
+    "leiras": "",
+    "videolink": "psKkHNjbZYs",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "31",
+    "csoport": "Bicepsz",
+    "megnevezes": "Scott padon egyk",
+    "leiras": "\r",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "32",
+    "csoport": "Bicepsz",
+    "megnevezes": "Scott padon kétk",
+    "leiras": "\"\n\"",
+    "videolink": "S2vVymsbvGY",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "33",
+    "csoport": "Bicepsz",
+    "megnevezes": "Felső csiga egyk",
+    "leiras": "Állva kezdjük kinyújtott kézzel a csigával szemben",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "34",
+    "csoport": "Bicepsz",
+    "megnevezes": "Felső csiga kétk",
+    "leiras": "\r",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "35",
+    "csoport": "Bicepsz",
+    "megnevezes": "Állva beforgatós egyk",
+    "leiras": "Állva egykezesekkel befordított tenyérrel kezdjük, majd hajlítjuk az alkart, félúton pedig kifordítjuk, majd lassan visszaengedjük kb félúton visszafordítjuk a tenyerünket a kiinduló helyzetbe",
+    "videolink": "zUuJ5lcYyvQ",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "36",
+    "csoport": "Bicepsz",
+    "megnevezes": "Üllve beforgatós egyk",
+    "leiras": "\r",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "37",
+    "csoport": "Váll",
+    "megnevezes": "Oldalemelés",
+    "leiras": "\r",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "38",
+    "csoport": "Váll",
+    "megnevezes": "Előre emelés egykezessel",
+    "leiras": "\r",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "39",
+    "csoport": "Váll",
+    "megnevezes": "Előre emelés ruddal",
+    "leiras": "\r",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "40",
+    "csoport": "Váll",
+    "megnevezes": "Arnold nyomás egyk",
+    "leiras": "\r",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "41",
+    "csoport": "Váll",
+    "megnevezes": "Elülső nyomás állva",
+    "leiras": "\r",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "42",
+    "csoport": "Váll",
+    "megnevezes": "Elülső nyomás üllve",
+    "leiras": "\r",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "43",
+    "csoport": "Váll",
+    "megnevezes": "Oldalemelés üllve",
+    "leiras": "\r",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "44",
+    "csoport": "Váll",
+    "megnevezes": "Oldalemelés csigán",
+    "leiras": "\r",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "45",
+    "csoport": "Váll",
+    "megnevezes": "Döntött törzsű Oldalemelés",
+    "leiras": "\r",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "46",
+    "csoport": "Váll",
+    "megnevezes": "Hátsó váll csigán",
+    "leiras": "\r",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "47",
+    "csoport": "Láb",
+    "megnevezes": "Guggolás szélesen",
+    "leiras": "\r",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "48",
+    "csoport": "Láb",
+    "megnevezes": "Guggolás szűken",
+    "leiras": "\r",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "49",
+    "csoport": "Láb",
+    "megnevezes": "Elülső guggolás",
+    "leiras": "\r",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "50",
+    "csoport": "Láb",
+    "megnevezes": "Kitörés",
+    "leiras": "\r",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "51",
+    "csoport": "Láb",
+    "megnevezes": "Lábnyújtás",
+    "leiras": "\r",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "52",
+    "csoport": "Láb",
+    "megnevezes": "Lábhajlítás",
+    "leiras": "\r",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "53",
+    "csoport": "Vádli",
+    "megnevezes": "Vádli állva egylábon",
+    "leiras": "\r",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "54",
+    "csoport": "Vádli",
+    "megnevezes": "Vádli üllve",
+    "leiras": "\r",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "55",
+    "csoport": "Vádli",
+    "megnevezes": "Vádli állva ruddal",
+    "leiras": "\r",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "64",
+    "csoport": "Bicepsz",
+    "megnevezes": "Állva kétk. francia rúddal",
+    "leiras": null,
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "65",
+    "csoport": "Has",
+    "megnevezes": "Lábemelés függeszkedve",
+    "leiras": "Váll széllességben felhúzzuk magunkat egy kicsit a húzódzkodón, majd lábat emelünk egyenes tartással.",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "66",
+    "csoport": "Has",
+    "megnevezes": "Lábemelés fekve",
+    "leiras": "",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "67",
+    "csoport": "Has",
+    "megnevezes": "Hasprés padon",
+    "leiras": "",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "68",
+    "csoport": "Has",
+    "megnevezes": "Hasprés ferde padon",
+    "leiras": "",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "69",
+    "csoport": "Has",
+    "megnevezes": "Felülés padon",
+    "leiras": "",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "70",
+    "csoport": "Has",
+    "megnevezes": "Felülés ferde padon",
+    "leiras": "30 vagy 45fokban van a pad",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "71",
+    "csoport": "Csuklya",
+    "megnevezes": "Állig húzás",
+    "leiras": "",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "72",
+    "csoport": "Csuklya",
+    "megnevezes": "Vállvonogatás",
+    "leiras": "",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "73",
+    "csoport": "Hát",
+    "megnevezes": "Felhúzás",
+    "leiras": "Széles terpeszben állva egyenes háttal...",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "74",
+    "csoport": "Láb",
+    "megnevezes": "Felhúzás merev lábbal",
+    "leiras": "\"\"",
+    "videolink": "JaRgJOqJev0",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "75",
+    "csoport": "Alkar",
+    "megnevezes": "Madár fogású bicepsz",
+    "leiras": "\"Ugyanaz mint a bicepsz hajlítás állva, csak fordítva fogjuk a rudat, és hajlítjuk a bicepszet\"",
+    "videolink": "UTUTmEYMzzA",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "76",
+    "csoport": "Alkar",
+    "megnevezes": "Madár fogású húz.",
+    "leiras": "Húzódzkodás vállszélességben befelé néző tenyérrel",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "78",
+    "csoport": "Alkar",
+    "megnevezes": "Csukló hajlítás padon",
+    "leiras": "",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "80",
+    "csoport": "Mell",
+    "megnevezes": "Áthúzás egykezessel",
+    "leiras": "Keresztbe fekszünk a padon, majd kinyújtott kézzel, kicsit behajlítva a könyököt, fej mögé eresszük a súlyt",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "81",
+    "csoport": "Hát",
+    "megnevezes": "Kétkezes evezés vállsz",
+    "leiras": "Kétkezes evezés váll szélles fogásban",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "82",
+    "csoport": "Hát",
+    "megnevezes": "Húzódzkodás párh.fog",
+    "leiras": "Vállszélességű fogás, párhuzamosan tartva a tenyeret",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "83",
+    "csoport": "Tricepsz",
+    "megnevezes": "Lenyomás vassal fordított",
+    "leiras": "Lenyomás vassal, fordított fogással",
+    "videolink": "AC8giuvnVIo",
+    "videostartpoz": "113"
+  },
+  {
+    "gyak_id": "84",
+    "csoport": "Tricepsz",
+    "megnevezes": "Tricepsz hajlítás fejf",
+    "leiras": "Tricepsz hajlítás fej felett egykezessel",
+    "videolink": "AC8giuvnVIo",
+    "videostartpoz": "328"
+  },
+  {
+    "gyak_id": "85",
+    "csoport": "Láb",
+    "megnevezes": "Egylábas lábhajlítás",
+    "leiras": "",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "86",
+    "csoport": "Has",
+    "megnevezes": "Állva csigás hasprés",
+    "leiras": "Kötelet fogunk a nyakunkba és hasizmot préselünk",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "87",
+    "csoport": "Hát",
+    "megnevezes": "Merev karú lehúzás",
+    "leiras": "",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "88",
+    "csoport": "Mell",
+    "megnevezes": "Fekvenyomás egykezessel",
+    "leiras": "Egykezes súlyzókkal való fekve nyomás vízszintes padon",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "89",
+    "csoport": "Hát",
+    "megnevezes": "Lehúzás szélesen mellhez",
+    "leiras": "",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "90",
+    "csoport": "Tricepsz",
+    "megnevezes": "Tricepsz hajlítás fejf.fr",
+    "leiras": "Fej felett francia rúddal, ülve vagy állva",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "91",
+    "csoport": "Láb",
+    "megnevezes": "Ugrálókötél",
+    "leiras": "",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "92",
+    "csoport": "Alkar",
+    "megnevezes": "Madár fogású fr.rúddal",
+    "leiras": "Francia rúddal, madár fogású bicepsz",
+    "videolink": "",
+    "videostartpoz": "0"
+  },
+  {
+    "gyak_id": "93",
+    "csoport": "Bicepsz",
+    "megnevezes": "Kalapács csigán",
+    "leiras": "Állva, kötélel végzett csigás kalapács bicepsz",
+    "videolink": "",
+    "videostartpoz": "0"
+  }
+]
+}
