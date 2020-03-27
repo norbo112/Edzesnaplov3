@@ -14,7 +14,7 @@ import aa.droid.norbo.projects.edzesnaplo3.database.entities.Gyakorlat;
 
 @Dao
 public interface GyakorlatDao {
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Gyakorlat gyakorlat);
 
     @Query("SELECT * FROM gyakorlattabla")

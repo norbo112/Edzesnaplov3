@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="izomcsoportok">
+        <item>Kérlek, válassz...</item>
+        <item>Mell</item>
+        <item>Hát</item>
+        <item>Láb</item>
+        <item>Váll</item>
+        <item>Bicepsz</item>
+        <item>Tricepsz</item>
+        <item>Alkar</item>
+        <item>Has</item>
+        <item>Csuklya</item>
+    </string-array>
+</resources>

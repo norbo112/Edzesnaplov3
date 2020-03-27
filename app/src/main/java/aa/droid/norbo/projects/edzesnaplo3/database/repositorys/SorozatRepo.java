@@ -1,0 +1,62 @@
+package aa.droid.norbo.projects.edzesnaplo3.database.repositorys;
+
+import android.app.Application;
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+import androidx.lifecycle.LiveData;
+
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.function.Supplier;
+
+import aa.droid.norbo.projects.edzesnaplo3.database.EdzesNaploDatabase;
+import aa.droid.norbo.projects.edzesnaplo3.database.dao.SorozatDao;
+import aa.droid.norbo.projects.edzesnaplo3.database.dao.SorozatWithGyakorlat;
+import aa.droid.norbo.projects.edzesnaplo3.database.entities.Naplo;
+import aa.droid.norbo.projects.edzesnaplo3.database.entities.Sorozat;
+
+public class SorozatRepo {
+    private SorozatDao sorozatDao;
+    private LiveData<List<SorozatWithGyakorlat>> sorozatListLiveData;
+
+    public SorozatRepo(Application application) {
+        EdzesNaploDatabase db = EdzesNaploDatabase.getDatabase(application);
+        sorozatDao = db.sorozatDao();
+        sorozatListLiveData = sorozatDao.getAllSorozat();
+    }
+
+    public LiveData<List<SorozatWithGyakorlat>> getSorozatListLiveData() {
+        return sorozatListLiveData;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public CompletableFuture<LiveData<List<SorozatWithGyakorlat>>> getSorozatWithGyakorlatByNaplo(String naplodatum) {
+        return CompletableFuture.supplyAsync(new Supplier<LiveData<List<SorozatWithGyakorlat>>>() {
+            @Override
+            public LiveData<List<SorozatWithGyakorlat>> get() {
+                return sorozatDao.getSorozatWithGyakorlat(naplodatum);
+            }
+        }, EdzesNaploDatabase.dbWriteExecutor);
+    }
+
+    public void insert(Sorozat sorozat) {
+        EdzesNaploDatabase.dbWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                sorozatDao.insert(sorozat);
+            }
+        });
+    }
+
+    public void insert(List<Sorozat> sorozats) {
+        EdzesNaploDatabase.dbWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                sorozatDao.insert(sorozats);
+            }
+        });
+    }
+
+    //Todo update és delete majd kelleni fog még
+}

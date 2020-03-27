@@ -1,36 +1,35 @@
 package aa.droid.norbo.projects.edzesnaplo3.database.entities;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
-import androidx.room.ForeignKey;
 import androidx.room.Ignore;
-import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-@Entity(tableName = "sorozattabla", foreignKeys = {
-        @ForeignKey(entity = Naplo.class,
-            parentColumns = "id",
-            childColumns = "naploid")
-}, indices = {@Index(value = "naploid")})
-public class Sorozat {
+@Entity(tableName = "sorozattabla")
+public class Sorozat implements Serializable {
     @PrimaryKey(autoGenerate = true)
     private int id;
     private int gyakorlatid;
     private int suly;
     private int ismetles;
     private String ismidopont;
-    private int naploid;
+    private String naplodatum;
+    @Ignore
+    private Gyakorlat gyakorlat;
 
     public Sorozat(){}
 
     @Ignore
-    public Sorozat(int gyakorlatid, int suly, int ismetles, String ismidopont, int naploid) {
-        this.gyakorlatid = gyakorlatid;
+    public Sorozat(Gyakorlat gyakorlat,  int suly, int ismetles, String ismidopont, String naplodatum) {
+        this.gyakorlat = gyakorlat;
+        this.gyakorlatid = gyakorlat.getId();
         this.suly = suly;
         this.ismetles = ismetles;
         this.ismidopont = ismidopont;
-        this.naploid = naploid;
+        this.naplodatum = naplodatum;
     }
 
     public int getId() {
@@ -73,12 +72,17 @@ public class Sorozat {
         this.ismidopont = ismidopont;
     }
 
-    public int getNaploid() {
-        return naploid;
+    public String getNaplodatum() {
+        return naplodatum;
     }
 
-    public void setNaploid(int naploid) {
-        this.naploid = naploid;
+    public void setNaplodatum(String naplodatum) {
+        this.naplodatum = naplodatum;
+    }
+
+    @Ignore
+    public Gyakorlat getGyakorlat() {
+        return gyakorlat;
     }
 
     @Override
@@ -92,5 +96,11 @@ public class Sorozat {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return suly+"X"+ismetles+"::"+ismidopont+" "+(suly*ismetles)+" Kg";
     }
 }

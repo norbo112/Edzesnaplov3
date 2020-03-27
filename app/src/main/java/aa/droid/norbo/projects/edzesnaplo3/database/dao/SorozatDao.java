@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Transaction;
 
 import java.util.List;
 
@@ -15,8 +16,16 @@ public interface SorozatDao {
     void insert(Sorozat sorozat);
 
     @Insert
-    void insert(Sorozat... sorozats);
+    void insert(List<Sorozat> sorozats);
 
-    @Query("SELECT * FROM sorozattabla WHERE naploid = :mentettdatum")
+    @Transaction
+    @Query("SELECT * FROM sorozattabla")
+    LiveData<List<SorozatWithGyakorlat>> getAllSorozat();
+
+    @Query("SELECT * FROM sorozattabla WHERE naplodatum = :mentettdatum")
     LiveData<List<Sorozat>> getSorozatByNaplo(String mentettdatum);
+
+    @Transaction
+    @Query("SELECT * FROM sorozattabla WHERE naplodatum =:naplodatum")
+    LiveData<List<SorozatWithGyakorlat>> getSorozatWithGyakorlat(String naplodatum);
 }

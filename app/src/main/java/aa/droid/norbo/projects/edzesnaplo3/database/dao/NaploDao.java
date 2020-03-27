@@ -7,6 +7,8 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import java.util.List;
+
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Naplo;
 
 @Dao
@@ -15,7 +17,7 @@ public interface NaploDao {
     void insertNaplo(Naplo naplo);
 
     @Query("SELECT * FROM naplo")
-    LiveData<Naplo> getNaploLiveData();
+    LiveData<List<Naplo>> getNaploLiveData();
 
     @Delete
     void deleteNaplo(Naplo naplo);

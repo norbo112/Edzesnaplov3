@@ -6,15 +6,22 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+import java.util.Objects;
+
 @Entity(tableName = "gyakorlattabla")
-public class Gyakorlat {
+public class Gyakorlat implements Serializable {
     @PrimaryKey(autoGenerate = true)
     private Integer id;
+    @ColumnInfo(name = "csoport")
     private String csoport;
-    @ColumnInfo(index = true)
+    @ColumnInfo(name = "megnevezes")
     private String megnevezes;
+    @ColumnInfo(name = "leiras")
     private String leiras;
+    @ColumnInfo(name = "videolink")
     private String videolink;
+    @ColumnInfo(name = "videostartpoz")
     private int videostartpoz;
 
     public Gyakorlat(){}
@@ -84,6 +91,19 @@ public class Gyakorlat {
 
     public void setVideostartpoz(int videostartpoz) {
         this.videostartpoz = videostartpoz;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Gyakorlat gyakorlat = (Gyakorlat) o;
+        return megnevezes.equals(gyakorlat.megnevezes);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(megnevezes);
     }
 
     @Ignore

@@ -9,7 +9,16 @@
         android:roundIcon="@mipmap/enlogo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Tevekenyseg"></activity>
+        <activity android:name=".NaploActivity"
+            android:parentActivityName=".GyakorlatValaszto"/>
+        <activity
+            android:name=".Edzes"
+            android:parentActivityName=".GyakorlatValaszto" />
+        <activity
+            android:name=".GyakorlatValaszto"
+            android:parentActivityName=".MainActivity" />
+        <activity android:name=".MentettNaploActivity"
+            android:parentActivityName=".MainActivity"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

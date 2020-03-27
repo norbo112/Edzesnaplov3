@@ -8,46 +8,48 @@ import java.util.List;
 
 import aa.droid.norbo.projects.edzesnaplo3.database.EdzesNaploDatabase;
 import aa.droid.norbo.projects.edzesnaplo3.database.dao.GyakorlatDao;
+import aa.droid.norbo.projects.edzesnaplo3.database.dao.NaploDao;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Gyakorlat;
+import aa.droid.norbo.projects.edzesnaplo3.database.entities.Naplo;
+import aa.droid.norbo.projects.edzesnaplo3.database.entities.Sorozat;
 
-public class GyakorlatRepo {
-    private GyakorlatDao gyakorlatDao;
-    private LiveData<List<Gyakorlat>> gyakorlatLiveData;
+public class NaploRepo {
+    private NaploDao naploDao;
+    private LiveData<List<Naplo>> naploListLiveData;
 
-    public GyakorlatRepo(Application application) {
+    public NaploRepo(Application application) {
         EdzesNaploDatabase db = EdzesNaploDatabase.getDatabase(application);
-        gyakorlatDao = db.gyakorlatDao();
-        gyakorlatLiveData = gyakorlatDao.getGyakorlatLiveData();
+        naploDao = db.naploDao();
+        naploListLiveData = naploDao.getNaploLiveData();
     }
 
-    public LiveData<List<Gyakorlat>> getGyakorlatLiveData() {
-        return gyakorlatLiveData;
+    public LiveData<List<Naplo>> getNaploListLiveData() {
+        return naploListLiveData;
     }
 
-    public void insert(Gyakorlat gyakorlat) {
+    public void insert(Naplo naplo) {
         EdzesNaploDatabase.dbWriteExecutor.execute(new Runnable() {
             @Override
             public void run() {
-                gyakorlatDao.insert(gyakorlat);
+                naploDao.insertNaplo(naplo);
             }
         });
     }
 
-    public void update(Gyakorlat gyakorlat) {
+    public void update(Naplo naplo) {
         EdzesNaploDatabase.dbWriteExecutor.execute(new Runnable() {
             @Override
             public void run() {
-//                gyakorlatDao.updateGyakorlat(id,megnevezes,csoport,leiras,videolink,videostartpoz);
-                gyakorlatDao.updateGyakorlat(gyakorlat);
+                naploDao.updateNaplo(naplo);
             }
         });
     }
 
-    public void delete(Gyakorlat gyakorlat) {
+    public void delete(Naplo naplo) {
         EdzesNaploDatabase.dbWriteExecutor.execute(new Runnable() {
             @Override
             public void run() {
-                gyakorlatDao.deleteGyakorlat(gyakorlat);
+                naploDao.deleteNaplo(naplo);
             }
         });
     }

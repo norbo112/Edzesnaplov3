@@ -1,17 +1,22 @@
 package aa.droid.norbo.projects.edzesnaplo3.database.entities;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity(tableName = "naplo")
-public class Naplo {
+public class Naplo implements Serializable {
     @PrimaryKey(autoGenerate = true)
     private int id;
+    @ColumnInfo(index = true)
     private String naplodatum;
     private String felhasznalonev;
     @Ignore
@@ -20,7 +25,7 @@ public class Naplo {
     public Naplo(){}
 
     @Ignore
-    public Naplo(String naplodatum, String felhasznalonev) {
+    public Naplo(@NonNull String naplodatum, String felhasznalonev) {
         this.naplodatum = naplodatum;
         this.felhasznalonev = felhasznalonev;
         this.sorozats = new ArrayList<>();
@@ -42,11 +47,12 @@ public class Naplo {
         this.id = id;
     }
 
+    @NonNull
     public String getNaplodatum() {
         return naplodatum;
     }
 
-    public void setNaplodatum(String naplodatum) {
+    public void setNaplodatum(@NonNull String naplodatum) {
         this.naplodatum = naplodatum;
     }
 
@@ -66,5 +72,16 @@ public class Naplo {
     @Ignore
     public void setSorozats(List<Sorozat> sorozats) {
         this.sorozats = sorozats;
+    }
+
+    @Ignore
+    public void addAllSorozat(final List<Sorozat> sorozats) {
+        this.sorozats.addAll(sorozats);
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return naplodatum;
     }
 }

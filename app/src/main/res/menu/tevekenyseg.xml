@@ -8,4 +8,9 @@
         android:title="Search"
         app:actionViewClass="android.widget.SearchView"
         app:showAsAction="ifRoom|withText" />
+    <item
+        android:id="@+id/menu_mentett_nezet"
+        android:icon="@drawable/ic_folder"
+        android:title="@string/menu_mentett_naplok_title"
+        app:showAsAction="ifRoom|withText" />
 </menu>
