@@ -19,6 +19,9 @@ public interface NaploDao {
     @Query("SELECT * FROM naplo")
     LiveData<List<Naplo>> getNaploLiveData();
 
+    @Query("SELECT count(*) FROM naplo")
+    int getNaploCount();
+
     @Delete
     void deleteNaplo(Naplo naplo);
 
