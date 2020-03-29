@@ -99,9 +99,11 @@ public class MainActivity extends AppCompatActivity
             nevFromFile = editText.getText().toString();
         }
         saveFelhasznaloNev(nevFromFile);
-        Intent gyakvalaszto = new Intent(this, GyakorlatValaszto.class);
-        gyakvalaszto.putExtra(FELHASZNALONEV, nevFromFile);
-        startActivity(gyakvalaszto);
+//        Intent gyakvalaszto = new Intent(this, GyakorlatValaszto.class);
+//        gyakvalaszto.putExtra(FELHASZNALONEV, nevFromFile);
+        Intent intent = new Intent(this, Tevekenyseg.class);
+        intent.putExtra(FELHASZNALONEV, nevFromFile);
+        startActivity(intent);
     }
 
     private void saveFelhasznaloNev(String felhasznalpnev) {

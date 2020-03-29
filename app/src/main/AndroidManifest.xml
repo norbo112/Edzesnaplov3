@@ -9,16 +9,23 @@
         android:roundIcon="@mipmap/enlogo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".NaploActivity"
-            android:parentActivityName=".GyakorlatValaszto"/>
+        <provider
+            android:name=".providers.NaploContentProvider"
+            android:authorities="aa.dorid.norbo.projects.edzesnaplo3.contentprovider"
+            android:enabled="true"
+            android:exported="true" />
+
         <activity
-            android:name=".Edzes"
-            android:parentActivityName=".GyakorlatValaszto" />
+            android:name=".Tevekenyseg"
+            android:label="@string/title_activity_tevekenyseg" />
         <activity
-            android:name=".GyakorlatValaszto"
+            android:name=".NaploActivity"
+            android:parentActivityName=".Tevekenyseg" />
+        <activity android:name=".Edzes" />
+        <activity android:name=".GyakorlatValaszto" />
+        <activity
+            android:name=".MentettNaploActivity"
             android:parentActivityName=".MainActivity" />
-        <activity android:name=".MentettNaploActivity"
-            android:parentActivityName=".MainActivity"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

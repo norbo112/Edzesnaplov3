@@ -1,5 +1,7 @@
 package aa.droid.norbo.projects.edzesnaplo3.database.dao;
 
+import android.database.Cursor;
+
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
@@ -19,8 +21,8 @@ public interface NaploDao {
     @Query("SELECT * FROM naplo")
     LiveData<List<Naplo>> getNaploLiveData();
 
-    @Query("SELECT count(*) FROM naplo")
-    int getNaploCount();
+    @Query("SELECT * FROM naplo")
+    Cursor getNaploCursor();
 
     @Delete
     void deleteNaplo(Naplo naplo);

@@ -1,13 +1,19 @@
 package aa.droid.norbo.projects.edzesnaplo3.database.viewmodels;
 
 import android.app.Application;
+import android.database.Cursor;
+import android.os.Build;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.function.Supplier;
 
+import aa.droid.norbo.projects.edzesnaplo3.database.EdzesNaploDatabase;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Gyakorlat;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Naplo;
 import aa.droid.norbo.projects.edzesnaplo3.database.repositorys.GyakorlatRepo;
@@ -25,6 +31,11 @@ public class NaploViewModel extends AndroidViewModel {
 
     public LiveData<List<Naplo>> getNaploListLiveData() {
         return naploListLiveData;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public CompletableFuture<Cursor> getNaploCursor() {
+        return naploRepo.getNaploCursor();
     }
 
     public void insert(Naplo naplo) {

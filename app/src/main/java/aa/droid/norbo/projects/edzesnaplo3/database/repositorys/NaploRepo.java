@@ -1,17 +1,19 @@
 package aa.droid.norbo.projects.edzesnaplo3.database.repositorys;
 
 import android.app.Application;
+import android.database.Cursor;
+import android.os.Build;
 
+import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.function.Supplier;
 
 import aa.droid.norbo.projects.edzesnaplo3.database.EdzesNaploDatabase;
-import aa.droid.norbo.projects.edzesnaplo3.database.dao.GyakorlatDao;
 import aa.droid.norbo.projects.edzesnaplo3.database.dao.NaploDao;
-import aa.droid.norbo.projects.edzesnaplo3.database.entities.Gyakorlat;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Naplo;
-import aa.droid.norbo.projects.edzesnaplo3.database.entities.Sorozat;
 
 public class NaploRepo {
     private NaploDao naploDao;
@@ -25,6 +27,16 @@ public class NaploRepo {
 
     public LiveData<List<Naplo>> getNaploListLiveData() {
         return naploListLiveData;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public CompletableFuture<Cursor> getNaploCursor() {
+        return CompletableFuture.supplyAsync(new Supplier<Cursor>() {
+            @Override
+            public Cursor get() {
+                return naploDao.getNaploCursor();
+            }
+        }, EdzesNaploDatabase.dbWriteExecutor);
     }
 
     public void insert(Naplo naplo) {

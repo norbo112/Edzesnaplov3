@@ -14,6 +14,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import aa.droid.norbo.projects.edzesnaplo3.database.dao.SorozatWithGyakorlat;
@@ -38,6 +40,7 @@ public class NaploActivity extends AppCompatActivity {
 
     private NaploViewModel naploViewModel;
     private SorozatViewModel sorozatViewModel;
+    private TextView aktual_napi_osszsuly;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +55,13 @@ public class NaploActivity extends AppCompatActivity {
 
         initIntentExtraData(getIntent());
 
+        aktual_napi_osszsuly = findViewById(R.id.aktualnaplo_ossz_suly);
         RecyclerView rc = findViewById(R.id.rcMentettNaplo);
-        rc.setAdapter(new NaploAdapter(this, doitGyakEsSorozat(naplo.getSorozats())));
+        List<GyakorlatWithSorozat> sorozats = doitGyakEsSorozat(naplo.getSorozats());
+
+        aktual_napi_osszsuly.setText(String.format(Locale.getDefault(),"%d Kg napi megmozgatott súly", getNapiOsszSuly(sorozats)));
+
+        rc.setAdapter(new NaploAdapter(this, sorozats));
         rc.setLayoutManager(new LinearLayoutManager(this));
         rc.setItemAnimator(new DefaultItemAnimator());
 
@@ -68,6 +76,7 @@ public class NaploActivity extends AppCompatActivity {
                     sorozatViewModel.insert(naplo.getSorozats());
                     Toast.makeText(NaploActivity.this, "Megtörtént a mentés", Toast.LENGTH_SHORT).show();
                     ((NaploAdapter) rc.getAdapter()).clear();
+                    aktual_napi_osszsuly.setText("MNapi gmozgatott súly");
                 } else {
                     Toast.makeText(NaploActivity.this, "Nem lehet mit menteni", Toast.LENGTH_SHORT).show();
                 }
@@ -130,6 +139,14 @@ public class NaploActivity extends AppCompatActivity {
         }
 
         return withSorozats;
+    }
+
+    private int getNapiOsszSuly(List<GyakorlatWithSorozat> withSorozats) {
+        int result = 0;
+        for (int i = 0; i < withSorozats.size(); i++) {
+            result += withSorozats.get(i).getMegmozgatottSuly();
+        }
+        return result;
     }
 
     public static class GyakorlatWithSorozat {
