@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Build;
@@ -43,7 +44,6 @@ public class GyakorlatValaszto extends Fragment implements AdapterView.OnItemCli
     private ListView listView;
     private String felhasznaloNev;
     private Naplo naplo;
-    private TextView tvTestNev;
 
     private AdatBeallitoInterface beallitoInterface;
 
@@ -54,11 +54,12 @@ public class GyakorlatValaszto extends Fragment implements AdapterView.OnItemCli
         felhasznaloNev = beallitoInterface.getFelhasznaloNev();
     }
 
+    @SuppressLint("SetTextI18n")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.tevekenyseg, container, false);
-        tvTestNev = view.findViewById(R.id.tvTestNev);
+        TextView tvTestNev = view.findViewById(R.id.tvTestNev);
 
 //        felhasznaloNev = getIntent().getStringExtra(MainActivity.FELHASZNALONEV);
         if(felhasznaloNev != null) {
@@ -365,6 +366,7 @@ public class GyakorlatValaszto extends Fragment implements AdapterView.OnItemCli
             return csoportFilter;
         }
 
+        @SuppressLint("SetTextI18n")
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             if(convertView == null) {
@@ -374,7 +376,7 @@ public class GyakorlatValaszto extends Fragment implements AdapterView.OnItemCli
             final TextView nev = convertView.findViewById(R.id.gyak_neve);
             nev.setText(gy.getMegnevezes());
             final TextView csoport = convertView.findViewById(R.id.gyakizomcsoport);
-            csoport.setText(gy.getCsoport()+" ["+gy.getId()+"]");
+            csoport.setText(gy.getCsoport()+" "+(gy.getVideolink() != null ? "[Videó!]" : ""));
             return convertView;
         }
 

@@ -33,11 +33,6 @@ public class NaploViewModel extends AndroidViewModel {
         return naploListLiveData;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    public CompletableFuture<Cursor> getNaploCursor() {
-        return naploRepo.getNaploCursor();
-    }
-
     public void insert(Naplo naplo) {
         naploRepo.insert(naplo);
     }

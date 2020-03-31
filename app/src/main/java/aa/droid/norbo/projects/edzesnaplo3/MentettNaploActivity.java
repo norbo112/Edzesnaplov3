@@ -84,7 +84,6 @@ public class MentettNaploActivity extends AppCompatActivity implements  AdapterV
                         rcnaploview.setAdapter(new NaploAdapter(MentettNaploActivity.this, withSorozats));
                         rcnaploview.setLayoutManager(new LinearLayoutManager(MentettNaploActivity.this));
                         rcnaploview.setItemAnimator(new DefaultItemAnimator());
-                        System.out.println("onChanged lefutott: " + withSorozats.size());
                     }
                 });
             } catch (ExecutionException | InterruptedException e) {

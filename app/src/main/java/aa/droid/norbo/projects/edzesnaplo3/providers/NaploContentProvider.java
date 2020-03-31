@@ -1,26 +1,30 @@
 package aa.droid.norbo.projects.edzesnaplo3.providers;
 
-import android.app.Application;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.ContentProvider;
 import android.content.ContentValues;
+import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
-import androidx.lifecycle.LiveData;
 
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.function.Consumer;
-
-import aa.droid.norbo.projects.edzesnaplo3.database.EdzesNaploDatabase;
-import aa.droid.norbo.projects.edzesnaplo3.database.viewmodels.NaploViewModel;
 import aa.droid.norbo.projects.edzesnaplo3.providers.db.NaploOpenHelper;
+import aa.droid.norbo.projects.edzesnaplo3.widgets.NaploCntAppWidget;
 
 public class NaploContentProvider extends ContentProvider {
-    public static final Uri QUERY_URI = Uri.parse("content://aa.dorid.norbo.projects.edzesnaplo3.contentprovider");
+    public static final Uri GET_NAPLO = Uri.parse("content://aa.dorid.norbo.projects.edzesnaplo3.contentprovider/naplo");
+    public static final Uri GET_GYAK_OSSZSULY = Uri.parse("content://aa.dorid.norbo.projects.edzesnaplo3.contentprovider/gyakosszsuly");
     public NaploContentProvider() {
+    }
+
+    public static void sendRefreshBroadcast(Context context) {
+        Intent intent = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        intent.setComponent(new ComponentName(context, NaploCntAppWidget.class));
+        context.sendBroadcast(intent);
     }
 
     @Override
@@ -52,9 +56,12 @@ public class NaploContentProvider extends ContentProvider {
     @Override
     public Cursor query(Uri uri, String[] projection, String selection,
                         String[] selectionArgs, String sortOrder) {
-        if(uri.equals(QUERY_URI)) {
-            NaploOpenHelper naploOpenHelper = new NaploOpenHelper(getContext());
+        NaploOpenHelper naploOpenHelper = new NaploOpenHelper(getContext());
+
+        if(uri.equals(GET_NAPLO)) {
             return naploOpenHelper.getNaploCursor();
+        } else if(uri.equals(GET_GYAK_OSSZSULY)) {
+            return naploOpenHelper.getGyakorlatListByNaplo(selection);
         }
 
         return null;

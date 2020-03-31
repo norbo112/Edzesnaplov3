@@ -29,16 +29,6 @@ public class NaploRepo {
         return naploListLiveData;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    public CompletableFuture<Cursor> getNaploCursor() {
-        return CompletableFuture.supplyAsync(new Supplier<Cursor>() {
-            @Override
-            public Cursor get() {
-                return naploDao.getNaploCursor();
-            }
-        }, EdzesNaploDatabase.dbWriteExecutor);
-    }
-
     public void insert(Naplo naplo) {
         EdzesNaploDatabase.dbWriteExecutor.execute(new Runnable() {
             @Override
