@@ -3,6 +3,7 @@ package aa.droid.norbo.projects.edzesnaplo3;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -17,6 +18,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -55,12 +58,14 @@ public class MainActivity extends AppCompatActivity
 
         editText = findViewById(R.id.etWelcomeNev);
         textView = findViewById(R.id.tvWelcomeNev);
+        TextView textViewTemp = findViewById(R.id.tvTextTemp);
         nevFromFile = getNevFromFile(this, TAROLTNEV);
         if(nevFromFile != null) {
-            editText.setVisibility(View.INVISIBLE);
+            editText.setVisibility(View.GONE);
             textView.setText(nevFromFile);
         } else {
-            textView.setVisibility(View.INVISIBLE);
+            textView.setVisibility(View.GONE);
+            textViewTemp.setVisibility(View.GONE);
         }
 
         Button btnBelep = findViewById(R.id.welcome_belep);

@@ -55,4 +55,13 @@ public class NaploRepo {
             }
         });
     }
+
+    public void deleteAll() {
+        EdzesNaploDatabase.dbWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                naploDao.deleteAll();
+            }
+        });
+    }
 }

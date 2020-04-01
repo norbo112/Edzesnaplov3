@@ -18,6 +18,9 @@ public interface SorozatDao {
     @Insert
     void insert(List<Sorozat> sorozats);
 
+    @Query("DELETE FROM sorozattabla")
+    void deleteAll();
+
     @Transaction
     @Query("SELECT * FROM sorozattabla")
     LiveData<List<SorozatWithGyakorlat>> getAllSorozat();

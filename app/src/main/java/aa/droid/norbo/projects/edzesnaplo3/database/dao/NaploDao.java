@@ -21,6 +21,9 @@ public interface NaploDao {
     @Query("SELECT * FROM naplo")
     LiveData<List<Naplo>> getNaploLiveData();
 
+    @Query("DELETE FROM naplo")
+    void deleteAll();
+
     @Delete
     void deleteNaplo(Naplo naplo);
 

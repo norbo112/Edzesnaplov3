@@ -3,7 +3,7 @@
     <string name="welcome_title">Üdvözöllek az edzésnaplóban</string>
     <string name="welcome_name_hint">Kérem a neved</string>
     <string name="welcome_enter">belépés</string>
-    <string name="welcome_text_nev">XXX Naplója</string>
+    <string name="welcome_text_nev">Naplója</string>
     <string name="tev_kenys_g_oldql">Tevékenység oldal</string>
     <string name="menu_mentett_naplok_title">Mentett naplók</string>
     <string name="mentett_naplo_valaszto_titile">Válassz egy naplót</string>
@@ -12,4 +12,5 @@
     <string name="tab_text_2">Edzés</string>
     <string name="appwidget_text">Naplók</string>
     <string name="add_widget">Add widget</string>
+    <string name="mentett_naplo_empty">Jelenleg nincs megjeleníthető elem!</string>
 </resources>

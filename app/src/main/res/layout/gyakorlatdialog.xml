@@ -44,7 +44,7 @@
             android:layout_marginTop="8dp"
             android:ems="10"
             android:hint="kisebb leírás"
-            android:inputType="textPersonName"
+            android:inputType="text"
             android:padding="5dp" />
 
         <EditText
@@ -54,7 +54,7 @@
             android:layout_marginTop="8dp"
             android:ems="10"
             android:hint="video linkje"
-            android:inputType="textPersonName"
+            android:inputType="text"
             android:padding="5dp" />
 
         <EditText

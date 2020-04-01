@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/main_root_layout">
 
     <androidx.cardview.widget.CardView
         android:layout_width="0dp"
@@ -44,14 +45,26 @@
                 android:hint="@string/welcome_name_hint"
                 android:inputType="textPersonName"
                 android:padding="10dp" />
-
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/tvWelcomeNev"
-                android:textAlignment="center"
-                android:text="@string/welcome_text_nev" />
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvWelcomeNev"
+                    android:textAlignment="center"
+                    android:layout_weight="1"
+                    android:text="XXX" />
 
+                <TextView
+                    android:id="@+id/tvTextTemp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/welcome_text_nev"
+                    android:textAlignment="center"
+                    android:layout_weight="1"/>
+            </LinearLayout>
             <Button
                 android:id="@+id/welcome_belep"
                 style="@android:style/Widget.Holo.Light.Button"

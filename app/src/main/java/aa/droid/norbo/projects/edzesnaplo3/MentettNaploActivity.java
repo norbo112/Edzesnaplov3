@@ -3,15 +3,20 @@ package aa.droid.norbo.projects.edzesnaplo3;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -37,6 +42,8 @@ public class MentettNaploActivity extends AppCompatActivity implements  AdapterV
     private Spinner spinner;
     private RecyclerView rcnaploview;
     private TextView osszsnapisuly;
+    private NaploViewModel naploViewModel;
+    private ConstraintLayout rootView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,16 +60,51 @@ public class MentettNaploActivity extends AppCompatActivity implements  AdapterV
         spinner = findViewById(R.id.lvMentettNaploLista);
         osszsnapisuly = findViewById(R.id.tvMOsszsuly);
 
-        NaploViewModel naploViewModel = new ViewModelProvider(this).get(NaploViewModel.class);
+        rootView = findViewById(R.id.root_mentett_naplo_view);
+
+        naploViewModel = new ViewModelProvider(this).get(NaploViewModel.class);
         naploViewModel.getNaploListLiveData().observe(this, new Observer<List<Naplo>>() {
             @Override
             public void onChanged(List<Naplo> naplos) {
-                ArrayAdapter adapter = new ArrayAdapter<>(MentettNaploActivity.this, android.R.layout.simple_spinner_item, naplos);
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinner.setAdapter(adapter);
-                spinner.setOnItemSelectedListener(MentettNaploActivity.this);
+                if(naplos.size() != 0){
+                    ArrayAdapter adapter = new ArrayAdapter<>(MentettNaploActivity.this, android.R.layout.simple_spinner_item, naplos);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinner.setAdapter(adapter);
+                    spinner.setOnItemSelectedListener(MentettNaploActivity.this);
+                } else {
+                    changeEmptyTextView();
+                }
             }
         });
+    }
+
+    private void changeEmptyTextView() {
+        rcnaploview.setVisibility(View.GONE);
+        spinner.setVisibility(View.GONE);
+        osszsnapisuly.setText(R.string.mentett_naplo_empty);
+
+        ConstraintSet cntset = new ConstraintSet();
+        cntset.clone(rootView);
+        cntset.connect(R.id.tvMOsszsuly, ConstraintSet.TOP, R.id.root_mentett_naplo_view, ConstraintSet.TOP,0);
+        cntset.applyTo(rootView);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.mentett_naplok, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.menu_mentett_naplok_alldelete) {
+            naploViewModel.deleteAll();
+            SorozatViewModel sorozatViewModel = new ViewModelProvider(this)
+                    .get(SorozatViewModel.class);
+            sorozatViewModel.deleteAll();
+            changeEmptyTextView();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)

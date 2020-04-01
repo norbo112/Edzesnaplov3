@@ -44,4 +44,6 @@ public class SorozatViewModel extends AndroidViewModel {
         sorozatRepo.insert(sorozats);
     }
 
+    public void deleteAll() { sorozatRepo.deleteAll(); }
+
 }

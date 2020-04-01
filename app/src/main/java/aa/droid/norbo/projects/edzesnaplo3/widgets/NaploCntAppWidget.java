@@ -32,7 +32,6 @@ public class NaploCntAppWidget extends AppWidgetProvider {
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
         intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
 
-        CharSequence widgetText = context.getString(R.string.appwidget_text);
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.naplo_app_widget);
         views.setTextViewText(R.id.naplo_cnt_text, ((listnaplo != null) ? listnaplo.getCount()+" db napló":"0 db napló") + " rögzítve");
@@ -52,33 +51,6 @@ public class NaploCntAppWidget extends AppWidgetProvider {
                     R.id.listView);
         }
         super.onReceive(context, intent);
-    }
-
-//    private static  List<NaploGyakOsszsuly> getNaploGyakOsszsuly(Context context, Cursor naplocursor) {
-//        List<NaploGyakOsszsuly> naploGyakOsszsulies = new ArrayList<>();
-//        List<String> naploLista = getNaploList(naplocursor);
-//        List<String> gyakorlats;
-//        List<Integer> osszsuly;
-//
-//        for (String naplo: naploLista) {
-//            gyakorlats = new ArrayList<>();
-//            osszsuly = new ArrayList<>();
-//            Cursor c = context.getContentResolver().query(GYAK_OSSZSULY_URI, null, naplo, null,null);
-//            while(c.moveToNext()) {
-//                gyakorlats.add(c.getString(1));
-//                osszsuly.add(c.getInt(0));
-//            }
-//            naploGyakOsszsulies.add(new NaploGyakOsszsuly(naplo, gyakorlats, osszsuly));
-//        }
-//        return naploGyakOsszsulies;
-//    }
-
-    private static List<String> getNaploList(Cursor cursor) {
-        List<String> naploList = new ArrayList<>();
-        while (cursor.moveToNext()) {
-            naploList.add(cursor.getString(1));
-        }
-        return naploList;
     }
 
     @Override

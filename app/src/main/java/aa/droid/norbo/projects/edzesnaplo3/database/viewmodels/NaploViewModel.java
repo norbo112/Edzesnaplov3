@@ -42,4 +42,6 @@ public class NaploViewModel extends AndroidViewModel {
     public void update(Naplo naplo) {
         naploRepo.update(naplo);
     }
+
+    public void deleteAll() { naploRepo.deleteAll(); }
 }

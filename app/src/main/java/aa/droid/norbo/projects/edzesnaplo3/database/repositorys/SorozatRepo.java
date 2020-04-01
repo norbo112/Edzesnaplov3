@@ -58,5 +58,12 @@ public class SorozatRepo {
         });
     }
 
-    //Todo update és delete majd kelleni fog még
+    public void deleteAll() {
+        EdzesNaploDatabase.dbWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                sorozatDao.deleteAll();
+            }
+        });
+    }
 }

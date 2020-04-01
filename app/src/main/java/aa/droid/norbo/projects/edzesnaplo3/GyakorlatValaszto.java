@@ -376,7 +376,7 @@ public class GyakorlatValaszto extends Fragment implements AdapterView.OnItemCli
             final TextView nev = convertView.findViewById(R.id.gyak_neve);
             nev.setText(gy.getMegnevezes());
             final TextView csoport = convertView.findViewById(R.id.gyakizomcsoport);
-            csoport.setText(gy.getCsoport()+" "+(gy.getVideolink() != null ? "[Videó!]" : ""));
+            csoport.setText(gy.getCsoport()+" "+(gy.getVideolink() != null && gy.getVideolink().length() > 0 ? "[Videó!]" : ""));
             return convertView;
         }
 

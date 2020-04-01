@@ -27,7 +27,6 @@ public class NaploGyakOsszsuly {
 
     public String getNaplodatum() {
         String[] splittedNaploDatum = naplodatum.split(" ");
-        System.out.println(Arrays.toString(splittedNaploDatum));
         int poz = -1;
         for (int i = 0; i < honapok.length; i++) {
             if(honapok[i].equals(splittedNaploDatum[1])) {
@@ -35,7 +34,8 @@ public class NaploGyakOsszsuly {
                 break;
             }
         }
-        return splittedNaploDatum[5]+"."+poz+"."+splittedNaploDatum[2];
+        String pozstr = (poz<10)  ? "0"+poz : poz+"";
+        return splittedNaploDatum[5]+"."+pozstr+"."+splittedNaploDatum[2];
     }
 
     public List<String> getGyakorlats() {
