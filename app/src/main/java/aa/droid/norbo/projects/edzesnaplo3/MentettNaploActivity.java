@@ -42,7 +42,9 @@ import aa.droid.norbo.projects.edzesnaplo3.database.dao.SorozatWithGyakorlat;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Naplo;
 import aa.droid.norbo.projects.edzesnaplo3.database.viewmodels.NaploViewModel;
 import aa.droid.norbo.projects.edzesnaplo3.database.viewmodels.SorozatViewModel;
+import aa.droid.norbo.projects.edzesnaplo3.providers.NaploContentProvider;
 import aa.droid.norbo.projects.edzesnaplo3.rcview.NaploAdapter;
+import aa.droid.norbo.projects.edzesnaplo3.widgets.NaploCntAppWidget;
 
 public class MentettNaploActivity extends AppCompatActivity implements AdapterView.OnItemClickListener,
         SwipeActionAdapter.SwipeActionListener {
@@ -55,6 +57,7 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
     private ConstraintLayout rootView;
 
     private SwipeActionAdapter mAdapter;
+    private SorozatViewModel sorozatViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,10 +139,10 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         naploViewModel.delete(selected);
-                        SorozatViewModel sorozatViewModel = new ViewModelProvider(MentettNaploActivity.this)
+                        sorozatViewModel = new ViewModelProvider(MentettNaploActivity.this)
                                 .get(SorozatViewModel.class);
                         sorozatViewModel.delete(selected.getNaplodatum());
-
+                        NaploContentProvider.sendRefreshBroadcast(getApplicationContext());
                         Toast.makeText(MentettNaploActivity.this, "Napló törölve", Toast.LENGTH_SHORT).show();
                     }
                 })

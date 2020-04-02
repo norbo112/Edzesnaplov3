@@ -9,6 +9,8 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.widget.RemoteViews;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,6 +51,9 @@ public class NaploCntAppWidget extends AppWidgetProvider {
             ComponentName cn = new ComponentName(context, NaploCntAppWidget.class);
             appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetManager.getAppWidgetIds(cn),
                     R.id.listView);
+            for (int appwidgetid: appWidgetManager.getAppWidgetIds(cn)) {
+                updateAppWidget(context, appWidgetManager, appwidgetid);
+            }
         }
         super.onReceive(context, intent);
     }
