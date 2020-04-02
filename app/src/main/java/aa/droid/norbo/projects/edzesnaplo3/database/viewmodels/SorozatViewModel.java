@@ -46,4 +46,6 @@ public class SorozatViewModel extends AndroidViewModel {
 
     public void deleteAll() { sorozatRepo.deleteAll(); }
 
+    public void delete(String naplodatum) { sorozatRepo.delete(naplodatum); }
+
 }

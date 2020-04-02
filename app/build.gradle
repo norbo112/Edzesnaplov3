@@ -54,4 +54,7 @@ dependencies {
 // Testing
     androidTestImplementation "androidx.arch.core:core-testing:$rootProject.coreTestingVersion"
     implementation files('libs\\YouTubeAndroidPlayerApi.jar')
+
+    //swipe
+    implementation "com.wdullaer:swipeactionadapter:2.0.0"
 }

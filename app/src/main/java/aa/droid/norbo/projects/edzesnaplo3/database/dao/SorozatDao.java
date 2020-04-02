@@ -2,6 +2,7 @@ package aa.droid.norbo.projects.edzesnaplo3.database.dao;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Transaction;
@@ -17,6 +18,9 @@ public interface SorozatDao {
 
     @Insert
     void insert(List<Sorozat> sorozats);
+
+    @Query("DELETE FROM sorozattabla WHERE naplodatum = :naplodatum")
+    void delete(String naplodatum);
 
     @Query("DELETE FROM sorozattabla")
     void deleteAll();

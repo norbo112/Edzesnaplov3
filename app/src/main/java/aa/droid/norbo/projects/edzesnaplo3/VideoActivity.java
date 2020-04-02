@@ -8,19 +8,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
-import com.google.android.youtube.player.YouTubePlayerFragment;
 import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 
+import aa.droid.norbo.projects.edzesnaplo3.database.entities.Gyakorlat;
+
 public class VideoActivity extends AppCompatActivity implements YouTubePlayer.OnInitializedListener {
-    public static final String EXTRA_VIDEO_LINK = "aa.droid.norbo.projects.edzesnaplov3.EXTRA_VIDEO_LINK";
-    public static final String EXTRA_VIDEO_POZ = "aa.droid.norbo.projects.edzesnaplov3.EXTRA_VIDEO_POZ";
+    public static final String EXTRA_GYAKORLAT = "aa.droid.norbo.projects.edzesnaplov3.EXTRA_GYAKORLAT";
     private final String TAG = getClass().getSimpleName();
     private final String YT_API_KEY = "AIzaSyDzSqMr9tFI2MvQ_b7BMCQE8Xrw3DWvtOw";
-    private String yt_video_link;
-    private int yt_video_poz;
+    private Gyakorlat gyakorlat;
 
     private YouTubePlayerSupportFragment youTubePlayerFragment;
     private YouTubePlayer youTubePlayer;
@@ -29,13 +27,15 @@ public class VideoActivity extends AppCompatActivity implements YouTubePlayer.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.video_activity);
-
+        initIntentExtraData(getIntent());
         Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("Videó");
+        toolbar.setTitle(gyakorlat.getMegnevezes());
         toolbar.setLogo(R.drawable.ic_run);
         setSupportActionBar(toolbar);
+        if(getSupportActionBar() != null)
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        initIntentExtraData(getIntent());
+
         youTubePlayerFragment = YouTubePlayerSupportFragment.newInstance();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         //müködik, de az ide hibát jelez
@@ -44,15 +44,14 @@ public class VideoActivity extends AppCompatActivity implements YouTubePlayer.On
     }
 
     private void initIntentExtraData(Intent intent) {
-        yt_video_link = intent.getStringExtra(EXTRA_VIDEO_LINK);
-        yt_video_poz = intent.getIntExtra(EXTRA_VIDEO_POZ, 0);
+        gyakorlat = (Gyakorlat) intent.getSerializableExtra(EXTRA_GYAKORLAT);
     }
 
     @Override
     public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
         if(!b) {
             youTubePlayer = youTubePlayer;
-            youTubePlayer.cueVideo(yt_video_link, yt_video_poz * 1000);
+            youTubePlayer.cueVideo(gyakorlat.getVideolink(), gyakorlat.getVideostartpoz() * 1000);
         }
     }
 

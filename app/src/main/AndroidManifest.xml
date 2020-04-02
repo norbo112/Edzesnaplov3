@@ -29,7 +29,8 @@
             android:permission="android.permission.BIND_REMOTEVIEWS"
             android:exported="false" />
 
-        <activity android:name=".VideoActivity"/>
+        <activity android:name=".VideoActivity"
+            android:parentActivityName=".Tevekenyseg"/>
         <activity
             android:name=".Tevekenyseg"
             android:label="@string/title_activity_tevekenyseg" />

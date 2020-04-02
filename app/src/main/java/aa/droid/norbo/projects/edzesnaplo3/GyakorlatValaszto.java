@@ -240,8 +240,7 @@ public class GyakorlatValaszto extends Fragment implements AdapterView.OnItemCli
                 Gyakorlat gyakorlat = ((Gyakorlat) listView.getAdapter().getItem(kijeloltGyakPoz));
                 if(gyakorlat != null && gyakorlat.getVideolink().length() > 0) {
                     Intent videointent = new Intent(getContext(), VideoActivity.class);
-                    videointent.putExtra(VideoActivity.EXTRA_VIDEO_LINK, gyakorlat.getVideolink());
-                    videointent.putExtra(VideoActivity.EXTRA_VIDEO_POZ, gyakorlat.getVideostartpoz());
+                    videointent.putExtra(VideoActivity.EXTRA_GYAKORLAT, gyakorlat);
                     startActivity(videointent);
                 } else {
                     Toast.makeText(getContext(), "Nincs video!", Toast.LENGTH_SHORT).show();

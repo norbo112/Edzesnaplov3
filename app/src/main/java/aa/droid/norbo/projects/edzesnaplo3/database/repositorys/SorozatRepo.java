@@ -66,4 +66,13 @@ public class SorozatRepo {
             }
         });
     }
+
+    public void delete(String naplodatum) {
+        EdzesNaploDatabase.dbWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                sorozatDao.delete(naplodatum);
+            }
+        });
+    }
 }

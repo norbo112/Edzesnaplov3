@@ -9,6 +9,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -55,6 +56,9 @@ public class Edzes extends Fragment implements View.OnClickListener {
     private TextView gyaktitle;
 
     private AdatBeallitoInterface adatBeallitoInterface;
+    private Button btnSorozatAdd;
+    private Button btnUjGyakorlat;
+    private Button btnSave;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -80,8 +84,26 @@ public class Edzes extends Fragment implements View.OnClickListener {
         etIsm = view.findViewById(R.id.etIsm);
         etSuly = view.findViewById(R.id.etSuly);
 
+        btnSorozatAdd = view.findViewById(R.id.btnSorozatAdd);
+        btnSorozatAdd.setOnClickListener(this);
+        btnUjGyakorlat = view.findViewById(R.id.btnEdzesUjGy);
+        btnUjGyakorlat.setOnClickListener(this);
+        btnSave = view.findViewById(R.id.btnEdzesSave);
+        btnSave.setOnClickListener(this);
 
-        if(gyakorlat != null) gyaktitle.setText(String.format("%s használata", gyakorlat.getMegnevezes()));
+
+        if(gyakorlat != null) {
+            gyaktitle.setText(String.format("%s használata", gyakorlat.getMegnevezes()));
+        } else {
+            gyaktitle.setText("Kérlek válassz egy gyakorlatot");
+            gyaktitle.setTextColor(Color.RED);
+
+            etIsm.setEnabled(false);
+            etSuly.setEnabled((false));
+            btnSave.setEnabled(false);
+            btnSorozatAdd.setEnabled(false);
+            btnUjGyakorlat.setEnabled(false);
+        }
 
         sorozats = new ArrayList<>();
         listAdapter = new ArrayAdapter<>(getContext(),
@@ -90,18 +112,14 @@ public class Edzes extends Fragment implements View.OnClickListener {
         listView.setAdapter(listAdapter);
         listView.setNestedScrollingEnabled(true);
 
-        Button btnSorozatAdd = view.findViewById(R.id.btnSorozatAdd);
-        btnSorozatAdd.setOnClickListener(this);
-        Button btnUjGyakorlat = view.findViewById(R.id.btnEdzesUjGy);
-        btnUjGyakorlat.setOnClickListener(this);
-        Button btnSave = view.findViewById(R.id.btnEdzesSave);
-        btnSave.setOnClickListener(this);
+
 
         return view;
     }
 
     public void setGyakorlat(Gyakorlat gyakorlat) {
         this.gyakorlat = gyakorlat;
+        enabledButtons();
         sorozats.clear();
         listAdapter.notifyDataSetChanged();
         stopperHandler.removeCallbacks(stopperTimer);
@@ -109,6 +127,17 @@ public class Edzes extends Fragment implements View.OnClickListener {
         etIsm.setText("");
         tvStopper.setText("00:00");
         gyaktitle.setText(gyakorlat.getMegnevezes()+" használata");
+    }
+
+    private void enabledButtons() {
+        gyaktitle.setText(String.format("%s használata", gyakorlat.getMegnevezes()));
+        gyaktitle.setTextColor(Color.WHITE);
+
+        etIsm.setEnabled(true);
+        etSuly.setEnabled((true));
+        btnSave.setEnabled(true);
+        btnSorozatAdd.setEnabled(true);
+        btnUjGyakorlat.setEnabled(true);
     }
 
     private void initNaploFromSavedBundle(Bundle savedInstanceState) {
