@@ -12,6 +12,7 @@ import androidx.viewpager.widget.ViewPager;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -116,99 +117,6 @@ public class GyakorlatValaszto extends Fragment implements AdapterView.OnItemCli
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-
-    //     protected void onCreate(Bundle savedInstanceState){
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_tevekenyseg);
-//
-//        Toolbar toolbar = findViewById(R.id.toolbar);
-//        toolbar.setTitle("Gyakorlatok");
-//        toolbar.setLogo(R.drawable.ic_run);
-//        setSupportActionBar(toolbar);
-//        if(getSupportActionBar() != null)
-//            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//
-//        tvTestNev = findViewById(R.id.tvTestNev);
-//
-//        felhasznaloNev = getIntent().getStringExtra(MainActivity.FELHASZNALONEV);
-//        if(felhasznaloNev != null) {
-//            tvTestNev.setText(felhasznaloNev +" naplója");
-//        }
-//
-//        listView = findViewById(R.id.gyakrolatListView);
-//        listView.setNestedScrollingEnabled(true);
-//        listView.startNestedScroll(View.OVER_SCROLL_ALWAYS);
-//        registerForContextMenu(listView);
-//
-//        gyakorlatViewModel = new ViewModelProvider(this).get(GyakorlatViewModel.class);
-//        gyakorlatViewModel.getGyListLiveData().observe(this, new Observer<List<Gyakorlat>>() {
-//            @Override
-//            public void onChanged(List<Gyakorlat> gyakorlats) {
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//                    gyakorlats.sort(new Comparator<Gyakorlat>() {
-//                        @Override
-//                        public int compare(Gyakorlat o1, Gyakorlat o2) {
-//                            return o1.getCsoport().compareTo(o2.getCsoport());
-//                        }
-//                    });
-//                }
-//                listView.setAdapter(new ListItemAdapter(gyakorlats, GyakorlatValaszto.this));
-//                listView.setOnItemClickListener(GyakorlatValaszto.this);
-//            }
-//        });
-//
-//        findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                createGyakorlatDialog(null);
-//            }
-//        });
-//    }
-
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        felhasznaloNev = new MainActivity().getNevFromFileOut(this, MainActivity.TAROLTNEV);
-//        tvTestNev.setText(felhasznaloNev+" naplója");
-//    }
-//
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.tevekenyseg, menu);
-//        MenuItem searchViewItem = menu.findItem(R.id.app_bar_search);
-//        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchViewItem);
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                searchView.clearFocus();
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                ((ListItemAdapter)listView.getAdapter()).getFilter().filter(newText);
-//                return false;
-//            }
-//        });
-//        return super.onCreateOptionsMenu(menu);
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-//        if(item.getItemId() == R.id.menu_mentett_nezet) {
-//            startActivity(new Intent(this, MentettNaploActivity.class));
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
-
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        if(requestCode == MainActivity.EDZESACTIVITY && resultCode == RESULT_OK) {
-//            if(data != null)
-//                naplo = (Naplo) data.getSerializableExtra(MainActivity.INTENT_DATA_NAPLO);
-//        }
-//        super.onActivityResult(requestCode, resultCode, data);
-//    }
 
     private void createGyakorlatDialog(Gyakorlat gyakorlat) {
         final View customView = LayoutInflater.from(getContext()).inflate(R.layout.gyakorlatdialog, null);
@@ -328,6 +236,16 @@ public class GyakorlatValaszto extends Fragment implements AdapterView.OnItemCli
             case R.id.gyaktorol :
                 showAlertGyakTorles((Gyakorlat) listView.getAdapter().getItem(kijeloltGyakPoz));
                 break;
+            case R.id.gyakszerk_menu_video :
+                Gyakorlat gyakorlat = ((Gyakorlat) listView.getAdapter().getItem(kijeloltGyakPoz));
+                if(gyakorlat != null && gyakorlat.getVideolink().length() > 0) {
+                    Intent videointent = new Intent(getContext(), VideoActivity.class);
+                    videointent.putExtra(VideoActivity.EXTRA_VIDEO_LINK, gyakorlat.getVideolink());
+                    videointent.putExtra(VideoActivity.EXTRA_VIDEO_POZ, gyakorlat.getVideostartpoz());
+                    startActivity(videointent);
+                } else {
+                    Toast.makeText(getContext(), "Nincs video!", Toast.LENGTH_SHORT).show();
+                }
         }
         return super.onContextItemSelected(item);
     }

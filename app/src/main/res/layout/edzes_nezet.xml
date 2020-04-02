@@ -26,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        app:cardBackgroundColor="#00A1A7"
+        app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="15dp"
         app:contentPadding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -71,7 +71,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="0"
                         android:orientation="horizontal">
 
                         <EditText
@@ -100,12 +100,29 @@
                             android:inputType="number" />
                     </LinearLayout>
 
-                    <Button
-                        android:id="@+id/btnSorozatAdd"
-                        style="@android:style/Widget.Holo.Light.Button"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Hozzáadás" />
+                        android:layout_height="match_parent"
+                        android:layout_weight="3"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/btnEdzesUjGy"
+                            style="@android:style/Widget.Holo.Light.Button.Small"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Új gyakorlat" />
+
+                        <Button
+                            android:id="@+id/btnSorozatAdd"
+                            style="@android:style/Widget.Holo.Light.Button.Small"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Hozzáadás" />
+
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
@@ -118,7 +135,6 @@
         android:layout_height="250dp"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="15dp"
-        app:cardBackgroundColor="#00A1A7"
         app:cardCornerRadius="15dp"
         app:cardPreventCornerOverlap="false"
         app:contentPadding="10dp"
@@ -151,7 +167,6 @@
         android:id="@+id/cardView3"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="#00A1A7"
         app:cardCornerRadius="15dp"
         app:contentPadding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -173,13 +188,6 @@
                 android:layout_weight="1"
                 android:text="Mentés" />
 
-            <Button
-                android:id="@+id/btnEdzesUjGy"
-                style="@android:style/Widget.Holo.Light.Button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Új gyakorlat" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

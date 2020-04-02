@@ -100,47 +100,6 @@ public class Edzes extends Fragment implements View.OnClickListener {
         return view;
     }
 
-    //    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_edzes);
-//
-//        Toolbar toolbar = findViewById(R.id.toolbar);
-//        toolbar.setTitle("Edzés");
-//        toolbar.setLogo(R.drawable.ic_run);
-//        setSupportActionBar(toolbar);
-//        if(getSupportActionBar() != null)
-//            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//
-//
-//        initNaploFromSavedBundle(savedInstanceState);
-//        initIntentExtraData(getIntent());
-//
-//        TextView gyaktitle = findViewById(R.id.gyak_title);
-//        tvStopper = findViewById(R.id.tvStopper);
-//
-//        etIsm = findViewById(R.id.etIsm);
-//        etSuly = findViewById(R.id.etSuly);
-//
-//
-//        if(gyakorlat != null) gyaktitle.setText(String.format("%s használata", gyakorlat.getMegnevezes()));
-//
-//        sorozats = new ArrayList<>();
-//        listAdapter = new ArrayAdapter<>(this,
-//                android.R.layout.simple_list_item_1, sorozats);
-//        listView = findViewById(R.id.sorozatLista);
-//        listView.setAdapter(listAdapter);
-//        listView.setNestedScrollingEnabled(true);
-//
-//        Button btnSorozatAdd = findViewById(R.id.btnSorozatAdd);
-//        btnSorozatAdd.setOnClickListener(this);
-//        Button btnUjGyakorlat = findViewById(R.id.btnEdzesUjGy);
-//        btnUjGyakorlat.setOnClickListener(this);
-//        Button btnSave = findViewById(R.id.btnEdzesSave);
-//        btnSave.setOnClickListener(this);
-//    }
-
-
     public void setGyakorlat(Gyakorlat gyakorlat) {
         this.gyakorlat = gyakorlat;
         sorozats.clear();
@@ -151,19 +110,6 @@ public class Edzes extends Fragment implements View.OnClickListener {
         tvStopper.setText("00:00");
         gyaktitle.setText(gyakorlat.getMegnevezes()+" használata");
     }
-
-//    private void initIntentExtraData(Intent intent) {
-//        felhasznalonev = intent.getStringExtra(MainActivity.INTENT_DATA_NEV);
-//        gyakorlat = (Gyakorlat) intent.getSerializableExtra(
-//                MainActivity.INTENT_DATA_GYAKORLAT
-//        );
-//        naplo = (Naplo) intent.getSerializableExtra(MainActivity.INTENT_DATA_NAPLO);
-//        if(naplo == null) naplo = new Naplo(new Date().toString(), felhasznalonev);
-//
-//        //DEBUG
-//        Log.i(TAG, "initIntentExtraData: Naplo: "+naplo.getNaplodatum()+"\n"+
-//                "sorozat méret= "+naplo.getSorozats().size());
-//    }
 
     private void initNaploFromSavedBundle(Bundle savedInstanceState) {
         if(savedInstanceState != null && savedInstanceState.getSerializable("naplo") != null) {

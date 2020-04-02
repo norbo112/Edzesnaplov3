@@ -1,5 +1,6 @@
 package aa.droid.norbo.projects.edzesnaplo3;
 
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -28,7 +30,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.function.Function;
 
 import aa.droid.norbo.projects.edzesnaplo3.database.dao.SorozatWithGyakorlat;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Naplo;
@@ -98,11 +99,28 @@ public class MentettNaploActivity extends AppCompatActivity implements  AdapterV
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.menu_mentett_naplok_alldelete) {
-            naploViewModel.deleteAll();
-            SorozatViewModel sorozatViewModel = new ViewModelProvider(this)
-                    .get(SorozatViewModel.class);
-            sorozatViewModel.deleteAll();
-            changeEmptyTextView();
+            new AlertDialog.Builder(this)
+                    .setTitle("Törlés")
+                    .setMessage("Biztos törölni akarod a naplókat?")
+                    .setPositiveButton("Igen", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            naploViewModel.deleteAll();
+                            SorozatViewModel sorozatViewModel = new ViewModelProvider(
+                                    MentettNaploActivity.this
+                            )
+                                    .get(SorozatViewModel.class);
+                            sorozatViewModel.deleteAll();
+                            changeEmptyTextView();
+                        }
+                    })
+                    .setNegativeButton("Nem", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    }).create().show();
+
         }
         return super.onOptionsItemSelected(item);
     }

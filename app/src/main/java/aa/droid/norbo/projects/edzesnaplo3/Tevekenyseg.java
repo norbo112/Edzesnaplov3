@@ -1,6 +1,8 @@
 package aa.droid.norbo.projects.edzesnaplo3;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 
 import com.google.android.material.tabs.TabLayout;
@@ -32,10 +34,12 @@ public class Tevekenyseg extends AppCompatActivity implements AdatBeallitoInterf
     private ViewPager viewPager;
     private SectionsPagerAdapter sectionsPagerAdapter;
 
+    @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tabbed_teveknyseg);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Tevékenység");

@@ -3,6 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/gyakszerk_menu_video"
+        android:title="Video" />
+    <item
         android:id="@+id/gyakszerk"
         android:icon="@drawable/ic_edit"
         android:title="Szerkesztés"
