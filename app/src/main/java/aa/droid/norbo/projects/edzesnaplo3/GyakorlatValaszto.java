@@ -37,7 +37,9 @@ import java.util.List;
 
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Gyakorlat;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Naplo;
+import aa.droid.norbo.projects.edzesnaplo3.database.entities.NaploUser;
 import aa.droid.norbo.projects.edzesnaplo3.database.viewmodels.GyakorlatViewModel;
+import aa.droid.norbo.projects.edzesnaplo3.database.viewmodels.NaploUserViewModel;
 import aa.droid.norbo.projects.edzesnaplo3.datainterfaces.AdatBeallitoInterface;
 
 public class GyakorlatValaszto extends Fragment implements AdapterView.OnItemClickListener {
@@ -63,9 +65,22 @@ public class GyakorlatValaszto extends Fragment implements AdapterView.OnItemCli
         TextView tvTestNev = view.findViewById(R.id.tvTestNev);
 
 //        felhasznaloNev = getIntent().getStringExtra(MainActivity.FELHASZNALONEV);
-        if(felhasznaloNev != null) {
-            tvTestNev.setText(felhasznaloNev +" naplója");
-        }
+//        if(felhasznaloNev != null) {
+//            tvTestNev.setText(felhasznaloNev +" naplója");
+//        }
+
+        NaploUserViewModel naploUserViewModel = new ViewModelProvider(this)
+                .get(NaploUserViewModel.class);
+
+        naploUserViewModel.getNaploUserLiveData().observe(this, new Observer<NaploUser>() {
+            @Override
+            public void onChanged(NaploUser naploUser) {
+                if(naploUser != null) {
+                    felhasznaloNev = naploUser.getFelhasznalonev();
+                    tvTestNev.setText(felhasznaloNev + " naplója");
+                }
+            }
+        });
 
         listView = view.findViewById(R.id.gyakrolatListView);
         listView.setNestedScrollingEnabled(true);

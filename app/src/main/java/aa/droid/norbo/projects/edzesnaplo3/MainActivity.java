@@ -3,7 +3,10 @@ package aa.droid.norbo.projects.edzesnaplo3;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -19,8 +22,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -29,8 +30,10 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.List;
 
-import aa.droid.norbo.projects.edzesnaplo3.providers.db.NaploOpenHelper;
-import aa.droid.norbo.projects.edzesnaplo3.providers.db.model.NaploGyakOsszsuly;
+import aa.droid.norbo.projects.edzesnaplo3.database.entities.Naplo;
+import aa.droid.norbo.projects.edzesnaplo3.database.entities.NaploUser;
+import aa.droid.norbo.projects.edzesnaplo3.database.viewmodels.NaploUserViewModel;
+import aa.droid.norbo.projects.edzesnaplo3.database.viewmodels.NaploViewModel;
 
 public class MainActivity extends AppCompatActivity
         implements View.OnClickListener {
@@ -45,6 +48,9 @@ public class MainActivity extends AppCompatActivity
     private TextView textView;
     private String nevFromFile;
 
+    private NaploUserViewModel naploUserViewModel;
+    private TextView textViewTemp;
+
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,15 +64,22 @@ public class MainActivity extends AppCompatActivity
 
         editText = findViewById(R.id.etWelcomeNev);
         textView = findViewById(R.id.tvWelcomeNev);
-        TextView textViewTemp = findViewById(R.id.tvTextTemp);
-        nevFromFile = getNevFromFile(this, TAROLTNEV);
-        if(nevFromFile != null) {
-            editText.setVisibility(View.GONE);
-            textView.setText(nevFromFile);
-        } else {
-            textView.setVisibility(View.GONE);
-            textViewTemp.setVisibility(View.GONE);
-        }
+        textViewTemp = findViewById(R.id.tvTextTemp);
+
+        naploUserViewModel = new ViewModelProvider(this).get(NaploUserViewModel.class);
+
+        textView.setVisibility(View.GONE);
+        textViewTemp.setVisibility(View.GONE);
+
+        checkNevInDB();
+//        nevFromFile = getNevFromFile(this, TAROLTNEV);
+//        if(nevFromFile != null) {
+//            editText.setVisibility(View.GONE);
+//            textView.setText(nevFromFile);
+//        } else {
+//            textView.setVisibility(View.GONE);
+//            textViewTemp.setVisibility(View.GONE);
+//        }
 
         Button btnBelep = findViewById(R.id.welcome_belep);
         btnBelep.setOnClickListener(this);
@@ -102,12 +115,10 @@ public class MainActivity extends AppCompatActivity
             return;
         }
 
-        if(textView.getVisibility() == View.VISIBLE) {
-            nevFromFile = textView.getText().toString();
-        } else {
-            nevFromFile = editText.getText().toString();
+        if (editText.getVisibility() == View.VISIBLE) {
+            saveFelhasznaloToDB();
         }
-        saveFelhasznaloNev(nevFromFile);
+//        saveFelhasznaloNev(nevFromFile);
 //        Intent gyakvalaszto = new Intent(this, GyakorlatValaszto.class);
 //        gyakvalaszto.putExtra(FELHASZNALONEV, nevFromFile);
         Intent intent = new Intent(this, Tevekenyseg.class);
@@ -133,7 +144,14 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private String getNevFromFile(Context context, String filename) {
+    private void saveFelhasznaloToDB() {
+        nevFromFile = editText.getText().toString();
+        NaploUser naploUser = new NaploUser();
+        naploUser.setFelhasznalonev(nevFromFile);
+        naploUserViewModel.insert(naploUser);
+    }
+
+    public String getNevFromFile(Context context, String filename) {
         BufferedReader reader = null;
         String nev = null;
         try {
@@ -156,7 +174,18 @@ public class MainActivity extends AppCompatActivity
         return nev;
     }
 
-    public String getNevFromFileOut(Context context, String nevFromFile) {
-        return getNevFromFile(context, nevFromFile);
+    public void checkNevInDB() {
+        naploUserViewModel.getNaploUserLiveData().observe(this, new Observer<NaploUser>() {
+            @Override
+            public void onChanged(NaploUser naploUser) {
+                nevFromFile = naploUser.getFelhasznalonev();
+                if(nevFromFile != null) {
+                    editText.setVisibility(View.GONE);
+                    textView.setText(nevFromFile);
+                    textView.setVisibility(View.VISIBLE);
+                    textViewTemp.setVisibility(View.VISIBLE);
+                }
+            }
+        });
     }
 }

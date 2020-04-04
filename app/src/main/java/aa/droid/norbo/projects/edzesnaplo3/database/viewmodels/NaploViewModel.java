@@ -16,6 +16,7 @@ import java.util.function.Supplier;
 import aa.droid.norbo.projects.edzesnaplo3.database.EdzesNaploDatabase;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Gyakorlat;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Naplo;
+import aa.droid.norbo.projects.edzesnaplo3.database.entities.NaploUser;
 import aa.droid.norbo.projects.edzesnaplo3.database.repositorys.GyakorlatRepo;
 import aa.droid.norbo.projects.edzesnaplo3.database.repositorys.NaploRepo;
 

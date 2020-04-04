@@ -36,7 +36,7 @@
             android:label="@string/title_activity_tevekenyseg" />
         <activity
             android:name=".NaploActivity"
-            android:parentActivityName=".Tevekenyseg" />
+            android:parentActivityName=".MainActivity" />
         <activity android:name=".Edzes" />
         <activity android:name=".GyakorlatValaszto" />
         <activity

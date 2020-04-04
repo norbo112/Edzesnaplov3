@@ -25,17 +25,20 @@ import java.util.concurrent.Executors;
 import aa.droid.norbo.projects.edzesnaplo3.R;
 import aa.droid.norbo.projects.edzesnaplo3.database.dao.GyakorlatDao;
 import aa.droid.norbo.projects.edzesnaplo3.database.dao.NaploDao;
+import aa.droid.norbo.projects.edzesnaplo3.database.dao.NaploUserDao;
 import aa.droid.norbo.projects.edzesnaplo3.database.dao.SorozatDao;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Gyakorlat;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Naplo;
+import aa.droid.norbo.projects.edzesnaplo3.database.entities.NaploUser;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Sorozat;
 import aa.droid.norbo.projects.edzesnaplo3.models.GyakorlatCsomag;
 
-@Database(entities = {Gyakorlat.class, Sorozat.class, Naplo.class}, version = 4, exportSchema = false)
+@Database(entities = {Gyakorlat.class, Sorozat.class, Naplo.class, NaploUser.class}, version = 4, exportSchema = false)
 public abstract class EdzesNaploDatabase extends RoomDatabase {
     public abstract GyakorlatDao gyakorlatDao();
     public abstract NaploDao naploDao();
     public abstract SorozatDao sorozatDao();
+    public abstract NaploUserDao naploUserDao();
 
     public static volatile EdzesNaploDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;

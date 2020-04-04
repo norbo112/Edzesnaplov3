@@ -129,6 +129,16 @@ public class Edzes extends Fragment implements View.OnClickListener {
         gyaktitle.setText(gyakorlat.getMegnevezes()+" használata");
     }
 
+    private void disableButtons() {
+        gyaktitle.setText("Kérlek válassz egy gyakorlatot");
+        gyaktitle.setTextColor(Color.RED);
+        etIsm.setEnabled(false);
+        etSuly.setEnabled(false);
+        btnSave.setEnabled(false);
+        btnSorozatAdd.setEnabled(false);
+        btnUjGyakorlat.setEnabled(false);
+    }
+
     private void enabledButtons() {
         gyaktitle.setText(String.format("%s használata", gyakorlat.getMegnevezes()));
         gyaktitle.setTextColor(Color.WHITE);
@@ -156,6 +166,7 @@ public class Edzes extends Fragment implements View.OnClickListener {
             naplo.addAllSorozat(sorozats);
 //            System.out.println("új gyakorlat kezdete ... "+sorozats);
 //            sorozats.clear();
+            disableButtons();
             ViewPager tabHost = getActivity().findViewById(R.id.view_pager);
             tabHost.setCurrentItem(0, true);
 //            Intent resultIntent = new Intent();
@@ -211,6 +222,7 @@ public class Edzes extends Fragment implements View.OnClickListener {
                 Integer.parseInt(etIsm.getText().toString()), new Date().toString(),
                 naplo.getNaplodatum()));
         listAdapter.notifyDataSetChanged();
+        Toast.makeText(getContext(), "!", Toast.LENGTH_SHORT).show();
     }
 
     private class MyTimer implements Runnable {

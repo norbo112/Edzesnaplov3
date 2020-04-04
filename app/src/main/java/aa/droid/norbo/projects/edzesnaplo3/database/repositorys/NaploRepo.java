@@ -13,7 +13,9 @@ import java.util.function.Supplier;
 
 import aa.droid.norbo.projects.edzesnaplo3.database.EdzesNaploDatabase;
 import aa.droid.norbo.projects.edzesnaplo3.database.dao.NaploDao;
+import aa.droid.norbo.projects.edzesnaplo3.database.dao.NaploUserDao;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Naplo;
+import aa.droid.norbo.projects.edzesnaplo3.database.entities.NaploUser;
 
 public class NaploRepo {
     private NaploDao naploDao;

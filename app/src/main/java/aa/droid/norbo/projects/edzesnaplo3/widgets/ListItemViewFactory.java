@@ -90,6 +90,7 @@ public class ListItemViewFactory implements RemoteViewsService.RemoteViewsFactor
 //        if(naplocursor == null) return naploGyakOsszsulies;
 
         List<String> naploLista = getNaploList(naplocursor);
+        naplocursor.close();
         List<String> gyakorlats;
         List<String> izomcsoportok;
         List<Integer> osszsuly;
@@ -106,6 +107,7 @@ public class ListItemViewFactory implements RemoteViewsService.RemoteViewsFactor
 
             }
             naploGyakOsszsulies.add(new NaploGyakOsszsuly(naplo,izomcsoportok, gyakorlats, osszsuly));
+            c.close();
         }
         return naploGyakOsszsulies;
     }
