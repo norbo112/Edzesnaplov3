@@ -13,6 +13,18 @@ import java.util.List;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Gyakorlat;
 
 public class NaploOpenHelper extends SQLiteOpenHelper {
+    public static volatile NaploOpenHelper INSTANCE;
+
+    public static NaploOpenHelper getInstance(Context context) {
+        if(INSTANCE == null) {
+            synchronized (NaploOpenHelper.class) {
+                if(INSTANCE == null)
+                    INSTANCE = new NaploOpenHelper(context.getApplicationContext());
+            }
+        }
+
+        return INSTANCE;
+    }
 
     public NaploOpenHelper(@Nullable Context context) {
         super(context, "edzesnaplo_db", null, 4);

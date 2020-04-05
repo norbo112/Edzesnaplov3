@@ -104,7 +104,6 @@ public class ListItemViewFactory implements RemoteViewsService.RemoteViewsFactor
                 izomcsoportok.add(c.getString(0));
                 osszsuly.add(c.getInt(2));
                 gyakorlats.add(c.getString(1));
-
             }
             naploGyakOsszsulies.add(new NaploGyakOsszsuly(naplo,izomcsoportok, gyakorlats, osszsuly));
             c.close();

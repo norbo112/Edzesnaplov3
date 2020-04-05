@@ -1,6 +1,8 @@
 package aa.droid.norbo.projects.edzesnaplo3;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -185,19 +187,40 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
         return super.onOptionsItemSelected(item);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    @SuppressLint("StaticFieldLeak")
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Naplo naplo = (Naplo) listView.getAdapter().getItem(position);
         if(naplo != null) {
             SorozatViewModel sorozatViewModel = new ViewModelProvider(MentettNaploActivity.this)
                     .get(SorozatViewModel.class);
-            CompletableFuture<LiveData<List<SorozatWithGyakorlat>>> sorozatWithGyakByNaplo =
-                    sorozatViewModel.getSorozatWithGyakByNaplo(naplo.getNaplodatum());
-            try {
-                sorozatWithGyakByNaplo.get().observe(MentettNaploActivity.this, new Observer<List<SorozatWithGyakorlat>>() {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                CompletableFuture<LiveData<List<SorozatWithGyakorlat>>> sorozatWithGyakByNaplo =
+                        sorozatViewModel.getSorozatWithGyakByNaplo(naplo.getNaplodatum());
+                try {
+                    sorozatWithGyakByNaplo.get().observe(MentettNaploActivity.this, new Observer<List<SorozatWithGyakorlat>>() {
+                        @Override
+                        public void onChanged(List<SorozatWithGyakorlat> sorozatWithGyakorlats) {
+                            List<NaploActivity.GyakorlatWithSorozat> withSorozats = new NaploActivity().doitMentettNaploMegjelenesre(sorozatWithGyakorlats);
+                            int napiosszsuly = getNapiOsszSuly(withSorozats);
+                            osszsnapisuly.setText(String.format(Locale.getDefault(),"%d Kg napi megmozgatott súly", napiosszsuly));
+                            rcnaploview.setAdapter(new NaploAdapter(MentettNaploActivity.this, withSorozats));
+                            rcnaploview.setLayoutManager(new LinearLayoutManager(MentettNaploActivity.this));
+                            rcnaploview.setItemAnimator(new DefaultItemAnimator());
+                        }
+                    });
+                } catch (ExecutionException | InterruptedException e) {
+                    Log.e(TAG, "onItemSelected: Naplók betöltése", e);
+                }
+            } else {
+                new AsyncTask<Void, Void, List<SorozatWithGyakorlat>>() {
                     @Override
-                    public void onChanged(List<SorozatWithGyakorlat> sorozatWithGyakorlats) {
+                    protected List<SorozatWithGyakorlat> doInBackground(Void... voids) {
+                        return sorozatViewModel.getSorozatWithGyakByNaploToList(naplo.getNaplodatum());
+                    }
+
+                    @Override
+                    protected void onPostExecute(List<SorozatWithGyakorlat> sorozatWithGyakorlats) {
                         List<NaploActivity.GyakorlatWithSorozat> withSorozats = new NaploActivity().doitMentettNaploMegjelenesre(sorozatWithGyakorlats);
                         int napiosszsuly = getNapiOsszSuly(withSorozats);
                         osszsnapisuly.setText(String.format(Locale.getDefault(),"%d Kg napi megmozgatott súly", napiosszsuly));
@@ -205,9 +228,7 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
                         rcnaploview.setLayoutManager(new LinearLayoutManager(MentettNaploActivity.this));
                         rcnaploview.setItemAnimator(new DefaultItemAnimator());
                     }
-                });
-            } catch (ExecutionException | InterruptedException e) {
-                Log.e(TAG, "onItemSelected: Naplók betöltése", e);
+                }.execute();
             }
         }
     }

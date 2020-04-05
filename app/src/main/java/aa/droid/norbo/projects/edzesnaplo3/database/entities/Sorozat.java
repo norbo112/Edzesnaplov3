@@ -6,6 +6,7 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity(tableName = "sorozattabla")
@@ -101,6 +102,8 @@ public class Sorozat implements Serializable {
     @NonNull
     @Override
     public String toString() {
-        return suly+"X"+ismetles+"::"+ismidopont+" "+(suly*ismetles)+" Kg";
+        Date d = new Date(ismidopont);
+        String idopont = d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
+        return suly+"X"+ismetles+" "+idopont+" "+(suly*ismetles)+" Kg";
     }
 }

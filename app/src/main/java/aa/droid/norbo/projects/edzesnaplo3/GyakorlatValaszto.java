@@ -64,11 +64,6 @@ public class GyakorlatValaszto extends Fragment implements AdapterView.OnItemCli
         View view = inflater.inflate(R.layout.tevekenyseg, container, false);
         TextView tvTestNev = view.findViewById(R.id.tvTestNev);
 
-//        felhasznaloNev = getIntent().getStringExtra(MainActivity.FELHASZNALONEV);
-//        if(felhasznaloNev != null) {
-//            tvTestNev.setText(felhasznaloNev +" naplója");
-//        }
-
         NaploUserViewModel naploUserViewModel = new ViewModelProvider(this)
                 .get(NaploUserViewModel.class);
 
@@ -220,14 +215,9 @@ public class GyakorlatValaszto extends Fragment implements AdapterView.OnItemCli
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Gyakorlat gy = (Gyakorlat) listView.getAdapter().getItem(position);
-//        Intent edzes = new Intent(getContext(), Edzes.class);
-//        edzes.putExtra(MainActivity.INTENT_DATA_GYAKORLAT, gy);
-//        edzes.putExtra(MainActivity.INTENT_DATA_NEV, felhasznaloNev);
-//        edzes.putExtra(MainActivity.INTENT_DATA_NAPLO, naplo);
-//        startActivityForResult(edzes, MainActivity.EDZESACTIVITY);
         beallitoInterface.adatGyakorlat(gy);
         ViewPager viewById = getActivity().findViewById(R.id.view_pager);
-        viewById.setCurrentItem(1, true);
+        if(viewById != null) viewById.setCurrentItem(1, true);
     }
 
     int kijeloltGyakPoz;

@@ -35,4 +35,8 @@ public interface SorozatDao {
     @Transaction
     @Query("SELECT * FROM sorozattabla WHERE naplodatum =:naplodatum")
     LiveData<List<SorozatWithGyakorlat>> getSorozatWithGyakorlat(String naplodatum);
+
+    @Transaction
+    @Query("SELECT * FROM sorozattabla WHERE naplodatum =:naplodatum")
+    List<SorozatWithGyakorlat> getSorozatWithGyakorlatToList(String naplodatum);
 }

@@ -12,9 +12,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import aa.droid.norbo.projects.edzesnaplo3.database.dao.SorozatWithGyakorlat;
-import aa.droid.norbo.projects.edzesnaplo3.database.entities.Naplo;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Sorozat;
-import aa.droid.norbo.projects.edzesnaplo3.database.repositorys.NaploRepo;
 import aa.droid.norbo.projects.edzesnaplo3.database.repositorys.SorozatRepo;
 
 public class SorozatViewModel extends AndroidViewModel {
@@ -34,6 +32,15 @@ public class SorozatViewModel extends AndroidViewModel {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public CompletableFuture<LiveData<List<SorozatWithGyakorlat>>> getSorozatWithGyakByNaplo(String naplodatum) {
         return sorozatRepo.getSorozatWithGyakorlatByNaplo(naplodatum);
+    }
+
+    /**
+     * Sorozat lista betöltése a napló dátuma lapján, asyncron modon
+     * @param naplodatum
+     * @return
+     */
+    public List<SorozatWithGyakorlat> getSorozatWithGyakByNaploToList(String naplodatum) {
+        return sorozatRepo.getSorozatWithGyakorlatByNaploToList(naplodatum);
     }
 
     public void insert(Sorozat sorozat) {

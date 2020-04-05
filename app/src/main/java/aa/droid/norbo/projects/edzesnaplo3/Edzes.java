@@ -59,6 +59,7 @@ public class Edzes extends Fragment implements View.OnClickListener {
     private Button btnSorozatAdd;
     private Button btnUjGyakorlat;
     private Button btnSave;
+    private TextView tvSorozatTitle;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -80,6 +81,8 @@ public class Edzes extends Fragment implements View.OnClickListener {
         initNaploFromSavedBundle(savedInstanceState);
         gyaktitle = view.findViewById(R.id.gyak_title);
         tvStopper = view.findViewById(R.id.tvStopper);
+
+        tvSorozatTitle = view.findViewById(R.id.tvSorozatokTitle);
 
         etIsm = view.findViewById(R.id.etIsm);
         etSuly = view.findViewById(R.id.etSuly);
@@ -164,15 +167,9 @@ public class Edzes extends Fragment implements View.OnClickListener {
             sorozatHozzaad();
         } else if(v.getId() == R.id.btnEdzesUjGy) {
             naplo.addAllSorozat(sorozats);
-//            System.out.println("új gyakorlat kezdete ... "+sorozats);
-//            sorozats.clear();
             disableButtons();
             ViewPager tabHost = getActivity().findViewById(R.id.view_pager);
-            tabHost.setCurrentItem(0, true);
-//            Intent resultIntent = new Intent();
-//            resultIntent.putExtra(MainActivity.INTENT_DATA_NAPLO, naplo);
-//            setResult(RESULT_OK, resultIntent);
-//            finish();
+            if(tabHost != null) tabHost.setCurrentItem(0, true);
         } else if(v.getId() == R.id.btnEdzesSave) {
             saveNaplo();
         }
@@ -221,8 +218,19 @@ public class Edzes extends Fragment implements View.OnClickListener {
                 Integer.parseInt(etSuly.getText().toString()),
                 Integer.parseInt(etIsm.getText().toString()), new Date().toString(),
                 naplo.getNaplodatum()));
+        updateSorozatTitle();
         listAdapter.notifyDataSetChanged();
         Toast.makeText(getContext(), "!", Toast.LENGTH_SHORT).show();
+    }
+
+    private void updateSorozatTitle() {
+        if(sorozats.size() > 0) {
+            int osszes = 0;
+            for (int i = 0; i < sorozats.size(); i++) {
+                osszes += sorozats.get(i).getSuly() * sorozats.get(i).getIsmetles();
+            }
+            tvSorozatTitle.setText("Megmozgatott sőly: "+osszes+" Kg");
+        }
     }
 
     private class MyTimer implements Runnable {

@@ -72,14 +72,6 @@ public class MainActivity extends AppCompatActivity
         textViewTemp.setVisibility(View.GONE);
 
         checkNevInDB();
-//        nevFromFile = getNevFromFile(this, TAROLTNEV);
-//        if(nevFromFile != null) {
-//            editText.setVisibility(View.GONE);
-//            textView.setText(nevFromFile);
-//        } else {
-//            textView.setVisibility(View.GONE);
-//            textViewTemp.setVisibility(View.GONE);
-//        }
 
         Button btnBelep = findViewById(R.id.welcome_belep);
         btnBelep.setOnClickListener(this);
@@ -118,9 +110,7 @@ public class MainActivity extends AppCompatActivity
         if (editText.getVisibility() == View.VISIBLE) {
             saveFelhasznaloToDB();
         }
-//        saveFelhasznaloNev(nevFromFile);
-//        Intent gyakvalaszto = new Intent(this, GyakorlatValaszto.class);
-//        gyakvalaszto.putExtra(FELHASZNALONEV, nevFromFile);
+
         Intent intent = new Intent(this, Tevekenyseg.class);
         intent.putExtra(FELHASZNALONEV, nevFromFile);
         startActivity(intent);
@@ -178,8 +168,8 @@ public class MainActivity extends AppCompatActivity
         naploUserViewModel.getNaploUserLiveData().observe(this, new Observer<NaploUser>() {
             @Override
             public void onChanged(NaploUser naploUser) {
-                nevFromFile = naploUser.getFelhasznalonev();
-                if(nevFromFile != null) {
+                if(naploUser != null) {
+                    nevFromFile = naploUser.getFelhasznalonev();
                     editText.setVisibility(View.GONE);
                     textView.setText(nevFromFile);
                     textView.setVisibility(View.VISIBLE);

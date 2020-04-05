@@ -39,7 +39,7 @@ public class Tevekenyseg extends AppCompatActivity implements AdatBeallitoInterf
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tabbed_teveknyseg);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+//        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Tevékenység");
@@ -52,9 +52,11 @@ public class Tevekenyseg extends AppCompatActivity implements AdatBeallitoInterf
         sectionsPagerAdapter.addFraggment(new GyakorlatValaszto(), "Gyakorlat");
         sectionsPagerAdapter.addFraggment(new Edzes(), "Edzés");
         viewPager = findViewById(R.id.view_pager);
-        viewPager.setAdapter(sectionsPagerAdapter);
-        TabLayout tabs = findViewById(R.id.tabs);
-        tabs.setupWithViewPager(viewPager);
+        if(viewPager != null) {
+            viewPager.setAdapter(sectionsPagerAdapter);
+            TabLayout tabs = findViewById(R.id.tabs);
+            tabs.setupWithViewPager(viewPager);
+        }
     }
 
     @Override

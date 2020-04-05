@@ -39,6 +39,8 @@ public class NaploCntAppWidget extends AppWidgetProvider {
         views.setTextViewText(R.id.naplo_cnt_text, ((listnaplo != null) ? listnaplo.getCount()+" db napló":"0 db napló") + " rögzítve");
         views.setRemoteAdapter(R.id.listView, intent);
 
+        listnaplo.close();
+
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
     }

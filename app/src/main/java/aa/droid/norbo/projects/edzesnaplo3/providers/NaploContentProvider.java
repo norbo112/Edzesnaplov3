@@ -56,8 +56,8 @@ public class NaploContentProvider extends ContentProvider {
     @Override
     public Cursor query(Uri uri, String[] projection, String selection,
                         String[] selectionArgs, String sortOrder) {
-        NaploOpenHelper naploOpenHelper = new NaploOpenHelper(getContext());
-
+//        NaploOpenHelper naploOpenHelper = new NaploOpenHelper(getContext());
+        NaploOpenHelper naploOpenHelper = NaploOpenHelper.getInstance(getContext());
         if(uri.equals(GET_NAPLO)) {
             return naploOpenHelper.getNaploCursor();
         } else if(uri.equals(GET_GYAK_OSSZSULY)) {

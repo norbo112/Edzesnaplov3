@@ -40,6 +40,10 @@ public class SorozatRepo {
         }, EdzesNaploDatabase.dbWriteExecutor);
     }
 
+    public List<SorozatWithGyakorlat> getSorozatWithGyakorlatByNaploToList(String naplodatum) {
+        return sorozatDao.getSorozatWithGyakorlatToList(naplodatum);
+    }
+
     public void insert(Sorozat sorozat) {
         EdzesNaploDatabase.dbWriteExecutor.execute(new Runnable() {
             @Override

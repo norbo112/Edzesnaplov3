@@ -79,7 +79,7 @@ public class NaploActivity extends AppCompatActivity {
 
                     NaploContentProvider.sendRefreshBroadcast(NaploActivity.this);
 
-                    aktual_napi_osszsuly.setText("MNapi gmozgatott súly");
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 } else {
                     Toast.makeText(NaploActivity.this, "Nem lehet mit menteni", Toast.LENGTH_SHORT).show();
                 }
