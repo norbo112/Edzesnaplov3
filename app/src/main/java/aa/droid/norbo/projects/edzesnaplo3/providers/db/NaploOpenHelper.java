@@ -27,7 +27,7 @@ public class NaploOpenHelper extends SQLiteOpenHelper {
     }
 
     public NaploOpenHelper(@Nullable Context context) {
-        super(context, "edzesnaplo_db", null, 4);
+        super(context, "edzesnaplo_db", null, 5);
     }
 
     public Cursor getGyakorlatListByNaplo(String naplodatum) {

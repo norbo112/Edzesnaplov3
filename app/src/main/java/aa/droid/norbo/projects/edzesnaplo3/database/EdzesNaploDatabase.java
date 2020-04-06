@@ -33,7 +33,7 @@ import aa.droid.norbo.projects.edzesnaplo3.database.entities.NaploUser;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Sorozat;
 import aa.droid.norbo.projects.edzesnaplo3.models.GyakorlatCsomag;
 
-@Database(entities = {Gyakorlat.class, Sorozat.class, Naplo.class, NaploUser.class}, version = 4, exportSchema = false)
+@Database(entities = {Gyakorlat.class, Sorozat.class, Naplo.class, NaploUser.class}, version = 5, exportSchema = false)
 public abstract class EdzesNaploDatabase extends RoomDatabase {
     public abstract GyakorlatDao gyakorlatDao();
     public abstract NaploDao naploDao();

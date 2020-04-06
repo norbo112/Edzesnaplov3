@@ -2,23 +2,18 @@ package aa.droid.norbo.projects.edzesnaplo3;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-
-import com.google.android.material.tabs.TabLayout;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.widget.SearchView;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.MenuItemCompat;
-import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.List;
 
@@ -30,7 +25,6 @@ import aa.droid.norbo.projects.edzesnaplo3.ui.main.SectionsPagerAdapter;
 public class Tevekenyseg extends AppCompatActivity implements AdatBeallitoInterface {
     private final String TAG = getClass().getSimpleName();
     private String felhasznalonev;
-    private ListView gyakorlatListView;
     private ViewPager viewPager;
     private SectionsPagerAdapter sectionsPagerAdapter;
 
