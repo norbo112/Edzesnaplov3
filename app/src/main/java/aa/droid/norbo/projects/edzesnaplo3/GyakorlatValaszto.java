@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -43,6 +44,7 @@ import aa.droid.norbo.projects.edzesnaplo3.database.viewmodels.NaploUserViewMode
 import aa.droid.norbo.projects.edzesnaplo3.datainterfaces.AdatBeallitoInterface;
 
 public class GyakorlatValaszto extends Fragment implements AdapterView.OnItemClickListener {
+    private static final String TAG = "GyakorlatValaszto";
     private GyakorlatViewModel gyakorlatViewModel;
     private ListView listView;
     private String felhasznaloNev;
@@ -115,7 +117,11 @@ public class GyakorlatValaszto extends Fragment implements AdapterView.OnItemCli
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                ((GyakorlatValaszto.ListItemAdapter) listView.getAdapter()).getFilter().filter(newText);
+                try {
+                    ((GyakorlatValaszto.ListItemAdapter) listView.getAdapter()).getFilter().filter(newText);
+                } catch (NullPointerException ex) {
+                    Log.e(TAG, "onQueryTextChange: Valamiért null van itt amikor elforgatom a kijelzőt", ex);
+                }
                 return false;
             }
         });

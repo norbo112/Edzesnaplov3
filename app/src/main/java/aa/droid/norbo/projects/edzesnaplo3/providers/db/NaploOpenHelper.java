@@ -57,22 +57,6 @@ public class NaploOpenHelper extends SQLiteOpenHelper {
                         " GROUP BY gynev ", null);
     }
 
-    private List<Gyakorlat> getGyakorlatList() {
-        SQLiteDatabase database = getReadableDatabase();
-        List<Gyakorlat> gyakorlats = new ArrayList<>();
-        Cursor cgy = database.rawQuery("SELECT * FROM gyakorlattabla",null);
-        while(cgy.moveToNext()) {
-            gyakorlats.add(new Gyakorlat(
-                    cgy.getInt(0),
-                    cgy.getString(1),
-                    cgy.getString(2),
-                    cgy.getString(3),
-                    cgy.getString(4),
-                    cgy.getInt(5)));
-        }
-        return gyakorlats;
-    }
-
     @Override
     public void onCreate(SQLiteDatabase db) {
 
