@@ -6,8 +6,12 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
+import java.util.Scanner;
+import java.util.regex.MatchResult;
 
 @Entity(tableName = "sorozattabla")
 public class Sorozat implements Serializable {
@@ -102,8 +106,9 @@ public class Sorozat implements Serializable {
     @NonNull
     @Override
     public String toString() {
-        Date d = new Date(ismidopont);
-        String idopont = d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
-        return suly+"X"+ismetles+" "+idopont+" "+(suly*ismetles)+" Kg";
+        Scanner scanner = new Scanner(ismidopont);
+        scanner.findWithinHorizon("(\\d+:\\d+:\\d+ )", 0);
+        MatchResult matchResult = scanner.match();
+        return suly+"X"+ismetles+" "+matchResult.group()+" "+(suly*ismetles)+" Kg";
     }
 }
