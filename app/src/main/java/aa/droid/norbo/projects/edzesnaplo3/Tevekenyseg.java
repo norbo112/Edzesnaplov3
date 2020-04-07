@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -33,7 +34,7 @@ public class Tevekenyseg extends AppCompatActivity implements AdatBeallitoInterf
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tabbed_teveknyseg);
-//        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Tevékenység");
@@ -45,6 +46,7 @@ public class Tevekenyseg extends AppCompatActivity implements AdatBeallitoInterf
         sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
         sectionsPagerAdapter.addFraggment(new GyakorlatValaszto(), "Gyakorlat");
         sectionsPagerAdapter.addFraggment(new Edzes(), "Edzés");
+        sectionsPagerAdapter.addFraggment(new JelenlegiEdzesFragment(), "Nyomkövetés");
         viewPager = findViewById(R.id.view_pager);
         if(viewPager != null) {
             viewPager.setAdapter(sectionsPagerAdapter);
@@ -82,7 +84,12 @@ public class Tevekenyseg extends AppCompatActivity implements AdatBeallitoInterf
 
     @Override
     public void adatNaplo(Naplo naplo) {
-
+        List<Fragment> fragments = getSupportFragmentManager().getFragments();
+        for (int i = 0; i < fragments.size(); i++) {
+            if(fragments.get(i) instanceof JelenlegiEdzesFragment) {
+                ((JelenlegiEdzesFragment)fragments.get(i)).updateNaploAdat(naplo);
+            }
+        }
     }
 
     @Override

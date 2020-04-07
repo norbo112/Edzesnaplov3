@@ -7,11 +7,13 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,6 +29,7 @@ import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -71,14 +74,16 @@ public class Edzes extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        naplo = new Naplo(new Date().toString(), felhasznalonev);
+        sorozats = new ArrayList<>();
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.test_tabbed_edzes_layout, container, false);
-//        initIntentExtraData(getIntent());
-        initNaploFromSavedBundle(savedInstanceState);
+
         gyaktitle = view.findViewById(R.id.gyak_title);
         tvStopper = view.findViewById(R.id.tvStopper);
 
@@ -108,14 +113,11 @@ public class Edzes extends Fragment implements View.OnClickListener {
             btnUjGyakorlat.setEnabled(false);
         }
 
-        sorozats = new ArrayList<>();
         listAdapter = new ArrayAdapter<>(getContext(),
                 android.R.layout.simple_list_item_1, sorozats);
         listView = view.findViewById(R.id.sorozatLista);
         listView.setAdapter(listAdapter);
         listView.setNestedScrollingEnabled(true);
-
-
 
         return view;
     }
@@ -140,6 +142,7 @@ public class Edzes extends Fragment implements View.OnClickListener {
         btnSave.setEnabled(false);
         btnSorozatAdd.setEnabled(false);
         btnUjGyakorlat.setEnabled(false);
+
     }
 
     private void enabledButtons() {
@@ -153,14 +156,6 @@ public class Edzes extends Fragment implements View.OnClickListener {
         btnUjGyakorlat.setEnabled(true);
     }
 
-    private void initNaploFromSavedBundle(Bundle savedInstanceState) {
-        if(savedInstanceState != null && savedInstanceState.getSerializable("naplo") != null) {
-            naplo = (Naplo) savedInstanceState.getSerializable("naplo");
-        } else {
-            naplo = new Naplo(new Date().toString(), felhasznalonev);
-        }
-    }
-
     @Override
     public void onClick(View v) {
         if(v.getId() == R.id.btnSorozatAdd) {
@@ -169,10 +164,23 @@ public class Edzes extends Fragment implements View.OnClickListener {
             naplo.addAllSorozat(sorozats);
             disableButtons();
             ViewPager tabHost = getActivity().findViewById(R.id.view_pager);
-            if(tabHost != null) tabHost.setCurrentItem(0, true);
+            if(tabHost != null) {
+                tabHost.setCurrentItem(0, true);
+            } else {
+                clearEdzesView();
+            }
+
+            adatBeallitoInterface.adatNaplo(naplo);
         } else if(v.getId() == R.id.btnEdzesSave) {
             saveNaplo();
         }
+    }
+
+    private void clearEdzesView() {
+        sorozats.clear();
+        stopperHandler.removeCallbacks(stopperTimer);
+        listAdapter.notifyDataSetChanged();
+        tvStopper.setText(R.string.stopper_kijelzo);
     }
 
     private void saveNaplo() {
@@ -189,12 +197,6 @@ public class Edzes extends Fragment implements View.OnClickListener {
         naplomentes.putExtra(MainActivity.FELHASZNALONEV, felhasznalonev);
         naplomentes.putExtra(MainActivity.INTENT_DATA_NAPLO, naplo);
         startActivity(naplomentes);
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        outState.putSerializable("nsplo", naplo);
-        super.onSaveInstanceState(outState);
     }
 
     private void sorozatHozzaad() {

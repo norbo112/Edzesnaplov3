@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
@@ -144,7 +145,7 @@ public class NaploActivity extends AppCompatActivity {
         return withSorozats;
     }
 
-    private int getNapiOsszSuly(List<GyakorlatWithSorozat> withSorozats) {
+    public int getNapiOsszSuly(List<GyakorlatWithSorozat> withSorozats) {
         int result = 0;
         for (int i = 0; i < withSorozats.size(); i++) {
             result += withSorozats.get(i).getMegmozgatottSuly();

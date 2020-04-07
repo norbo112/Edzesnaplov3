@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -22,11 +23,13 @@ public class NaploAdapter extends RecyclerView.Adapter<NaploAdapter.NaploViewHol
         TextView tvGyakCim;
         ListView listView;
         TextView megmozgatottSuly;
+        TextView sorozat_szam;
         NaploViewHolder(@NonNull View itemView) {
             super(itemView);
             tvGyakCim = itemView.findViewById(R.id.tvRcGyakNev);
             listView = itemView.findViewById(R.id.lvRcSorozatLista);
             megmozgatottSuly = itemView.findViewById(R.id.tvMegmozgatottSuly);
+            sorozat_szam = itemView.findViewById(R.id.sorozat_id);
         }
     }
 
@@ -36,6 +39,7 @@ public class NaploAdapter extends RecyclerView.Adapter<NaploAdapter.NaploViewHol
     public NaploAdapter(Context context, List<NaploActivity.GyakorlatWithSorozat> sorozats) {
         this.context = context;
         this.sorozats = sorozats;
+        Collections.reverse(this.sorozats);
     }
 
     @NonNull
@@ -50,7 +54,7 @@ public class NaploAdapter extends RecyclerView.Adapter<NaploAdapter.NaploViewHol
     public void onBindViewHolder(@NonNull NaploViewHolder holder, int position) {
         NaploActivity.GyakorlatWithSorozat gyakorlatWithSorozat = sorozats.get(position);
         holder.tvGyakCim.setText(gyakorlatWithSorozat.getGyakorlat().getMegnevezes());
-
+        holder.sorozat_szam.setText(""+(position+1));
         ListView listView = holder.listView;
         listView.setAdapter(new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, gyakorlatWithSorozat.getSorozatList()));
 
