@@ -69,7 +69,7 @@ public class JelenlegiEdzesFragment extends Fragment {
             if(savedInstanceState.containsKey("naplo")) {
                 System.out.println("Saved Naplo key is on");
                 naplo = (Naplo) savedInstanceState.getSerializable("naplo");
-                updateNaploAdat(naplo);
+                if(naplo != null) updateNaploAdat(naplo);
             }
         }
 
