@@ -69,19 +69,36 @@ public class Edzes extends Fragment implements View.OnClickListener {
         super.onAttach(context);
         this.adatBeallitoInterface = (AdatBeallitoInterface) context;
         this.felhasznalonev = adatBeallitoInterface.getFelhasznaloNev();
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
         naplo = new Naplo(new Date().toString(), felhasznalonev);
         sorozats = new ArrayList<>();
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putSerializable("naplo", naplo);
+        outState.putParcelableArrayList("sorozatok", (ArrayList<? extends Parcelable>) sorozats);
+        outState.putSerializable("gyakorlat", gyakorlat);
+        super.onSaveInstanceState(outState);
+        System.out.println("Saved instanse lefutott");
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            naplo = (Naplo) savedInstanceState.getSerializable("naplo");
+            gyakorlat = (Gyakorlat) savedInstanceState.getSerializable("gyakorlat");
+            sorozats = savedInstanceState.getParcelableArrayList("sorozatok");
+        }
+
         View view = inflater.inflate(R.layout.test_tabbed_edzes_layout, container, false);
 
         gyaktitle = view.findViewById(R.id.gyak_title);
@@ -163,14 +180,12 @@ public class Edzes extends Fragment implements View.OnClickListener {
         } else if(v.getId() == R.id.btnEdzesUjGy) {
             naplo.addAllSorozat(sorozats);
             disableButtons();
+            clearEdzesView();
+            adatBeallitoInterface.adatNaplo(naplo);
             ViewPager tabHost = getActivity().findViewById(R.id.view_pager);
             if(tabHost != null) {
                 tabHost.setCurrentItem(0, true);
-            } else {
-                clearEdzesView();
             }
-
-            adatBeallitoInterface.adatNaplo(naplo);
         } else if(v.getId() == R.id.btnEdzesSave) {
             saveNaplo();
         }

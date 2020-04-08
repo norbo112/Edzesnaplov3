@@ -29,7 +29,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         myFragmentTitles = new ArrayList<>();
     }
 
-    public void addFraggment(Fragment fragment, String title) {
+    public void addFragment(Fragment fragment, String title) {
         myFragments.add(fragment);
         myFragmentTitles.add(title);
     }

@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
-import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -44,9 +43,9 @@ public class Tevekenyseg extends AppCompatActivity implements AdatBeallitoInterf
         felhasznalonev = getIntent().getStringExtra(MainActivity.FELHASZNALONEV);
 
         sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
-        sectionsPagerAdapter.addFraggment(new GyakorlatValaszto(), "Gyakorlat");
-        sectionsPagerAdapter.addFraggment(new Edzes(), "Edzés");
-        sectionsPagerAdapter.addFraggment(new JelenlegiEdzesFragment(), "Nyomkövetés");
+        sectionsPagerAdapter.addFragment(new GyakorlatValaszto(), "Gyakorlat");
+        sectionsPagerAdapter.addFragment(new Edzes(), "Edzés");
+        sectionsPagerAdapter.addFragment(new JelenlegiEdzesFragment(), "Nyomkövetés");
         viewPager = findViewById(R.id.view_pager);
         if(viewPager != null) {
             viewPager.setAdapter(sectionsPagerAdapter);
@@ -88,6 +87,7 @@ public class Tevekenyseg extends AppCompatActivity implements AdatBeallitoInterf
         for (int i = 0; i < fragments.size(); i++) {
             if(fragments.get(i) instanceof JelenlegiEdzesFragment) {
                 ((JelenlegiEdzesFragment)fragments.get(i)).updateNaploAdat(naplo);
+                System.out.println("Adatnapló beállítva");
             }
         }
     }

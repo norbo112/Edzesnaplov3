@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Locale;
 
@@ -39,6 +40,10 @@ public class JelenlegiEdzesFragment extends Fragment {
     private NaploViewModel naploViewModel;
     private Naplo naplo;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -58,6 +63,15 @@ public class JelenlegiEdzesFragment extends Fragment {
         View view = inflater.inflate(R.layout.tabbed_naplo, container, false);
         rc = view.findViewById(R.id.rcMentettNaploTabbed);
         napi_osszsuly = view.findViewById(R.id.aktualnaplo_ossz_suly_tabbed);
+
+        if(savedInstanceState != null) {
+            System.out.println("JelenlegiEdzesFragment: savedbundle nem null");
+            if(savedInstanceState.containsKey("naplo")) {
+                System.out.println("Saved Naplo key is on");
+                naplo = (Naplo) savedInstanceState.getSerializable("naplo");
+                updateNaploAdat(naplo);
+            }
+        }
 
         view.findViewById(R.id.fabNaploMentesTabbed).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,5 +109,11 @@ public class JelenlegiEdzesFragment extends Fragment {
         rc.setAdapter(new NaploAdapter(getContext(), withSorozats));
         rc.setLayoutManager(new LinearLayoutManager(getContext()));
         rc.setItemAnimator(new DefaultItemAnimator());
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putSerializable("naplo", naplo);
+        super.onSaveInstanceState(outState);
     }
 }

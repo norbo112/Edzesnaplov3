@@ -1,5 +1,8 @@
 package aa.droid.norbo.projects.edzesnaplo3.database.entities;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -11,7 +14,7 @@ import java.util.Scanner;
 import java.util.regex.MatchResult;
 
 @Entity(tableName = "sorozattabla")
-public class Sorozat implements Serializable {
+public class Sorozat implements Serializable, Parcelable {
     @PrimaryKey(autoGenerate = true)
     private int id;
     private int gyakorlatid;
@@ -25,6 +28,17 @@ public class Sorozat implements Serializable {
     public Sorozat(){}
 
     @Ignore
+    private Sorozat(Parcel parcel) {
+        id = parcel.readInt();
+        gyakorlatid = parcel.readInt();
+        suly = parcel.readInt();
+        ismetles = parcel.readInt();
+        ismidopont = parcel.readString();
+        naplodatum = parcel.readString();
+        gyakorlat = (Gyakorlat) parcel.readSerializable();
+    }
+
+    @Ignore
     public Sorozat(Gyakorlat gyakorlat,  int suly, int ismetles, String ismidopont, String naplodatum) {
         this.gyakorlat = gyakorlat;
         this.gyakorlatid = gyakorlat.getId();
@@ -33,6 +47,18 @@ public class Sorozat implements Serializable {
         this.ismidopont = ismidopont;
         this.naplodatum = naplodatum;
     }
+
+    public static final Creator<Sorozat> CREATOR = new Creator<Sorozat>() {
+        @Override
+        public Sorozat createFromParcel(Parcel in) {
+            return new Sorozat(in);
+        }
+
+        @Override
+        public Sorozat[] newArray(int size) {
+            return new Sorozat[size];
+        }
+    };
 
     public int getId() {
         return id;
@@ -107,5 +133,23 @@ public class Sorozat implements Serializable {
         scanner.findWithinHorizon("(\\d+:\\d+:\\d+ )", 0);
         MatchResult matchResult = scanner.match();
         return suly+"X"+ismetles+" "+matchResult.group()+" "+(suly*ismetles)+" Kg";
+    }
+
+    @Ignore
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Ignore
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeInt(gyakorlatid);
+        dest.writeInt(suly);
+        dest.writeInt(ismetles);
+        dest.writeString(ismidopont);
+        dest.writeString(naplodatum);
+        dest.writeSerializable(gyakorlat);
     }
 }
