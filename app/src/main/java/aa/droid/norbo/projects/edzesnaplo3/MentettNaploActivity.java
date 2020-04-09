@@ -2,8 +2,9 @@ package aa.droid.norbo.projects.edzesnaplo3;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -12,19 +13,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
+import androidx.core.app.ShareCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -32,9 +32,14 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
 import com.wdullaer.swipeactionadapter.SwipeActionAdapter;
 import com.wdullaer.swipeactionadapter.SwipeDirection;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.CompletableFuture;
@@ -46,7 +51,6 @@ import aa.droid.norbo.projects.edzesnaplo3.database.viewmodels.NaploViewModel;
 import aa.droid.norbo.projects.edzesnaplo3.database.viewmodels.SorozatViewModel;
 import aa.droid.norbo.projects.edzesnaplo3.providers.NaploContentProvider;
 import aa.droid.norbo.projects.edzesnaplo3.rcview.NaploAdapter;
-import aa.droid.norbo.projects.edzesnaplo3.widgets.NaploCntAppWidget;
 
 public class MentettNaploActivity extends AppCompatActivity implements AdapterView.OnItemClickListener,
         SwipeActionAdapter.SwipeActionListener {
@@ -60,6 +64,9 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
 
     private SwipeActionAdapter mAdapter;
     private SorozatViewModel sorozatViewModel;
+
+    private Naplo naplo;
+    private Uri jsonFilePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -183,6 +190,18 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
                         }
                     }).create().show();
 
+        } else if(item.getItemId() == R.id.menu_mentett_driveupload) {
+            if(naplo != null && jsonFilePath != null) {
+                Intent shareIntent = ShareCompat.IntentBuilder.from(this)
+                        .setText("Napló fájl mentése a Drive-ra")
+                        .setStream(jsonFilePath)
+                        .setType("application/json")
+                        .getIntent()
+                        .setPackage("com.google.android.apps.docs");
+                startActivity(shareIntent);
+            } else {
+                Toast.makeText(this, "Kérlek válassz egy naplót", Toast.LENGTH_SHORT).show();
+            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -190,7 +209,7 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
     @SuppressLint("StaticFieldLeak")
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Naplo naplo = (Naplo) listView.getAdapter().getItem(position);
+        naplo = (Naplo) listView.getAdapter().getItem(position);
         if(naplo != null) {
             SorozatViewModel sorozatViewModel = new ViewModelProvider(MentettNaploActivity.this)
                     .get(SorozatViewModel.class);
@@ -201,6 +220,7 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
                     sorozatWithGyakByNaplo.get().observe(MentettNaploActivity.this, new Observer<List<SorozatWithGyakorlat>>() {
                         @Override
                         public void onChanged(List<SorozatWithGyakorlat> sorozatWithGyakorlats) {
+                            jsonFilePath = makeJsonFile(sorozatWithGyakorlats);
                             List<NaploActivity.GyakorlatWithSorozat> withSorozats = new NaploActivity().doitMentettNaploMegjelenesre(sorozatWithGyakorlats);
                             int napiosszsuly = getNapiOsszSuly(withSorozats);
                             osszsnapisuly.setText(String.format(Locale.getDefault(),"%d Kg napi megmozgatott súly", napiosszsuly));
@@ -216,7 +236,11 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
                 new AsyncTask<Void, Void, List<SorozatWithGyakorlat>>() {
                     @Override
                     protected List<SorozatWithGyakorlat> doInBackground(Void... voids) {
-                        return sorozatViewModel.getSorozatWithGyakByNaploToList(naplo.getNaplodatum());
+                        List<SorozatWithGyakorlat> sorozatWithGyakByNaploToList =
+                                sorozatViewModel.getSorozatWithGyakByNaploToList(naplo.getNaplodatum());
+                        //feltöltésre elkészítem a json fájlt
+                        jsonFilePath = makeJsonFile(sorozatWithGyakByNaploToList);
+                        return sorozatWithGyakByNaploToList;
                     }
 
                     @Override
@@ -231,6 +255,35 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
                 }.execute();
             }
         }
+    }
+
+    private Uri makeJsonFile(List<SorozatWithGyakorlat> sorozatWithGyakByNaploToList) {
+        String json = new Gson().toJson(sorozatWithGyakByNaploToList);
+        BufferedWriter writer = null;
+        String jsonFileName = "naplo_"+System.currentTimeMillis()+".json";
+        Uri uri = null;
+        try {
+            writer = new BufferedWriter(new OutputStreamWriter(
+                    openFileOutput(jsonFileName, MODE_PRIVATE)
+            ));
+            writer.write(json);
+            File file = new File(
+                    getApplicationContext().getFilesDir(),
+                    jsonFileName);
+            if (file.exists()) {
+                System.out.println(file.getAbsolutePath());
+                uri = Uri.parse(file.getAbsolutePath());
+            }
+        } catch (Exception ex) {
+            Log.e(TAG, "makeJsonFile: " + ex);
+        } finally {
+            try {
+                if(writer!=null) writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return uri;
     }
 
     private int getNapiOsszSuly(List<NaploActivity.GyakorlatWithSorozat> withSorozats) {
