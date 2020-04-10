@@ -10,6 +10,7 @@ import android.view.WindowManager;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
@@ -20,6 +21,7 @@ import java.util.List;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Gyakorlat;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Naplo;
 import aa.droid.norbo.projects.edzesnaplo3.datainterfaces.AdatBeallitoInterface;
+import aa.droid.norbo.projects.edzesnaplo3.diagram.DiagramFragment;
 import aa.droid.norbo.projects.edzesnaplo3.ui.main.SectionsPagerAdapter;
 
 public class Tevekenyseg extends AppCompatActivity implements AdatBeallitoInterface {
@@ -45,7 +47,8 @@ public class Tevekenyseg extends AppCompatActivity implements AdatBeallitoInterf
         sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
         sectionsPagerAdapter.addFragment(new GyakorlatValaszto(), "Gyakorlat");
         sectionsPagerAdapter.addFragment(new Edzes(), "Edzés");
-        sectionsPagerAdapter.addFragment(new JelenlegiEdzesFragment(), "Nyomkövetés");
+//        sectionsPagerAdapter.addFragment(new JelenlegiEdzesFragment(), "Nyomkövetés");
+        sectionsPagerAdapter.addFragment(new DiagramFragment(), "Diagram");
         viewPager = findViewById(R.id.view_pager);
         if(viewPager != null) {
             viewPager.setAdapter(sectionsPagerAdapter);
@@ -66,6 +69,9 @@ public class Tevekenyseg extends AppCompatActivity implements AdatBeallitoInterf
         switch (item.getItemId()) {
             case R.id.menu_mentett_nezet :
                 startActivity(new Intent(this, MentettNaploActivity.class));
+                break;
+            case R.id.menu_diagram :
+                startActivity(new Intent(this, DiagramActivity.class));
                 break;
         }
         return super.onOptionsItemSelected(item);

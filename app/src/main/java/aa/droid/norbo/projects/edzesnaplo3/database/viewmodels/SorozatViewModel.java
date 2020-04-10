@@ -55,4 +55,7 @@ public class SorozatViewModel extends AndroidViewModel {
 
     public void delete(String naplodatum) { sorozatRepo.delete(naplodatum); }
 
+    public int getOsszSulyByNaplo(String naplodatum) {
+        return sorozatRepo.getOsszSulyByNaplo(naplodatum);
+    }
 }

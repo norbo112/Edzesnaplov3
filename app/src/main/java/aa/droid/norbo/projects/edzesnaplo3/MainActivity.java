@@ -100,6 +100,8 @@ public class MainActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.menu_mentett_nezet) {
             startActivity(new Intent(this, MentettNaploActivity.class));
+        } else if(item.getItemId() == R.id.menu_diagram) {
+            startActivity(new Intent(this, DiagramActivity.class));
         }
         return super.onOptionsItemSelected(item);
     }

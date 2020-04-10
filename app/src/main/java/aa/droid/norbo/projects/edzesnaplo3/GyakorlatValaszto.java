@@ -3,7 +3,10 @@ package aa.droid.norbo.projects.edzesnaplo3;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.appcompat.view.menu.MenuPopupHelper;
 import androidx.appcompat.widget.AppCompatSpinner;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -82,7 +85,7 @@ public class GyakorlatValaszto extends Fragment implements AdapterView.OnItemCli
         listView = view.findViewById(R.id.gyakrolatListView);
         listView.setNestedScrollingEnabled(true);
         listView.startNestedScroll(View.OVER_SCROLL_ALWAYS);
-        registerForContextMenu(listView);
+//        registerForContextMenu(listView);
 
         gyakorlatViewModel = new ViewModelProvider(this).get(GyakorlatViewModel.class);
         gyakorlatViewModel.getGyListLiveData().observe(getActivity(), new Observer<List<Gyakorlat>>() {
@@ -218,29 +221,38 @@ public class GyakorlatValaszto extends Fragment implements AdapterView.OnItemCli
                 .show();
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Gyakorlat gy = (Gyakorlat) listView.getAdapter().getItem(position);
-        beallitoInterface.adatGyakorlat(gy);
-        ViewPager viewById = getActivity().findViewById(R.id.view_pager);
-        if(viewById != null) viewById.setCurrentItem(1, true);
-    }
-
     int kijeloltGyakPoz;
 
+    @SuppressLint("RestrictedApi")
     @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        getActivity().getMenuInflater().inflate(R.menu.gyak_szerkeszto_menu, menu);
-        AdapterView.AdapterContextMenuInfo mi = (AdapterView.AdapterContextMenuInfo) menuInfo;
-        if(v.getId() == R.id.gyakrolatListView) {
-            kijeloltGyakPoz = mi.position;
-        }
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        kijeloltGyakPoz = position;
+
+        PopupMenu popupMenu = new PopupMenu(getContext(), view);
+        popupMenu.getMenuInflater().inflate(R.menu.gyak_szerkeszto_menu, popupMenu.getMenu());
+
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                onContextItemSelected(item);
+                return true;
+            }
+        });
+
+        MenuPopupHelper menuPopupHelper = new MenuPopupHelper(getContext(), (MenuBuilder) popupMenu.getMenu(), view);
+        menuPopupHelper.setForceShowIcon(true);
+        menuPopupHelper.show();
     }
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.gyakszerk_menu_select :
+                Gyakorlat gy = (Gyakorlat) listView.getAdapter().getItem(kijeloltGyakPoz);
+                beallitoInterface.adatGyakorlat(gy);
+                ViewPager viewById = getActivity().findViewById(R.id.view_pager);
+                if(viewById != null) viewById.setCurrentItem(1, true);
+                break;
             case R.id.gyakszerk :
                 createGyakorlatDialog((Gyakorlat) listView.getAdapter().getItem(kijeloltGyakPoz));
                 break;

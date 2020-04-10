@@ -13,4 +13,11 @@
         android:icon="@drawable/ic_folder"
         android:title="@string/menu_mentett_naplok_title"
         app:showAsAction="ifRoom|withText" />
+    <item
+        android:id="@+id/menu_diagram"
+        android:icon="@drawable/ic_show_chart"
+        android:title="Diagram"
+        app:showAsAction="ifRoom|withText" />
+
+
 </menu>

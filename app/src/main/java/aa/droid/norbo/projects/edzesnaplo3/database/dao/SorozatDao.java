@@ -39,4 +39,10 @@ public interface SorozatDao {
     @Transaction
     @Query("SELECT * FROM sorozattabla WHERE naplodatum =:naplodatum")
     List<SorozatWithGyakorlat> getSorozatWithGyakorlatToList(String naplodatum);
+
+    @Transaction
+    @Query(
+            "SELECT SUM(suly * ismetles) FROM sorozattabla WHERE naplodatum = :naplodatum"
+    )
+    int getOsszSulyByNaplo(String naplodatum);
 }

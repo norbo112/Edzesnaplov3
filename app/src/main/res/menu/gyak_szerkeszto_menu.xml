@@ -3,16 +3,26 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/gyakszerk_menu_video"
-        android:title="Video" />
+        android:id="@+id/gyakszerk_menu_select"
+        android:icon="@drawable/ic_run"
+        android:title="Kiválaszt"
+        app:showAsAction="never" />
     <item
         android:id="@+id/gyakszerk"
         android:icon="@drawable/ic_edit"
+        android:orderInCategory="101"
         android:title="Szerkesztés"
-        app:showAsAction="always|withText" />
+        app:showAsAction="never" />
     <item
         android:id="@+id/gyaktorol"
         android:icon="@drawable/ic_delete"
+        android:orderInCategory="102"
         android:title="Törlés"
-        app:showAsAction="always|withText" />
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/gyakszerk_menu_video"
+        android:icon="@drawable/ic_ondemand_video"
+        android:orderInCategory="103"
+        android:title="Video"
+        app:showAsAction="never" />
 </menu>

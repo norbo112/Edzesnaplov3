@@ -38,6 +38,8 @@ import com.wdullaer.swipeactionadapter.SwipeDirection;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.List;
@@ -192,16 +194,12 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
 
         } else if(item.getItemId() == R.id.menu_mentett_driveupload) {
             if(naplo != null && jsonFilePath != null) {
-                Intent shareIntent = ShareCompat.IntentBuilder.from(this)
-                        .setText("Napló fájl mentése a Drive-ra")
-                        .setStream(jsonFilePath)
-                        .setType("application/json")
-                        .getIntent()
-                        .setPackage("com.google.android.apps.docs");
-                startActivity(shareIntent);
+                Toast.makeText(this, "Napló fájl mentve", Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(this, "Kérlek válassz egy naplót", Toast.LENGTH_SHORT).show();
             }
+        } else if(item.getItemId() == R.id.menu_diagram) {
+            startActivity(new Intent(this, DiagramActivity.class));
         }
         return super.onOptionsItemSelected(item);
     }
@@ -257,21 +255,20 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
         }
     }
 
+    @SuppressLint("WorldReadableFiles")
     private Uri makeJsonFile(List<SorozatWithGyakorlat> sorozatWithGyakByNaploToList) {
         String json = new Gson().toJson(sorozatWithGyakByNaploToList);
         BufferedWriter writer = null;
         String jsonFileName = "naplo_"+System.currentTimeMillis()+".json";
         Uri uri = null;
+        File file = new File(
+                getExternalFilesDir(null),
+                jsonFileName);
         try {
-            writer = new BufferedWriter(new OutputStreamWriter(
-                    openFileOutput(jsonFileName, MODE_PRIVATE)
-            ));
+            writer = new BufferedWriter(new FileWriter(file));
             writer.write(json);
-            File file = new File(
-                    getApplicationContext().getFilesDir(),
-                    jsonFileName);
+
             if (file.exists()) {
-                System.out.println(file.getAbsolutePath());
                 uri = Uri.parse(file.getAbsolutePath());
             }
         } catch (Exception ex) {

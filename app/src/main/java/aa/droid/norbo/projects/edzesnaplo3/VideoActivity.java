@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentTransaction;
@@ -22,6 +23,7 @@ public class VideoActivity extends AppCompatActivity implements YouTubePlayer.On
 
     private YouTubePlayerSupportFragment youTubePlayerFragment;
     private YouTubePlayer youTubePlayer;
+    private Integer videopoz;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +53,7 @@ public class VideoActivity extends AppCompatActivity implements YouTubePlayer.On
     public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
         if(!b) {
             youTubePlayer = youTubePlayer;
-            youTubePlayer.cueVideo(gyakorlat.getVideolink(), gyakorlat.getVideostartpoz() * 1000);
+            youTubePlayer.cueVideo(gyakorlat.getVideolink(), (videopoz != null) ? videopoz : gyakorlat.getVideostartpoz() * 1000);
         }
     }
 

@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="aa.droid.norbo.projects.edzesnaplo3">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -11,11 +11,15 @@
         android:roundIcon="@mipmap/enlogo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".DiagramActivity"
+            android:parentActivityName=".MainActivity"/>
+
         <provider
             android:name=".providers.NaploContentProvider"
             android:authorities="aa.dorid.norbo.projects.edzesnaplo3.contentprovider"
             android:enabled="true"
             android:exported="true" />
+
         <receiver android:name=".widgets.NaploCntAppWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -25,12 +29,15 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/naplo_cnt_app_widget_info" />
         </receiver>
-        <service android:name=".widgets.ListItemService"
-            android:permission="android.permission.BIND_REMOTEVIEWS"
-            android:exported="false" />
 
-        <activity android:name=".VideoActivity"
-            android:parentActivityName=".Tevekenyseg"/>
+        <service
+            android:name=".widgets.ListItemService"
+            android:exported="false"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+        <activity
+            android:name=".VideoActivity"
+            android:parentActivityName=".Tevekenyseg" />
         <activity
             android:name=".Tevekenyseg"
             android:label="@string/title_activity_tevekenyseg" />

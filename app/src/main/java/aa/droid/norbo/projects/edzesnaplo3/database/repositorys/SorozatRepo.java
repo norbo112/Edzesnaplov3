@@ -79,4 +79,8 @@ public class SorozatRepo {
             }
         });
     }
+
+    public int getOsszSulyByNaplo(String naplodatum) {
+        return sorozatDao.getOsszSulyByNaplo(naplodatum);
+    }
 }

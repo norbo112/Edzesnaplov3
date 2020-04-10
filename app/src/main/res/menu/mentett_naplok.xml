@@ -4,8 +4,13 @@
 
     <item
         android:id="@+id/menu_mentett_driveupload"
-        android:icon="@drawable/ic_cloud_upload"
-        android:title="Lista feltöltése"
+        android:icon="@drawable/ic_save"
+        android:title="Napló mentése"
+        app:showAsAction="ifRoom|withText" />
+    <item
+        android:id="@+id/menu_diagram"
+        android:icon="@drawable/ic_show_chart"
+        android:title="Diagram"
         app:showAsAction="ifRoom|withText" />
     <item
         android:id="@+id/menu_mentett_naplok_alldelete"
