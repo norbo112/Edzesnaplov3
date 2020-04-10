@@ -1,5 +1,6 @@
 package aa.droid.norbo.projects.edzesnaplo3.widgets;
 
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
@@ -8,12 +9,14 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.widget.RemoteViews;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import aa.droid.norbo.projects.edzesnaplo3.MainActivity;
 import aa.droid.norbo.projects.edzesnaplo3.R;
 
 /**
@@ -22,6 +25,8 @@ import aa.droid.norbo.projects.edzesnaplo3.R;
 public class NaploCntAppWidget extends AppWidgetProvider {
     public static final Uri NAPLO_URI = Uri.parse("content://aa.dorid.norbo.projects.edzesnaplo3.contentprovider/naplo");
     public static final Uri GYAK_OSSZSULY_URI = Uri.parse("content://aa.dorid.norbo.projects.edzesnaplo3.contentprovider/gyakosszsuly");
+
+    public static final String ACTION_RESZLETEZO = "reszletezo";
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
@@ -38,6 +43,17 @@ public class NaploCntAppWidget extends AppWidgetProvider {
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.naplo_app_widget);
         views.setTextViewText(R.id.naplo_cnt_text, ((listnaplo != null) ? listnaplo.getCount()+" db napló":"0 db napló") + " rögzítve");
         views.setRemoteAdapter(R.id.listView, intent);
+
+        Intent titleIntent = new Intent(context, MainActivity.class);
+        PendingIntent titlePendingIntent = PendingIntent.getActivity(context, 0, titleIntent, 0);
+        views.setOnClickPendingIntent(R.id.naplo_cnt_text, titlePendingIntent);
+
+        Intent toastIntent = new Intent(context, NaploCntAppWidget.class);
+        toastIntent.setAction(ACTION_RESZLETEZO);
+        toastIntent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
+        PendingIntent pendingIntentToast = PendingIntent.getBroadcast(context, 0, toastIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+        views.setPendingIntentTemplate(R.id.listView, pendingIntentToast);
 
         listnaplo.close();
 
@@ -56,6 +72,13 @@ public class NaploCntAppWidget extends AppWidgetProvider {
             for (int appwidgetid: appWidgetManager.getAppWidgetIds(cn)) {
                 updateAppWidget(context, appWidgetManager, appwidgetid);
             }
+        } else if(action.equals(ACTION_RESZLETEZO)) {
+            NaploGyakOsszsuly naploGyakOsszsuly = (NaploGyakOsszsuly) intent.getSerializableExtra("naploadatok");
+            String msg = "Elvégzett gyakorlatok: \n";
+            for (int i = 0; i < naploGyakOsszsuly.getGyakorlats().size(); i++) {
+                msg += naploGyakOsszsuly.getGyakorlats().get(i)+"\n";
+            }
+            Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
         }
         super.onReceive(context, intent);
     }

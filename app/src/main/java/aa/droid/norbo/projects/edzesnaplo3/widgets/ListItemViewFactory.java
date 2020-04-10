@@ -58,6 +58,10 @@ public class ListItemViewFactory implements RemoteViewsService.RemoteViewsFactor
         views.setTextViewText(R.id.tvIzomcsoportok, izomcsoportok.toString());
         views.setTextViewText(R.id.tvGyakOssz, osszsuly+" Kg");
 
+        Intent fillInIntent = new Intent();
+        fillInIntent.putExtra("naploadatok", naploGyakOsszsuly);
+        views.setOnClickFillInIntent(R.id.tvNaploDatum, fillInIntent);
+
         return views;
     }
 

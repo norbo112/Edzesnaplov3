@@ -39,7 +39,6 @@ public class NaploAdapter extends RecyclerView.Adapter<NaploAdapter.NaploViewHol
     public NaploAdapter(Context context, List<NaploActivity.GyakorlatWithSorozat> sorozats) {
         this.context = context;
         this.sorozats = sorozats;
-        Collections.reverse(this.sorozats);
     }
 
     @NonNull

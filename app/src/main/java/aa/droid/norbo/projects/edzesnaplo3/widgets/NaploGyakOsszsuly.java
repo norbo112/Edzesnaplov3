@@ -2,6 +2,7 @@ package aa.droid.norbo.projects.edzesnaplo3.widgets;
 
 import androidx.annotation.NonNull;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Comparator;
@@ -9,7 +10,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class NaploGyakOsszsuly {
+public class NaploGyakOsszsuly implements Serializable {
     private String naplodatum;
     private List<String> gyakorlats;
     private List<String> izomcsoportok;
