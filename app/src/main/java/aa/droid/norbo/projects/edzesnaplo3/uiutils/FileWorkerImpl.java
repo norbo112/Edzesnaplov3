@@ -31,9 +31,8 @@ public class FileWorkerImpl<T> implements FileWorkerInterface<T> {
     }
 
     @Override
-    public Uri makeJsonFile(List<T> list, String filename) {
-        Type type = new TypeToken<List<T>>(){}.getType();
-        String json = new Gson().toJson(list, type);
+    public Uri makeJsonFile(List<SorozatWithGyakorlat> list, String filename) {
+        String json = new Gson().toJson(list);
         BufferedWriter writer = null;
         Uri uri = null;
         File file = new File(
@@ -56,34 +55,6 @@ public class FileWorkerImpl<T> implements FileWorkerInterface<T> {
             }
         }
         return uri;
-    }
-
-    @Override
-    public List<T> loadJsonFile(String jsonFileName) {
-        BufferedReader reader = null;
-        try {
-            File file = new File(jsonFileName);
-            reader = new BufferedReader(new FileReader(file));
-            StringBuilder sb = new StringBuilder();
-            String line;
-            while((line = reader.readLine()) != null) {
-                sb.append(line);
-            }
-
-            Type typeToken = new TypeToken<List<T>>(){}.getType();
-            return new Gson().fromJson(sb.toString(), typeToken);
-        } catch (FileNotFoundException e) {
-            Log.e(TAG, "loadJsonFile: Nem található a "+jsonFileName+" fájl", e);
-        } catch (IOException e) {
-            Log.e(TAG, "loadJsonFile: Olvasási hiba", e);
-        } finally {
-            if(reader!=null) {
-                try {
-                    reader.close();
-                } catch (IOException e){}
-            }
-        }
-        return null;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package aa.droid.norbo.projects.edzesnaplo3;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -41,6 +42,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+
+import javax.security.auth.login.LoginException;
 
 import aa.droid.norbo.projects.edzesnaplo3.database.dao.SorozatWithGyakorlat;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Naplo;
@@ -91,6 +94,8 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
         rootView = findViewById(R.id.root_mentett_naplo_view);
 
         naploViewModel = new ViewModelProvider(this).get(NaploViewModel.class);
+        sorozatViewModel = new ViewModelProvider(MentettNaploActivity.this)
+                .get(SorozatViewModel.class);
         naploViewModel.getNaploListLiveData().observe(this, new Observer<List<Naplo>>() {
             @Override
             public void onChanged(List<Naplo> naplos) {
@@ -153,8 +158,6 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         naploViewModel.delete(selected);
-                        sorozatViewModel = new ViewModelProvider(MentettNaploActivity.this)
-                                .get(SorozatViewModel.class);
                         sorozatViewModel.delete(selected.getNaplodatum());
                         NaploContentProvider.sendRefreshBroadcast(getApplicationContext());
                         Toast.makeText(MentettNaploActivity.this, "Napló törölve", Toast.LENGTH_SHORT).show();
@@ -218,30 +221,58 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
         if (requestCode == FILE_LOAD_RCODE && resultCode == RESULT_OK) {
             String filename = getFileName(data.getData());
             loadKulsoMentettLista(data.getData());
+
             Log.i(TAG, "onActivityResult: Fájl kiválasztva: " + filename);
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    @SuppressLint("StaticFieldLeak")
     private void loadKulsoMentettLista(Uri data) {
-        List<SorozatWithGyakorlat> list;
-        try {
-            list = fileWorkerInterface.loadJsonFile(getContentResolver().openInputStream(data));
-            if(!list.isEmpty()) {
-                String naplodatum = list.get(0).sorozat.getNaplodatum();
-                naploViewModel.insert(new Naplo(naplodatum, "kulso_forras"));
-
-                for (int i = 0; i < list.size(); i++) {
-                    sorozatViewModel.insert(new Sorozat(list.get(i).sorozat));
+        new AsyncTask<Object, Void, List<SorozatWithGyakorlat>>() {
+            @Override
+            protected List<SorozatWithGyakorlat> doInBackground(Object... objects) {
+                Context context = (Context) objects[0];
+                Uri uri = (Uri) objects[1];
+                try {
+                    return fileWorkerInterface.loadJsonFile(context.getContentResolver().openInputStream(uri));
+                } catch (FileNotFoundException e) {
+                    Log.e(TAG, "loadKulsoMentettLista: Hiba", e);
                 }
-
-                Toast.makeText(this, "Lista betöltve és mentve: mérete= " + list.size(), Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "Lista betöltve: Üres a lista", Toast.LENGTH_SHORT).show();
+                return null;
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+
+            @Override
+            protected void onPostExecute(List<SorozatWithGyakorlat> sorozatWithGyakorlats) {
+                if(sorozatWithGyakorlats != null) {
+                    String naplodatum = sorozatWithGyakorlats.get(0).sorozat.getNaplodatum();
+                    naploViewModel.insert(new Naplo(naplodatum, "kulso_forras"));
+
+                    try {
+                        for (int i = 0; i < sorozatWithGyakorlats.size(); i++) {
+                            sorozatViewModel.insert(new Sorozat(sorozatWithGyakorlats.get(i).sorozat));
+                        }
+                    } catch (NullPointerException e) {
+                        new AlertDialog.Builder(MentettNaploActivity.this)
+                                .setTitle("Információ")
+                                .setMessage("Listából a napló törlése, majd újboli betöltés... :(")
+                                .setIcon(R.drawable.ic_sentiment_dissatisfied)
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                }).create().show();
+                        return;
+                    }
+
+                    NaploContentProvider.sendRefreshBroadcast(MentettNaploActivity.this);
+                    Toast.makeText(getApplicationContext(), "Lista betöltve és mentve: mérete= " + sorozatWithGyakorlats.size(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Lista betöltve: Üres a lista", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }.execute(this, data);
     }
 
     private String getFileName(Uri data) {

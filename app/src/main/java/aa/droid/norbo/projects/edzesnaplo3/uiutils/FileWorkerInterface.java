@@ -14,14 +14,7 @@ public interface FileWorkerInterface<T> {
      * @param list
      * @return
      */
-    Uri makeJsonFile(List<T> list, String filename);
-
-    /**
-     * Egy listát készit a megadott napló json fájlból
-     * @param jsonFileName
-     * @return
-     */
-    List<T> loadJsonFile(String jsonFileName);
+    Uri makeJsonFile(List<SorozatWithGyakorlat> list, String filename);
 
     /**
      * Visszaadja a contentprovider-ből megnyitott inputstreamből a napló adatokat
