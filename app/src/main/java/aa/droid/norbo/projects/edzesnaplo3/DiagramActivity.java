@@ -90,8 +90,6 @@ public class DiagramActivity extends AppCompatActivity {
 
                         @Override
                         protected void onPostExecute(List<NaploEsOsszSuly> naploEsOsszSulies) {
-//                            Log.i(TAG, "onPostExecute: Diagram adatok betöltve");
-//                            Log.i(TAG, "onPostExecute: adatok size: "+naploEsOsszSulies.size());
                             makeChart(naploEsOsszSulies);
                         }
                     }.execute();
@@ -113,7 +111,6 @@ public class DiagramActivity extends AppCompatActivity {
         BarData barData = new BarData(barLabels, barDataSet);
 
         barChart.setData(barData);
-//        barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
         barDataSet.setColor(getResources().getColor(R.color.edzesHatter));
         barDataSet.setValueTextSize(14f);
         barChart.setDescription("Megmozgatott súlyok");
@@ -125,7 +122,6 @@ public class DiagramActivity extends AppCompatActivity {
         private int osszsuly;
 
         public NaploEsOsszSuly() {
-
         }
 
         public NaploEsOsszSuly(Naplo naplo, int osszsuly) {
