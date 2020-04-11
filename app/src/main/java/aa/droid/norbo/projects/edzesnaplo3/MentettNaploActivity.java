@@ -3,9 +3,11 @@ package aa.droid.norbo.projects.edzesnaplo3;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.OpenableColumns;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,7 +26,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
-import androidx.core.app.ShareCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -32,16 +33,10 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.gson.Gson;
 import com.wdullaer.swipeactionadapter.SwipeActionAdapter;
 import com.wdullaer.swipeactionadapter.SwipeDirection;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
+import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.CompletableFuture;
@@ -49,13 +44,17 @@ import java.util.concurrent.ExecutionException;
 
 import aa.droid.norbo.projects.edzesnaplo3.database.dao.SorozatWithGyakorlat;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Naplo;
+import aa.droid.norbo.projects.edzesnaplo3.database.entities.Sorozat;
 import aa.droid.norbo.projects.edzesnaplo3.database.viewmodels.NaploViewModel;
 import aa.droid.norbo.projects.edzesnaplo3.database.viewmodels.SorozatViewModel;
 import aa.droid.norbo.projects.edzesnaplo3.providers.NaploContentProvider;
 import aa.droid.norbo.projects.edzesnaplo3.rcview.NaploAdapter;
+import aa.droid.norbo.projects.edzesnaplo3.uiutils.FileWorkerImpl;
+import aa.droid.norbo.projects.edzesnaplo3.uiutils.FileWorkerInterface;
 
 public class MentettNaploActivity extends AppCompatActivity implements AdapterView.OnItemClickListener,
         SwipeActionAdapter.SwipeActionListener {
+    private static final int FILE_LOAD_RCODE = 1;
     private final String TAG = getClass().getSimpleName();
 
     private ListView listView;
@@ -66,6 +65,8 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
 
     private SwipeActionAdapter mAdapter;
     private SorozatViewModel sorozatViewModel;
+    private FileWorkerInterface<SorozatWithGyakorlat> fileWorkerInterface;
+    private List<SorozatWithGyakorlat> menteshezLista;
 
     private Naplo naplo;
     private Uri jsonFilePath;
@@ -80,6 +81,8 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
         setSupportActionBar(toolbar);
         if(getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        fileWorkerInterface = new FileWorkerImpl<>(this);
 
         rcnaploview = findViewById(R.id.rcNaploMegtekinto);
         listView = findViewById(R.id.lvMentettNaploLista);
@@ -193,16 +196,67 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
                     }).create().show();
 
         } else if(item.getItemId() == R.id.menu_mentett_driveupload) {
-            if(naplo != null && jsonFilePath != null) {
+            if(naplo != null && menteshezLista != null) {
+                jsonFilePath = fileWorkerInterface.makeJsonFile(menteshezLista, "naplo_"+System.currentTimeMillis()+".json");
                 Toast.makeText(this, "Napló fájl mentve", Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(this, "Kérlek válassz egy naplót", Toast.LENGTH_SHORT).show();
             }
         } else if(item.getItemId() == R.id.menu_diagram) {
             startActivity(new Intent(this, DiagramActivity.class));
+        } else if(item.getItemId() == R.id.menu_mentett_load) {
+            Intent filechooser = new Intent(Intent.ACTION_GET_CONTENT);
+            filechooser.setType("*/*");
+            filechooser.addCategory(Intent.CATEGORY_OPENABLE);
+            startActivityForResult(filechooser, FILE_LOAD_RCODE);
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == FILE_LOAD_RCODE && resultCode == RESULT_OK) {
+            String filename = getFileName(data.getData());
+            loadKulsoMentettLista(data.getData());
+            Log.i(TAG, "onActivityResult: Fájl kiválasztva: " + filename);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void loadKulsoMentettLista(Uri data) {
+        List<SorozatWithGyakorlat> list;
+        try {
+            list = fileWorkerInterface.loadJsonFile(getContentResolver().openInputStream(data));
+            if(!list.isEmpty()) {
+                String naplodatum = list.get(0).sorozat.getNaplodatum();
+                naploViewModel.insert(new Naplo(naplodatum, "kulso_forras"));
+
+                for (int i = 0; i < list.size(); i++) {
+                    sorozatViewModel.insert(new Sorozat(list.get(i).sorozat));
+                }
+
+                Toast.makeText(this, "Lista betöltve és mentve: mérete= " + list.size(), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Lista betöltve: Üres a lista", Toast.LENGTH_SHORT).show();
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String getFileName(Uri data) {
+        Cursor cursor = getContentResolver().query(data, null, null, null, null);
+        if (cursor.getCount() <= 0) {
+            cursor.close();
+            throw new IllegalArgumentException("Can't obtain file name, cursor is empty");
+        }
+
+        cursor.moveToFirst();
+        String fileName = cursor.getString(cursor.getColumnIndexOrThrow(OpenableColumns.DISPLAY_NAME));
+        cursor.close();
+        return fileName;
+    }
+
 
     @SuppressLint("StaticFieldLeak")
     @Override
@@ -218,7 +272,7 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
                     sorozatWithGyakByNaplo.get().observe(MentettNaploActivity.this, new Observer<List<SorozatWithGyakorlat>>() {
                         @Override
                         public void onChanged(List<SorozatWithGyakorlat> sorozatWithGyakorlats) {
-                            jsonFilePath = makeJsonFile(sorozatWithGyakorlats);
+                            menteshezLista = sorozatWithGyakorlats;
                             List<NaploActivity.GyakorlatWithSorozat> withSorozats = new NaploActivity().doitMentettNaploMegjelenesre(sorozatWithGyakorlats);
                             int napiosszsuly = getNapiOsszSuly(withSorozats);
                             osszsnapisuly.setText(String.format(Locale.getDefault(),"%d Kg napi megmozgatott súly", napiosszsuly));
@@ -236,8 +290,8 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
                     protected List<SorozatWithGyakorlat> doInBackground(Void... voids) {
                         List<SorozatWithGyakorlat> sorozatWithGyakByNaploToList =
                                 sorozatViewModel.getSorozatWithGyakByNaploToList(naplo.getNaplodatum());
-                        //feltöltésre elkészítem a json fájlt
-                        jsonFilePath = makeJsonFile(sorozatWithGyakByNaploToList);
+                        menteshezLista = sorozatWithGyakByNaploToList;
+
                         return sorozatWithGyakByNaploToList;
                     }
 
@@ -253,34 +307,6 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
                 }.execute();
             }
         }
-    }
-
-    @SuppressLint("WorldReadableFiles")
-    private Uri makeJsonFile(List<SorozatWithGyakorlat> sorozatWithGyakByNaploToList) {
-        String json = new Gson().toJson(sorozatWithGyakByNaploToList);
-        BufferedWriter writer = null;
-        String jsonFileName = "naplo_"+System.currentTimeMillis()+".json";
-        Uri uri = null;
-        File file = new File(
-                getExternalFilesDir(null),
-                jsonFileName);
-        try {
-            writer = new BufferedWriter(new FileWriter(file));
-            writer.write(json);
-
-            if (file.exists()) {
-                uri = Uri.parse(file.getAbsolutePath());
-            }
-        } catch (Exception ex) {
-            Log.e(TAG, "makeJsonFile: " + ex);
-        } finally {
-            try {
-                if(writer!=null) writer.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return uri;
     }
 
     private int getNapiOsszSuly(List<NaploActivity.GyakorlatWithSorozat> withSorozats) {

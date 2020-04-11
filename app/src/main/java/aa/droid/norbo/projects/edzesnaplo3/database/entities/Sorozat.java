@@ -28,6 +28,15 @@ public class Sorozat implements Serializable, Parcelable {
     public Sorozat(){}
 
     @Ignore
+    public Sorozat(Sorozat sorozat) {
+        this.gyakorlatid = sorozat.gyakorlatid;
+        this.suly = sorozat.suly;
+        this.ismetles = sorozat.ismetles;
+        this.ismidopont = sorozat.ismidopont;
+        this.naplodatum = sorozat.naplodatum;
+    }
+
+    @Ignore
     private Sorozat(Parcel parcel) {
         id = parcel.readInt();
         gyakorlatid = parcel.readInt();

@@ -121,52 +121,11 @@ public class MainActivity extends AppCompatActivity
         startActivity(intent);
     }
 
-    private void saveFelhasznaloNev(String felhasznalpnev) {
-        BufferedWriter writer = null;
-        try {
-            writer = new BufferedWriter(new OutputStreamWriter(
-                    openFileOutput(TAROLTNEV, MODE_PRIVATE)
-            ));
-            writer.write(felhasznalpnev);
-        } catch (Exception ex) {
-            Log.e(TAG, "saveFelhasznaloNev: Sikertelen fájl mentés", ex);
-        } finally {
-            try {
-                if(writer!=null) writer.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
     private void saveFelhasznaloToDB() {
         nevFromFile = editText.getText().toString();
         NaploUser naploUser = new NaploUser();
         naploUser.setFelhasznalonev(nevFromFile);
         naploUserViewModel.insert(naploUser);
-    }
-
-    public String getNevFromFile(Context context, String filename) {
-        BufferedReader reader = null;
-        String nev = null;
-        try {
-            reader = new BufferedReader(new InputStreamReader(context.openFileInput(filename)));
-            nev = reader.readLine();
-        } catch (FileNotFoundException e) {
-            Log.i(TAG, "getNevFromFile: ["+filename+"] féjl nem található");
-        } catch (IOException e) {
-            e.printStackTrace();
-            Log.e(TAG, "getNevFromFile: "+filename+" olvasás hiba", e);
-        } finally {
-            if(reader != null) {
-                try {
-                    reader.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return nev;
     }
 
     public void checkNevInDB() {
