@@ -9,6 +9,8 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Objects;
 import java.util.Scanner;
 import java.util.regex.MatchResult;
@@ -24,6 +26,8 @@ public class Sorozat implements Serializable, Parcelable {
     private String naplodatum;
     @Ignore
     private Gyakorlat gyakorlat;
+    @Ignore
+    private static final SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
 
     public Sorozat(){}
 
@@ -138,10 +142,8 @@ public class Sorozat implements Serializable, Parcelable {
     @NonNull
     @Override
     public String toString() {
-        Scanner scanner = new Scanner(ismidopont);
-        scanner.findWithinHorizon("(\\d+:\\d+:\\d+ )", 0);
-        MatchResult matchResult = scanner.match();
-        return suly+"X"+ismetles+" "+matchResult.group()+" "+(suly*ismetles)+" Kg";
+        Date d = new Date(ismidopont);
+        return suly+"X"+ismetles+" "+formatter.format(d)+" "+(suly*ismetles)+" Kg";
     }
 
     @Ignore

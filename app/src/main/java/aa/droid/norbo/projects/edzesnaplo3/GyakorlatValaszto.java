@@ -85,7 +85,6 @@ public class GyakorlatValaszto extends Fragment implements AdapterView.OnItemCli
         listView = view.findViewById(R.id.gyakrolatListView);
         listView.setNestedScrollingEnabled(true);
         listView.startNestedScroll(View.OVER_SCROLL_ALWAYS);
-//        registerForContextMenu(listView);
 
         gyakorlatViewModel = new ViewModelProvider(this).get(GyakorlatViewModel.class);
         gyakorlatViewModel.getGyListLiveData().observe(getActivity(), new Observer<List<Gyakorlat>>() {

@@ -19,17 +19,17 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Naplo;
 import aa.droid.norbo.projects.edzesnaplo3.database.viewmodels.NaploViewModel;
 import aa.droid.norbo.projects.edzesnaplo3.database.viewmodels.SorozatViewModel;
-import aa.droid.norbo.projects.edzesnaplo3.diagram.DiagramFragment;
-import aa.droid.norbo.projects.edzesnaplo3.uiutils.UIUtils;
 
 public class DiagramActivity extends AppCompatActivity {
-
+    private static final SimpleDateFormat formatter = new SimpleDateFormat("MM-dd");
     private NaploViewModel naploViewModel;
     private SorozatViewModel sorozatViewModel;
     private BarChart barChart;
@@ -106,7 +106,7 @@ public class DiagramActivity extends AppCompatActivity {
         List<BarEntry> barEntries = new ArrayList<>();
         List<String> barLabels = new ArrayList<>();
         for (int i = 0; i < data.size(); i++) {
-            barLabels.add(UIUtils.getNapDatumStr(data.get(i).naplo.getNaplodatum()));
+            barLabels.add(formatter.format(new Date(data.get(i).naplo.getNaplodatum())));
             barEntries.add(new BarEntry(data.get(i).osszsuly, i));
         }
         BarDataSet barDataSet = new BarDataSet(barEntries, "Összsúly");

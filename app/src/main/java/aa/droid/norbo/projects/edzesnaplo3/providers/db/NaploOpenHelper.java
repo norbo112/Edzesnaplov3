@@ -7,11 +7,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import aa.droid.norbo.projects.edzesnaplo3.database.entities.Gyakorlat;
-
 public class NaploOpenHelper extends SQLiteOpenHelper {
     public static volatile NaploOpenHelper INSTANCE;
 

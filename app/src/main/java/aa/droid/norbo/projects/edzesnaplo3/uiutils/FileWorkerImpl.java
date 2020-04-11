@@ -11,18 +11,16 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 
 import aa.droid.norbo.projects.edzesnaplo3.database.dao.SorozatWithGyakorlat;
 
-public class FileWorkerImpl<T> implements FileWorkerInterface<T> {
+public class FileWorkerImpl<T> implements FileWorkerInterface {
     private static final String TAG = "FileWorker";
     private Context context;
 

@@ -38,6 +38,7 @@ import com.wdullaer.swipeactionadapter.SwipeActionAdapter;
 import com.wdullaer.swipeactionadapter.SwipeDirection;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.CompletableFuture;
@@ -45,6 +46,7 @@ import java.util.concurrent.ExecutionException;
 
 import javax.security.auth.login.LoginException;
 
+import aa.droid.norbo.projects.edzesnaplo3.adapters.MentettNaploListaAdapter;
 import aa.droid.norbo.projects.edzesnaplo3.database.dao.SorozatWithGyakorlat;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Naplo;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Sorozat;
@@ -61,6 +63,7 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
     private final String TAG = getClass().getSimpleName();
 
     private ListView listView;
+    private MentettNaploListaAdapter adapter;
     private RecyclerView rcnaploview;
     private TextView osszsnapisuly;
     private NaploViewModel naploViewModel;
@@ -68,7 +71,7 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
 
     private SwipeActionAdapter mAdapter;
     private SorozatViewModel sorozatViewModel;
-    private FileWorkerInterface<SorozatWithGyakorlat> fileWorkerInterface;
+    private FileWorkerInterface fileWorkerInterface;
     private List<SorozatWithGyakorlat> menteshezLista;
 
     private Naplo naplo;
@@ -85,53 +88,37 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
         if(getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        fileWorkerInterface = new FileWorkerImpl<>(this);
+        fileWorkerInterface = new FileWorkerImpl(this);
+        adapter = new MentettNaploListaAdapter(this, new ArrayList<>());
 
         rcnaploview = findViewById(R.id.rcNaploMegtekinto);
         listView = findViewById(R.id.lvMentettNaploLista);
         osszsnapisuly = findViewById(R.id.tvMOsszsuly);
-
         rootView = findViewById(R.id.root_mentett_naplo_view);
 
         naploViewModel = new ViewModelProvider(this).get(NaploViewModel.class);
         sorozatViewModel = new ViewModelProvider(MentettNaploActivity.this)
                 .get(SorozatViewModel.class);
+
+        mAdapter = new SwipeActionAdapter(adapter);
+        listView.setAdapter(mAdapter);
+        mAdapter.setListView(listView);
+        listView.setOnItemClickListener(MentettNaploActivity.this);
+
+        mAdapter.addBackground(SwipeDirection.DIRECTION_NORMAL_RIGHT, R.layout.swipe_action_delete);
+        mAdapter.addBackground(SwipeDirection.DIRECTION_FAR_LEFT, R.layout.swipe_action_normal);
+        mAdapter.addBackground(SwipeDirection.DIRECTION_FAR_RIGHT, R.layout.swipe_action_delete);
+        mAdapter.addBackground(SwipeDirection.DIRECTION_NORMAL_LEFT, R.layout.swipe_action_normal);
+        mAdapter.addBackground(SwipeDirection.DIRECTION_NEUTRAL, R.layout.swipe_action_normal);
+        mAdapter.setSwipeActionListener(MentettNaploActivity.this);
+
         naploViewModel.getNaploListLiveData().observe(this, new Observer<List<Naplo>>() {
             @Override
             public void onChanged(List<Naplo> naplos) {
                 if(naplos.size() != 0) {
-                    ArrayAdapter adapter = new ArrayAdapter<Naplo>(MentettNaploActivity.this, R.layout.mentett_naplo_item_0, naplos) {
-                        @NonNull
-                        @Override
-                        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-                            if(convertView == null) {
-                                convertView =getLayoutInflater().inflate(R.layout.mentett_naplo_item_0, parent, false);
-                            }
-                            
-                            final Naplo selected = naplos.get(position);
-
-                            ((TextView)convertView.findViewById(R.id.tvNaploListaItem)).setText(selected.getNaplodatum());
-
-                            return convertView;
-                        }
-
-                        @Override
-                        public int getCount() {
-                            return naplos.size();
-                        }
-                    };
-
-                    mAdapter = new SwipeActionAdapter(adapter);
-                    listView.setAdapter(mAdapter);
-                    mAdapter.setListView(listView);
-                    listView.setOnItemClickListener(MentettNaploActivity.this);
-
-                    mAdapter.addBackground(SwipeDirection.DIRECTION_NORMAL_RIGHT, R.layout.swipe_action_delete);
-                    mAdapter.addBackground(SwipeDirection.DIRECTION_FAR_LEFT, R.layout.swipe_action_normal);
-                    mAdapter.addBackground(SwipeDirection.DIRECTION_FAR_RIGHT, R.layout.swipe_action_delete);
-                    mAdapter.addBackground(SwipeDirection.DIRECTION_NORMAL_LEFT, R.layout.swipe_action_normal);
-                    mAdapter.addBackground(SwipeDirection.DIRECTION_NEUTRAL, R.layout.swipe_action_normal);
-                    mAdapter.setSwipeActionListener(MentettNaploActivity.this);
+                    adapter.clear();
+                    adapter.addAll(naplos);
+                    mAdapter.notifyDataSetChanged();
                 } else {
                     changeEmptyTextView();
                 }
@@ -159,7 +146,7 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
                     public void onClick(DialogInterface dialog, int which) {
                         naploViewModel.delete(selected);
                         sorozatViewModel.delete(selected.getNaplodatum());
-                        NaploContentProvider.sendRefreshBroadcast(getApplicationContext());
+                        NaploContentProvider.sendRefreshBroadcast(MentettNaploActivity.this);
                         Toast.makeText(MentettNaploActivity.this, "Napló törölve", Toast.LENGTH_SHORT).show();
                     }
                 })
@@ -246,27 +233,18 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
             protected void onPostExecute(List<SorozatWithGyakorlat> sorozatWithGyakorlats) {
                 if(sorozatWithGyakorlats != null) {
                     String naplodatum = sorozatWithGyakorlats.get(0).sorozat.getNaplodatum();
-                    naploViewModel.insert(new Naplo(naplodatum, "kulso_forras"));
+                    Naplo kulso_forras = new Naplo(naplodatum, "kulso_forras");
+                    naploViewModel.insert(kulso_forras);
 
-                    try {
-                        for (int i = 0; i < sorozatWithGyakorlats.size(); i++) {
-                            sorozatViewModel.insert(new Sorozat(sorozatWithGyakorlats.get(i).sorozat));
-                        }
-                    } catch (NullPointerException e) {
-                        new AlertDialog.Builder(MentettNaploActivity.this)
-                                .setTitle("Információ")
-                                .setMessage("Listából a napló törlése, majd újboli betöltés... :(")
-                                .setIcon(R.drawable.ic_sentiment_dissatisfied)
-                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                    }
-                                }).create().show();
-                        return;
+                    for (int i = 0; i < sorozatWithGyakorlats.size(); i++) {
+                        Sorozat sorozat = new Sorozat(sorozatWithGyakorlats.get(i).sorozat);
+                        sorozatViewModel.insert(sorozat);
+                        kulso_forras.addSorozat(sorozat);
                     }
 
                     NaploContentProvider.sendRefreshBroadcast(MentettNaploActivity.this);
+                    adapter.addNaplo(kulso_forras);
+                    mAdapter.notifyDataSetChanged();
                     Toast.makeText(getApplicationContext(), "Lista betöltve és mentve: mérete= " + sorozatWithGyakorlats.size(), Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getApplicationContext(), "Lista betöltve: Üres a lista", Toast.LENGTH_SHORT).show();

@@ -2,7 +2,6 @@ package aa.droid.norbo.projects.edzesnaplo3.diagram;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -20,22 +19,23 @@ import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.utils.ColorTemplate;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import aa.droid.norbo.projects.edzesnaplo3.R;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Naplo;
 import aa.droid.norbo.projects.edzesnaplo3.database.viewmodels.NaploViewModel;
 import aa.droid.norbo.projects.edzesnaplo3.database.viewmodels.SorozatViewModel;
-import aa.droid.norbo.projects.edzesnaplo3.uiutils.UIUtils;
 
 public class DiagramFragment extends Fragment {
     private static final String TAG = "DiagramFragment";
     private BarChart barChart;
     private NaploViewModel naploViewModel;
     private SorozatViewModel sorozatViewModel;
+    private static final SimpleDateFormat formatter = new SimpleDateFormat("MM-dd");
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -66,8 +66,6 @@ public class DiagramFragment extends Fragment {
 
                         @Override
                         protected void onPostExecute(List<NaploEsOsszSuly> naploEsOsszSulies) {
-//                            Log.i(TAG, "onPostExecute: Diagram adatok betöltve");
-//                            Log.i(TAG, "onPostExecute: adatok size: "+naploEsOsszSulies.size());
                             makeChart(naploEsOsszSulies);
                         }
                     }.execute();
@@ -82,7 +80,7 @@ public class DiagramFragment extends Fragment {
         List<BarEntry> barEntries = new ArrayList<>();
         List<String> barLabels = new ArrayList<>();
         for (int i = 0; i < data.size(); i++) {
-            barLabels.add(UIUtils.getNapDatumStr(data.get(i).naplo.getNaplodatum()));
+            barLabels.add(formatter.format(new Date(data.get(i).naplo.getNaplodatum())));
             barEntries.add(new BarEntry(data.get(i).osszsuly, i));
         }
         BarDataSet barDataSet = new BarDataSet(barEntries, "Összsúly");

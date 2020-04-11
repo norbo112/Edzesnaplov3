@@ -8,7 +8,7 @@ import java.util.List;
 
 import aa.droid.norbo.projects.edzesnaplo3.database.dao.SorozatWithGyakorlat;
 
-public interface FileWorkerInterface<T> {
+public interface FileWorkerInterface {
     /**
      * Elkészíti a listát json formátumba, majd visszaadja a fájl uriját
      * @param list
