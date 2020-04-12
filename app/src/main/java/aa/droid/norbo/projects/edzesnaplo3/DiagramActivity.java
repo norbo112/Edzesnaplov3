@@ -27,9 +27,9 @@ import java.util.List;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Naplo;
 import aa.droid.norbo.projects.edzesnaplo3.database.viewmodels.NaploViewModel;
 import aa.droid.norbo.projects.edzesnaplo3.database.viewmodels.SorozatViewModel;
+import aa.droid.norbo.projects.edzesnaplo3.uiutils.DateTimeFormatter;
 
 public class DiagramActivity extends AppCompatActivity {
-    private static final SimpleDateFormat formatter = new SimpleDateFormat("MM-dd");
     private NaploViewModel naploViewModel;
     private SorozatViewModel sorozatViewModel;
     private BarChart barChart;
@@ -104,7 +104,7 @@ public class DiagramActivity extends AppCompatActivity {
         List<BarEntry> barEntries = new ArrayList<>();
         List<String> barLabels = new ArrayList<>();
         for (int i = 0; i < data.size(); i++) {
-            barLabels.add(formatter.format(new Date(data.get(i).naplo.getNaplodatum())));
+            barLabels.add(DateTimeFormatter.getDate(data.get(i).naplo.getNaplodatum()));
             barEntries.add(new BarEntry(data.get(i).osszsuly, i));
         }
         BarDataSet barDataSet = new BarDataSet(barEntries, "Összsúly");

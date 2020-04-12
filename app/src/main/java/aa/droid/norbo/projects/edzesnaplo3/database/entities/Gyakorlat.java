@@ -13,15 +13,10 @@ import java.util.Objects;
 public class Gyakorlat implements Serializable {
     @PrimaryKey(autoGenerate = true)
     private Integer id;
-    @ColumnInfo(name = "csoport")
     private String csoport;
-    @ColumnInfo(name = "megnevezes")
     private String megnevezes;
-    @ColumnInfo(name = "leiras")
     private String leiras;
-    @ColumnInfo(name = "videolink")
     private String videolink;
-    @ColumnInfo(name = "videostartpoz")
     private int videostartpoz;
 
     public Gyakorlat(){}

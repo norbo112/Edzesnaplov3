@@ -70,7 +70,7 @@ public class Edzes extends Fragment implements View.OnClickListener {
         this.adatBeallitoInterface = (AdatBeallitoInterface) context;
         this.felhasznalonev = adatBeallitoInterface.getFelhasznaloNev();
 
-        naplo = new Naplo(new Date().toString(), felhasznalonev);
+        naplo = new Naplo(Long.toString(System.currentTimeMillis()), felhasznalonev);
         sorozats = new ArrayList<>();
     }
 
@@ -233,7 +233,8 @@ public class Edzes extends Fragment implements View.OnClickListener {
 
         sorozats.add(new Sorozat(gyakorlat,
                 Integer.parseInt(etSuly.getText().toString()),
-                Integer.parseInt(etIsm.getText().toString()), new Date().toString(),
+                Integer.parseInt(etIsm.getText().toString()),
+                Long.toString(System.currentTimeMillis()),
                 naplo.getNaplodatum()));
         updateSorozatTitle();
         listAdapter.notifyDataSetChanged();

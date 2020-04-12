@@ -16,10 +16,9 @@ import java.util.Locale;
 
 import aa.droid.norbo.projects.edzesnaplo3.R;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Naplo;
+import aa.droid.norbo.projects.edzesnaplo3.uiutils.DateTimeFormatter;
 
 public class MentettNaploListaAdapter extends BaseAdapter {
-    @SuppressLint("SimpleDateFormat")
-    private static final SimpleDateFormat FORMATTER = new SimpleDateFormat("yyyy.MM.dd. EEE. HH:mm:ss");
     private Context context;
     private List<Naplo> naplos;
 
@@ -63,7 +62,7 @@ public class MentettNaploListaAdapter extends BaseAdapter {
         final Naplo selected = naplos.get(position);
 
         ((TextView)convertView.findViewById(R.id.tvNaploListaItem)).setText(
-                FORMATTER.format(new Date(selected.getNaplodatum())));
+                DateTimeFormatter.getNaploListaDatum(selected.getNaplodatum()));
 
         return convertView;
     }

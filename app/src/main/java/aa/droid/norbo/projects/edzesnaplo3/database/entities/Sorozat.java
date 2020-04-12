@@ -1,5 +1,6 @@
 package aa.droid.norbo.projects.edzesnaplo3.database.entities;
 
+import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -15,6 +16,8 @@ import java.util.Objects;
 import java.util.Scanner;
 import java.util.regex.MatchResult;
 
+import aa.droid.norbo.projects.edzesnaplo3.uiutils.DateTimeFormatter;
+
 @Entity(tableName = "sorozattabla")
 public class Sorozat implements Serializable, Parcelable {
     @PrimaryKey(autoGenerate = true)
@@ -26,8 +29,6 @@ public class Sorozat implements Serializable, Parcelable {
     private String naplodatum;
     @Ignore
     private Gyakorlat gyakorlat;
-    @Ignore
-    private static final SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
 
     public Sorozat(){}
 
@@ -142,8 +143,7 @@ public class Sorozat implements Serializable, Parcelable {
     @NonNull
     @Override
     public String toString() {
-        Date d = new Date(ismidopont);
-        return suly+"X"+ismetles+" "+formatter.format(d)+" "+(suly*ismetles)+" Kg";
+        return suly+"X"+ismetles+" "+ DateTimeFormatter.getTime(ismidopont) +" "+(suly*ismetles)+" Kg";
     }
 
     @Ignore

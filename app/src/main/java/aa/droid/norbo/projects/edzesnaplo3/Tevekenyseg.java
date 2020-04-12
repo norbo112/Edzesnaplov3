@@ -48,7 +48,7 @@ public class Tevekenyseg extends AppCompatActivity implements AdatBeallitoInterf
         sectionsPagerAdapter.addFragment(new GyakorlatValaszto(), "Gyakorlat");
         sectionsPagerAdapter.addFragment(new Edzes(), "Edzés");
 //        sectionsPagerAdapter.addFragment(new JelenlegiEdzesFragment(), "Nyomkövetés");
-        sectionsPagerAdapter.addFragment(new DiagramFragment(), "Diagram");
+//        sectionsPagerAdapter.addFragment(new DiagramFragment(), "Diagram");
         viewPager = findViewById(R.id.view_pager);
         if(viewPager != null) {
             viewPager.setAdapter(sectionsPagerAdapter);

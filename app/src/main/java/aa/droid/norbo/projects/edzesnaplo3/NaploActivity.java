@@ -158,6 +158,7 @@ public class NaploActivity extends AppCompatActivity {
         private List<Sorozat> sorozatList;
         private int megmozgatottSuly;
         private int elteltido = 0;
+        private String TAG = "GyakorlatWithSorozat";
 
         GyakorlatWithSorozat(Gyakorlat gyakorlat) {
             this.gyakorlat = gyakorlat;
@@ -183,29 +184,21 @@ public class NaploActivity extends AppCompatActivity {
         void addSorozat(Sorozat sorozat) {
             sorozatList.add(sorozat);
             megmozgatottSuly += sorozat.getSuly() * sorozat.getIsmetles();
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                elteltido = getEltelIdoSzamitas();
-            } else {
-                elteltido = 0;
-            }
+            elteltido = getEltelIdoSzamitas();
         }
 
-        @RequiresApi(api = Build.VERSION_CODES.N)
         private int getEltelIdoSzamitas() {
             int result;
-            sorozatList.sort(new Comparator<Sorozat>() {
-                @Override
-                public int compare(Sorozat o1, Sorozat o2) {
-                    int one = new Date(o1.getIsmidopont()).getMinutes();
-                    int two = new Date(o2.getIsmidopont()).getMinutes();
-                    return Integer.compare(two,one);
-                }
-            });
-            result = new Date(sorozatList.get(0).getIsmidopont()).getMinutes();
-            for (int i = 1; i < sorozatList.size(); i++) {
-                result -= new Date(sorozatList.get(i).getIsmidopont()).getMinutes();
+            try {
+                result = new Date(
+                        Long.parseLong(sorozatList.get(sorozatList.size()-1).getIsmidopont())).getMinutes();
+                result -= new Date(
+                        Long.parseLong(sorozatList.get(0).getIsmidopont())).getMinutes();
+            } catch (IllegalArgumentException ex) {
+                Log.e(TAG, "getEltelIdoSzamitas: Dátum parse", ex);
+                result = 0;
             }
-            return result;
+            return Math.abs(result);
         }
     }
 }

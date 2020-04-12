@@ -33,11 +33,11 @@ public interface SorozatDao {
     LiveData<List<Sorozat>> getSorozatByNaplo(String mentettdatum);
 
     @Transaction
-    @Query("SELECT * FROM sorozattabla WHERE naplodatum =:naplodatum")
+    @Query("SELECT * FROM sorozattabla WHERE naplodatum =:naplodatum ORDER BY ismidopont DESC")
     LiveData<List<SorozatWithGyakorlat>> getSorozatWithGyakorlat(String naplodatum);
 
     @Transaction
-    @Query("SELECT * FROM sorozattabla WHERE naplodatum =:naplodatum")
+    @Query("SELECT * FROM sorozattabla WHERE naplodatum =:naplodatum ORDER BY ismidopont DESC")
     List<SorozatWithGyakorlat> getSorozatWithGyakorlatToList(String naplodatum);
 
     @Transaction

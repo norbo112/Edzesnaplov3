@@ -35,6 +35,7 @@ import aa.droid.norbo.projects.edzesnaplo3.database.entities.Naplo;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.NaploUser;
 import aa.droid.norbo.projects.edzesnaplo3.database.viewmodels.NaploUserViewModel;
 import aa.droid.norbo.projects.edzesnaplo3.database.viewmodels.NaploViewModel;
+import aa.droid.norbo.projects.edzesnaplo3.uiutils.MainAdatTolto;
 
 public class MainActivity extends AppCompatActivity
         implements View.OnClickListener {
@@ -46,11 +47,12 @@ public class MainActivity extends AppCompatActivity
     public static final int EDZESACTIVITY = 1001;
     private final String TAG = getClass().getSimpleName();
     private EditText editText;
-    private TextView textView;
+    private TextView textView, textViewNaplokSzama, textViewMegmozgatottSuly;
     private String nevFromFile;
 
     private NaploUserViewModel naploUserViewModel;
     private TextView textViewTemp;
+    private boolean felhasznaloOn = false;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -65,9 +67,16 @@ public class MainActivity extends AppCompatActivity
         toolbar.setLogo(R.drawable.ic_run);
         setSupportActionBar(toolbar);
 
+        textViewNaplokSzama = findViewById(R.id.tvMainRogzitettNaplok);
+        textViewMegmozgatottSuly = findViewById(R.id.tvMainMegmozgatottSulyok);
+
         editText = findViewById(R.id.etWelcomeNev);
         textView = findViewById(R.id.tvWelcomeNev);
         textViewTemp = findViewById(R.id.tvTextTemp);
+
+        MainAdatTolto mainAdatTolto = new MainAdatTolto(this);
+        textViewNaplokSzama.setText(mainAdatTolto.getNaploCntint()+" db");
+        textViewMegmozgatottSuly.setText(mainAdatTolto.getOsszSuly()+" KG");
 
         naploUserViewModel = new ViewModelProvider(this).get(NaploUserViewModel.class);
 
@@ -112,7 +121,7 @@ public class MainActivity extends AppCompatActivity
             return;
         }
 
-        if (editText.getVisibility() == View.VISIBLE) {
+        if (editText.getVisibility() == View.VISIBLE && !felhasznaloOn) {
             saveFelhasznaloToDB();
         }
 
@@ -138,6 +147,7 @@ public class MainActivity extends AppCompatActivity
                     textView.setText(nevFromFile);
                     textView.setVisibility(View.VISIBLE);
                     textViewTemp.setVisibility(View.VISIBLE);
+                    felhasznaloOn = true;
                 }
             }
         });
