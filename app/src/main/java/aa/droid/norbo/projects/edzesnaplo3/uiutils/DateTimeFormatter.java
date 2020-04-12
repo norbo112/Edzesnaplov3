@@ -11,7 +11,7 @@ public class DateTimeFormatter {
     @SuppressLint("SimpleDateFormat")
     private static final SimpleDateFormat timeformatter = new SimpleDateFormat("HH:mm:ss");
     @SuppressLint("SimpleDateFormat")
-    private static final SimpleDateFormat dateformatter = new SimpleDateFormat("MM.dd.");
+    public static final SimpleDateFormat dateformatter = new SimpleDateFormat("MM.dd.");
     @SuppressLint("SimpleDateFormat")
     private static final SimpleDateFormat naplodateformatter = new SimpleDateFormat("yyyy.MM.dd. EEE. HH:mm:ss");
 

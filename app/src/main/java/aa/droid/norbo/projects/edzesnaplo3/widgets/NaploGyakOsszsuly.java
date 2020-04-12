@@ -10,6 +10,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import aa.droid.norbo.projects.edzesnaplo3.uiutils.DateTimeFormatter;
+
 public class NaploGyakOsszsuly implements Serializable {
     private String naplodatum;
     private List<String> gyakorlats;
@@ -27,16 +29,7 @@ public class NaploGyakOsszsuly implements Serializable {
     }
 
     public String getNaplodatum() {
-        String[] splittedNaploDatum = naplodatum.split(" ");
-        int poz = -1;
-        for (int i = 0; i < honapok.length; i++) {
-            if(honapok[i].equals(splittedNaploDatum[1])) {
-                poz = i + 1;
-                break;
-            }
-        }
-        String pozstr = (poz<10)  ? "0"+poz : poz+"";
-        return splittedNaploDatum[5]+"."+pozstr+"."+splittedNaploDatum[2];
+        return naplodatum;
     }
 
     public List<String> getGyakorlats() {

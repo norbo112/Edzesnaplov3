@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Set;
 
 import aa.droid.norbo.projects.edzesnaplo3.R;
+import aa.droid.norbo.projects.edzesnaplo3.uiutils.DateTimeFormatter;
 
 public class ListItemViewFactory implements RemoteViewsService.RemoteViewsFactory {
     private List<NaploGyakOsszsuly> naploGyakOsszsulyList;
@@ -54,7 +55,7 @@ public class ListItemViewFactory implements RemoteViewsService.RemoteViewsFactor
         }
 
         Set<String> izomcsoportok = new HashSet<>(naploGyakOsszsuly.getIzomcsoportok());
-        views.setTextViewText(R.id.tvNaploDatum, naploGyakOsszsuly.getNaplodatum());
+        views.setTextViewText(R.id.tvNaploDatum, DateTimeFormatter.getDate(naploGyakOsszsuly.getNaplodatum()));
         views.setTextViewText(R.id.tvIzomcsoportok, izomcsoportok.toString());
         views.setTextViewText(R.id.tvGyakOssz, osszsuly+" Kg");
 

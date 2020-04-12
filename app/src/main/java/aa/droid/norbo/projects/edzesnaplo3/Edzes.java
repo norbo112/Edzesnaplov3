@@ -2,13 +2,16 @@ package aa.droid.norbo.projects.edzesnaplo3;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -19,6 +22,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -63,6 +69,7 @@ public class Edzes extends Fragment implements View.OnClickListener {
     private Button btnUjGyakorlat;
     private Button btnSave;
     private TextView tvSorozatTitle;
+    private CardView cardView;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -100,7 +107,7 @@ public class Edzes extends Fragment implements View.OnClickListener {
         }
 
         View view = inflater.inflate(R.layout.test_tabbed_edzes_layout, container, false);
-
+        cardView = view.findViewById(R.id.edzes_card_view);
         gyaktitle = view.findViewById(R.id.gyak_title);
         tvStopper = view.findViewById(R.id.tvStopper);
 
@@ -135,6 +142,13 @@ public class Edzes extends Fragment implements View.OnClickListener {
         listView = view.findViewById(R.id.sorozatLista);
         listView.setAdapter(listAdapter);
         listView.setNestedScrollingEnabled(true);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                setSorozatAdat(listAdapter.getItem(position));
+            }
+        });
 
         return view;
     }
@@ -238,7 +252,10 @@ public class Edzes extends Fragment implements View.OnClickListener {
                 naplo.getNaplodatum()));
         updateSorozatTitle();
         listAdapter.notifyDataSetChanged();
-        Toast.makeText(getContext(), "!", Toast.LENGTH_SHORT).show();
+        etIsm.setText("");
+
+        Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.addtouch);
+        cardView.startAnimation(animation);
     }
 
     private void updateSorozatTitle() {
@@ -249,6 +266,37 @@ public class Edzes extends Fragment implements View.OnClickListener {
             }
             tvSorozatTitle.setText("Megmozgatott sőly: "+osszes+" Kg");
         }
+    }
+
+    private void setSorozatAdat(Sorozat sorozatAdat) {
+        final View view = LayoutInflater.from(getContext()).inflate(R.layout.sorozat_szerkeszto, null);
+        EditText etSuly = view.findViewById(R.id.sorozatSuly);
+        EditText etIsm = view.findViewById(R.id.sorozatIsm);
+
+        if(sorozatAdat != null) {
+            etSuly.setText(sorozatAdat.getSuly()+"");
+            etIsm.setText(sorozatAdat.getIsmetles()+"");
+        }
+
+        new AlertDialog.Builder(getContext())
+                .setTitle("Sorozat módosítása")
+                .setView(view)
+                .setNegativeButton("Mégse", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        sorozatAdat.setSuly(Integer.parseInt(etSuly.getText().toString()));
+                        sorozatAdat.setIsmetles(Integer.parseInt(etIsm.getText().toString()));
+                        listAdapter.notifyDataSetChanged();
+                        updateSorozatTitle();
+                    }
+                })
+                .create().show();
     }
 
     private class MyTimer implements Runnable {
