@@ -22,7 +22,7 @@ public class VideoActivity extends AppCompatActivity implements YouTubePlayer.On
     private Gyakorlat gyakorlat;
 
     private YouTubePlayerSupportFragment youTubePlayerFragment;
-    private YouTubePlayer youTubePlayer;
+    private YouTubePlayer player;
     private Integer videopoz;
 
     @Override
@@ -34,15 +34,24 @@ public class VideoActivity extends AppCompatActivity implements YouTubePlayer.On
         toolbar.setTitle(gyakorlat.getMegnevezes());
         toolbar.setLogo(R.drawable.ic_run);
         setSupportActionBar(toolbar);
-        if(getSupportActionBar() != null)
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
 
         youTubePlayerFragment = YouTubePlayerSupportFragment.newInstance();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         //müködik, de az ide hibát jelez
         transaction.add(R.id.ytView, youTubePlayerFragment).commit();
         youTubePlayerFragment.initialize(YT_API_KEY, this);
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putInt("videopoz", player != null ? player.getCurrentTimeMillis() : 0);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        videopoz = savedInstanceState.getInt("videopoz", 0);
+        super.onRestoreInstanceState(savedInstanceState);
     }
 
     private void initIntentExtraData(Intent intent) {
@@ -52,8 +61,8 @@ public class VideoActivity extends AppCompatActivity implements YouTubePlayer.On
     @Override
     public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
         if(!b) {
-            youTubePlayer = youTubePlayer;
-            youTubePlayer.cueVideo(gyakorlat.getVideolink(), (videopoz != null) ? videopoz : gyakorlat.getVideostartpoz() * 1000);
+            player = youTubePlayer;
+            player.cueVideo(gyakorlat.getVideolink(), (videopoz != null) ? videopoz : gyakorlat.getVideostartpoz() * 1000);
         }
     }
 

@@ -124,7 +124,6 @@ public class NaploActivity extends AppCompatActivity {
     }
 
     public List<RCViewGyakSorozat> doitMentettNaploMegjelenesre(List<SorozatWithGyakorlat> sorozats) {
-        SorozatSorter.sorozatSortByIsmIdo(sorozats);
         List<RCViewGyakSorozat> withSorozats = new ArrayList<>();
         Set<Gyakorlat> egyediGyaknevek = new HashSet<>();
         for (int i = 0; i < sorozats.size(); i++) {
