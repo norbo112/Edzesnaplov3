@@ -14,6 +14,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
@@ -254,8 +255,12 @@ public class Edzes extends Fragment implements View.OnClickListener {
         listAdapter.notifyDataSetChanged();
         etIsm.setText("");
 
-        Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.addtouch);
-        cardView.startAnimation(animation);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.addtouch);
+            cardView.startAnimation(animation);
+        } else {
+            Toast.makeText(getContext(), "!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void updateSorozatTitle() {
@@ -268,15 +273,19 @@ public class Edzes extends Fragment implements View.OnClickListener {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private void setSorozatAdat(Sorozat sorozatAdat) {
+        if(sorozatAdat == null) {
+            Toast.makeText(getContext(), "Probléma a sorozat kiválasztása közben", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         final View view = LayoutInflater.from(getContext()).inflate(R.layout.sorozat_szerkeszto, null);
         EditText etSuly = view.findViewById(R.id.sorozatSuly);
         EditText etIsm = view.findViewById(R.id.sorozatIsm);
 
-        if(sorozatAdat != null) {
-            etSuly.setText(sorozatAdat.getSuly()+"");
-            etIsm.setText(sorozatAdat.getIsmetles()+"");
-        }
+        etSuly.setText(sorozatAdat.getSuly() + "");
+        etIsm.setText(sorozatAdat.getIsmetles() + "");
 
         new AlertDialog.Builder(getContext())
                 .setTitle("Sorozat módosítása")

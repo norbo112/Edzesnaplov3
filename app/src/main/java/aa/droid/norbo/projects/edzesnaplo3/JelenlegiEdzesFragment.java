@@ -1,7 +1,6 @@
 package aa.droid.norbo.projects.edzesnaplo3;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,12 +12,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -62,6 +60,10 @@ public class JelenlegiEdzesFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.tabbed_naplo, container, false);
         rc = view.findViewById(R.id.rcMentettNaploTabbed);
+        //csak a rend kedvéért az alábbi két sor
+        rc.setAdapter(new NaploAdapter(getContext(), new ArrayList<>()));
+        rc.setLayoutManager(new LinearLayoutManager(getContext()));
+
         napi_osszsuly = view.findViewById(R.id.aktualnaplo_ossz_suly_tabbed);
 
         if(savedInstanceState != null) {
@@ -101,7 +103,7 @@ public class JelenlegiEdzesFragment extends Fragment {
         this.naplo = naplo;
         NaploActivity naploActivity = new NaploActivity();
         List<Sorozat> sorozats = naplo.getSorozats();
-        List<NaploActivity.GyakorlatWithSorozat> withSorozats = naploActivity.doitGyakEsSorozat(sorozats);
+        List<NaploActivity.RCViewGyakSorozat> withSorozats = naploActivity.doitGyakEsSorozat(sorozats);
 
         napi_osszsuly.setText(String.format(Locale.getDefault(),"%d Kg napi megmozgatott súly",
                 naploActivity.getNapiOsszSuly(withSorozats)));

@@ -1,6 +1,6 @@
 package aa.droid.norbo.projects.edzesnaplo3;
 
-import androidx.annotation.RequiresApi;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,13 +16,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Scanner;
 import java.util.Set;
+import java.util.regex.MatchResult;
 
 import aa.droid.norbo.projects.edzesnaplo3.database.dao.SorozatWithGyakorlat;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Gyakorlat;
@@ -33,6 +34,7 @@ import aa.droid.norbo.projects.edzesnaplo3.database.viewmodels.NaploViewModel;
 import aa.droid.norbo.projects.edzesnaplo3.database.viewmodels.SorozatViewModel;
 import aa.droid.norbo.projects.edzesnaplo3.providers.NaploContentProvider;
 import aa.droid.norbo.projects.edzesnaplo3.rcview.NaploAdapter;
+import aa.droid.norbo.projects.edzesnaplo3.uiutils.lists.SorozatSorter;
 
 public class NaploActivity extends AppCompatActivity {
     private final String TAG = getClass().getSimpleName();
@@ -58,7 +60,7 @@ public class NaploActivity extends AppCompatActivity {
 
         aktual_napi_osszsuly = findViewById(R.id.aktualnaplo_ossz_suly);
         RecyclerView rc = findViewById(R.id.rcMentettNaplo);
-        List<GyakorlatWithSorozat> sorozats = doitGyakEsSorozat(naplo.getSorozats());
+        List<RCViewGyakSorozat> sorozats = doitGyakEsSorozat(naplo.getSorozats());
 
         aktual_napi_osszsuly.setText(String.format(Locale.getDefault(),"%d Kg napi megmozgatott súly", getNapiOsszSuly(sorozats)));
 
@@ -97,19 +99,19 @@ public class NaploActivity extends AppCompatActivity {
                 "sorozat méret= "+naplo.getSorozats().size());
     }
 
-    public List<GyakorlatWithSorozat> doitGyakEsSorozat(List<Sorozat> sorozats) {
-        List<GyakorlatWithSorozat> withSorozats = new ArrayList<>();
+    public List<RCViewGyakSorozat> doitGyakEsSorozat(List<Sorozat> sorozats) {
+        List<RCViewGyakSorozat> withSorozats = new ArrayList<>();
         Set<Gyakorlat> egyediGyaknevek = new HashSet<>();
         for (int i = 0; i < sorozats.size(); i++) {
             egyediGyaknevek.add(sorozats.get(i).getGyakorlat());
         }
 
         List<Gyakorlat> tempEgyediNevek = new ArrayList<>(egyediGyaknevek);
-        GyakorlatWithSorozat gyakorlatWithSorozat;
+        RCViewGyakSorozat gyakorlatWithSorozat;
 
         for (int i = 0; i < tempEgyediNevek.size(); i++) {
             Gyakorlat gyakorlat = tempEgyediNevek.get(i);
-            gyakorlatWithSorozat = new GyakorlatWithSorozat(gyakorlat);
+            gyakorlatWithSorozat = new RCViewGyakSorozat(gyakorlat);
             for (int j = 0; j < sorozats.size(); j++) {
                 if(gyakorlat.getMegnevezes().equals(sorozats.get(j).getGyakorlat().getMegnevezes())) {
                     gyakorlatWithSorozat.addSorozat(sorozats.get(j));
@@ -121,19 +123,20 @@ public class NaploActivity extends AppCompatActivity {
         return withSorozats;
     }
 
-    public List<GyakorlatWithSorozat> doitMentettNaploMegjelenesre(List<SorozatWithGyakorlat> sorozats) {
-        List<GyakorlatWithSorozat> withSorozats = new ArrayList<>();
+    public List<RCViewGyakSorozat> doitMentettNaploMegjelenesre(List<SorozatWithGyakorlat> sorozats) {
+        SorozatSorter.sorozatSortByIsmIdo(sorozats);
+        List<RCViewGyakSorozat> withSorozats = new ArrayList<>();
         Set<Gyakorlat> egyediGyaknevek = new HashSet<>();
         for (int i = 0; i < sorozats.size(); i++) {
             egyediGyaknevek.add(sorozats.get(i).gyakorlat);
         }
 
         List<Gyakorlat> tempEgyediNevek = new ArrayList<>(egyediGyaknevek);
-        GyakorlatWithSorozat gyakorlatWithSorozat;
+        RCViewGyakSorozat gyakorlatWithSorozat;
 
         for (int i = 0; i < tempEgyediNevek.size(); i++) {
             Gyakorlat gyakorlat = tempEgyediNevek.get(i);
-            gyakorlatWithSorozat = new GyakorlatWithSorozat(gyakorlat);
+            gyakorlatWithSorozat = new RCViewGyakSorozat(gyakorlat);
             for (int j = 0; j < sorozats.size(); j++) {
                 if(gyakorlat.getMegnevezes().equals(sorozats.get(j).gyakorlat.getMegnevezes())) {
                     gyakorlatWithSorozat.addSorozat(sorozats.get(j).sorozat);
@@ -142,10 +145,11 @@ public class NaploActivity extends AppCompatActivity {
             withSorozats.add(gyakorlatWithSorozat);
         }
 
+        SorozatSorter.rcGyakSorozatSort(withSorozats);
         return withSorozats;
     }
 
-    public int getNapiOsszSuly(List<GyakorlatWithSorozat> withSorozats) {
+    public int getNapiOsszSuly(List<RCViewGyakSorozat> withSorozats) {
         int result = 0;
         for (int i = 0; i < withSorozats.size(); i++) {
             result += withSorozats.get(i).getMegmozgatottSuly();
@@ -153,14 +157,14 @@ public class NaploActivity extends AppCompatActivity {
         return result;
     }
 
-    public static class GyakorlatWithSorozat {
+    public static class RCViewGyakSorozat {
         private Gyakorlat gyakorlat;
         private List<Sorozat> sorozatList;
         private int megmozgatottSuly;
         private int elteltido = 0;
         private String TAG = "GyakorlatWithSorozat";
 
-        GyakorlatWithSorozat(Gyakorlat gyakorlat) {
+        RCViewGyakSorozat(Gyakorlat gyakorlat) {
             this.gyakorlat = gyakorlat;
             this.sorozatList = new ArrayList<>();
         }
@@ -195,10 +199,16 @@ public class NaploActivity extends AppCompatActivity {
                 result -= new Date(
                         Long.parseLong(sorozatList.get(0).getIsmidopont())).getMinutes();
             } catch (IllegalArgumentException ex) {
-                Log.e(TAG, "getEltelIdoSzamitas: Dátum parse", ex);
+                Log.i(TAG, "getEltelIdoSzamitas: Dátum parse");
                 result = 0;
             }
             return Math.abs(result);
+        }
+
+        @NonNull
+        @Override
+        public String toString() {
+            return "{ "+gyakorlat.getMegnevezes()+" "+sorozatList+" }";
         }
     }
 }

@@ -11,7 +11,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -34,9 +33,9 @@ public class NaploAdapter extends RecyclerView.Adapter<NaploAdapter.NaploViewHol
     }
 
     private Context context;
-    private List<NaploActivity.GyakorlatWithSorozat> sorozats;
+    private List<NaploActivity.RCViewGyakSorozat> sorozats;
 
-    public NaploAdapter(Context context, List<NaploActivity.GyakorlatWithSorozat> sorozats) {
+    public NaploAdapter(Context context, List<NaploActivity.RCViewGyakSorozat> sorozats) {
         this.context = context;
         this.sorozats = sorozats;
     }
@@ -51,7 +50,7 @@ public class NaploAdapter extends RecyclerView.Adapter<NaploAdapter.NaploViewHol
 
     @Override
     public void onBindViewHolder(@NonNull NaploViewHolder holder, int position) {
-        NaploActivity.GyakorlatWithSorozat gyakorlatWithSorozat = sorozats.get(position);
+        NaploActivity.RCViewGyakSorozat gyakorlatWithSorozat = sorozats.get(position);
         holder.tvGyakCim.setText(gyakorlatWithSorozat.getGyakorlat().getMegnevezes());
         holder.sorozat_szam.setText(""+(position+1));
         ListView listView = holder.listView;

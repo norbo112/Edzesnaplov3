@@ -13,9 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,8 +41,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-
-import javax.security.auth.login.LoginException;
 
 import aa.droid.norbo.projects.edzesnaplo3.adapters.MentettNaploListaAdapter;
 import aa.droid.norbo.projects.edzesnaplo3.database.dao.SorozatWithGyakorlat;
@@ -282,7 +278,7 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
                         @Override
                         public void onChanged(List<SorozatWithGyakorlat> sorozatWithGyakorlats) {
                             menteshezLista = sorozatWithGyakorlats;
-                            List<NaploActivity.GyakorlatWithSorozat> withSorozats = new NaploActivity().doitMentettNaploMegjelenesre(sorozatWithGyakorlats);
+                            List<NaploActivity.RCViewGyakSorozat> withSorozats = new NaploActivity().doitMentettNaploMegjelenesre(sorozatWithGyakorlats);
                             int napiosszsuly = getNapiOsszSuly(withSorozats);
                             osszsnapisuly.setText(String.format(Locale.getDefault(),"%d Kg napi megmozgatott súly", napiosszsuly));
                             rcnaploview.setAdapter(new NaploAdapter(MentettNaploActivity.this, withSorozats));
@@ -306,7 +302,7 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
 
                     @Override
                     protected void onPostExecute(List<SorozatWithGyakorlat> sorozatWithGyakorlats) {
-                        List<NaploActivity.GyakorlatWithSorozat> withSorozats = new NaploActivity().doitMentettNaploMegjelenesre(sorozatWithGyakorlats);
+                        List<NaploActivity.RCViewGyakSorozat> withSorozats = new NaploActivity().doitMentettNaploMegjelenesre(sorozatWithGyakorlats);
                         int napiosszsuly = getNapiOsszSuly(withSorozats);
                         osszsnapisuly.setText(String.format(Locale.getDefault(),"%d Kg napi megmozgatott súly", napiosszsuly));
                         rcnaploview.setAdapter(new NaploAdapter(MentettNaploActivity.this, withSorozats));
@@ -318,7 +314,7 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
         }
     }
 
-    private int getNapiOsszSuly(List<NaploActivity.GyakorlatWithSorozat> withSorozats) {
+    private int getNapiOsszSuly(List<NaploActivity.RCViewGyakSorozat> withSorozats) {
         int result = 0;
         for (int i = 0; i < withSorozats.size(); i++) {
             result += withSorozats.get(i).getMegmozgatottSuly();

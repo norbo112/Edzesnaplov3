@@ -2,7 +2,7 @@
 <project version="4">
   <component name="DBNavigator.Project.DataEditorManager">
     <record-view-column-sorting-type value="BY_INDEX" />
-    <value-preview-text-wrapping value="true" />
+    <value-preview-text-wrapping value="false" />
     <value-preview-pinned value="false" />
   </component>
   <component name="DBNavigator.Project.DataExportManager">
@@ -25,14 +25,14 @@
     <show-object-properties value="true" />
     <loaded-nodes>
       <connection connection-id="792d3748-6ee5-4ee8-ad1c-bee24d7d96f7">
-        <schema name="main" object-types="table, constraint, dataset trigger, column, view, index" />
+        <schema name="main" object-types="view, column, table, constraint, index, dataset trigger" />
       </connection>
     </loaded-nodes>
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="792d3748-6ee5-4ee8-ad1c-bee24d7d96f7">
-      <console name="Connection" type="STANDARD" schema="main" session="Main"><![CDATA[select * from sorozattabla where naplodatum = 'Sun Apr 12 17:25:04 CEST 2020']]></console>
-      <console name="Connection 2" type="STANDARD" schema="main" session="Main"><![CDATA[select * from gyakorlattabla]]></console>
+      <console name="Connection" type="STANDARD" schema="main" session="Main">select * from sorozattabla where naplodatum = 'Sun Apr 12 17:25:04 CEST 2020'</console>
+      <console name="Connection 2" type="STANDARD" schema="main" session="Main">select * from gyakorlattabla</console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
@@ -42,6 +42,10 @@
     <connection id="792d3748-6ee5-4ee8-ad1c-bee24d7d96f7" />
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
+    <filter-actions connection-id="792d3748-6ee5-4ee8-ad1c-bee24d7d96f7" dataset="main.android_metadata" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="792d3748-6ee5-4ee8-ad1c-bee24d7d96f7" dataset="main.room_master_table" active-filter-id="86972e24-90ed-4719-a24e-b8dc064ddcc8">
+      <filter id="86972e24-90ed-4719-a24e-b8dc064ddcc8" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND" />
+    </filter-actions>
     <filter-actions connection-id="792d3748-6ee5-4ee8-ad1c-bee24d7d96f7" dataset="main.sorozattabla" active-filter-id="" />
   </component>
   <component name="DBNavigator.Project.EditorStateManager">
