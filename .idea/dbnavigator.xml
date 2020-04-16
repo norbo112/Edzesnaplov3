@@ -23,16 +23,12 @@
     <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
     <show-object-properties value="true" />
-    <loaded-nodes>
-      <connection connection-id="792d3748-6ee5-4ee8-ad1c-bee24d7d96f7">
-        <schema name="main" object-types="view, column, table, constraint, index, dataset trigger" />
-      </connection>
-    </loaded-nodes>
+    <loaded-nodes />
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="792d3748-6ee5-4ee8-ad1c-bee24d7d96f7">
-      <console name="Connection" type="STANDARD" schema="main" session="Main">select * from sorozattabla where naplodatum = 'Sun Apr 12 17:25:04 CEST 2020'</console>
-      <console name="Connection 2" type="STANDARD" schema="main" session="Main">select * from gyakorlattabla</console>
+      <console name="Connection" type="STANDARD" schema="main" session="Main"><![CDATA[select * from sorozattabla where naplodatum = 'Sun Apr 12 17:25:04 CEST 2020']]></console>
+      <console name="Connection 2" type="STANDARD" schema="main" session="Main"><![CDATA[select * from gyakorlattabla]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
@@ -289,6 +285,8 @@
           <content-type name="Java" enabled="true" />
           <content-type name="SQL" enabled="true" />
           <content-type name="PL/SQL" enabled="true" />
+          <content-type name="JSON" enabled="true" />
+          <content-type name="JSON5" enabled="true" />
           <content-type name="Groovy" enabled="true" />
           <content-type name="AIDL" enabled="true" />
           <content-type name="YAML" enabled="true" />

@@ -47,8 +47,6 @@ public class Tevekenyseg extends AppCompatActivity implements AdatBeallitoInterf
         sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
         sectionsPagerAdapter.addFragment(new GyakorlatValaszto(), "Gyakorlat");
         sectionsPagerAdapter.addFragment(new Edzes(), "Edzés");
-//        sectionsPagerAdapter.addFragment(new JelenlegiEdzesFragment(), "Nyomkövetés");
-//        sectionsPagerAdapter.addFragment(new DiagramFragment(), "Diagram");
         viewPager = findViewById(R.id.view_pager);
         if(viewPager != null) {
             viewPager.setAdapter(sectionsPagerAdapter);
@@ -93,7 +91,6 @@ public class Tevekenyseg extends AppCompatActivity implements AdatBeallitoInterf
         for (int i = 0; i < fragments.size(); i++) {
             if(fragments.get(i) instanceof JelenlegiEdzesFragment) {
                 ((JelenlegiEdzesFragment)fragments.get(i)).updateNaploAdat(naplo);
-                System.out.println("Adatnapló beállítva");
             }
         }
     }

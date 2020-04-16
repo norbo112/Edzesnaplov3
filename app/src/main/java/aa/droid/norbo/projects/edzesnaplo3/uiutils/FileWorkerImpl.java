@@ -49,7 +49,6 @@ public class FileWorkerImpl<T> implements FileWorkerInterface {
             try {
                 if(writer!=null) writer.close();
             } catch (IOException e) {
-                e.printStackTrace();
             }
         }
         return uri;

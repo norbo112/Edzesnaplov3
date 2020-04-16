@@ -67,9 +67,7 @@ public class JelenlegiEdzesFragment extends Fragment {
         napi_osszsuly = view.findViewById(R.id.aktualnaplo_ossz_suly_tabbed);
 
         if(savedInstanceState != null) {
-            System.out.println("JelenlegiEdzesFragment: savedbundle nem null");
             if(savedInstanceState.containsKey("naplo")) {
-                System.out.println("Saved Naplo key is on");
                 naplo = (Naplo) savedInstanceState.getSerializable("naplo");
                 if(naplo != null) updateNaploAdat(naplo);
             }

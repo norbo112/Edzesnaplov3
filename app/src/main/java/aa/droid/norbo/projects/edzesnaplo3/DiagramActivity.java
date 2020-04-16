@@ -1,13 +1,16 @@
 package aa.droid.norbo.projects.edzesnaplo3;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.RectF;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
@@ -15,9 +18,15 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+import com.github.mikephil.charting.utils.SelectionDetail;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,8 +37,9 @@ import aa.droid.norbo.projects.edzesnaplo3.database.entities.Naplo;
 import aa.droid.norbo.projects.edzesnaplo3.database.viewmodels.NaploViewModel;
 import aa.droid.norbo.projects.edzesnaplo3.database.viewmodels.SorozatViewModel;
 import aa.droid.norbo.projects.edzesnaplo3.uiutils.DateTimeFormatter;
+import aa.droid.norbo.projects.edzesnaplo3.widgets.NaploGyakOsszsuly;
 
-public class DiagramActivity extends AppCompatActivity {
+public class DiagramActivity extends AppCompatActivity implements OnChartValueSelectedListener {
     private NaploViewModel naploViewModel;
     private SorozatViewModel sorozatViewModel;
     private BarChart barChart;
@@ -49,6 +59,8 @@ public class DiagramActivity extends AppCompatActivity {
         sorozatViewModel = new ViewModelProvider(this).get(SorozatViewModel.class);
 
         barChart = findViewById(R.id.barchart);
+        barChart.setMaxVisibleValueCount(60);
+        barChart.setOnChartValueSelectedListener(this);
 
         loadList();
     }
@@ -105,7 +117,9 @@ public class DiagramActivity extends AppCompatActivity {
         List<String> barLabels = new ArrayList<>();
         for (int i = 0; i < data.size(); i++) {
             barLabels.add(DateTimeFormatter.getDate(data.get(i).naplo.getNaplodatum()));
-            barEntries.add(new BarEntry(data.get(i).osszsuly, i));
+            BarEntry entry = new BarEntry(data.get(i).osszsuly, i);
+            entry.setData(data.get(i));
+            barEntries.add(entry);
         }
         BarDataSet barDataSet = new BarDataSet(barEntries, "Összsúly");
         BarData barData = new BarData(barLabels, barDataSet);
@@ -113,8 +127,33 @@ public class DiagramActivity extends AppCompatActivity {
         barChart.setData(barData);
         barDataSet.setColor(getResources().getColor(R.color.edzesHatter));
         barDataSet.setValueTextSize(14f);
+
         barChart.setDescription("Megmozgatott súlyok");
-        barChart.animateY(3000);
+        barChart.animateY(2000);
+    }
+
+    @Override
+    public void onValueSelected(Entry e, int dataSetIndex, Highlight h) {
+        if(e == null) return;
+
+        NaploEsOsszSuly n = ((NaploEsOsszSuly)e.getData());
+        new AlertDialog.Builder(this)
+                .setTitle("Edzésnap adatok")
+                .setMessage(n.naplo.getFelhasznalonev()+"\n"+
+                                DateTimeFormatter.getNaploListaDatum(n.naplo.getNaplodatum())+"\n"+
+                        n.osszsuly+" KG")
+                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }
+                ).show();
+    }
+
+    @Override
+    public void onNothingSelected() {
+
     }
 
     private class NaploEsOsszSuly {
