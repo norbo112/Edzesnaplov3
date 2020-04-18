@@ -3,7 +3,6 @@ package aa.droid.norbo.projects.edzesnaplo3.uiutils;
 import android.net.Uri;
 
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 import aa.droid.norbo.projects.edzesnaplo3.database.dao.SorozatWithGyakorlat;

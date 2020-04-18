@@ -69,6 +69,7 @@ public class DiagramActivity extends AppCompatActivity implements OnChartValueSe
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.tevekenyseg, menu);
         menu.removeItem(R.id.app_bar_search);
+        menu.removeItem(R.id.menu_diagram);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -76,6 +77,8 @@ public class DiagramActivity extends AppCompatActivity implements OnChartValueSe
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.menu_mentett_nezet) {
             startActivity(new Intent(this, MentettNaploActivity.class));
+        }else if(item.getItemId() == R.id.menu_tapanyag) {
+            startActivity(new Intent(this, TapanyagActivity.class));
         }
         return super.onOptionsItemSelected(item);
     }

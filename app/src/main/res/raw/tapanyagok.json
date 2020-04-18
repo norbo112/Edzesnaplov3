@@ -1,0 +1,2132 @@
+{"tapanyagok": [
+    {
+      "kcal": 130,
+      "fajta": "Kenyér és tésztafélék",
+      "rost": 0,
+      "zsir": 1,
+      "nev": "1db kifli 45 g",
+      "feherje": 4,
+      "szenhidrat": 26,
+      "kj": 544
+    },
+    {
+      "kcal": 85,
+      "fajta": "Tejtermék",
+      "rost": 0,
+      "zsir": 3.2,
+      "nev": "1db túrórudi 30 g ",
+      "feherje": 5.9,
+      "szenhidrat": 7.7,
+      "kj": 345
+    },
+    {
+      "kcal": 147,
+      "fajta": "Kenyér és tésztafélék",
+      "rost": 0.5,
+      "zsir": 0.4,
+      "nev": "1db zsemle 54 g",
+      "feherje": 5.1,
+      "szenhidrat": 30.8,
+      "kj": 615
+    },
+    {
+      "kcal": 251,
+      "fajta": "Kenyér és tésztafélék",
+      "rost": 1.1,
+      "zsir": 1.4,
+      "nev": "alföldi kenyér",
+      "feherje": 9.8,
+      "szenhidrat": 53.1,
+      "kj": 1054
+    },
+    {
+      "kcal": 30,
+      "fajta": "Gyümölcs",
+      "rost": 1,
+      "zsir": 0,
+      "nev": "alma",
+      "feherje": 0,
+      "szenhidrat": 7,
+      "kj": 126
+    },
+    {
+      "kcal": 83,
+      "fajta": "Gyümölcs",
+      "rost": 2.6,
+      "zsir": 0,
+      "nev": "almabefõtt",
+      "feherje": 0,
+      "szenhidrat": 0,
+      "kj": 348
+    },
+    {
+      "kcal": 41,
+      "fajta": "Tejtermék",
+      "rost": 0,
+      "zsir": 1,
+      "nev": "aludttej",
+      "feherje": 3.4,
+      "szenhidrat": 4.6,
+      "kj": 172
+    },
+    {
+      "kcal": 51,
+      "fajta": "Gyümölcs",
+      "rost": 0.4,
+      "zsir": 0.7,
+      "nev": "ananász",
+      "feherje": 0.4,
+      "szenhidrat": 12,
+      "kj": 213
+    },
+    {
+      "kcal": 78,
+      "fajta": "Gyümölcs",
+      "rost": 0.2,
+      "zsir": 0.5,
+      "nev": "ananászkonzerv",
+      "feherje": 0.2,
+      "szenhidrat": 16.9,
+      "kj": 327
+    },
+    {
+      "kcal": 285,
+      "fajta": "Halak",
+      "rost": 0,
+      "zsir": 25,
+      "nev": "angolna",
+      "feherje": 15,
+      "szenhidrat": 0,
+      "kj": 1200
+    },
+    {
+      "kcal": 350,
+      "fajta": "Gabonakészítmények",
+      "rost": 1.8,
+      "zsir": 1.7,
+      "nev": "árpa teljes árpaliszt ",
+      "feherje": 10.6,
+      "szenhidrat": 72,
+      "kj": 1470
+    },
+    {
+      "kcal": 349,
+      "fajta": "Gabonakészítmények",
+      "rost": 1.5,
+      "zsir": 1.4,
+      "nev": "árpagyöngy",
+      "feherje": 9,
+      "szenhidrat": 75,
+      "kj": 1460
+    },
+    {
+      "kcal": 344,
+      "fajta": "Gabonakészítmények",
+      "rost": 1.3,
+      "zsir": 2.2,
+      "nev": "árpapehely",
+      "feherje": 9.2,
+      "szenhidrat": 44.5,
+      "kj": 1442
+    },
+    {
+      "kcal": 271,
+      "fajta": "Gyümölcs",
+      "rost": 1.6,
+      "zsir": 2,
+      "nev": "aszalt szilva",
+      "feherje": 2.3,
+      "szenhidrat": 61.8,
+      "kj": 1140
+    },
+    {
+      "kcal": 227,
+      "fajta": "Gyümölcs",
+      "rost": 3.3,
+      "zsir": 23.5,
+      "nev": "avokádó",
+      "feherje": 1.9,
+      "szenhidrat": 1.9,
+      "kj": 958
+    },
+    {
+      "kcal": 313,
+      "fajta": "Hüvelyes készítmények",
+      "rost": 3,
+      "zsir": 1,
+      "nev": "bab száraz ",
+      "feherje": 21.9,
+      "szenhidrat": 54.1,
+      "kj": 1310
+    },
+    {
+      "kcal": 245,
+      "fajta": "Kenyér és tésztafélék",
+      "rost": 1.5,
+      "zsir": 0.8,
+      "nev": "bakonyi barna kenyér",
+      "feherje": 8.5,
+      "szenhidrat": 50.6,
+      "kj": 1020
+    },
+    {
+      "kcal": 103,
+      "fajta": "Gyümölcs",
+      "rost": 0.4,
+      "zsir": 0.1,
+      "nev": "banán",
+      "feherje": 1.3,
+      "szenhidrat": 24.2,
+      "kj": 431
+    },
+    {
+      "kcal": 110,
+      "fajta": "Húsok, húskészítmények",
+      "rost": 0,
+      "zsir": 4.5,
+      "nev": "borjúhús",
+      "feherje": 19.5,
+      "szenhidrat": 0.3,
+      "kj": 502
+    },
+    {
+      "kcal": 126,
+      "fajta": "Húsok, húskészítmények",
+      "rost": 0,
+      "zsir": 3.1,
+      "nev": "borjúmáj",
+      "feherje": 20.9,
+      "szenhidrat": 3.6,
+      "kj": 527
+    },
+    {
+      "kcal": 24,
+      "fajta": "Zöldség",
+      "rost": 0.8,
+      "zsir": 0.2,
+      "nev": "brokkoli",
+      "feherje": 3.3,
+      "szenhidrat": 2.1,
+      "kj": 100
+    },
+    {
+      "kcal": 92,
+      "fajta": "Zöldség",
+      "rost": 0.5,
+      "zsir": 0.2,
+      "nev": "burgonya",
+      "feherje": 2.5,
+      "szenhidrat": 20,
+      "kj": 385
+    },
+    {
+      "kcal": 92,
+      "fajta": "Halak",
+      "rost": 0,
+      "zsir": 1.9,
+      "nev": "busa",
+      "feherje": 18,
+      "szenhidrat": 0.6,
+      "kj": 384
+    },
+    {
+      "kcal": 331,
+      "fajta": "Gabonakészítmények",
+      "rost": 1.7,
+      "zsir": 1.8,
+      "nev": "búza teljes búzaliszt ",
+      "feherje": 14.4,
+      "szenhidrat": 64.4,
+      "kj": 1390
+    },
+    {
+      "kcal": 508,
+      "fajta": "Gabonakészítmények",
+      "rost": 4,
+      "zsir": 8,
+      "nev": "búzacsíra",
+      "feherje": 25,
+      "szenhidrat": 42,
+      "kj": 2134
+    },
+    {
+      "kcal": 896,
+      "fajta": "Zsíradék",
+      "rost": 0,
+      "zsir": 99.6,
+      "nev": "búzacsíraolaj",
+      "feherje": 0,
+      "szenhidrat": 0,
+      "kj": 3781
+    },
+    {
+      "kcal": 340,
+      "fajta": "Gabonakészítmények",
+      "rost": 1.2,
+      "zsir": 1,
+      "nev": "búzadara",
+      "feherje": 9.4,
+      "szenhidrat": 73.4,
+      "kj": 1423
+    },
+    {
+      "kcal": 170,
+      "fajta": "Gabonakészítmények",
+      "rost": 50,
+      "zsir": 5.5,
+      "nev": "búzakorpa h.e. ",
+      "feherje": 15,
+      "szenhidrat": 15,
+      "kj": 700
+    },
+    {
+      "kcal": 197,
+      "fajta": "Kenyér és tésztafélék",
+      "rost": 1.5,
+      "zsir": 0.5,
+      "nev": "búzakorpás kenyér",
+      "feherje": 23,
+      "szenhidrat": 22,
+      "kj": 825
+    },
+    {
+      "kcal": 368,
+      "fajta": "Gabonakészítmények",
+      "rost": 0.2,
+      "zsir": 1.3,
+      "nev": "búzaliszt finomított ",
+      "feherje": 12.3,
+      "szenhidrat": 76.3,
+      "kj": 1540
+    },
+    {
+      "kcal": 330,
+      "fajta": "Gabonakészítmények",
+      "rost": 0.9,
+      "zsir": 3.1,
+      "nev": "búzapehely",
+      "feherje": 16.6,
+      "szenhidrat": 32,
+      "kj": 1382
+    },
+    {
+      "kcal": 299,
+      "fajta": "Tejtermék",
+      "rost": 0,
+      "zsir": 23,
+      "nev": "camembert bakony sajt",
+      "feherje": 21.5,
+      "szenhidrat": 1.5,
+      "kj": 1256
+    },
+    {
+      "kcal": 30,
+      "fajta": "Zöldség",
+      "rost": 0.9,
+      "zsir": 0.1,
+      "nev": "cékla",
+      "feherje": 1.3,
+      "szenhidrat": 5.9,
+      "kj": 126
+    },
+    {
+      "kcal": 25,
+      "fajta": "Gyümölcs",
+      "rost": 2.2,
+      "zsir": 5.8,
+      "nev": "citrom",
+      "feherje": 0.4,
+      "szenhidrat": 2.3,
+      "kj": 105
+    },
+    {
+      "kcal": 492,
+      "fajta": "Húsok, húskészítmények",
+      "rost": 0,
+      "zsir": 45.8,
+      "nev": "csabai paprikás szalámi",
+      "feherje": 19.6,
+      "szenhidrat": 0.3,
+      "kj": 2059
+    },
+    {
+      "kcal": 15,
+      "fajta": "Zöldség",
+      "rost": 0,
+      "zsir": 0.1,
+      "nev": "csemege uborka",
+      "feherje": 0.6,
+      "szenhidrat": 2.6,
+      "kj": 65
+    },
+    {
+      "kcal": 61,
+      "fajta": "Gyümölcs",
+      "rost": 0.4,
+      "zsir": 0.7,
+      "nev": "cseresznye",
+      "feherje": 0.8,
+      "szenhidrat": 14,
+      "kj": 255
+    },
+    {
+      "kcal": 309,
+      "fajta": "Hüvelyes készítmények",
+      "rost": 9.5,
+      "zsir": 3.4,
+      "nev": "csicseriborsó",
+      "feherje": 19.8,
+      "szenhidrat": 48.6,
+      "kj": 1292
+    },
+    {
+      "kcal": 39,
+      "fajta": "Zöldség",
+      "rost": 0.8,
+      "zsir": 0.2,
+      "nev": "csiperkegomba",
+      "feherje": 5.9,
+      "szenhidrat": 3.3,
+      "kj": 163
+    },
+    {
+      "kcal": 110,
+      "fajta": "Húsok, húskészítmények",
+      "rost": 0,
+      "zsir": 1,
+      "nev": "csirkehús bõr nélkül",
+      "feherje": 24.7,
+      "szenhidrat": 0.5,
+      "kj": 440
+    },
+    {
+      "kcal": 125,
+      "fajta": "Húsok, húskészítmények",
+      "rost": 0,
+      "zsir": 3.7,
+      "nev": "csirkemáj",
+      "feherje": 20,
+      "szenhidrat": 3,
+      "kj": 525
+    },
+    {
+      "kcal": 30,
+      "fajta": "Zöldség",
+      "rost": 0.8,
+      "zsir": 0.4,
+      "nev": "cukkini",
+      "feherje": 1.5,
+      "szenhidrat": 5.3,
+      "kj": 126
+    },
+    {
+      "kcal": 400,
+      "fajta": "Egyéb",
+      "rost": 0,
+      "zsir": 0,
+      "nev": "cukor",
+      "feherje": 0,
+      "szenhidrat": 99.9,
+      "kj": 1670
+    },
+    {
+      "kcal": 654,
+      "fajta": "Olajos magvak",
+      "rost": 2.8,
+      "zsir": 57,
+      "nev": "dió",
+      "feherje": 18.6,
+      "szenhidrat": 11.7,
+      "kj": 2740
+    },
+    {
+      "kcal": 351,
+      "fajta": "Tejtermék",
+      "rost": 0,
+      "zsir": 26.6,
+      "nev": "edami sajt",
+      "feherje": 26.2,
+      "szenhidrat": 1.7,
+      "kj": 1474
+    },
+    {
+      "kcal": 38,
+      "fajta": "Gyümölcs",
+      "rost": 2.7,
+      "zsir": 1.4,
+      "nev": "egres",
+      "feherje": 0.6,
+      "szenhidrat": 8,
+      "kj": 159
+    },
+    {
+      "kcal": 103,
+      "fajta": "Egyéb",
+      "rost": 0.2,
+      "zsir": 1.4,
+      "nev": "élesztõ",
+      "feherje": 13.8,
+      "szenhidrat": 9.8,
+      "kj": 412
+    },
+    {
+      "kcal": 382,
+      "fajta": "Tejtermék",
+      "rost": 0,
+      "zsir": 29.4,
+      "nev": "ementáli sajt",
+      "feherje": 27.8,
+      "szenhidrat": 1.5,
+      "kj": 1604
+    },
+    {
+      "kcal": 28,
+      "fajta": "Zöldség",
+      "rost": 0,
+      "zsir": 0.3,
+      "nev": "fagyasztott brokkoli",
+      "feherje": 2.3,
+      "szenhidrat": 4,
+      "kj": 120
+    },
+    {
+      "kcal": 30,
+      "fajta": "Gyümölcs",
+      "rost": 0,
+      "zsir": 0.2,
+      "nev": "fagyasztott málna",
+      "feherje": 1.2,
+      "szenhidrat": 5.8,
+      "kj": 120
+    },
+    {
+      "kcal": 50,
+      "fajta": "Gyümölcs",
+      "rost": 0,
+      "zsir": 0.2,
+      "nev": "fagyasztott meggy",
+      "feherje": 0.8,
+      "szenhidrat": 11.2,
+      "kj": 210
+    },
+    {
+      "kcal": 30,
+      "fajta": "Zöldség",
+      "rost": 1.3,
+      "zsir": 0.3,
+      "nev": "fagyasztott zöldbab",
+      "feherje": 2.5,
+      "szenhidrat": 4.2,
+      "kj": 120
+    },
+    {
+      "kcal": 90,
+      "fajta": "Zöldség",
+      "rost": 2.7,
+      "zsir": 0.4,
+      "nev": "fagyasztott zöldborsó",
+      "feherje": 6.5,
+      "szenhidrat": 15,
+      "kj": 370
+    },
+    {
+      "kcal": 16,
+      "fajta": "Zöldség",
+      "rost": 0.6,
+      "zsir": 0.3,
+      "nev": "fejes saláta",
+      "feherje": 1.4,
+      "szenhidrat": 2,
+      "kj": 64
+    },
+    {
+      "kcal": 84,
+      "fajta": "Halak",
+      "rost": 0,
+      "zsir": 0.8,
+      "nev": "fogas",
+      "feherje": 19,
+      "szenhidrat": 0.2,
+      "kj": 351
+    },
+    {
+      "kcal": 133,
+      "fajta": "Zöldség",
+      "rost": 0.8,
+      "zsir": 0.1,
+      "nev": "fokhagyma",
+      "feherje": 6.8,
+      "szenhidrat": 26.3,
+      "kj": 559
+    },
+    {
+      "kcal": 34,
+      "fajta": "Gyümölcs",
+      "rost": 0.8,
+      "zsir": 0.6,
+      "nev": "földieper",
+      "feherje": 0.9,
+      "szenhidrat": 7.2,
+      "kj": 142
+    },
+    {
+      "kcal": 610,
+      "fajta": "Olajos magvak",
+      "rost": 0,
+      "zsir": 47.2,
+      "nev": "földimogyoró",
+      "feherje": 26.7,
+      "szenhidrat": 14.7,
+      "kj": 2560
+    },
+    {
+      "kcal": 270,
+      "fajta": "Gyümölcs",
+      "rost": 6.5,
+      "zsir": 1.3,
+      "nev": "füge szárított ",
+      "feherje": 3.5,
+      "szenhidrat": 62,
+      "kj": 1400
+    },
+    {
+      "kcal": 15,
+      "fajta": "Tojás",
+      "rost": 0,
+      "zsir": 1.1,
+      "nev": "fürjtojás 1db=10 g ",
+      "feherje": 1.3,
+      "szenhidrat": 0.1,
+      "kj": 63
+    },
+    {
+      "kcal": 3,
+      "fajta": "Tojás",
+      "rost": 0,
+      "zsir": 0.01,
+      "nev": "fürjtojásfehérje 1db=6.3 g ",
+      "feherje": 0.66,
+      "szenhidrat": 0.06,
+      "kj": 12
+    },
+    {
+      "kcal": 339,
+      "fajta": "Kenyér és tésztafélék",
+      "rost": 1,
+      "zsir": 1.8,
+      "nev": "fürjtojásos barnatészta",
+      "feherje": 13,
+      "szenhidrat": 65.2,
+      "kj": 1414
+    },
+    {
+      "kcal": 8,
+      "fajta": "Tojás",
+      "rost": 0,
+      "zsir": 1.03,
+      "nev": "fürjtojássárgája 1db=6.3 g ",
+      "feherje": 0.43,
+      "szenhidrat": 0.02,
+      "kj": 33
+    },
+    {
+      "kcal": 156,
+      "fajta": "Húsok, húskészítmények",
+      "rost": 0,
+      "zsir": 7.1,
+      "nev": "gépsonka",
+      "feherje": 22.6,
+      "szenhidrat": 0.4,
+      "kj": 637
+    },
+    {
+      "kcal": 167,
+      "fajta": "Olajos magvak",
+      "rost": 2.8,
+      "zsir": 1.5,
+      "nev": "gesztenye",
+      "feherje": 4.8,
+      "szenhidrat": 32.6,
+      "kj": 700
+    },
+    {
+      "kcal": 29,
+      "fajta": "Zöldség",
+      "rost": 0.8,
+      "zsir": 0.5,
+      "nev": "gombakonzerv",
+      "feherje": 2.3,
+      "szenhidrat": 3,
+      "kj": 100
+    },
+    {
+      "kcal": 29,
+      "fajta": "Gyümölcs",
+      "rost": 0.8,
+      "zsir": 0.2,
+      "nev": "görögdinnye",
+      "feherje": 0.5,
+      "szenhidrat": 6.5,
+      "kj": 122
+    },
+    {
+      "kcal": 265,
+      "fajta": "Kenyér és tésztafélék",
+      "rost": 1.8,
+      "zsir": 1,
+      "nev": "graham kenyér",
+      "feherje": 10.1,
+      "szenhidrat": 54,
+      "kj": 1110
+    },
+    {
+      "kcal": 35,
+      "fajta": "Gyümölcs",
+      "rost": 0.4,
+      "zsir": 1.6,
+      "nev": "grapefriut",
+      "feherje": 0.5,
+      "szenhidrat": 7.2,
+      "kj": 146
+    },
+    {
+      "kcal": 73,
+      "fajta": "Tejtermék",
+      "rost": 0.2,
+      "zsir": 2,
+      "nev": "gyümölcsös joghurt",
+      "feherje": 3.5,
+      "szenhidrat": 10.3,
+      "kj": 307
+    },
+    {
+      "kcal": 39,
+      "fajta": "Zöldség",
+      "rost": 0.7,
+      "zsir": 0.1,
+      "nev": "hagyma",
+      "feherje": 1.2,
+      "szenhidrat": 8.3,
+      "kj": 163
+    },
+    {
+      "kcal": 78,
+      "fajta": "Halak",
+      "rost": 0,
+      "zsir": 0.8,
+      "nev": "harcsa",
+      "feherje": 17.5,
+      "szenhidrat": 0.2,
+      "kj": 326
+    },
+    {
+      "kcal": 89,
+      "fajta": "Halak",
+      "rost": 0,
+      "zsir": 0.9,
+      "nev": "heck",
+      "feherje": 20.2,
+      "szenhidrat": 0,
+      "kj": 374
+    },
+    {
+      "kcal": 298,
+      "fajta": "Húsok, húskészítmények",
+      "rost": 0,
+      "zsir": 23,
+      "nev": "hurka májas",
+      "feherje": 14,
+      "szenhidrat": 8.7,
+      "kj": 1247
+    },
+    {
+      "kcal": 291,
+      "fajta": "Húsok, húskészítmények",
+      "rost": 0,
+      "zsir": 23,
+      "nev": "hurka véres",
+      "feherje": 13.1,
+      "szenhidrat": 8,
+      "kj": 1218
+    },
+    {
+      "kcal": 65,
+      "fajta": "Tejtermék",
+      "rost": 0,
+      "zsir": 3.6,
+      "nev": "joghurt",
+      "feherje": 3.4,
+      "szenhidrat": 4.6,
+      "kj": 272
+    },
+    {
+      "kcal": 197,
+      "fajta": "Tejtermék",
+      "rost": 0,
+      "zsir": 12.4,
+      "nev": "juhtúró",
+      "feherje": 17.9,
+      "szenhidrat": 3.5,
+      "kj": 823
+    },
+    {
+      "kcal": 186,
+      "fajta": "Húsok, húskészítmények",
+      "rost": 0,
+      "zsir": 12,
+      "nev": "kacsahús",
+      "feherje": 19,
+      "szenhidrat": 0.4,
+      "kj": 781
+    },
+    {
+      "kcal": 65,
+      "fajta": "Halak",
+      "rost": 0,
+      "zsir": 2,
+      "nev": "kagyló",
+      "feherje": 9,
+      "szenhidrat": 6.5,
+      "kj": 273
+    },
+    {
+      "kcal": 185,
+      "fajta": "Halak",
+      "rost": 0,
+      "zsir": 1.5,
+      "nev": "kagylókonzerv",
+      "feherje": 7.8,
+      "szenhidrat": 0,
+      "kj": 780
+    },
+    {
+      "kcal": 65,
+      "fajta": "Tejtermék",
+      "rost": 0,
+      "zsir": 0.5,
+      "nev": "kakaó tejes ",
+      "feherje": 3.5,
+      "szenhidrat": 11.4,
+      "kj": 270
+    },
+    {
+      "kcal": 386,
+      "fajta": "Egyéb",
+      "rost": 16.8,
+      "zsir": 19,
+      "nev": "kakaópor",
+      "feherje": 21.4,
+      "szenhidrat": 32.4,
+      "kj": 1621
+    },
+    {
+      "kcal": 31,
+      "fajta": "Zöldség",
+      "rost": 0.7,
+      "zsir": 0.2,
+      "nev": "káposzta fejes ",
+      "feherje": 1.6,
+      "szenhidrat": 5.7,
+      "kj": 130
+    },
+    {
+      "kcal": 20,
+      "fajta": "Zöldség",
+      "rost": 0.7,
+      "zsir": 0.2,
+      "nev": "káposzta savanyú ",
+      "feherje": 1.1,
+      "szenhidrat": 3.4,
+      "kj": 84
+    },
+    {
+      "kcal": 31,
+      "fajta": "Zöldség",
+      "rost": 0.6,
+      "zsir": 0.2,
+      "nev": "káposzta vörös ",
+      "feherje": 1.7,
+      "szenhidrat": 5.7,
+      "kj": 130
+    },
+    {
+      "kcal": 38,
+      "fajta": "Zöldség",
+      "rost": 0.8,
+      "zsir": 0.2,
+      "nev": "karalábé",
+      "feherje": 2.1,
+      "szenhidrat": 6.9,
+      "kj": 160
+    },
+    {
+      "kcal": 29,
+      "fajta": "Zöldség",
+      "rost": 0.9,
+      "zsir": 0.4,
+      "nev": "karfiol",
+      "feherje": 2.4,
+      "szenhidrat": 3.9,
+      "kj": 121
+    },
+    {
+      "kcal": 173,
+      "fajta": "Tejtermék",
+      "rost": 0,
+      "zsir": 16,
+      "nev": "kavétejszín",
+      "feherje": 3.3,
+      "szenhidrat": 3.9,
+      "kj": 723
+    },
+    {
+      "kcal": 266,
+      "fajta": "Halak",
+      "rost": 0,
+      "zsir": 16,
+      "nev": "kaviár",
+      "feherje": 26,
+      "szenhidrat": 4.6,
+      "kj": 1117
+    },
+    {
+      "kcal": 33,
+      "fajta": "Tejtermék",
+      "rost": 0,
+      "zsir": 0.1,
+      "nev": "kefír sovány ",
+      "feherje": 3.4,
+      "szenhidrat": 4.6,
+      "kj": 138
+    },
+    {
+      "kcal": 49,
+      "fajta": "Zöldség",
+      "rost": 1.4,
+      "zsir": 0.6,
+      "nev": "kelbimbó bimbós kel ",
+      "feherje": 4.9,
+      "szenhidrat": 6.1,
+      "kj": 206
+    },
+    {
+      "kcal": 34,
+      "fajta": "Zöldség",
+      "rost": 0.6,
+      "zsir": 0.3,
+      "nev": "kelkáposzta",
+      "feherje": 3.6,
+      "szenhidrat": 4.3,
+      "kj": 142
+    },
+    {
+      "kcal": 300,
+      "fajta": "Tejtermék",
+      "rost": 0,
+      "zsir": 25,
+      "nev": "kenhetõ sajt mackó ",
+      "feherje": 16.7,
+      "szenhidrat": 2,
+      "kj": 1260
+    },
+    {
+      "kcal": 77,
+      "fajta": "Halak",
+      "rost": 0,
+      "zsir": 0.8,
+      "nev": "keszeg",
+      "feherje": 16.9,
+      "szenhidrat": 0.2,
+      "kj": 320
+    },
+    {
+      "kcal": 11,
+      "fajta": "Zöldség",
+      "rost": 0.6,
+      "zsir": 0.1,
+      "nev": "kígyóuborka",
+      "feherje": 1,
+      "szenhidrat": 1.7,
+      "kj": 46
+    },
+    {
+      "kcal": 55,
+      "fajta": "Gyümölcs",
+      "rost": 0.8,
+      "zsir": 0.6,
+      "nev": "kiwi",
+      "feherje": 1,
+      "szenhidrat": 11.3,
+      "kj": 231
+    },
+    {
+      "kcal": 60,
+      "fajta": "Zöldség",
+      "rost": 0,
+      "zsir": 0.2,
+      "nev": "konzerv zöldborsó",
+      "feherje": 4.2,
+      "szenhidrat": 10.1,
+      "kj": 250
+    },
+    {
+      "kcal": 12,
+      "fajta": "Zöldség",
+      "rost": 0.6,
+      "zsir": 0.2,
+      "nev": "kovászos uborka",
+      "feherje": 0.7,
+      "szenhidrat": 1.9,
+      "kj": 50
+    },
+    {
+      "kcal": 362,
+      "fajta": "Gabonakészítmények",
+      "rost": 1,
+      "zsir": 3.9,
+      "nev": "köles hántolt ",
+      "feherje": 11,
+      "szenhidrat": 70.6,
+      "kj": 1520
+    },
+    {
+      "kcal": 218,
+      "fajta": "Tejtermék",
+      "rost": 0,
+      "zsir": 10,
+      "nev": "köményes sajt",
+      "feherje": 30.5,
+      "szenhidrat": 1.6,
+      "kj": 916
+    },
+    {
+      "kcal": 50,
+      "fajta": "Gyümölcs",
+      "rost": 2.6,
+      "zsir": 0.3,
+      "nev": "körte",
+      "feherje": 0.4,
+      "szenhidrat": 12,
+      "kj": 209
+    },
+    {
+      "kcal": 215,
+      "fajta": "Tejtermék",
+      "rost": 0,
+      "zsir": 8.8,
+      "nev": "krémtúró",
+      "feherje": 15.1,
+      "szenhidrat": 19.1,
+      "kj": 905
+    },
+    {
+      "kcal": 127,
+      "fajta": "Zöldség",
+      "rost": 1.5,
+      "zsir": 1.6,
+      "nev": "kukorica",
+      "feherje": 4.7,
+      "szenhidrat": 23.6,
+      "kj": 531
+    },
+    {
+      "kcal": 347,
+      "fajta": "Gabonakészítmények",
+      "rost": 1.5,
+      "zsir": 3.1,
+      "nev": "kukoricaliszt és dara",
+      "feherje": 9.6,
+      "szenhidrat": 70.2,
+      "kj": 1452
+    },
+    {
+      "kcal": 360,
+      "fajta": "Gabonakészítmények",
+      "rost": 0.6,
+      "zsir": 0.6,
+      "nev": "kukoricapehely",
+      "feherje": 7.7,
+      "szenhidrat": 83,
+      "kj": 1512
+    },
+    {
+      "kcal": 42,
+      "fajta": "Zöldség",
+      "rost": 2.8,
+      "zsir": 0.7,
+      "nev": "laskagomba",
+      "feherje": 1.9,
+      "szenhidrat": 6,
+      "kj": 175
+    },
+    {
+      "kcal": 206,
+      "fajta": "Halak",
+      "rost": 0,
+      "zsir": 14,
+      "nev": "lazac",
+      "feherje": 20,
+      "szenhidrat": 0,
+      "kj": 865
+    },
+    {
+      "kcal": 333,
+      "fajta": "Zöldség",
+      "rost": 4,
+      "zsir": 1.9,
+      "nev": "lencse",
+      "feherje": 26,
+      "szenhidrat": 53,
+      "kj": 1393
+    },
+    {
+      "kcal": 198,
+      "fajta": "Húsok, húskészítmények",
+      "rost": 0,
+      "zsir": 13.6,
+      "nev": "libahús",
+      "feherje": 18.5,
+      "szenhidrat": 0.3,
+      "kj": 832
+    },
+    {
+      "kcal": 203,
+      "fajta": "Húsok, húskészítmények",
+      "rost": 0,
+      "zsir": 40.2,
+      "nev": "libamáj",
+      "feherje": 22.1,
+      "szenhidrat": 0.5,
+      "kj": 1891
+    },
+    {
+      "kcal": 893,
+      "fajta": "Zsíradék",
+      "rost": 0,
+      "zsir": 99,
+      "nev": "libazsír",
+      "feherje": 0.5,
+      "szenhidrat": 0,
+      "kj": 3736
+    },
+    {
+      "kcal": 537,
+      "fajta": "Olajos magvak",
+      "rost": 0,
+      "zsir": 38.2,
+      "nev": "mák",
+      "feherje": 20.5,
+      "szenhidrat": 23.9,
+      "kj": 2250
+    },
+    {
+      "kcal": 28,
+      "fajta": "Gyümölcs",
+      "rost": 5.6,
+      "zsir": 0.8,
+      "nev": "málna",
+      "feherje": 1.2,
+      "szenhidrat": 5.4,
+      "kj": 117
+    },
+    {
+      "kcal": 627,
+      "fajta": "Olajos magvak",
+      "rost": 3.7,
+      "zsir": 52.2,
+      "nev": "mandula",
+      "feherje": 27.6,
+      "szenhidrat": 6.8,
+      "kj": 2630
+    },
+    {
+      "kcal": 760,
+      "fajta": "Tejtermék",
+      "rost": 0,
+      "zsir": 84,
+      "nev": "margarin",
+      "feherje": 0.5,
+      "szenhidrat": 0.4,
+      "kj": 3180
+    },
+    {
+      "kcal": 400,
+      "fajta": "Tejtermék",
+      "rost": 0,
+      "zsir": 40,
+      "nev": "margarin light ",
+      "feherje": 0.8,
+      "szenhidrat": 0.8,
+      "kj": 1720
+    },
+    {
+      "kcal": 255,
+      "fajta": "Zsíradék",
+      "rost": 0,
+      "zsir": 21,
+      "nev": "marhahús kissé zsíros ",
+      "feherje": 16,
+      "szenhidrat": 0.5,
+      "kj": 1071
+    },
+    {
+      "kcal": 228,
+      "fajta": "Húsok, húskészítmények",
+      "rost": 0,
+      "zsir": 19,
+      "nev": "marhahús sovány ",
+      "feherje": 16,
+      "szenhidrat": 0.6,
+      "kj": 958
+    },
+    {
+      "kcal": 355,
+      "fajta": "Tejtermék",
+      "rost": 0,
+      "zsir": 29.7,
+      "nev": "márványsajt",
+      "feherje": 20,
+      "szenhidrat": 2,
+      "kj": 1485
+    },
+    {
+      "kcal": 276,
+      "fajta": "Gyümölcs",
+      "rost": 2.8,
+      "zsir": 6.7,
+      "nev": "mazsola",
+      "feherje": 2.4,
+      "szenhidrat": 65,
+      "kj": 1159
+    },
+    {
+      "kcal": 51,
+      "fajta": "Gyümölcs",
+      "rost": 0.3,
+      "zsir": 1.4,
+      "nev": "meggy",
+      "feherje": 0.8,
+      "szenhidrat": 11,
+      "kj": 213
+    },
+    {
+      "kcal": 90,
+      "fajta": "Gyümölcs",
+      "rost": 0,
+      "zsir": 1,
+      "nev": "meggybefõtt",
+      "feherje": 0.6,
+      "szenhidrat": 20.8,
+      "kj": 370
+    },
+    {
+      "kcal": 326,
+      "fajta": "Egyéb",
+      "rost": 0,
+      "zsir": 0,
+      "nev": "méz",
+      "feherje": 0.4,
+      "szenhidrat": 81,
+      "kj": 1362
+    },
+    {
+      "kcal": 691,
+      "fajta": "Gyümölcs",
+      "rost": 3.2,
+      "zsir": 63.5,
+      "nev": "mogyoró",
+      "feherje": 15.6,
+      "szenhidrat": 8.7,
+      "kj": 2900
+    },
+    {
+      "kcal": 94,
+      "fajta": "Egyéb",
+      "rost": 0,
+      "zsir": 6.2,
+      "nev": "mustár",
+      "feherje": 5.1,
+      "szenhidrat": 4.5,
+      "kj": 395
+    },
+    {
+      "kcal": 502,
+      "fajta": "Olajos magvak",
+      "rost": 0,
+      "zsir": 47.5,
+      "nev": "napraforgómag",
+      "feherje": 18.7,
+      "szenhidrat": 10.3,
+      "kj": 2108
+    },
+    {
+      "kcal": 40,
+      "fajta": "Gyümölcs",
+      "rost": 0.5,
+      "zsir": 1.5,
+      "nev": "narancs",
+      "feherje": 0.6,
+      "szenhidrat": 8.5,
+      "kj": 167
+    },
+    {
+      "kcal": 222,
+      "fajta": "Zöldség",
+      "rost": 0,
+      "zsir": 21.9,
+      "nev": "olívabogyó",
+      "feherje": 0.2,
+      "szenhidrat": 6.5,
+      "kj": 937
+    },
+    {
+      "kcal": 898,
+      "fajta": "Zsíradék",
+      "rost": 0,
+      "zsir": 99.8,
+      "nev": "olívaolaj napraforgóolaj szójaolaj",
+      "feherje": 0,
+      "szenhidrat": 0,
+      "kj": 3757
+    },
+    {
+      "kcal": 40,
+      "fajta": "Gyümölcs",
+      "rost": 1,
+      "zsir": 0.3,
+      "nev": "õszibarack",
+      "feherje": 0.7,
+      "szenhidrat": 9,
+      "kj": 167
+    },
+    {
+      "kcal": 292,
+      "fajta": "Tejtermék",
+      "rost": 0,
+      "zsir": 18.5,
+      "nev": "óvári sajt",
+      "feherje": 29.6,
+      "szenhidrat": 1.7,
+      "kj": 1226
+    },
+    {
+      "kcal": 25,
+      "fajta": "Zöldség",
+      "rost": 0.7,
+      "zsir": 0.2,
+      "nev": "padlizsán",
+      "feherje": 1.3,
+      "szenhidrat": 4.8,
+      "kj": 105
+    },
+    {
+      "kcal": 285,
+      "fajta": "Tejtermék",
+      "rost": 0,
+      "zsir": 21,
+      "nev": "pálpusztai sajt",
+      "feherje": 22.6,
+      "szenhidrat": 1.4,
+      "kj": 1197
+    },
+    {
+      "kcal": 382,
+      "fajta": "Tejtermék",
+      "rost": 0,
+      "zsir": 29.4,
+      "nev": "pannónia sajt",
+      "feherje": 27.8,
+      "szenhidrat": 1.5,
+      "kj": 1604
+    },
+    {
+      "kcal": 20,
+      "fajta": "Zöldség",
+      "rost": 0.9,
+      "zsir": 0.3,
+      "nev": "paprika zöld ",
+      "feherje": 1.2,
+      "szenhidrat": 3,
+      "kj": 84
+    },
+    {
+      "kcal": 22,
+      "fajta": "Zöldség",
+      "rost": 0.5,
+      "zsir": 0.2,
+      "nev": "paradicsom",
+      "feherje": 1,
+      "szenhidrat": 4,
+      "kj": 92
+    },
+    {
+      "kcal": 110,
+      "fajta": "Zöldség",
+      "rost": 0,
+      "zsir": 1,
+      "nev": "paradicsompüré",
+      "feherje": 5,
+      "szenhidrat": 20,
+      "kj": 460
+    },
+    {
+      "kcal": 212,
+      "fajta": "Húsok, húskészítmények",
+      "rost": 0,
+      "zsir": 18.2,
+      "nev": "párizsi krinolin",
+      "feherje": 11.9,
+      "szenhidrat": 0.2,
+      "kj": 887
+    },
+    {
+      "kcal": 374,
+      "fajta": "Tejtermék",
+      "rost": 0,
+      "zsir": 28.9,
+      "nev": "parmezán sajt",
+      "feherje": 26.8,
+      "szenhidrat": 1.6,
+      "kj": 1570
+    },
+    {
+      "kcal": 323,
+      "fajta": "Tejtermék",
+      "rost": 0,
+      "zsir": 25,
+      "nev": "pelsó sajt",
+      "feherje": 24.1,
+      "szenhidrat": 1.4,
+      "kj": 1334
+    },
+    {
+      "kcal": 29,
+      "fajta": "Zöldség",
+      "rost": 1.2,
+      "zsir": 0.1,
+      "nev": "petrezselyemgyökér",
+      "feherje": 1.2,
+      "szenhidrat": 5.9,
+      "kj": 121
+    },
+    {
+      "kcal": 60,
+      "fajta": "Zöldség",
+      "rost": 1.4,
+      "zsir": 0.4,
+      "nev": "petrezselyemzöld",
+      "feherje": 4.4,
+      "szenhidrat": 9.8,
+      "kj": 251
+    },
+    {
+      "kcal": 113,
+      "fajta": "Halak",
+      "rost": 0,
+      "zsir": 2.9,
+      "nev": "pisztráng",
+      "feherje": 21.5,
+      "szenhidrat": 0,
+      "kj": 452
+    },
+    {
+      "kcal": 100,
+      "fajta": "Halak",
+      "rost": 0,
+      "zsir": 4,
+      "nev": "ponty",
+      "feherje": 16,
+      "szenhidrat": 0.1,
+      "kj": 420
+    },
+    {
+      "kcal": 36,
+      "fajta": "Zöldség",
+      "rost": 1.3,
+      "zsir": 0.3,
+      "nev": "póréhagyma",
+      "feherje": 2.2,
+      "szenhidrat": 6.3,
+      "kj": 151
+    },
+    {
+      "kcal": 169,
+      "fajta": "Húsok, húskészítmények",
+      "rost": 0,
+      "zsir": 9.5,
+      "nev": "pulykamell",
+      "feherje": 20.5,
+      "szenhidrat": 0.4,
+      "kj": 708
+    },
+    {
+      "kcal": 79,
+      "fajta": "Halak",
+      "rost": 0,
+      "zsir": 1.1,
+      "nev": "rák",
+      "feherje": 17.2,
+      "szenhidrat": 0,
+      "kj": 335
+    },
+    {
+      "kcal": 69,
+      "fajta": "Halak",
+      "rost": 0,
+      "zsir": 0.5,
+      "nev": "rákkonzerv",
+      "feherje": 15,
+      "szenhidrat": 0,
+      "kj": 290
+    },
+    {
+      "kcal": 15,
+      "fajta": "Zöldség",
+      "rost": 0.8,
+      "zsir": 0.1,
+      "nev": "retek",
+      "feherje": 1.2,
+      "szenhidrat": 2.2,
+      "kj": 63
+    },
+    {
+      "kcal": 167,
+      "fajta": "Kenyér és tésztafélék",
+      "rost": 0.7,
+      "zsir": 7,
+      "nev": "réteslap 1 csomag",
+      "feherje": 3,
+      "szenhidrat": 23,
+      "kj": 699
+    },
+    {
+      "kcal": 33,
+      "fajta": "Zöldség",
+      "rost": 4.3,
+      "zsir": 1.2,
+      "nev": "ribiszke vörös ",
+      "feherje": 0.6,
+      "szenhidrat": 7,
+      "kj": 138
+    },
+    {
+      "kcal": 360,
+      "fajta": "Gabonakészítmények",
+      "rost": 1.5,
+      "zsir": 1.9,
+      "nev": "rizs hántolatlan ",
+      "feherje": 7.5,
+      "szenhidrat": 77.4,
+      "kj": 1504
+    },
+    {
+      "kcal": 345,
+      "fajta": "Gabonakészítmények",
+      "rost": 0.5,
+      "zsir": 0.3,
+      "nev": "rizs hántolt fényezett ",
+      "feherje": 8,
+      "szenhidrat": 77.5,
+      "kj": 1443
+    },
+    {
+      "kcal": 255,
+      "fajta": "Kenyér és tésztafélék",
+      "rost": 1.5,
+      "zsir": 0.9,
+      "nev": "rozskenyér",
+      "feherje": 8.1,
+      "szenhidrat": 53.6,
+      "kj": 1067
+    },
+    {
+      "kcal": 344,
+      "fajta": "Gabonakészítmények",
+      "rost": 1,
+      "zsir": 1.1,
+      "nev": "rozsliszt",
+      "feherje": 10,
+      "szenhidrat": 73.6,
+      "kj": 1439
+    },
+    {
+      "kcal": 344,
+      "fajta": "Gabonakészítmények",
+      "rost": 0.5,
+      "zsir": 1.9,
+      "nev": "rozspehely",
+      "feherje": 11.5,
+      "szenhidrat": 36.8,
+      "kj": 1440
+    },
+    {
+      "kcal": 46,
+      "fajta": "Gyümölcs",
+      "rost": 0.8,
+      "zsir": 0.6,
+      "nev": "sárgabarack kajszi ",
+      "feherje": 0.9,
+      "szenhidrat": 10.2,
+      "kj": 192
+    },
+    {
+      "kcal": 362,
+      "fajta": "Zöldség",
+      "rost": 1,
+      "zsir": 1.3,
+      "nev": "sárgaborsó",
+      "feherje": 27.2,
+      "szenhidrat": 60.5,
+      "kj": 1522
+    },
+    {
+      "kcal": 39,
+      "fajta": "Gyümölcs",
+      "rost": 0.7,
+      "zsir": 0.1,
+      "nev": "sárgadinnye",
+      "feherje": 0.3,
+      "szenhidrat": 9.5,
+      "kj": 163
+    },
+    {
+      "kcal": 35,
+      "fajta": "Zöldség",
+      "rost": 1,
+      "zsir": 0.2,
+      "nev": "sárgarépa",
+      "feherje": 1.2,
+      "szenhidrat": 8.1,
+      "kj": 146
+    },
+    {
+      "kcal": 286,
+      "fajta": "Húsok, húskészítmények",
+      "rost": 0,
+      "zsir": 23.9,
+      "nev": "sertéshús kissé zsíros ",
+      "feherje": 17.5,
+      "szenhidrat": 0.3,
+      "kj": 1201
+    },
+    {
+      "kcal": 159,
+      "fajta": "Húsok, húskészítmények",
+      "rost": 0,
+      "zsir": 8.1,
+      "nev": "sertéshús sovány ",
+      "feherje": 21,
+      "szenhidrat": 0.4,
+      "kj": 668
+    },
+    {
+      "kcal": 422,
+      "fajta": "Húsok, húskészítmények",
+      "rost": 0,
+      "zsir": 42,
+      "nev": "sertéshús zsíros ",
+      "feherje": 12,
+      "szenhidrat": 0.3,
+      "kj": 1772
+    },
+    {
+      "kcal": 136,
+      "fajta": "Húsok, húskészítmények",
+      "rost": 0,
+      "zsir": 5.3,
+      "nev": "sertésmáj",
+      "feherje": 19.5,
+      "szenhidrat": 2.5,
+      "kj": 569
+    },
+    {
+      "kcal": 213,
+      "fajta": "Húsok, húskészítmények",
+      "rost": 0,
+      "zsir": 16,
+      "nev": "sertésnyelv",
+      "feherje": 16.8,
+      "szenhidrat": 0.5,
+      "kj": 891
+    },
+    {
+      "kcal": 898,
+      "fajta": "Zsíradék",
+      "rost": 0,
+      "zsir": 99.7,
+      "nev": "sertészsír",
+      "feherje": 0.1,
+      "szenhidrat": 0,
+      "kj": 3757
+    },
+    {
+      "kcal": 596,
+      "fajta": "Olajos magvak",
+      "rost": 0,
+      "zsir": 46.6,
+      "nev": "sós mogyoró",
+      "feherje": 25.5,
+      "szenhidrat": 18.7,
+      "kj": 2496
+    },
+    {
+      "kcal": 614,
+      "fajta": "Olajos magvak",
+      "rost": 6.3,
+      "zsir": 52,
+      "nev": "sós napraforgómag",
+      "feherje": 24.7,
+      "szenhidrat": 11.8,
+      "kj": 2572
+    },
+    {
+      "kcal": 23,
+      "fajta": "Zöldség",
+      "rost": 0.5,
+      "zsir": 0.5,
+      "nev": "sóska",
+      "feherje": 2.4,
+      "szenhidrat": 2.3,
+      "kj": 96
+    },
+    {
+      "kcal": 16,
+      "fajta": "Zöldség",
+      "rost": 0.6,
+      "zsir": 0.1,
+      "nev": "spárga",
+      "feherje": 2,
+      "szenhidrat": 1.8,
+      "kj": 67
+    },
+    {
+      "kcal": 18,
+      "fajta": "Zöldség",
+      "rost": 0.5,
+      "zsir": 0.3,
+      "nev": "spenót paraj ",
+      "feherje": 2.3,
+      "szenhidrat": 1.8,
+      "kj": 75
+    },
+    {
+      "kcal": 430,
+      "fajta": "Zöldség",
+      "rost": 0,
+      "zsir": 36.6,
+      "nev": "sült burgonya",
+      "feherje": 6.6,
+      "szenhidrat": 53,
+      "kj": 1810
+    },
+    {
+      "kcal": 77,
+      "fajta": "Zöldség",
+      "rost": 0.7,
+      "zsir": 0.6,
+      "nev": "sütõtök",
+      "feherje": 1.5,
+      "szenhidrat": 16.5,
+      "kj": 322
+    },
+    {
+      "kcal": 693,
+      "fajta": "Húsok, húskészítmények",
+      "rost": 0,
+      "zsir": 73,
+      "nev": "szalonna füstölt ",
+      "feherje": 9,
+      "szenhidrat": 0,
+      "kj": 2900
+    },
+    {
+      "kcal": 382,
+      "fajta": "Kenyér és tésztafélék",
+      "rost": 0.5,
+      "zsir": 3.4,
+      "nev": "száraztészta (4 tojásos)",
+      "feherje": 15,
+      "szenhidrat": 72.9,
+      "kj": 1598
+    },
+    {
+      "kcal": 390,
+      "fajta": "Kenyér és tésztafélék",
+      "rost": 0.5,
+      "zsir": 5,
+      "nev": "száraztészta (8 tojásos)",
+      "feherje": 17,
+      "szenhidrat": 69.2,
+      "kj": 1638
+    },
+    {
+      "kcal": 283,
+      "fajta": "Halak",
+      "rost": 0,
+      "zsir": 21.4,
+      "nev": "szardíniakonzerv",
+      "feherje": 22.5,
+      "szenhidrat": 0,
+      "kj": 1184
+    },
+    {
+      "kcal": 32,
+      "fajta": "Gyümölcs",
+      "rost": 4,
+      "zsir": 1.8,
+      "nev": "szeder",
+      "feherje": 0.8,
+      "szenhidrat": 6,
+      "kj": 134
+    },
+    {
+      "kcal": 562,
+      "fajta": "Olajos magvak",
+      "rost": 11.9,
+      "zsir": 50.4,
+      "nev": "szezámmag",
+      "feherje": 20.8,
+      "szenhidrat": 6.3,
+      "kj": 2378
+    },
+    {
+      "kcal": 57,
+      "fajta": "Gyümölcs",
+      "rost": 0.5,
+      "zsir": 0.5,
+      "nev": "szilva",
+      "feherje": 0.7,
+      "szenhidrat": 13.1,
+      "kj": 238
+    },
+    {
+      "kcal": 512,
+      "fajta": "Hüvelyes készítmények",
+      "rost": 3,
+      "zsir": 28.5,
+      "nev": "szójabab",
+      "feherje": 41.6,
+      "szenhidrat": 22.1,
+      "kj": 2150
+    },
+    {
+      "kcal": 512,
+      "fajta": "Hüvelyes készítmények",
+      "rost": 10.6,
+      "zsir": 20.6,
+      "nev": "szójagranulátum-kocka",
+      "feherje": 45,
+      "szenhidrat": 18.3,
+      "kj": 2150
+    },
+    {
+      "kcal": 328,
+      "fajta": "Hüvelyes készítmények",
+      "rost": 3.8,
+      "zsir": 0.6,
+      "nev": "szójaliszt zsírtalanított ",
+      "feherje": 47.3,
+      "szenhidrat": 33.4,
+      "kj": 1378
+    },
+    {
+      "kcal": 218,
+      "fajta": "Kenyér és tésztafélék",
+      "rost": 1.6,
+      "zsir": 0.5,
+      "nev": "szójás kenyér",
+      "feherje": 14.7,
+      "szenhidrat": 38.5,
+      "kj": 916
+    },
+    {
+      "kcal": 76,
+      "fajta": "Gyümölcs",
+      "rost": 1.3,
+      "zsir": 0.5,
+      "nev": "szõlõ",
+      "feherje": 0.6,
+      "szenhidrat": 18.1,
+      "kj": 318
+    },
+    {
+      "kcal": 143,
+      "fajta": "Tejtermék",
+      "rost": 0,
+      "zsir": 7,
+      "nev": "tehéntúró félzsíros ",
+      "feherje": 16.2,
+      "szenhidrat": 3.7,
+      "kj": 600
+    },
+    {
+      "kcal": 76,
+      "fajta": "Tejtermék",
+      "rost": 0,
+      "zsir": 0.5,
+      "nev": "tehéntúró sovány ",
+      "feherje": 14.1,
+      "szenhidrat": 3.8,
+      "kj": 318
+    },
+    {
+      "kcal": 197,
+      "fajta": "Tejtermék",
+      "rost": 0,
+      "zsir": 12.4,
+      "nev": "tehéntúró zsíros ",
+      "feherje": 17.9,
+      "szenhidrat": 3.5,
+      "kj": 823
+    },
+    {
+      "kcal": 60,
+      "fajta": "Tejtermék",
+      "rost": 0,
+      "zsir": 2.8,
+      "nev": "tej",
+      "feherje": 3.4,
+      "szenhidrat": 5.3,
+      "kj": 252
+    },
+    {
+      "kcal": 34,
+      "fajta": "Tejtermék",
+      "rost": 0,
+      "zsir": 0.1,
+      "nev": "tej fölözött ",
+      "feherje": 3.5,
+      "szenhidrat": 4.7,
+      "kj": 142
+    },
+    {
+      "kcal": 137,
+      "fajta": "Tejtermék",
+      "rost": 0,
+      "zsir": 12,
+      "nev": "tejföl",
+      "feherje": 3.4,
+      "szenhidrat": 4,
+      "kj": 575
+    },
+    {
+      "kcal": 173,
+      "fajta": "Tejtermék",
+      "rost": 0,
+      "zsir": 16,
+      "nev": "tejföl csökkentett zsírt. ",
+      "feherje": 3.3,
+      "szenhidrat": 3.9,
+      "kj": 723
+    },
+    {
+      "kcal": 292,
+      "fajta": "Tejtermék",
+      "rost": 0,
+      "zsir": 30,
+      "nev": "tejszínhab",
+      "feherje": 2.6,
+      "szenhidrat": 3,
+      "kj": 1221
+    },
+    {
+      "kcal": 516,
+      "fajta": "Húsok, húskészítmények",
+      "rost": 0,
+      "zsir": 46.1,
+      "nev": "téliszalámi",
+      "feherje": 25.1,
+      "szenhidrat": 0.3,
+      "kj": 2159
+    },
+    {
+      "kcal": 84,
+      "fajta": "Hüvelyes készítmények",
+      "rost": 0,
+      "zsir": 4,
+      "nev": "tofu szójababtúró ",
+      "feherje": 12,
+      "szenhidrat": 9.1,
+      "kj": 352
+    },
+    {
+      "kcal": 66,
+      "fajta": "Tojás",
+      "rost": 0,
+      "zsir": 4.8,
+      "nev": "tojás 1db=40 g ",
+      "feherje": 5.4,
+      "szenhidrat": 0.3,
+      "kj": 276
+    },
+    {
+      "kcal": 14,
+      "fajta": "Tojás",
+      "rost": 0,
+      "zsir": 0.1,
+      "nev": "tojásfehérje 1db=24 g ",
+      "feherje": 30,
+      "szenhidrat": 0.2,
+      "kj": 59
+    },
+    {
+      "kcal": 54,
+      "fajta": "Tojás",
+      "rost": 0,
+      "zsir": 4.3,
+      "nev": "tojássárgája 1db=16 g ",
+      "feherje": 2.4,
+      "szenhidrat": 0.1,
+      "kj": 226
+    },
+    {
+      "kcal": 87,
+      "fajta": "Halak",
+      "rost": 0,
+      "zsir": 0.5,
+      "nev": "tõkehalfilé",
+      "feherje": 19.4,
+      "szenhidrat": 1.2,
+      "kj": 364
+    },
+    {
+      "kcal": 30,
+      "fajta": "Zöldség",
+      "rost": 0.8,
+      "zsir": 0.1,
+      "nev": "tök gyalult ",
+      "feherje": 1.1,
+      "szenhidrat": 6.1,
+      "kj": 126
+    },
+    {
+      "kcal": 636,
+      "fajta": "Olajos magvak",
+      "rost": 0,
+      "zsir": 51.5,
+      "nev": "tökmag",
+      "feherje": 33.9,
+      "szenhidrat": 3.6,
+      "kj": 2862
+    },
+    {
+      "kcal": 370,
+      "fajta": "Tejtermék",
+      "rost": 0,
+      "zsir": 28.1,
+      "nev": "trappista sajt",
+      "feherje": 27.7,
+      "szenhidrat": 1.6,
+      "kj": 1554
+    },
+    {
+      "kcal": 724,
+      "fajta": "Tejtermék",
+      "rost": 0,
+      "zsir": 80,
+      "nev": "vaj",
+      "feherje": 0.4,
+      "szenhidrat": 0.5,
+      "kj": 3026
+    },
+    {
+      "kcal": 382,
+      "fajta": "Tejtermék",
+      "rost": 0,
+      "zsir": 40,
+      "nev": "vaj light ",
+      "feherje": 2.5,
+      "szenhidrat": 2,
+      "kj": 1604
+    },
+    {
+      "kcal": 231,
+      "fajta": "Húsok, húskészítmények",
+      "rost": 0,
+      "zsir": 20,
+      "nev": "virsli",
+      "feherje": 12.5,
+      "szenhidrat": 0.2,
+      "kj": 967
+    },
+    {
+      "kcal": 313,
+      "fajta": "Gabonakészítmények",
+      "rost": 1,
+      "zsir": 5.4,
+      "nev": "zab mag teljes zabliszt ",
+      "feherje": 13,
+      "szenhidrat": 66.1,
+      "kj": 1308
+    },
+    {
+      "kcal": 376,
+      "fajta": "Gabonakészítmények",
+      "rost": 1,
+      "zsir": 6.8,
+      "nev": "zabpehely",
+      "feherje": 14.4,
+      "szenhidrat": 64.3,
+      "kj": 1579
+    },
+    {
+      "kcal": 242,
+      "fajta": "Húsok, húskészítmények",
+      "rost": 0,
+      "zsir": 19.9,
+      "nev": "zalai felvágott",
+      "feherje": 15.6,
+      "szenhidrat": 0.6,
+      "kj": 1016
+    },
+    {
+      "kcal": 29,
+      "fajta": "Zöldség",
+      "rost": 1,
+      "zsir": 0.3,
+      "nev": "zeller",
+      "feherje": 1.4,
+      "szenhidrat": 5,
+      "kj": 121
+    },
+    {
+      "kcal": 40,
+      "fajta": "Zöldség",
+      "rost": 1.3,
+      "zsir": 0.3,
+      "nev": "zöldbab",
+      "feherje": 2.6,
+      "szenhidrat": 6.8,
+      "kj": 167
+    },
+    {
+      "kcal": 88,
+      "fajta": "Zöldség",
+      "rost": 2.7,
+      "zsir": 4,
+      "nev": "zöldborsó",
+      "feherje": 7,
+      "szenhidrat": 14,
+      "kj": 368
+    },
+    {
+      "kcal": 342,
+      "fajta": "Kenyér és tésztafélék",
+      "rost": 1.2,
+      "zsir": 0.9,
+      "nev": "zsemlemorzsa",
+      "feherje": 10.2,
+      "szenhidrat": 73.3,
+      "kj": 1431
+    },
+    {
+      "kcal": 303,
+      "fajta": "Kenyér és tésztafélék",
+      "rost": 0.9,
+      "zsir": 4,
+      "nev": "zsúrkenyér",
+      "feherje": 9.6,
+      "szenhidrat": 57,
+      "kj": 1268
+    }
+  ]}

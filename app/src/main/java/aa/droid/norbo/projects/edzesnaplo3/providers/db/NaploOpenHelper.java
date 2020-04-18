@@ -3,6 +3,7 @@ package aa.droid.norbo.projects.edzesnaplo3.providers.db;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
@@ -22,7 +23,7 @@ public class NaploOpenHelper extends SQLiteOpenHelper {
     }
 
     public NaploOpenHelper(@Nullable Context context) {
-        super(context, "edzesnaplo_db", null, 5);
+        super(context, "edzesnaplo_db", null, 1);
     }
 
     public Cursor getGyakorlatListByNaplo(String naplodatum) {
@@ -38,7 +39,14 @@ public class NaploOpenHelper extends SQLiteOpenHelper {
 
     public Cursor getNaploCursor() {
         SQLiteDatabase database = getReadableDatabase();
-        return database.rawQuery("SELECT * FROM naplo",null);
+        Cursor cursor = null;
+        try {
+            cursor = database.rawQuery("SELECT * FROM naplo", null);
+        } catch (SQLiteException e) {
+            System.out.println("Nem található tábla");
+        }
+
+        return cursor;
     }
 
     public Cursor getSorozatSulyByNaplo(String naplodatum) {
@@ -59,6 +67,9 @@ public class NaploOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        System.out.println("SQLiteOpenHelper db old version: "+oldVersion+" new ver: "+newVersion);
+//        db.execSQL("CREATE TABLE 'tapanyagtabla' ('id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+//                "'nev' TEXT, 'fajta' TEXT, 'kj' INTEGER NOT NULL, 'kcal' INTEGER NOT NULL, " +
+//                "'feherje' REAL NOT NULL, 'szenhidrat' REAL NOT NULL, 'zsir' REAL NOT NULL, 'rost' REAL NOT NULL)");
     }
 }

@@ -55,7 +55,7 @@ public class NaploCntAppWidget extends AppWidgetProvider {
                 PendingIntent.FLAG_UPDATE_CURRENT);
         views.setPendingIntentTemplate(R.id.listView, pendingIntentToast);
 
-        listnaplo.close();
+        if(listnaplo != null) listnaplo.close();
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);

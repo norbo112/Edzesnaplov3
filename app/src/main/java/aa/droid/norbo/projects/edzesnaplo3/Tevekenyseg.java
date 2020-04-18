@@ -71,6 +71,9 @@ public class Tevekenyseg extends AppCompatActivity implements AdatBeallitoInterf
             case R.id.menu_diagram :
                 startActivity(new Intent(this, DiagramActivity.class));
                 break;
+            case R.id.menu_tapanyag :
+                startActivity(new Intent(this, TapanyagActivity.class));
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

@@ -111,6 +111,8 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(this, MentettNaploActivity.class));
         } else if(item.getItemId() == R.id.menu_diagram) {
             startActivity(new Intent(this, DiagramActivity.class));
+        } else if(item.getItemId() == R.id.menu_tapanyag) {
+            startActivity(new Intent(this, TapanyagActivity.class));
         }
         return super.onOptionsItemSelected(item);
     }

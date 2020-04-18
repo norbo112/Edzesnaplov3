@@ -55,6 +55,8 @@ public class MainAdatTolto {
     }
 
     private int getOsszSuly(List<String> naploLista) throws SQLiteException {
+        if(naploLista == null) return 0;
+
         List<NaploGyakOsszsuly> naploGyakOsszsulies = new ArrayList<>();
         List<String> gyakorlats;
         List<String> izomcsoportok;

@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
@@ -13,11 +14,16 @@ import java.util.Objects;
 public class Gyakorlat implements Serializable {
     @PrimaryKey(autoGenerate = true)
     private Integer id;
+    @ColumnInfo(name = "csoport")
     private String csoport;
+    @ColumnInfo(name = "megnevezes")
     private String megnevezes;
+    @ColumnInfo(name = "leiras")
     private String leiras;
+    @ColumnInfo(name = "videolink")
     private String videolink;
-    private int videostartpoz;
+    @ColumnInfo(name = "videostartpoz")
+    private Integer videostartpoz;
 
     public Gyakorlat(){}
 
@@ -60,7 +66,7 @@ public class Gyakorlat implements Serializable {
         return videolink;
     }
 
-    public int getVideostartpoz() {
+    public Integer getVideostartpoz() {
         return videostartpoz;
     }
 
@@ -84,7 +90,7 @@ public class Gyakorlat implements Serializable {
         this.videolink = videolink;
     }
 
-    public void setVideostartpoz(int videostartpoz) {
+    public void setVideostartpoz(Integer videostartpoz) {
         this.videostartpoz = videostartpoz;
     }
 

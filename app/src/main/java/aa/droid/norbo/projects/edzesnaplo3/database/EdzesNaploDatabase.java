@@ -7,17 +7,15 @@ import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -33,9 +31,10 @@ import aa.droid.norbo.projects.edzesnaplo3.database.entities.NaploUser;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Sorozat;
 import aa.droid.norbo.projects.edzesnaplo3.models.GyakorlatCsomag;
 
-//version = 5 volt mindenhol, csak az új emulátoron kell 1
-@Database(entities = {Gyakorlat.class, Sorozat.class, Naplo.class, NaploUser.class}, version = 5, exportSchema = false)
+@Database(entities = {Gyakorlat.class, Sorozat.class, Naplo.class, NaploUser.class}, version = 1)
 public abstract class EdzesNaploDatabase extends RoomDatabase {
+    private static final String TAG = "Edzésnapló";
+
     public abstract GyakorlatDao gyakorlatDao();
     public abstract NaploDao naploDao();
     public abstract SorozatDao sorozatDao();
@@ -52,7 +51,7 @@ public abstract class EdzesNaploDatabase extends RoomDatabase {
                 if(INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             EdzesNaploDatabase.class, "edzesnaplo_db")
-                            .addCallback(new GyakorlatBeszurCallback(context))
+                            .addCallback(new AdatFeltoltes(context))
                             .fallbackToDestructiveMigration()
                             .build();
                 }
@@ -61,10 +60,10 @@ public abstract class EdzesNaploDatabase extends RoomDatabase {
         return INSTANCE;
     }
 
-    private static class GyakorlatBeszurCallback extends Callback {
+    private static class AdatFeltoltes extends Callback {
         private final String TAG = getClass().getSimpleName();
         Context context;
-        public GyakorlatBeszurCallback(final Context context) {
+        public AdatFeltoltes(final Context context) {
             this.context = context;
         }
 
@@ -76,18 +75,16 @@ public abstract class EdzesNaploDatabase extends RoomDatabase {
                 public void run() {
                     GyakorlatDao gyakorlatDao = INSTANCE.gyakorlatDao();
 
-                    if(gyakorlatDao.countRows() != 0) {
-                        return;
-                    }
-
-                    List<Gyakorlat> gyakorlats = loadGyakListFromResource();
-                    if(gyakorlats != null) {
-                        for(Gyakorlat gy: gyakorlats) {
-                            gyakorlatDao.insert(gy);
+                    if(gyakorlatDao.countRows() == 0) {
+                        List<Gyakorlat> gyakorlats = loadGyakListFromResource();
+                        if (gyakorlats != null) {
+                            for (Gyakorlat gy : gyakorlats) {
+                                gyakorlatDao.insert(gy);
+                            }
+                            Log.i(TAG, "run: gyakorlat lista betöltve és feltöltve a db");
+                        } else {
+                            Log.i(TAG, "run: gyakorlatok betöltése null lett");
                         }
-                        Log.i(TAG, "run: gyakorlat lista betöltve és feltöltve a db");
-                    } else {
-                        Log.i(TAG, "run: gyakorlatok betöltése null lett");
                     }
                 }
             });
