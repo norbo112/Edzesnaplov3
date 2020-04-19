@@ -1,5 +1,29 @@
 package aa.droid.norbo.projects.edzesnaplo3;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Build;
+import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.EditText;
+import android.widget.Filter;
+import android.widget.Filterable;
+import android.widget.ListView;
+import android.widget.SearchView;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -12,46 +36,26 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.os.Build;
-import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
-import android.view.ContextMenu;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.EditText;
-import android.widget.Filter;
-import android.widget.Filterable;
-import android.widget.ListView;
-import android.widget.SearchView;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Gyakorlat;
-import aa.droid.norbo.projects.edzesnaplo3.database.entities.Naplo;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.NaploUser;
 import aa.droid.norbo.projects.edzesnaplo3.database.viewmodels.GyakorlatViewModel;
 import aa.droid.norbo.projects.edzesnaplo3.database.viewmodels.NaploUserViewModel;
 import aa.droid.norbo.projects.edzesnaplo3.datainterfaces.AdatBeallitoInterface;
 
-public class GyakorlatValaszto extends Fragment implements AdapterView.OnItemClickListener {
+public class GyakorlatValaszto extends Fragment implements AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener {
     private static final String TAG = "GyakorlatValaszto";
+    private static final String VALASSZ_IZOMCSOP = "Válassz...";
     private GyakorlatViewModel gyakorlatViewModel;
     private ListView listView;
     private String felhasznaloNev;
-    private Naplo naplo;
+    private Spinner spinner;
+    private List<String> izomcsoportList;
 
     private AdatBeallitoInterface beallitoInterface;
 
@@ -68,6 +72,14 @@ public class GyakorlatValaszto extends Fragment implements AdapterView.OnItemCli
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.tevekenyseg, container, false);
         TextView tvTestNev = view.findViewById(R.id.tvTestNev);
+
+        izomcsoportList = new ArrayList<>();
+        izomcsoportList.add(VALASSZ_IZOMCSOP);
+        spinner = view.findViewById(R.id.spinIzomcsop);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, izomcsoportList);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);
 
         NaploUserViewModel naploUserViewModel = new ViewModelProvider(this)
                 .get(NaploUserViewModel.class);
@@ -100,6 +112,8 @@ public class GyakorlatValaszto extends Fragment implements AdapterView.OnItemCli
                 }
                 listView.setAdapter(new ListItemAdapter(gyakorlats, getContext()));
                 listView.setOnItemClickListener(GyakorlatValaszto.this);
+
+                initIzomcsoportSpinner(gyakorlats);
             }
         });
 
@@ -111,6 +125,14 @@ public class GyakorlatValaszto extends Fragment implements AdapterView.OnItemCli
         });
 
         SearchView searchView = view.findViewById(R.id.gyak_search_view);
+        searchView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(spinner.getSelectedItemPosition() != 0) {
+                    spinner.setSelection(0);
+                }
+            }
+        });
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -129,6 +151,14 @@ public class GyakorlatValaszto extends Fragment implements AdapterView.OnItemCli
         });
 
         return view;
+    }
+
+    private void initIzomcsoportSpinner(List<Gyakorlat> gyakorlats) {
+        Set<String> strings = new HashSet<>();
+        for (int i = 0; i < gyakorlats.size(); i++) {
+            strings.add(gyakorlats.get(i).getCsoport());
+        }
+        izomcsoportList.addAll(strings);
     }
 
     @Override
@@ -269,6 +299,21 @@ public class GyakorlatValaszto extends Fragment implements AdapterView.OnItemCli
                 }
         }
         return super.onContextItemSelected(item);
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        try {
+            Filter filter = ((ListItemAdapter) listView.getAdapter()).getFilter();
+            filter.filter(spinner.getSelectedItem().equals(VALASSZ_IZOMCSOP) ? "" : spinner.getSelectedItem().toString());
+        } catch (NullPointerException ex) {
+            Log.i(TAG, "onItemSelected: null pointer filter!");
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 
     public static class ListItemAdapter extends BaseAdapter implements Filterable {

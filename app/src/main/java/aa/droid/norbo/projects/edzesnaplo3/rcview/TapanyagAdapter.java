@@ -70,10 +70,10 @@ public class TapanyagAdapter extends ArrayAdapter<Elelmiszer>
         viewHolder.tapfajta.setText(elelmiszer.getFajta());
         viewHolder.tapkj.setText(elelmiszer.getKj()+" kj");
         viewHolder.tapkcal.setText(elelmiszer.getKcal()+" kcal");
-        viewHolder.tapszen.setText(elelmiszer.getSzenhidrat()+" g(C)");
-        viewHolder.tapfeh.setText(elelmiszer.getFeherje()+" g(P)");
-        viewHolder.tapzsir.setText(elelmiszer.getZsir()+" g(F)");
-        viewHolder.taprost.setText(elelmiszer.getRost()+" g(R)");
+        viewHolder.tapszen.setText(elelmiszer.getSzenhidrat()+" g");
+        viewHolder.tapfeh.setText(elelmiszer.getFeherje()+" g");
+        viewHolder.tapzsir.setText(elelmiszer.getZsir()+" g");
+        viewHolder.taprost.setText(elelmiszer.getRost()+" g");
 
         return convertView;
     }

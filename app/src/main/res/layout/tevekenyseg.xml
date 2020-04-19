@@ -19,6 +19,34 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <LinearLayout
+        android:id="@+id/searcglayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTestNev">
+
+        <SearchView
+            android:id="@+id/gyak_search_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:queryHint="Név vagy izomcsoport keresése...">
+
+        </SearchView>
+
+        <Spinner
+            android:id="@+id/spinIzomcsop"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="3dp"
+            android:spinnerMode="dialog" />
+
+    </LinearLayout>
+
     <ListView
         android:id="@+id/gyakrolatListView"
         android:layout_width="0dp"
@@ -26,9 +54,8 @@
         android:padding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.39"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gyak_search_view" />
+        app:layout_constraintTop_toBottomOf="@+id/searcglayout" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
@@ -40,13 +67,4 @@
         app:backgroundTint="#29B6F6"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-
-    <SearchView
-        android:id="@+id/gyak_search_view"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:queryHint="Név vagy izomcsoport keresése..."
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTestNev" />
 </androidx.constraintlayout.widget.ConstraintLayout>

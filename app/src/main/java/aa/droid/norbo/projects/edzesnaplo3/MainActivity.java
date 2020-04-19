@@ -39,15 +39,12 @@ import aa.droid.norbo.projects.edzesnaplo3.uiutils.MainAdatTolto;
 
 public class MainActivity extends AppCompatActivity
         implements View.OnClickListener {
-    public static final String TAROLTNEV = "tarolt.nev";
     public static final String FELHASZNALONEV = "aa.droid.norbo.projects.edzesnaplo3.FELHASZNALONEV";
     public static final String INTENT_DATA_NAPLO = "aa.droid.norbo.projects.edzesnaplo3.INTENT_DATA_NAPLO";
-    public static final String INTENT_DATA_GYAKORLAT = "aa.droid.norbo.projects.edzesnaplo3.INTENT_DATA_GYAKORLAT";
     public static final String INTENT_DATA_NEV = "aa.droid.norbo.projects.edzesnaplo3.INTENT_DATA_NEV";
-    public static final int EDZESACTIVITY = 1001;
-    private final String TAG = getClass().getSimpleName();
+
     private EditText editText;
-    private TextView textView, textViewNaplokSzama, textViewMegmozgatottSuly;
+    private TextView textView;
     private String nevFromFile;
 
     private NaploUserViewModel naploUserViewModel;
@@ -67,8 +64,8 @@ public class MainActivity extends AppCompatActivity
         toolbar.setLogo(R.drawable.ic_run);
         setSupportActionBar(toolbar);
 
-        textViewNaplokSzama = findViewById(R.id.tvMainRogzitettNaplok);
-        textViewMegmozgatottSuly = findViewById(R.id.tvMainMegmozgatottSulyok);
+        TextView textViewNaplokSzama = findViewById(R.id.tvMainRogzitettNaplok);
+        TextView textViewMegmozgatottSuly = findViewById(R.id.tvMainMegmozgatottSulyok);
 
         editText = findViewById(R.id.etWelcomeNev);
         textView = findViewById(R.id.tvWelcomeNev);
