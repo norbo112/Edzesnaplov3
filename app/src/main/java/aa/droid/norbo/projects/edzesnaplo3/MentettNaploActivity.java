@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -115,6 +116,7 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
                     adapter.clear();
                     adapter.addAll(naplos);
                     mAdapter.notifyDataSetChanged();
+                    changeConstraitNotNullList();
                 } else {
                     changeEmptyTextView();
                 }
@@ -130,6 +132,17 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
         ConstraintSet cntset = new ConstraintSet();
         cntset.clone(rootView);
         cntset.connect(R.id.tvMOsszsuly, ConstraintSet.TOP, R.id.root_mentett_naplo_view, ConstraintSet.TOP,0);
+        cntset.applyTo(rootView);
+    }
+
+    private void changeConstraitNotNullList() {
+        rcnaploview.setVisibility(View.VISIBLE);
+        listView.setVisibility(View.VISIBLE);
+        osszsnapisuly.setText(R.string.mentett_naplo_notempty_title);
+
+        ConstraintSet cntset = new ConstraintSet();
+        cntset.clone(rootView);
+        cntset.connect(R.id.tvMOsszsuly, ConstraintSet.TOP, R.id.rcNaploMegtekinto, ConstraintSet.BOTTOM, 0);
         cntset.applyTo(rootView);
     }
 
@@ -184,7 +197,7 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
         } else if(item.getItemId() == R.id.menu_mentett_driveupload) {
             if(naplo != null && menteshezLista != null) {
                 jsonFilePath = fileWorkerInterface.makeJsonFile(menteshezLista, "naplo_"+System.currentTimeMillis()+".json");
-                Toast.makeText(this, "Napló fájl mentve", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Napló fájl mentve "+jsonFilePath, Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(this, "Kérlek válassz egy naplót", Toast.LENGTH_SHORT).show();
             }
@@ -193,6 +206,7 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
         } else if(item.getItemId() == R.id.menu_mentett_load) {
             Intent filechooser = new Intent(Intent.ACTION_GET_CONTENT);
             filechooser.setType("*/*");
+            filechooser.putExtra(Intent.EXTRA_MIME_TYPES, new String[]{"application/octet-stream"});
             filechooser.addCategory(Intent.CATEGORY_OPENABLE);
             startActivityForResult(filechooser, FILE_LOAD_RCODE);
         }

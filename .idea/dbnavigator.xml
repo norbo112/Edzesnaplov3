@@ -24,37 +24,25 @@
     <autoscroll-from-editor value="true" />
     <show-object-properties value="true" />
     <loaded-nodes>
-      <connection connection-id="e70fcf03-29ca-4269-9901-c1dbd3e92c65">
-        <schema name="main" object-types="view, table" />
+      <connection connection-id="e6b19e2b-0bcd-4096-89b1-d9a4df557ba0">
+        <schema name="main" object-types="view, constraint, table, index, dataset trigger, column" />
       </connection>
     </loaded-nodes>
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
-    <connection id="792d3748-6ee5-4ee8-ad1c-bee24d7d96f7">
-      <console name="Connection" type="STANDARD" schema="main" session="Main">select * from sorozattabla where naplodatum = 'Sun Apr 12 17:25:04 CEST 2020'</console>
-      <console name="Connection 2" type="STANDARD" schema="main" session="Main">select * from gyakorlattabla</console>
+    <connection id="e6b19e2b-0bcd-4096-89b1-d9a4df557ba0">
+      <console name="Edzésnapló" type="STANDARD" schema="main" session="Main"><![CDATA[select * from sorozattabla;]]></console>
     </connection>
-    <connection id="e70fcf03-29ca-4269-9901-c1dbd3e92c65">
-      <console name="Connection 1" type="STANDARD" schema="main" session="Main" />
+    <connection id="cfaf11ab-43d6-4cfa-a5c9-07c3359db861">
+      <console name="EdzésnaplóTapanyag" type="STANDARD" schema="main" session="Main" />
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
     <open-files />
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
-    <connection id="792d3748-6ee5-4ee8-ad1c-bee24d7d96f7" />
-    <connection id="e70fcf03-29ca-4269-9901-c1dbd3e92c65" />
-  </component>
-  <component name="DBNavigator.Project.DatasetFilterManager">
-    <filter-actions connection-id="792d3748-6ee5-4ee8-ad1c-bee24d7d96f7" dataset="main.android_metadata" active-filter-id="EMPTY_FILTER" />
-    <filter-actions connection-id="792d3748-6ee5-4ee8-ad1c-bee24d7d96f7" dataset="main.room_master_table" active-filter-id="86972e24-90ed-4719-a24e-b8dc064ddcc8">
-      <filter id="86972e24-90ed-4719-a24e-b8dc064ddcc8" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND" />
-    </filter-actions>
-    <filter-actions connection-id="792d3748-6ee5-4ee8-ad1c-bee24d7d96f7" dataset="main.sorozattabla" active-filter-id="" />
-    <filter-actions connection-id="e70fcf03-29ca-4269-9901-c1dbd3e92c65" dataset="main.tapanyagtabla" active-filter-id="" />
-    <filter-actions connection-id="e70fcf03-29ca-4269-9901-c1dbd3e92c65" dataset="main.android_metadata" active-filter-id="c5770d2b-d5a8-4b83-91ad-f95bad7114f1">
-      <filter id="c5770d2b-d5a8-4b83-91ad-f95bad7114f1" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND" />
-    </filter-actions>
+    <connection id="e6b19e2b-0bcd-4096-89b1-d9a4df557ba0" />
+    <connection id="cfaf11ab-43d6-4cfa-a5c9-07c3359db861" />
   </component>
   <component name="DBNavigator.Project.EditorStateManager">
     <last-used-providers />
@@ -79,9 +67,9 @@
   </component>
   <component name="DBNavigator.Project.Settings">
     <connections>
-      <connection id="792d3748-6ee5-4ee8-ad1c-bee24d7d96f7" active="true">
+      <connection id="e6b19e2b-0bcd-4096-89b1-d9a4df557ba0" active="true">
         <database>
-          <name value="Connection" />
+          <name value="Edzésnapló" />
           <description value="" />
           <database-type value="SQLITE" />
           <config-type value="BASIC" />
@@ -94,7 +82,7 @@
           <port value="1234" />
           <database value="database" />
           <files>
-            <file path="C:\Users\igloi\Desktop\edzesnaplo_db" schema="main" />
+            <file path="C:\Users\igloi\Desktop\naploproject\edzesnaplo_db" schema="main" />
           </files>
           <type value="NONE" />
           <user value="" />
@@ -165,9 +153,9 @@
           <object-name-filters />
         </object-filters>
       </connection>
-      <connection id="e70fcf03-29ca-4269-9901-c1dbd3e92c65" active="true">
+      <connection id="cfaf11ab-43d6-4cfa-a5c9-07c3359db861" active="true">
         <database>
-          <name value="Connection 1" />
+          <name value="EdzésnaplóTapanyag" />
           <description value="" />
           <database-type value="SQLITE" />
           <config-type value="BASIC" />
@@ -180,7 +168,7 @@
           <port value="1234" />
           <database value="database" />
           <files>
-            <file path="C:\Users\igloi\Desktop\naploproject\edzesnaplo_db" schema="main" />
+            <file path="C:\Users\igloi\Desktop\naploproject\tapanyagdb_db" schema="main" />
           </files>
           <type value="NONE" />
           <user value="" />

@@ -33,7 +33,7 @@ import aa.droid.norbo.projects.edzesnaplo3.models.GyakorlatCsomag;
 
 @Database(entities = {Gyakorlat.class, Sorozat.class, Naplo.class, NaploUser.class}, version = 1)
 public abstract class EdzesNaploDatabase extends RoomDatabase {
-    private static final String TAG = "Edzésnapló";
+    private static final String TAG = "EdzésnaplóAdatbázis";
 
     public abstract GyakorlatDao gyakorlatDao();
     public abstract NaploDao naploDao();
