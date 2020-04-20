@@ -38,6 +38,8 @@ import aa.droid.norbo.projects.edzesnaplo3.database.entities.Gyakorlat;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Naplo;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Sorozat;
 import aa.droid.norbo.projects.edzesnaplo3.datainterfaces.AdatBeallitoInterface;
+import aa.droid.norbo.projects.edzesnaplo3.ui.controller.EdzesFragmentCntImpl;
+import aa.droid.norbo.projects.edzesnaplo3.ui.controller.interfaces.EdzesFragmentControllerInterface;
 
 public class Edzes extends Fragment implements View.OnClickListener {
     private static final int SULY_BAR_DIALOG = 1;
@@ -60,6 +62,8 @@ public class Edzes extends Fragment implements View.OnClickListener {
     private TextView gyaktitle;
 
     private AdatBeallitoInterface adatBeallitoInterface;
+    private EdzesFragmentControllerInterface controllerInterface;
+    private View fragmentView;
     private Button btnSorozatAdd;
     private Button btnUjGyakorlat;
     private Button btnSave;
@@ -75,6 +79,7 @@ public class Edzes extends Fragment implements View.OnClickListener {
         super.onAttach(context);
         this.adatBeallitoInterface = (AdatBeallitoInterface) context;
         this.felhasznalonev = adatBeallitoInterface.getFelhasznaloNev();
+        this.controllerInterface = new EdzesFragmentCntImpl();
 
         naplo = new Naplo(Long.toString(System.currentTimeMillis()), felhasznalonev);
         sorozats = new ArrayList<>();
@@ -106,6 +111,7 @@ public class Edzes extends Fragment implements View.OnClickListener {
         }
 
         View view = inflater.inflate(R.layout.test_tabbed_edzes_layout, container, false);
+        this.fragmentView = view;
         cardView = view.findViewById(R.id.edzes_card_view);
         gyaktitle = view.findViewById(R.id.gyak_title);
         tvStopper = view.findViewById(R.id.tvStopper);
@@ -140,7 +146,7 @@ public class Edzes extends Fragment implements View.OnClickListener {
             gyaktitle.setText("Kérlek válassz egy gyakorlatot");
             gyaktitle.setTextColor(Color.RED);
 
-            disableButtons();
+            controllerInterface.disableButtons(this, view);
         }
 
         listAdapter = new ArrayAdapter<>(getContext(),
@@ -161,56 +167,7 @@ public class Edzes extends Fragment implements View.OnClickListener {
 
     public void setGyakorlat(Gyakorlat gyakorlat) {
         this.gyakorlat = gyakorlat;
-        enabledButtons();
-        sorozats.clear();
-        listAdapter.notifyDataSetChanged();
-        stopperHandler.removeCallbacks(stopperTimer);
-        if(seekBarSuly != null) {
-            seekBarSuly.setProgress(0);
-            seekBarIsm.setProgress(0);
-        } else {
-            etSuly.setText("");
-            etIsm.setText("");
-        }
-
-        tvStopper.setText("00:00");
-        gyaktitle.setText(gyakorlat.getMegnevezes()+" használata");
-    }
-
-    private void disableButtons() {
-        gyaktitle.setText("Kérlek válassz egy gyakorlatot");
-        gyaktitle.setTextColor(Color.RED);
-        if(seekBarSuly != null) {
-            seekBarSuly.setEnabled(false);
-            seekBarIsm.setEnabled(false);
-            btnIsmLabel.setEnabled(false);
-            btnSulyLabel.setEnabled(false);
-        } else {
-            etIsm.setEnabled(false);
-            etSuly.setEnabled((false));
-        }
-        btnSave.setEnabled(false);
-        btnSorozatAdd.setEnabled(false);
-        btnUjGyakorlat.setEnabled(false);
-
-    }
-
-    private void enabledButtons() {
-        gyaktitle.setText(String.format("%s használata", gyakorlat.getMegnevezes()));
-        gyaktitle.setTextColor(Color.WHITE);
-
-        if(seekBarSuly != null) {
-            seekBarSuly.setEnabled(true);
-            seekBarIsm.setEnabled(true);
-            btnIsmLabel.setEnabled(true);
-            btnSulyLabel.setEnabled(true);
-        } else {
-            etIsm.setEnabled(true);
-            etSuly.setEnabled((true));
-        }
-        btnSave.setEnabled(true);
-        btnSorozatAdd.setEnabled(true);
-        btnUjGyakorlat.setEnabled(true);
+        controllerInterface.prepareGyakorlat(this, fragmentView);
     }
 
     @Override
@@ -219,7 +176,7 @@ public class Edzes extends Fragment implements View.OnClickListener {
             sorozatHozzaad();
         } else if(v.getId() == R.id.btnEdzesUjGy) {
             naplo.addAllSorozat(sorozats);
-            disableButtons();
+            controllerInterface.disableButtons(this, fragmentView);
             clearEdzesView();
             adatBeallitoInterface.adatNaplo(naplo);
             ViewPager tabHost = getActivity().findViewById(R.id.view_pager);
@@ -431,5 +388,25 @@ public class Edzes extends Fragment implements View.OnClickListener {
         public void setStartTime(long startTime) {
             this.startTime = startTime;
         }
+    }
+
+    public List<Sorozat> getSorozats() {
+        return sorozats;
+    }
+
+    public ArrayAdapter<Sorozat> getListAdapter() {
+        return listAdapter;
+    }
+
+    public Handler getStopperHandler() {
+        return stopperHandler;
+    }
+
+    public MyTimer getStopperTimer() {
+        return stopperTimer;
+    }
+
+    public Gyakorlat getGyakorlat() {
+        return gyakorlat;
     }
 }
