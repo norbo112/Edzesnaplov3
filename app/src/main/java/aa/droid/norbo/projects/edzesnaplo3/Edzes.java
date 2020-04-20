@@ -3,8 +3,6 @@ package aa.droid.norbo.projects.edzesnaplo3;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
@@ -14,12 +12,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
+import android.text.InputType;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,17 +27,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TabHost;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.tabs.TabLayout;
-
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Gyakorlat;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Naplo;
@@ -48,6 +40,8 @@ import aa.droid.norbo.projects.edzesnaplo3.database.entities.Sorozat;
 import aa.droid.norbo.projects.edzesnaplo3.datainterfaces.AdatBeallitoInterface;
 
 public class Edzes extends Fragment implements View.OnClickListener {
+    private static final int SULY_BAR_DIALOG = 1;
+    private static final int ISM_BAR_DIALOG = 2;
     private final String TAG = getClass().getSimpleName();
     private Gyakorlat gyakorlat;
     private List<Sorozat> sorozats;
@@ -71,6 +65,10 @@ public class Edzes extends Fragment implements View.OnClickListener {
     private Button btnSave;
     private TextView tvSorozatTitle;
     private CardView cardView;
+
+    //most csak tablet layouthoz
+    private SeekBar seekBarSuly, seekBarIsm;
+    private Button btnSulyLabel, btnIsmLabel;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -124,6 +122,17 @@ public class Edzes extends Fragment implements View.OnClickListener {
         btnSave = view.findViewById(R.id.btnEdzesSave);
         btnSave.setOnClickListener(this);
 
+        seekBarSuly = view.findViewById(R.id.seekBarsuly);
+        seekBarIsm = view.findViewById(R.id.seekBarism);
+        btnSulyLabel = view.findViewById(R.id.tvSulyLabel);
+        btnIsmLabel = view.findViewById(R.id.tvIsmLabel);
+
+        if(seekBarSuly != null) {
+            seekBarSuly.setOnSeekBarChangeListener(seekListeren);
+            seekBarIsm.setOnSeekBarChangeListener(seekListeren);
+            btnSulyLabel.setOnClickListener(btnClickListener);
+            btnIsmLabel.setOnClickListener(btnClickListener);
+        }
 
         if(gyakorlat != null) {
             gyaktitle.setText(String.format("%s használata", gyakorlat.getMegnevezes()));
@@ -131,11 +140,7 @@ public class Edzes extends Fragment implements View.OnClickListener {
             gyaktitle.setText("Kérlek válassz egy gyakorlatot");
             gyaktitle.setTextColor(Color.RED);
 
-            etIsm.setEnabled(false);
-            etSuly.setEnabled((false));
-            btnSave.setEnabled(false);
-            btnSorozatAdd.setEnabled(false);
-            btnUjGyakorlat.setEnabled(false);
+            disableButtons();
         }
 
         listAdapter = new ArrayAdapter<>(getContext(),
@@ -160,8 +165,14 @@ public class Edzes extends Fragment implements View.OnClickListener {
         sorozats.clear();
         listAdapter.notifyDataSetChanged();
         stopperHandler.removeCallbacks(stopperTimer);
-        etSuly.setText("");
-        etIsm.setText("");
+        if(seekBarSuly != null) {
+            seekBarSuly.setProgress(0);
+            seekBarIsm.setProgress(0);
+        } else {
+            etSuly.setText("");
+            etIsm.setText("");
+        }
+
         tvStopper.setText("00:00");
         gyaktitle.setText(gyakorlat.getMegnevezes()+" használata");
     }
@@ -169,8 +180,15 @@ public class Edzes extends Fragment implements View.OnClickListener {
     private void disableButtons() {
         gyaktitle.setText("Kérlek válassz egy gyakorlatot");
         gyaktitle.setTextColor(Color.RED);
-        etIsm.setEnabled(false);
-        etSuly.setEnabled(false);
+        if(seekBarSuly != null) {
+            seekBarSuly.setEnabled(false);
+            seekBarIsm.setEnabled(false);
+            btnIsmLabel.setEnabled(false);
+            btnSulyLabel.setEnabled(false);
+        } else {
+            etIsm.setEnabled(false);
+            etSuly.setEnabled((false));
+        }
         btnSave.setEnabled(false);
         btnSorozatAdd.setEnabled(false);
         btnUjGyakorlat.setEnabled(false);
@@ -181,8 +199,15 @@ public class Edzes extends Fragment implements View.OnClickListener {
         gyaktitle.setText(String.format("%s használata", gyakorlat.getMegnevezes()));
         gyaktitle.setTextColor(Color.WHITE);
 
-        etIsm.setEnabled(true);
-        etSuly.setEnabled((true));
+        if(seekBarSuly != null) {
+            seekBarSuly.setEnabled(true);
+            seekBarIsm.setEnabled(true);
+            btnIsmLabel.setEnabled(true);
+            btnSulyLabel.setEnabled(true);
+        } else {
+            etIsm.setEnabled(true);
+            etSuly.setEnabled((true));
+        }
         btnSave.setEnabled(true);
         btnSorozatAdd.setEnabled(true);
         btnUjGyakorlat.setEnabled(true);
@@ -219,8 +244,13 @@ public class Edzes extends Fragment implements View.OnClickListener {
         sorozats.clear();
         listAdapter.notifyDataSetChanged();
         stopperHandler.removeCallbacks(stopperTimer);
-        etSuly.setText("");
-        etIsm.setText("");
+        if(seekBarSuly != null) {
+            seekBarSuly.setProgress(0);
+            seekBarIsm.setProgress(0);
+        } else {
+            etSuly.setText("");
+            etIsm.setText("");
+        }
         tvStopper.setText("00:00");
 
         Intent naplomentes = new Intent(getContext(), NaploActivity.class);
@@ -235,10 +265,17 @@ public class Edzes extends Fragment implements View.OnClickListener {
             return;
         }
 
-        if (TextUtils.isEmpty(etIsm.getText().toString()) ||
-            TextUtils.isEmpty(etSuly.getText().toString())) {
-            Toast.makeText(getContext(), "Súly vagy ismétlés üres!", Toast.LENGTH_SHORT).show();
-            return;
+        if(seekBarSuly != null) {
+            if(seekBarSuly.getProgress() == 0 || seekBarIsm.getProgress() == 0) {
+                Toast.makeText(getContext(), "Súly vagy ismétlés 0!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        } else {
+            if (TextUtils.isEmpty(etIsm.getText().toString()) ||
+                    TextUtils.isEmpty(etSuly.getText().toString())) {
+                Toast.makeText(getContext(), "Súly vagy ismétlés üres!", Toast.LENGTH_SHORT).show();
+                return;
+            }
         }
 
         stopperHandler.removeCallbacks(stopperTimer);
@@ -246,14 +283,19 @@ public class Edzes extends Fragment implements View.OnClickListener {
         stopperTimer.setStartTime(System.currentTimeMillis());
         stopperHandler.postDelayed(stopperTimer, 0);
 
+        int suly = seekBarSuly != null ? seekBarSuly.getProgress() : Integer.parseInt(etSuly.getText().toString());
+        int ism = seekBarIsm != null ? seekBarIsm.getProgress() : Integer.parseInt(etIsm.getText().toString());
+
         sorozats.add(new Sorozat(gyakorlat,
-                Integer.parseInt(etSuly.getText().toString()),
-                Integer.parseInt(etIsm.getText().toString()),
+                suly,
+                ism,
                 Long.toString(System.currentTimeMillis()),
                 naplo.getNaplodatum()));
         updateSorozatTitle();
         listAdapter.notifyDataSetChanged();
-        etIsm.setText("");
+
+        if(seekBarIsm != null ) seekBarIsm.setProgress(0);
+        else etIsm.setText("");
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
             Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.addtouch);
@@ -306,6 +348,65 @@ public class Edzes extends Fragment implements View.OnClickListener {
                     }
                 })
                 .create().show();
+    }
+
+    private SeekBar.OnSeekBarChangeListener seekListeren = new SeekBar.OnSeekBarChangeListener() {
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            if(seekBar.getId() == R.id.seekBarsuly) btnSulyLabel.setText(progress+" Kg");
+
+            if(seekBar.getId() == R.id.seekBarism) btnIsmLabel.setText(progress + " x");
+        }
+
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {
+
+        }
+
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {
+
+        }
+    };
+
+    private final View.OnClickListener btnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if(v.getId() == R.id.tvSulyLabel) setbarDialog(SULY_BAR_DIALOG);
+            else if(v.getId() == R.id.tvIsmLabel) setbarDialog(ISM_BAR_DIALOG);
+        }
+    };
+
+    private void setbarDialog(int a) {
+        final EditText editText = new EditText(getContext());
+        editText.setInputType(InputType.TYPE_CLASS_NUMBER);
+
+        new AlertDialog.Builder(getContext())
+                .setTitle(a == SULY_BAR_DIALOG ? "Súly megadása" : "Ismétlés megadása")
+                .setMessage("Kérem az adatot")
+                .setView(editText)
+                .setNegativeButton("Mégse", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(TextUtils.isEmpty(editText.getText().toString())) {
+                            Toast.makeText(getContext(), "Kérlek, töltsd ki az értéket", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        if(a == SULY_BAR_DIALOG) {
+                            seekBarSuly.setProgress(Integer.parseInt(editText.getText().toString()));
+                        }
+
+                        if(a == ISM_BAR_DIALOG) {
+                            seekBarIsm.setProgress(Integer.parseInt(editText.getText().toString()));
+                        }
+                    }
+                }).create().show();
     }
 
     private class MyTimer implements Runnable {
