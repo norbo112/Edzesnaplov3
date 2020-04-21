@@ -58,4 +58,8 @@ public class SorozatViewModel extends AndroidViewModel {
     public int getOsszSulyByNaplo(String naplodatum) {
         return sorozatRepo.getOsszSulyByNaplo(naplodatum);
     }
+
+    public int getSorozatKorabbiOsszsuly(int gyakid) {
+        return sorozatRepo.getSorozatKorabbiOsszsuly(gyakid);
+    }
 }

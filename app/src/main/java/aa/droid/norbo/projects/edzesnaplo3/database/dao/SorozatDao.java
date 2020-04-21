@@ -45,4 +45,10 @@ public interface SorozatDao {
             "SELECT SUM(suly * ismetles) FROM sorozattabla WHERE naplodatum = :naplodatum"
     )
     int getOsszSulyByNaplo(String naplodatum);
+
+    @Transaction
+    @Query(
+            "SELECT sum(suly * ismetles) FROM sorozattabla WHERE gyakorlatid = :gyakorlatid group by naplodatum order by naplodatum desc limit 1"
+    )
+    int getSorozatKorabbiOsszsuly(int gyakorlatid);
 }

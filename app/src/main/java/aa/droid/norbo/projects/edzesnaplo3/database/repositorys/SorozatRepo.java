@@ -83,4 +83,8 @@ public class SorozatRepo {
     public int getOsszSulyByNaplo(String naplodatum) {
         return sorozatDao.getOsszSulyByNaplo(naplodatum);
     }
+
+    public int getSorozatKorabbiOsszsuly(int gyakid) {
+        return sorozatDao.getSorozatKorabbiOsszsuly(gyakid);
+    }
 }

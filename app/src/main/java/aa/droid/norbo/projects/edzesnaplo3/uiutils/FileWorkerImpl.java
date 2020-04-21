@@ -20,7 +20,7 @@ import java.util.List;
 
 import aa.droid.norbo.projects.edzesnaplo3.database.dao.SorozatWithGyakorlat;
 
-public class FileWorkerImpl<T> implements FileWorkerInterface {
+public class FileWorkerImpl implements FileWorkerInterface {
     private static final String TAG = "FileWorker";
     private Context context;
 

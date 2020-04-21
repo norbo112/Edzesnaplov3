@@ -12,7 +12,8 @@ import aa.droid.norbo.projects.edzesnaplo3.database.entities.Gyakorlat;
  */
 public interface EdzesFragmentControllerInterface {
     /**
-     * Fragmentbe lévő view modosítása és a fragmenthez való gyakorlat felvétel
+     * Fragmentbe lévő view modosítása és a fragmenthez való gyakorlat felvétele
+     * Előkészítem az új gyakorlatra a view-t
      * @param view
      */
     void prepareGyakorlat(Fragment fragment, View view);

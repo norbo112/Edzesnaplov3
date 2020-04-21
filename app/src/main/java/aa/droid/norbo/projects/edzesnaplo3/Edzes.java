@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import android.annotation.SuppressLint;
@@ -12,6 +13,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
@@ -37,6 +39,7 @@ import java.util.List;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Gyakorlat;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Naplo;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Sorozat;
+import aa.droid.norbo.projects.edzesnaplo3.database.viewmodels.SorozatViewModel;
 import aa.droid.norbo.projects.edzesnaplo3.datainterfaces.AdatBeallitoInterface;
 import aa.droid.norbo.projects.edzesnaplo3.ui.controller.EdzesFragmentCntImpl;
 import aa.droid.norbo.projects.edzesnaplo3.ui.controller.interfaces.EdzesFragmentControllerInterface;
@@ -44,7 +47,7 @@ import aa.droid.norbo.projects.edzesnaplo3.ui.controller.interfaces.EdzesFragmen
 public class Edzes extends Fragment implements View.OnClickListener {
     private static final int SULY_BAR_DIALOG = 1;
     private static final int ISM_BAR_DIALOG = 2;
-    private final String TAG = getClass().getSimpleName();
+
     private Gyakorlat gyakorlat;
     private List<Sorozat> sorozats;
     private Naplo naplo;
@@ -54,19 +57,15 @@ public class Edzes extends Fragment implements View.OnClickListener {
 
     private EditText etSuly;
     private EditText etIsm;
-    private ListView listView;
 
     private final Handler stopperHandler = new Handler();
     private TextView tvStopper;
     private final MyTimer stopperTimer = new MyTimer();
-    private TextView gyaktitle;
 
     private AdatBeallitoInterface adatBeallitoInterface;
     private EdzesFragmentControllerInterface controllerInterface;
+    private SorozatViewModel sorozatViewModel;
     private View fragmentView;
-    private Button btnSorozatAdd;
-    private Button btnUjGyakorlat;
-    private Button btnSave;
     private TextView tvSorozatTitle;
     private CardView cardView;
 
@@ -80,7 +79,7 @@ public class Edzes extends Fragment implements View.OnClickListener {
         this.adatBeallitoInterface = (AdatBeallitoInterface) context;
         this.felhasznalonev = adatBeallitoInterface.getFelhasznaloNev();
         this.controllerInterface = new EdzesFragmentCntImpl();
-
+        this.sorozatViewModel = new ViewModelProvider(this).get(SorozatViewModel.class);
         naplo = new Naplo(Long.toString(System.currentTimeMillis()), felhasznalonev);
         sorozats = new ArrayList<>();
     }
@@ -98,7 +97,6 @@ public class Edzes extends Fragment implements View.OnClickListener {
         outState.putParcelableArrayList("sorozatok", (ArrayList<? extends Parcelable>) sorozats);
         outState.putSerializable("gyakorlat", gyakorlat);
         super.onSaveInstanceState(outState);
-        System.out.println("Saved instanse lefutott");
     }
 
     @Nullable
@@ -113,7 +111,7 @@ public class Edzes extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.test_tabbed_edzes_layout, container, false);
         this.fragmentView = view;
         cardView = view.findViewById(R.id.edzes_card_view);
-        gyaktitle = view.findViewById(R.id.gyak_title);
+        TextView gyaktitle = view.findViewById(R.id.gyak_title);
         tvStopper = view.findViewById(R.id.tvStopper);
 
         tvSorozatTitle = view.findViewById(R.id.tvSorozatokTitle);
@@ -121,11 +119,11 @@ public class Edzes extends Fragment implements View.OnClickListener {
         etIsm = view.findViewById(R.id.etIsm);
         etSuly = view.findViewById(R.id.etSuly);
 
-        btnSorozatAdd = view.findViewById(R.id.btnSorozatAdd);
+        Button btnSorozatAdd = view.findViewById(R.id.btnSorozatAdd);
         btnSorozatAdd.setOnClickListener(this);
-        btnUjGyakorlat = view.findViewById(R.id.btnEdzesUjGy);
+        Button btnUjGyakorlat = view.findViewById(R.id.btnEdzesUjGy);
         btnUjGyakorlat.setOnClickListener(this);
-        btnSave = view.findViewById(R.id.btnEdzesSave);
+        Button btnSave = view.findViewById(R.id.btnEdzesSave);
         btnSave.setOnClickListener(this);
 
         seekBarSuly = view.findViewById(R.id.seekBarsuly);
@@ -149,9 +147,25 @@ public class Edzes extends Fragment implements View.OnClickListener {
             controllerInterface.disableButtons(this, view);
         }
 
-        listAdapter = new ArrayAdapter<>(getContext(),
-                android.R.layout.simple_list_item_1, sorozats);
-        listView = view.findViewById(R.id.sorozatLista);
+        listAdapter = new ArrayAdapter<Sorozat>(getContext(),
+                R.layout.sorozat_list_item, sorozats){
+            @NonNull
+            @Override
+            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                Sorozat sorozat = getItem(position);
+
+                if(convertView == null) {
+                    convertView = getLayoutInflater().inflate(R.layout.sorozat_list_item, parent, false);
+                }
+
+                ((TextView)convertView.findViewById(R.id.sorozatTextview)).setText(sorozat.toString());
+                textKorabbiOsszsuly(convertView.findViewById(R.id.korabbiSSulyTV),
+                        sorozat);
+
+                return convertView;
+            }
+        };
+        ListView listView = view.findViewById(R.id.sorozatLista);
         listView.setAdapter(listAdapter);
         listView.setNestedScrollingEnabled(true);
 
@@ -163,6 +177,21 @@ public class Edzes extends Fragment implements View.OnClickListener {
         });
 
         return view;
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private void textKorabbiOsszsuly(TextView textView, Sorozat sorozat) {
+        new AsyncTask<Void, Void, Integer>() {
+            @Override
+            protected Integer doInBackground(Void... voids) {
+                return sorozatViewModel.getSorozatKorabbiOsszsuly(sorozat.getGyakorlatid());
+            }
+
+            @Override
+            protected void onPostExecute(Integer integer) {
+                textView.setText(integer != null ? integer+" Kg" : "0");
+            }
+        }.execute();
     }
 
     public void setGyakorlat(Gyakorlat gyakorlat) {
@@ -197,18 +226,7 @@ public class Edzes extends Fragment implements View.OnClickListener {
 
     private void saveNaplo() {
         naplo.addAllSorozat(sorozats);
-
-        sorozats.clear();
-        listAdapter.notifyDataSetChanged();
-        stopperHandler.removeCallbacks(stopperTimer);
-        if(seekBarSuly != null) {
-            seekBarSuly.setProgress(0);
-            seekBarIsm.setProgress(0);
-        } else {
-            etSuly.setText("");
-            etIsm.setText("");
-        }
-        tvStopper.setText("00:00");
+        controllerInterface.prepareGyakorlat(this, fragmentView);
 
         Intent naplomentes = new Intent(getContext(), NaploActivity.class);
         naplomentes.putExtra(MainActivity.FELHASZNALONEV, felhasznalonev);
@@ -268,7 +286,7 @@ public class Edzes extends Fragment implements View.OnClickListener {
             for (int i = 0; i < sorozats.size(); i++) {
                 osszes += sorozats.get(i).getSuly() * sorozats.get(i).getIsmetles();
             }
-            tvSorozatTitle.setText("Megmozgatott sőly: "+osszes+" Kg");
+            tvSorozatTitle.setText("Megmozgatott súly: "+osszes+" Kg");
         }
     }
 

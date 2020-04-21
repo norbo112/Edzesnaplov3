@@ -35,7 +35,11 @@ public class EdzesFragmentCntImpl implements EdzesFragmentControllerInterface {
         }
 
         ((TextView)view.findViewById(R.id.tvStopper)).setText("00:00");
-        ((TextView)view.findViewById(R.id.gyak_title)).setText(edzes.getGyakorlat().getMegnevezes()+" használata");
+        if(edzes.getGyakorlat() != null) {
+            ((TextView) view.findViewById(R.id.gyak_title)).setText(edzes.getGyakorlat().getMegnevezes() + " használata");
+        } else {
+            ((TextView)view.findViewById(R.id.gyak_title)).setText("Kérlek válassz egy gyakorlatot");
+        }
     }
 
     @Override
