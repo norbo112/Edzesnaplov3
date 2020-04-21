@@ -23,11 +23,15 @@
     <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
     <show-object-properties value="true" />
-    <loaded-nodes />
+    <loaded-nodes>
+      <connection connection-id="e6b19e2b-0bcd-4096-89b1-d9a4df557ba0">
+        <schema name="main" object-types="table, view, column" />
+      </connection>
+    </loaded-nodes>
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="e6b19e2b-0bcd-4096-89b1-d9a4df557ba0">
-      <console name="Edzésnapló" type="STANDARD" schema="main" session="Main"><![CDATA[select sum(suly * ismetles) as osszeg from sorozattabla where gyakorlatid = 1 group by naplodatum order by naplodatum desc limit 1;]]></console>
+      <console name="Edzésnapló" type="STANDARD" schema="main" session="Main"><![CDATA[select * from naplouser]]></console>
       <console name="Edzésnapló 1" type="STANDARD" schema="main" session="Main"><![CDATA[select * from sorozattabla]]></console>
     </connection>
     <connection id="cfaf11ab-43d6-4cfa-a5c9-07c3359db861">

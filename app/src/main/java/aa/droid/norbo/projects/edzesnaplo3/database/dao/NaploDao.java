@@ -19,7 +19,7 @@ public interface NaploDao {
     @Insert
     void insertNaplo(Naplo naplo);
 
-    @Query("SELECT * FROM naplo")
+    @Query("SELECT * FROM naplo ORDER BY naplodatum")
     LiveData<List<Naplo>> getNaploLiveData();
 
     @Query("DELETE FROM naplo")

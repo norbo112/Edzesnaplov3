@@ -27,8 +27,6 @@ import aa.droid.norbo.projects.edzesnaplo3.ui.main.SectionsPagerAdapter;
 public class Tevekenyseg extends AppCompatActivity implements AdatBeallitoInterface {
     private final String TAG = getClass().getSimpleName();
     private String felhasznalonev;
-    private ViewPager viewPager;
-    private SectionsPagerAdapter sectionsPagerAdapter;
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -44,10 +42,10 @@ public class Tevekenyseg extends AppCompatActivity implements AdatBeallitoInterf
 
         felhasznalonev = getIntent().getStringExtra(MainActivity.FELHASZNALONEV);
 
-        sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
+        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
         sectionsPagerAdapter.addFragment(new GyakorlatValaszto(), "Gyakorlat");
         sectionsPagerAdapter.addFragment(new Edzes(), "Edzés");
-        viewPager = findViewById(R.id.view_pager);
+        ViewPager viewPager = findViewById(R.id.view_pager);
         if(viewPager != null) {
             viewPager.setAdapter(sectionsPagerAdapter);
             TabLayout tabs = findViewById(R.id.tabs);

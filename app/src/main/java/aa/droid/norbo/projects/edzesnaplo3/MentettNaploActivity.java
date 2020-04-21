@@ -206,7 +206,7 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
         } else if(item.getItemId() == R.id.menu_mentett_load) {
             Intent filechooser = new Intent(Intent.ACTION_GET_CONTENT);
             filechooser.setType("*/*");
-            filechooser.putExtra(Intent.EXTRA_MIME_TYPES, new String[]{"application/octet-stream"});
+            filechooser.putExtra(Intent.EXTRA_MIME_TYPES, new String[]{"application/octet-stream", "application/json"});
             filechooser.addCategory(Intent.CATEGORY_OPENABLE);
             startActivityForResult(filechooser, FILE_LOAD_RCODE);
         }

@@ -260,7 +260,7 @@ public class Edzes extends Fragment implements View.OnClickListener {
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
             Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.addtouch);
-            cardView.startAnimation(animation);
+            if(cardView != null) cardView.startAnimation(animation);
         } else {
             Toast.makeText(getContext(), "!", Toast.LENGTH_SHORT).show();
         }
