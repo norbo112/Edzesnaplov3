@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
-            app:contentScrim="#071C07"
+            app:contentScrim="#000000"
             app:titleEnabled="false"
             app:layout_scrollFlags="scroll|enterAlways|exitUntilCollapsed"
             app:toolbarId="@id/toolbar">

@@ -65,6 +65,7 @@ public class Edzes extends Fragment implements View.OnClickListener {
     private AdatBeallitoInterface adatBeallitoInterface;
     private EdzesFragmentControllerInterface controllerInterface;
     private SorozatViewModel sorozatViewModel;
+    private TextView korabbiSorozat;
     private View fragmentView;
     private TextView tvSorozatTitle;
     private CardView cardView;
@@ -115,6 +116,7 @@ public class Edzes extends Fragment implements View.OnClickListener {
         tvStopper = view.findViewById(R.id.tvStopper);
 
         tvSorozatTitle = view.findViewById(R.id.tvSorozatokTitle);
+        korabbiSorozat = view.findViewById(R.id.korabbiSorozat);
 
         etIsm = view.findViewById(R.id.etIsm);
         etSuly = view.findViewById(R.id.etSuly);
@@ -147,24 +149,7 @@ public class Edzes extends Fragment implements View.OnClickListener {
             controllerInterface.disableButtons(this, view);
         }
 
-        listAdapter = new ArrayAdapter<Sorozat>(getContext(),
-                R.layout.sorozat_list_item, sorozats){
-            @NonNull
-            @Override
-            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-                Sorozat sorozat = getItem(position);
-
-                if(convertView == null) {
-                    convertView = getLayoutInflater().inflate(R.layout.sorozat_list_item, parent, false);
-                }
-
-                ((TextView)convertView.findViewById(R.id.sorozatTextview)).setText(sorozat.toString());
-                textKorabbiOsszsuly(convertView.findViewById(R.id.korabbiSSulyTV),
-                        sorozat);
-
-                return convertView;
-            }
-        };
+        listAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, sorozats);
         ListView listView = view.findViewById(R.id.sorozatLista);
         listView.setAdapter(listAdapter);
         listView.setNestedScrollingEnabled(true);
@@ -180,11 +165,11 @@ public class Edzes extends Fragment implements View.OnClickListener {
     }
 
     @SuppressLint("StaticFieldLeak")
-    private void textKorabbiOsszsuly(TextView textView, Sorozat sorozat) {
+    private void textKorabbiOsszsuly(TextView textView, int gyakorlatid) {
         new AsyncTask<Void, Void, Integer>() {
             @Override
             protected Integer doInBackground(Void... voids) {
-                return sorozatViewModel.getSorozatKorabbiOsszsuly(sorozat.getGyakorlatid());
+                return sorozatViewModel.getSorozatKorabbiOsszsuly(gyakorlatid);
             }
 
             @Override
@@ -197,6 +182,7 @@ public class Edzes extends Fragment implements View.OnClickListener {
     public void setGyakorlat(Gyakorlat gyakorlat) {
         this.gyakorlat = gyakorlat;
         controllerInterface.prepareGyakorlat(this, fragmentView);
+        textKorabbiOsszsuly(korabbiSorozat, gyakorlat.getId());
     }
 
     @Override
