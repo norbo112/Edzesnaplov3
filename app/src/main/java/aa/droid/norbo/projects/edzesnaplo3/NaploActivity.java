@@ -45,6 +45,9 @@ public class NaploActivity extends AppCompatActivity {
     private SorozatViewModel sorozatViewModel;
     private TextView aktual_napi_osszsuly;
 
+    private boolean record = false;
+    private JelenlegiEdzesFragment edzesFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +88,18 @@ public class NaploActivity extends AppCompatActivity {
                     startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 } else {
                     Toast.makeText(NaploActivity.this, "Nem lehet mit menteni", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        findViewById(R.id.fabNaploCommentSmall).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(edzesFragment == null) edzesFragment = new JelenlegiEdzesFragment();
+                if(!edzesFragment.isRecordison()) {
+                    edzesFragment.audiorecord(getApplicationContext(), getSharedPreferences("naplo",MODE_PRIVATE), naplo);
+                } else {
+                    edzesFragment.stopRecord();
                 }
             }
         });

@@ -17,6 +17,8 @@ public class Naplo implements Serializable {
     @ColumnInfo(index = true)
     private String naplodatum;
     private String felhasznalonev;
+    @ColumnInfo(name = "sound_comment_fname")
+    private String commentFilePath;
     @Ignore
     private List<Sorozat> sorozats;
 
@@ -60,6 +62,14 @@ public class Naplo implements Serializable {
 
     public void setFelhasznalonev(String felhasznalonev) {
         this.felhasznalonev = felhasznalonev;
+    }
+
+    public String getCommentFilePath() {
+        return commentFilePath;
+    }
+
+    public void setCommentFilePath(String commentFilePath) {
+        this.commentFilePath = commentFilePath;
     }
 
     @Ignore

@@ -11,7 +11,7 @@
     "gyak_id": "2",
     "csoport": "Mell",
     "megnevezes": "45°ba nyomás kétkezessel",
-    "leiras": "\r",
+    "leiras": "",
     "videolink": "",
     "videostartpoz": "0"
   },
@@ -19,7 +19,7 @@
     "gyak_id": "3",
     "csoport": "Mell",
     "megnevezes": "30°ba nyomás kétkezessel",
-    "leiras": "\r",
+    "leiras": "",
     "videolink": "",
     "videostartpoz": "0"
   },
@@ -27,7 +27,7 @@
     "gyak_id": "4",
     "csoport": "Mell",
     "megnevezes": "45°ba nyomás egykezessel",
-    "leiras": "\r",
+    "leiras": "",
     "videolink": "",
     "videostartpoz": "0"
   },
@@ -35,7 +35,7 @@
     "gyak_id": "5",
     "csoport": "Mell",
     "megnevezes": "30°ba nyomás egykezessel",
-    "leiras": "\r",
+    "leiras": "",
     "videolink": "",
     "videostartpoz": "0"
   },
@@ -43,7 +43,7 @@
     "gyak_id": "6",
     "csoport": "Mell",
     "megnevezes": "Tárogatás fekve",
-    "leiras": "\r",
+    "leiras": "",
     "videolink": "",
     "videostartpoz": "0"
   },
@@ -51,7 +51,7 @@
     "gyak_id": "7",
     "csoport": "Mell",
     "megnevezes": "Tárogatás 30°ba",
-    "leiras": "\r",
+    "leiras": "",
     "videolink": "",
     "videostartpoz": "0"
   },
@@ -59,7 +59,7 @@
     "gyak_id": "8",
     "csoport": "Mell",
     "megnevezes": "Tárogatás 45°ba",
-    "leiras": "\r",
+    "leiras": "",
     "videolink": "",
     "videostartpoz": "0"
   },
@@ -67,7 +67,7 @@
     "gyak_id": "9",
     "csoport": "Mell",
     "megnevezes": "Felső csiga mell",
-    "leiras": "\r",
+    "leiras": "",
     "videolink": "pEytdJdsR7o",
     "videostartpoz": "296"
   },
@@ -75,7 +75,7 @@
     "gyak_id": "10",
     "csoport": "Mell",
     "megnevezes": "Alsó csiga mell",
-    "leiras": "\r",
+    "leiras": "",
     "videolink": "",
     "videostartpoz": "0"
   },
@@ -83,7 +83,7 @@
     "gyak_id": "11",
     "csoport": "Mell",
     "megnevezes": "Fekvenyomás szűken",
-    "leiras": "\r",
+    "leiras": "",
     "videolink": "",
     "videostartpoz": "0"
   },
@@ -91,7 +91,7 @@
     "gyak_id": "12",
     "csoport": "Hát",
     "megnevezes": "Húzódzkodás szélesen",
-    "leiras": "\r",
+    "leiras": "",
     "videolink": "",
     "videostartpoz": "0"
   },
@@ -99,7 +99,7 @@
     "gyak_id": "13",
     "csoport": "Hát",
     "megnevezes": "Húzódzkodás nyakhoz",
-    "leiras": "\r",
+    "leiras": "",
     "videolink": "",
     "videostartpoz": "0"
   },
@@ -107,7 +107,7 @@
     "gyak_id": "14",
     "csoport": "Hát",
     "megnevezes": "Húzódzkodás szűken",
-    "leiras": "\r",
+    "leiras": "",
     "videolink": "",
     "videostartpoz": "0"
   },
@@ -115,7 +115,7 @@
     "gyak_id": "15",
     "csoport": "Hát",
     "megnevezes": "Kétkezes evezés szélesen",
-    "leiras": "\r",
+    "leiras": "",
     "videolink": "D2km3fX9R7w",
     "videostartpoz": "111"
   },
@@ -123,7 +123,7 @@
     "gyak_id": "16",
     "csoport": "Hát",
     "megnevezes": "Kétkezes evezés szűken",
-    "leiras": "\r",
+    "leiras": "",
     "videolink": "",
     "videostartpoz": "0"
   },
@@ -131,7 +131,7 @@
     "gyak_id": "17",
     "csoport": "Hát",
     "megnevezes": "Egykezes evezés",
-    "leiras": "\r",
+    "leiras": "",
     "videolink": "D2km3fX9R7w",
     "videostartpoz": "268"
   },
@@ -139,7 +139,7 @@
     "gyak_id": "18",
     "csoport": "Hát",
     "megnevezes": "Evezés alsó csigán 3szöggel",
-    "leiras": "\r",
+    "leiras": "",
     "videolink": "D2km3fX9R7w",
     "videostartpoz": "0"
   },
@@ -147,7 +147,7 @@
     "gyak_id": "19",
     "csoport": "Hát",
     "megnevezes": "Evezés alsó csigán szélesen",
-    "leiras": "\r",
+    "leiras": "",
     "videolink": "",
     "videostartpoz": "0"
   },
@@ -155,7 +155,7 @@
     "gyak_id": "20",
     "csoport": "Tricepsz",
     "megnevezes": "Tolódzkodás",
-    "leiras": "\r",
+    "leiras": "",
     "videolink": "",
     "videostartpoz": "0"
   },
@@ -163,7 +163,7 @@
     "gyak_id": "21",
     "csoport": "Tricepsz",
     "megnevezes": "Lenyomás vassal cs.",
-    "leiras": "\r",
+    "leiras": "",
     "videolink": "AC8giuvnVIo",
     "videostartpoz": "42"
   },
@@ -171,7 +171,7 @@
     "gyak_id": "22",
     "csoport": "Tricepsz",
     "megnevezes": "Lenyomás kötéllel cs.",
-    "leiras": "\r",
+    "leiras": "",
     "videolink": "AC8giuvnVIo",
     "videostartpoz": "183"
   },
@@ -179,7 +179,7 @@
     "gyak_id": "23",
     "csoport": "Tricepsz",
     "megnevezes": "Homlokra engedés fr.",
-    "leiras": "\r",
+    "leiras": "",
     "videolink": "AC8giuvnVIo",
     "videostartpoz": "300"
   },
@@ -187,7 +187,7 @@
     "gyak_id": "24",
     "csoport": "Tricepsz",
     "megnevezes": "Homlokra engedés egy.",
-    "leiras": "\r",
+    "leiras": "",
     "videolink": "",
     "videostartpoz": "0"
   },
@@ -195,7 +195,7 @@
     "gyak_id": "25",
     "csoport": "Tricepsz",
     "megnevezes": "Lórúgás",
-    "leiras": "\r",
+    "leiras": "",
     "videolink": "",
     "videostartpoz": "0"
   },
@@ -203,7 +203,7 @@
     "gyak_id": "26",
     "csoport": "Tricepsz",
     "megnevezes": "Lenyomás egykezessel",
-    "leiras": "\r",
+    "leiras": "",
     "videolink": "AC8giuvnVIo",
     "videostartpoz": "153"
   },
@@ -211,7 +211,7 @@
     "gyak_id": "27",
     "csoport": "Tricepsz",
     "megnevezes": "L. kötéllel fej felett",
-    "leiras": "\r",
+    "leiras": "",
     "videolink": "",
     "videostartpoz": "0"
   },
@@ -219,7 +219,7 @@
     "gyak_id": "28",
     "csoport": "Tricepsz",
     "megnevezes": "Tolódzkodás két pad közt",
-    "leiras": "\r",
+    "leiras": "",
     "videolink": "",
     "videostartpoz": "0"
   },
@@ -227,7 +227,7 @@
     "gyak_id": "29",
     "csoport": "Bicepsz",
     "megnevezes": "Állva kétkezessel bic",
-    "leiras": "\r",
+    "leiras": "",
     "videolink": "IOnV6rj_yVk",
     "videostartpoz": "134"
   },
@@ -243,7 +243,7 @@
     "gyak_id": "31",
     "csoport": "Bicepsz",
     "megnevezes": "Scott padon egyk",
-    "leiras": "\r",
+    "leiras": "",
     "videolink": "",
     "videostartpoz": "0"
   },
@@ -267,7 +267,7 @@
     "gyak_id": "34",
     "csoport": "Bicepsz",
     "megnevezes": "Felső csiga kétk",
-    "leiras": "\r",
+    "leiras": "",
     "videolink": "",
     "videostartpoz": "0"
   },
@@ -283,7 +283,7 @@
     "gyak_id": "36",
     "csoport": "Bicepsz",
     "megnevezes": "Üllve beforgatós egyk",
-    "leiras": "\r",
+    "leiras": "",
     "videolink": "",
     "videostartpoz": "0"
   },
@@ -291,7 +291,7 @@
     "gyak_id": "37",
     "csoport": "Váll",
     "megnevezes": "Oldalemelés",
-    "leiras": "\r",
+    "leiras": "",
     "videolink": "",
     "videostartpoz": "0"
   },
@@ -299,7 +299,7 @@
     "gyak_id": "38",
     "csoport": "Váll",
     "megnevezes": "Előre emelés egykezessel",
-    "leiras": "\r",
+    "leiras": "",
     "videolink": "",
     "videostartpoz": "0"
   },
@@ -307,7 +307,7 @@
     "gyak_id": "39",
     "csoport": "Váll",
     "megnevezes": "Előre emelés ruddal",
-    "leiras": "\r",
+    "leiras": "",
     "videolink": "",
     "videostartpoz": "0"
   },
@@ -315,7 +315,7 @@
     "gyak_id": "40",
     "csoport": "Váll",
     "megnevezes": "Arnold nyomás egyk",
-    "leiras": "\r",
+    "leiras": "",
     "videolink": "",
     "videostartpoz": "0"
   },
@@ -323,7 +323,7 @@
     "gyak_id": "41",
     "csoport": "Váll",
     "megnevezes": "Elülső nyomás állva",
-    "leiras": "\r",
+    "leiras": "",
     "videolink": "",
     "videostartpoz": "0"
   },
@@ -331,7 +331,7 @@
     "gyak_id": "42",
     "csoport": "Váll",
     "megnevezes": "Elülső nyomás üllve",
-    "leiras": "\r",
+    "leiras": "",
     "videolink": "",
     "videostartpoz": "0"
   },
@@ -339,7 +339,7 @@
     "gyak_id": "43",
     "csoport": "Váll",
     "megnevezes": "Oldalemelés üllve",
-    "leiras": "\r",
+    "leiras": "",
     "videolink": "",
     "videostartpoz": "0"
   },
@@ -347,7 +347,7 @@
     "gyak_id": "44",
     "csoport": "Váll",
     "megnevezes": "Oldalemelés csigán",
-    "leiras": "\r",
+    "leiras": "",
     "videolink": "",
     "videostartpoz": "0"
   },
@@ -355,7 +355,7 @@
     "gyak_id": "45",
     "csoport": "Váll",
     "megnevezes": "Döntött törzsű Oldalemelés",
-    "leiras": "\r",
+    "leiras": "",
     "videolink": "",
     "videostartpoz": "0"
   },
@@ -363,7 +363,7 @@
     "gyak_id": "46",
     "csoport": "Váll",
     "megnevezes": "Hátsó váll csigán",
-    "leiras": "\r",
+    "leiras": "",
     "videolink": "",
     "videostartpoz": "0"
   },
@@ -371,7 +371,7 @@
     "gyak_id": "47",
     "csoport": "Láb",
     "megnevezes": "Guggolás szélesen",
-    "leiras": "\r",
+    "leiras": "",
     "videolink": "",
     "videostartpoz": "0"
   },
@@ -379,7 +379,7 @@
     "gyak_id": "48",
     "csoport": "Láb",
     "megnevezes": "Guggolás szűken",
-    "leiras": "\r",
+    "leiras": "",
     "videolink": "",
     "videostartpoz": "0"
   },
@@ -387,7 +387,7 @@
     "gyak_id": "49",
     "csoport": "Láb",
     "megnevezes": "Elülső guggolás",
-    "leiras": "\r",
+    "leiras": "",
     "videolink": "",
     "videostartpoz": "0"
   },
@@ -395,7 +395,7 @@
     "gyak_id": "50",
     "csoport": "Láb",
     "megnevezes": "Kitörés",
-    "leiras": "\r",
+    "leiras": "",
     "videolink": "",
     "videostartpoz": "0"
   },
@@ -403,7 +403,7 @@
     "gyak_id": "51",
     "csoport": "Láb",
     "megnevezes": "Lábnyújtás",
-    "leiras": "\r",
+    "leiras": "",
     "videolink": "",
     "videostartpoz": "0"
   },
@@ -411,7 +411,7 @@
     "gyak_id": "52",
     "csoport": "Láb",
     "megnevezes": "Lábhajlítás",
-    "leiras": "\r",
+    "leiras": "",
     "videolink": "",
     "videostartpoz": "0"
   },
@@ -419,7 +419,7 @@
     "gyak_id": "53",
     "csoport": "Vádli",
     "megnevezes": "Vádli állva egylábon",
-    "leiras": "\r",
+    "leiras": "",
     "videolink": "",
     "videostartpoz": "0"
   },
@@ -427,7 +427,7 @@
     "gyak_id": "54",
     "csoport": "Vádli",
     "megnevezes": "Vádli üllve",
-    "leiras": "\r",
+    "leiras": "",
     "videolink": "",
     "videostartpoz": "0"
   },
@@ -435,7 +435,7 @@
     "gyak_id": "55",
     "csoport": "Vádli",
     "megnevezes": "Vádli állva ruddal",
-    "leiras": "\r",
+    "leiras": "",
     "videolink": "",
     "videostartpoz": "0"
   },

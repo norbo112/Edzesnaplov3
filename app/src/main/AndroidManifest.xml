@@ -3,6 +3,8 @@
     package="aa.droid.norbo.projects.edzesnaplo3">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -11,8 +13,6 @@
         android:roundIcon="@mipmap/enlogo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".DiagramActivity"
-            android:parentActivityName=".MainActivity"/>
 
         <provider
             android:name=".providers.NaploContentProvider"
@@ -35,6 +35,8 @@
             android:exported="false"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
 
+        <activity android:name=".DiagramActivity"
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".VideoActivity"
             android:parentActivityName=".Tevekenyseg" />

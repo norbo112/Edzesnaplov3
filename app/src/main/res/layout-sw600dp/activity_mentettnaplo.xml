@@ -73,14 +73,13 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabNaploMegtekinto"
+        android:id="@+id/fabNaploCommentPlay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:elevation="5dp"
-        android:src="@android:drawable/ic_menu_save"
-        android:visibility="invisible"
-        app:backgroundTint="#2196F3" />
+        android:src="@drawable/ic_mic_stop"
+        app:backgroundTint="#FFCA28" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

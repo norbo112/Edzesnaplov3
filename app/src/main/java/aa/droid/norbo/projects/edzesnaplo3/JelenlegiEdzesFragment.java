@@ -1,6 +1,10 @@
 package aa.droid.norbo.projects.edzesnaplo3;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,12 +14,14 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.security.acl.Permission;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -27,6 +33,7 @@ import aa.droid.norbo.projects.edzesnaplo3.database.viewmodels.SorozatViewModel;
 import aa.droid.norbo.projects.edzesnaplo3.datainterfaces.AdatBeallitoInterface;
 import aa.droid.norbo.projects.edzesnaplo3.providers.NaploContentProvider;
 import aa.droid.norbo.projects.edzesnaplo3.rcview.NaploAdapter;
+import aa.droid.norbo.projects.edzesnaplo3.uiutils.NaploAudioComment;
 
 public class JelenlegiEdzesFragment extends Fragment {
     private AdatBeallitoInterface adatBeallitoInterface;
@@ -37,6 +44,14 @@ public class JelenlegiEdzesFragment extends Fragment {
     private SorozatViewModel sorozatViewModel;
     private NaploViewModel naploViewModel;
     private Naplo naplo;
+
+    private NaploAudioComment naploAudioComment;
+    private boolean recordison;
+    private SharedPreferences preferences;
+    private String filename;
+
+    public JelenlegiEdzesFragment() {
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,6 +68,8 @@ public class JelenlegiEdzesFragment extends Fragment {
                 .get(SorozatViewModel.class);
         this.naploViewModel = new ViewModelProvider(this)
                 .get(NaploViewModel.class);
+
+        this.preferences = context.getSharedPreferences("naplo", Context.MODE_PRIVATE);
     }
 
     @Nullable
@@ -81,6 +98,7 @@ public class JelenlegiEdzesFragment extends Fragment {
                     return;
                 }
                 if(naplo.getSorozats().size() > 0) {
+                    //todo napló comment felvételének file elérési útjának beállítása
                     naploViewModel.insert(naplo);
                     sorozatViewModel.insert(naplo.getSorozats());
                     Toast.makeText(getContext(), "Megtörtént a mentés", Toast.LENGTH_SHORT).show();
@@ -94,7 +112,39 @@ public class JelenlegiEdzesFragment extends Fragment {
             }
         });
 
+        view.findViewById(R.id.fabNaploComment).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                audiorecord(getContext(), preferences, naplo);
+            }
+        });
+
         return view;
+    }
+
+    public void audiorecord(Context context, SharedPreferences preferences1, Naplo mNaplo) {
+        if(!preferences1.getBoolean(MainActivity.AUDIO_RECORD_IS, false)) {
+            Toast.makeText(getContext(), "Audio rögzítésre nem jogosult", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(mNaplo == null) {
+            Toast.makeText(getContext(), "Nincs napló amire rögzítenék", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        filename = context.getExternalCacheDir().getAbsoluteFile()+
+                "/"+mNaplo.getNaplodatum() + "_comment.3gp";
+        mNaplo.setCommentFilePath(filename);
+        if(naploAudioComment == null) {
+            naploAudioComment = new NaploAudioComment(getContext(), filename);
+        }
+        if(!recordison) {
+            naploAudioComment.setRecordis(false);
+            recordison = true;
+        } else {
+            naploAudioComment.setRecordis(true);
+            recordison = false;
+        }
+        naploAudioComment.startRecord();
     }
 
     public void updateNaploAdat(Naplo naplo) {
@@ -115,5 +165,16 @@ public class JelenlegiEdzesFragment extends Fragment {
     public void onSaveInstanceState(@NonNull Bundle outState) {
         outState.putSerializable("naplo", naplo);
         super.onSaveInstanceState(outState);
+    }
+
+    public boolean isRecordison() {
+        return recordison;
+    }
+
+    public void stopRecord() {
+        if(naploAudioComment != null) {
+            naploAudioComment.setRecordis(true);
+            naploAudioComment.startRecord();
+        }
     }
 }

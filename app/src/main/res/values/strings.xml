@@ -17,4 +17,6 @@
     <string name="napi_osszsuly">Megmozgatott súly</string>
     <string name="mentett_naplo_notempty_title">Válassz egy naplót...</string>
     <string name="sorozat_list_title">Elvégzett sorozatok</string>
+    <string name="gyakorlat_title">Kérlek válassz egy gyakorlatot</string>
+    <string name="stopper_init_title">00:00</string>
 </resources>

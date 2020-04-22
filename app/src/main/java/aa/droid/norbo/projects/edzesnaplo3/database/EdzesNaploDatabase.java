@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -59,6 +60,15 @@ public abstract class EdzesNaploDatabase extends RoomDatabase {
         }
         return INSTANCE;
     }
+
+    static final Migration MIGRATION_1_2 = new Migration(1,2) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL(
+                    "ALTER TABLE 'naplo' ADD COLUMN 'sound_comment_fname' TEXT"
+            );
+        }
+    };
 
     private static class AdatFeltoltes extends Callback {
         private final String TAG = getClass().getSimpleName();

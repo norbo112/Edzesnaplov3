@@ -40,5 +40,17 @@
         android:src="@android:drawable/ic_menu_save"
         app:backgroundTint="#2196F3"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabNaploComment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:backgroundTint="#2196F3"
+        android:clickable="true"
+        android:elevation="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/fabNaploMentesTabbed"
+        app:srcCompat="@drawable/ic_mic" />"
 </androidx.constraintlayout.widget.ConstraintLayout>

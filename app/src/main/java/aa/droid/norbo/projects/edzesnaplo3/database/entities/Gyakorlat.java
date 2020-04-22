@@ -94,6 +94,7 @@ public class Gyakorlat implements Serializable {
         this.videostartpoz = videostartpoz;
     }
 
+    @Ignore
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -102,6 +103,7 @@ public class Gyakorlat implements Serializable {
         return megnevezes.equals(gyakorlat.megnevezes);
     }
 
+    @Ignore
     @Override
     public int hashCode() {
         return Objects.hash(megnevezes);

@@ -105,13 +105,15 @@ public class ListItemViewFactory implements RemoteViewsService.RemoteViewsFactor
             osszsuly = new ArrayList<>();
             izomcsoportok = new ArrayList<>();
             Cursor c = context.getContentResolver().query(NaploCntAppWidget.GYAK_OSSZSULY_URI, null, naplo, null,null);
-            while(c.moveToNext()) {
-                izomcsoportok.add(c.getString(0));
-                osszsuly.add(c.getInt(2));
-                gyakorlats.add(c.getString(1));
+            if(c != null) {
+                while (c.moveToNext()) {
+                    izomcsoportok.add(c.getString(0));
+                    osszsuly.add(c.getInt(2));
+                    gyakorlats.add(c.getString(1));
+                }
+                naploGyakOsszsulies.add(new NaploGyakOsszsuly(naplo,izomcsoportok, gyakorlats, osszsuly));
+                c.close();
             }
-            naploGyakOsszsulies.add(new NaploGyakOsszsuly(naplo,izomcsoportok, gyakorlats, osszsuly));
-            c.close();
         }
         return naploGyakOsszsulies;
     }

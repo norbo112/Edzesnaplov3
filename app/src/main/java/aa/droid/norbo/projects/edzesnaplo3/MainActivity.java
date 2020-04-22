@@ -3,14 +3,18 @@ package aa.droid.norbo.projects.edzesnaplo3;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -42,6 +46,10 @@ public class MainActivity extends AppCompatActivity
     public static final String FELHASZNALONEV = "aa.droid.norbo.projects.edzesnaplo3.FELHASZNALONEV";
     public static final String INTENT_DATA_NAPLO = "aa.droid.norbo.projects.edzesnaplo3.INTENT_DATA_NAPLO";
     public static final String INTENT_DATA_NEV = "aa.droid.norbo.projects.edzesnaplo3.INTENT_DATA_NEV";
+    public static final String AUDIO_RECORD_IS = "aa.droid.norbo.projects.edzesnaplo3.AUDIO_RECORD_IS";
+
+    private static final int RECORD_AUDIO_PERM = 200;
+    private static final String[] MANI_PERMS = new String[] {Manifest.permission.RECORD_AUDIO};
 
     private EditText editText;
     private TextView textView;
@@ -50,6 +58,7 @@ public class MainActivity extends AppCompatActivity
     private NaploUserViewModel naploUserViewModel;
     private TextView textViewTemp;
     private boolean felhasznaloOn = false;
+    private SharedPreferences naplopref;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -58,6 +67,18 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+        naplopref = getSharedPreferences("naplo", MODE_PRIVATE);
+
+        if (ActivityCompat.checkSelfPermission(this, MANI_PERMS[0])
+                == PackageManager.PERMISSION_GRANTED) {
+            SharedPreferences.Editor edit = naplopref.edit();
+            edit.putBoolean(AUDIO_RECORD_IS, true);
+            edit.apply();
+        } else {
+            ActivityCompat.requestPermissions(this, MANI_PERMS, RECORD_AUDIO_PERM);
+        }
+
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Edzésnapló v3");
@@ -84,6 +105,19 @@ public class MainActivity extends AppCompatActivity
 
         Button btnBelep = findViewById(R.id.welcome_belep);
         btnBelep.setOnClickListener(this);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case RECORD_AUDIO_PERM :
+                boolean audiorecordon = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                SharedPreferences.Editor edit = naplopref.edit();
+                edit.putBoolean(AUDIO_RECORD_IS, audiorecordon);
+                edit.apply();
+                break;
+        }
     }
 
     @Override
@@ -130,6 +164,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void saveFelhasznaloToDB() {
+
         nevFromFile = editText.getText().toString();
         NaploUser naploUser = new NaploUser();
         naploUser.setFelhasznalonev(nevFromFile);

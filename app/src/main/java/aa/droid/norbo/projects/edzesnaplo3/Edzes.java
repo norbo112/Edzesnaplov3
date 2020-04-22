@@ -100,6 +100,7 @@ public class Edzes extends Fragment implements View.OnClickListener {
         super.onSaveInstanceState(outState);
     }
 
+    @SuppressLint("SetTextI18n")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -143,7 +144,7 @@ public class Edzes extends Fragment implements View.OnClickListener {
         if(gyakorlat != null) {
             gyaktitle.setText(String.format("%s használata", gyakorlat.getMegnevezes()));
         } else {
-            gyaktitle.setText("Kérlek válassz egy gyakorlatot");
+            gyaktitle.setText(R.string.gyakorlat_title);
             gyaktitle.setTextColor(Color.RED);
 
             controllerInterface.disableButtons(this, view);
@@ -220,6 +221,7 @@ public class Edzes extends Fragment implements View.OnClickListener {
         startActivity(naplomentes);
     }
 
+    @SuppressLint("SetTextI18n")
     private void sorozatHozzaad() {
         if(gyakorlat == null) {
             Toast.makeText(getContext(), "Válassz egy gyakorlatot!", Toast.LENGTH_LONG).show();
@@ -240,7 +242,7 @@ public class Edzes extends Fragment implements View.OnClickListener {
         }
 
         stopperHandler.removeCallbacks(stopperTimer);
-        tvStopper.setText("00:00");
+        tvStopper.setText(R.string.stopper_init_title);
         stopperTimer.setStartTime(System.currentTimeMillis());
         stopperHandler.postDelayed(stopperTimer, 0);
 
@@ -258,14 +260,10 @@ public class Edzes extends Fragment implements View.OnClickListener {
         if(seekBarIsm != null ) seekBarIsm.setProgress(0);
         else etIsm.setText("");
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.addtouch);
-            if(cardView != null) cardView.startAnimation(animation);
-        } else {
-            Toast.makeText(getContext(), "!", Toast.LENGTH_SHORT).show();
-        }
+        Toast.makeText(getContext(), "!", Toast.LENGTH_SHORT).show();
     }
 
+    @SuppressLint("SetTextI18n")
     private void updateSorozatTitle() {
         if(sorozats.size() > 0) {
             int osszes = 0;

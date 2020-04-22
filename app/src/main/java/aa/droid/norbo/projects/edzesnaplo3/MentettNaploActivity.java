@@ -33,6 +33,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.wdullaer.swipeactionadapter.SwipeActionAdapter;
 import com.wdullaer.swipeactionadapter.SwipeDirection;
 
@@ -53,6 +54,7 @@ import aa.droid.norbo.projects.edzesnaplo3.providers.NaploContentProvider;
 import aa.droid.norbo.projects.edzesnaplo3.rcview.NaploAdapter;
 import aa.droid.norbo.projects.edzesnaplo3.uiutils.FileWorkerImpl;
 import aa.droid.norbo.projects.edzesnaplo3.uiutils.FileWorkerInterface;
+import aa.droid.norbo.projects.edzesnaplo3.uiutils.NaploAudioComment;
 
 public class MentettNaploActivity extends AppCompatActivity implements AdapterView.OnItemClickListener,
         SwipeActionAdapter.SwipeActionListener {
@@ -122,6 +124,42 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
                 }
             }
         });
+
+        FloatingActionButton fabTabPlay = findViewById(R.id.fabNaploCommentPlay);
+        FloatingActionButton fabSmall = findViewById(R.id.fabNaploCommentPlaysmallScreen);
+        if(fabTabPlay != null) {
+            fabTabPlay.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (naplo != null) {
+                        if (naplo.getCommentFilePath() != null) {
+                            NaploAudioComment audioComment = new NaploAudioComment(getApplicationContext(), naplo.getCommentFilePath());
+                            audioComment.startPlaying();
+                        } else {
+                            Toast.makeText(MentettNaploActivity.this, "Nincs rögzítve audio comment", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(MentettNaploActivity.this, "Válassz egy naplót", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        } else {
+            fabSmall.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (naplo != null) {
+                        if (naplo.getCommentFilePath() != null) {
+                            NaploAudioComment audioComment = new NaploAudioComment(getApplicationContext(), naplo.getCommentFilePath());
+                            audioComment.startPlaying();
+                        } else {
+                            Toast.makeText(MentettNaploActivity.this, "Nincs rögzítve audio comment", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(MentettNaploActivity.this, "Válassz egy naplót", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
     }
 
     private void changeEmptyTextView() {

@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Transaction;
 
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.NaploUser;
 
@@ -17,4 +18,8 @@ public interface NaploUserDao {
 
     @Insert
     void insert(NaploUser naploUser);
+
+    @Transaction
+    @Query("SELECT count(*) FROM naplouser")
+    int count();
 }
