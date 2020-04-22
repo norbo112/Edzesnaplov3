@@ -53,6 +53,7 @@ public abstract class EdzesNaploDatabase extends RoomDatabase {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             EdzesNaploDatabase.class, "edzesnaplo_db")
                             .addCallback(new AdatFeltoltes(context))
+                            .allowMainThreadQueries()
 //                            .fallbackToDestructiveMigration()
                             .build();
                 }

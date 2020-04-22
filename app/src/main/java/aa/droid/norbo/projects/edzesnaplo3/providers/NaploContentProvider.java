@@ -12,7 +12,9 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
-import aa.droid.norbo.projects.edzesnaplo3.providers.db.NaploOpenHelper;
+import aa.droid.norbo.projects.edzesnaplo3.database.EdzesNaploDatabase;
+import aa.droid.norbo.projects.edzesnaplo3.database.dao.NaploDao;
+import aa.droid.norbo.projects.edzesnaplo3.database.dao.SorozatDao;
 import aa.droid.norbo.projects.edzesnaplo3.widgets.NaploCntAppWidget;
 
 public class NaploContentProvider extends ContentProvider {
@@ -56,12 +58,12 @@ public class NaploContentProvider extends ContentProvider {
     @Override
     public Cursor query(Uri uri, String[] projection, String selection,
                         String[] selectionArgs, String sortOrder) {
-//        NaploOpenHelper naploOpenHelper = new NaploOpenHelper(getContext());
-        NaploOpenHelper naploOpenHelper = NaploOpenHelper.getInstance(getContext());
         if(uri.equals(GET_NAPLO)) {
-            return naploOpenHelper.getNaploCursor();
+            NaploDao naploDao = EdzesNaploDatabase.getDatabase(getContext()).naploDao();
+            return naploDao.getNaploC();
         } else if(uri.equals(GET_GYAK_OSSZSULY)) {
-            return naploOpenHelper.getGyakorlatListByNaplo(selection);
+            SorozatDao sorozatDao = EdzesNaploDatabase.getDatabase(getContext()).sorozatDao();
+            return sorozatDao.selectForWidget(selection);
         }
 
         return null;

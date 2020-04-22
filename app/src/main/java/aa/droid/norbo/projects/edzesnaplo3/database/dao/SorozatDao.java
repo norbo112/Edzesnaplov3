@@ -1,5 +1,7 @@
 package aa.droid.norbo.projects.edzesnaplo3.database.dao;
 
+import android.database.Cursor;
+
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
@@ -24,6 +26,16 @@ public interface SorozatDao {
 
     @Query("DELETE FROM sorozattabla")
     void deleteAll();
+
+    @Query(
+            "SELECT gyakorlattabla.csoport AS csoport, gyakorlattabla.megnevezes AS gynev, " +
+                    "SUM(sorozattabla.suly * sorozattabla.ismetles) AS osszsuly FROM " +
+                    "sorozattabla " +
+                    "INNER JOIN gyakorlattabla ON sorozattabla.gyakorlatid = gyakorlattabla.id " +
+                    "WHERE sorozattabla.naplodatum = :naplodatum " +
+                    "GROUP BY gynev"
+    )
+    Cursor selectForWidget(String naplodatum);
 
     @Transaction
     @Query("SELECT * FROM sorozattabla")

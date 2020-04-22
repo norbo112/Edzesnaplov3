@@ -54,7 +54,6 @@ public class JelenlegiEdzesFragment extends Fragment {
     private boolean recordison;
     private SharedPreferences preferences;
     private String filename;
-    private FloatingActionButton fabComment;
     private TextView tvRec;
 
     public JelenlegiEdzesFragment() {
@@ -105,7 +104,6 @@ public class JelenlegiEdzesFragment extends Fragment {
                     return;
                 }
                 if(naplo.getSorozats().size() > 0) {
-                    //todo napló comment felvételének file elérési útjának beállítása
                     naploViewModel.insert(naplo);
                     sorozatViewModel.insert(naplo.getSorozats());
                     Toast.makeText(getContext(), "Megtörtént a mentés", Toast.LENGTH_SHORT).show();
