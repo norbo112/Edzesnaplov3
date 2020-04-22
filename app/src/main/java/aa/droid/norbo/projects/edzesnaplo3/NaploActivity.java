@@ -15,6 +15,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -97,9 +99,9 @@ public class NaploActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(edzesFragment == null) edzesFragment = new JelenlegiEdzesFragment();
                 if(!edzesFragment.isRecordison()) {
-                    edzesFragment.audiorecord(getApplicationContext(), getSharedPreferences("naplo",MODE_PRIVATE), naplo);
+                    edzesFragment.audiorecord(getApplicationContext(), getSharedPreferences("naplo",MODE_PRIVATE), naplo, findViewById(R.id.tvRec));
                 } else {
-                    edzesFragment.stopRecord();
+                    edzesFragment.stopRecord(findViewById(R.id.tvRec));
                 }
             }
         });

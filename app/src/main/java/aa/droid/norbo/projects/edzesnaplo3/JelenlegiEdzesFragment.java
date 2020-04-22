@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +23,9 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.nio.FloatBuffer;
 import java.security.acl.Permission;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +54,8 @@ public class JelenlegiEdzesFragment extends Fragment {
     private boolean recordison;
     private SharedPreferences preferences;
     private String filename;
+    private FloatingActionButton fabComment;
+    private TextView tvRec;
 
     public JelenlegiEdzesFragment() {
     }
@@ -112,17 +119,19 @@ public class JelenlegiEdzesFragment extends Fragment {
             }
         });
 
+        tvRec = view.findViewById(R.id.tvRec);
+
         view.findViewById(R.id.fabNaploComment).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                audiorecord(getContext(), preferences, naplo);
+                audiorecord(getContext(), preferences, naplo, tvRec);
             }
         });
 
         return view;
     }
 
-    public void audiorecord(Context context, SharedPreferences preferences1, Naplo mNaplo) {
+    public void audiorecord(Context context, SharedPreferences preferences1, Naplo mNaplo, TextView mtvRec) {
         if(!preferences1.getBoolean(MainActivity.AUDIO_RECORD_IS, false)) {
             Toast.makeText(getContext(), "Audio rögzítésre nem jogosult", Toast.LENGTH_SHORT).show();
             return;
@@ -131,6 +140,8 @@ public class JelenlegiEdzesFragment extends Fragment {
             Toast.makeText(getContext(), "Nincs napló amire rögzítenék", Toast.LENGTH_SHORT).show();
             return;
         }
+        Animation animation = AnimationUtils.loadAnimation(context, R.anim.addtouch);
+
         filename = context.getExternalCacheDir().getAbsoluteFile()+
                 "/"+mNaplo.getNaplodatum() + "_comment.3gp";
         mNaplo.setCommentFilePath(filename);
@@ -140,9 +151,13 @@ public class JelenlegiEdzesFragment extends Fragment {
         if(!recordison) {
             naploAudioComment.setRecordis(false);
             recordison = true;
+            mtvRec.setVisibility(View.VISIBLE);
+            mtvRec.startAnimation(animation);
         } else {
             naploAudioComment.setRecordis(true);
             recordison = false;
+            mtvRec.setVisibility(View.GONE);
+            mtvRec.clearAnimation();
         }
         naploAudioComment.startRecord();
     }
@@ -171,10 +186,12 @@ public class JelenlegiEdzesFragment extends Fragment {
         return recordison;
     }
 
-    public void stopRecord() {
+    public void stopRecord(TextView tvRec) {
         if(naploAudioComment != null) {
             naploAudioComment.setRecordis(true);
             naploAudioComment.startRecord();
+            tvRec.clearAnimation();
+            tvRec.setVisibility(View.GONE);
         }
     }
 }

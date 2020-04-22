@@ -52,5 +52,18 @@
         android:elevation="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/fabNaploMentesTabbed"
-        app:srcCompat="@drawable/ic_mic" />"
+        app:srcCompat="@drawable/ic_mic" />
+
+    <TextView
+        android:id="@+id/tvRec"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="REC"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+        android:textColor="#FF0000"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/aktualnaplo_ossz_suly_tabbed"
+        app:layout_constraintEnd_toEndOf="@+id/rcMentettNaploTabbed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />"
 </androidx.constraintlayout.widget.ConstraintLayout>
