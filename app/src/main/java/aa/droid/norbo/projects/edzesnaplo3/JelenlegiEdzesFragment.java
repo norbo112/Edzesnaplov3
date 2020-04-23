@@ -168,6 +168,13 @@ public class JelenlegiEdzesFragment extends Fragment {
         super.onSaveInstanceState(outState);
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        if(naploAudioComment != null)
+            naploAudioComment.relase();
+    }
+
     public boolean isRecordison() {
         return recordison;
     }

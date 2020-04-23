@@ -117,6 +117,12 @@ public class NaploActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(naploAudioComment != null) naploAudioComment.relase();
+    }
+
     private void initIntentExtraData(Intent intent) {
         felhasznalonev = intent.getStringExtra(MainActivity.INTENT_DATA_NEV);
         naplo = (Naplo) intent.getSerializableExtra(MainActivity.INTENT_DATA_NAPLO);
