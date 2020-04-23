@@ -36,6 +36,7 @@ import aa.droid.norbo.projects.edzesnaplo3.database.viewmodels.NaploViewModel;
 import aa.droid.norbo.projects.edzesnaplo3.database.viewmodels.SorozatViewModel;
 import aa.droid.norbo.projects.edzesnaplo3.providers.NaploContentProvider;
 import aa.droid.norbo.projects.edzesnaplo3.rcview.NaploAdapter;
+import aa.droid.norbo.projects.edzesnaplo3.uiutils.NaploAudioComment;
 import aa.droid.norbo.projects.edzesnaplo3.uiutils.lists.SorozatSorter;
 
 public class NaploActivity extends AppCompatActivity {
@@ -48,7 +49,8 @@ public class NaploActivity extends AppCompatActivity {
     private TextView aktual_napi_osszsuly;
 
     private boolean record = false;
-    private JelenlegiEdzesFragment edzesFragment;
+    private NaploAudioComment naploAudioComment;
+    private String filename;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,11 +99,18 @@ public class NaploActivity extends AppCompatActivity {
         findViewById(R.id.fabNaploCommentSmall).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(edzesFragment == null) edzesFragment = new JelenlegiEdzesFragment();
-                if(!edzesFragment.isRecordison()) {
-                    edzesFragment.audiorecord(getApplicationContext(), getSharedPreferences("naplo",MODE_PRIVATE), naplo, findViewById(R.id.tvRec));
+                filename = getApplicationContext().getExternalCacheDir().getAbsoluteFile()+
+                        "/"+naplo.getNaplodatum() + "_comment.3gp";
+                naplo.setCommentFilePath(filename);
+
+                if(naploAudioComment == null) naploAudioComment = new NaploAudioComment(NaploActivity.this, filename, findViewById(R.id.tvRec));
+                if(!naploAudioComment.checkRecording(naplo)) return;
+                if(!record) {
+                    naploAudioComment.startRecord();
+                    record = true;
                 } else {
-                    edzesFragment.stopRecord(findViewById(R.id.tvRec));
+                    naploAudioComment.stopRecord();
+                    record = false;
                 }
             }
         });

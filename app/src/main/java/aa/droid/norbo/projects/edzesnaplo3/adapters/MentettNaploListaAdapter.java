@@ -64,6 +64,9 @@ public class MentettNaploListaAdapter extends BaseAdapter {
         ((TextView)convertView.findViewById(R.id.tvNaploListaItem)).setText(
                 DateTimeFormatter.getNaploListaDatum(selected.getNaplodatum()));
 
+        if(selected.getCommentFilePath() == null)
+            convertView.findViewById(R.id.ivCommentOn).setVisibility(View.GONE);
+
         return convertView;
     }
 

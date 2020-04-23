@@ -23,7 +23,7 @@ public interface NaploDao {
     LiveData<List<Naplo>> getNaploLiveData();
 
     @Query("SELECT * FROM naplo")
-    Cursor getNaploC();
+    Cursor selectAll();
 
     @Query("DELETE FROM naplo")
     void deleteAll();

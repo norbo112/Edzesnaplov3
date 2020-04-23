@@ -60,10 +60,10 @@ public class NaploContentProvider extends ContentProvider {
                         String[] selectionArgs, String sortOrder) {
         if(uri.equals(GET_NAPLO)) {
             NaploDao naploDao = EdzesNaploDatabase.getDatabase(getContext()).naploDao();
-            return naploDao.getNaploC();
+            return naploDao.selectAll();
         } else if(uri.equals(GET_GYAK_OSSZSULY)) {
             SorozatDao sorozatDao = EdzesNaploDatabase.getDatabase(getContext()).sorozatDao();
-            return sorozatDao.selectForWidget(selection);
+            return sorozatDao.selectAll(selection);
         }
 
         return null;

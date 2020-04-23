@@ -130,34 +130,22 @@ public class JelenlegiEdzesFragment extends Fragment {
     }
 
     public void audiorecord(Context context, SharedPreferences preferences1, Naplo mNaplo, TextView mtvRec) {
-        if(!preferences1.getBoolean(MainActivity.AUDIO_RECORD_IS, false)) {
-            Toast.makeText(getContext(), "Audio rögzítésre nem jogosult", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if(mNaplo == null) {
-            Toast.makeText(getContext(), "Nincs napló amire rögzítenék", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        Animation animation = AnimationUtils.loadAnimation(context, R.anim.addtouch);
-
         filename = context.getExternalCacheDir().getAbsoluteFile()+
                 "/"+mNaplo.getNaplodatum() + "_comment.3gp";
         mNaplo.setCommentFilePath(filename);
         if(naploAudioComment == null) {
-            naploAudioComment = new NaploAudioComment(getContext(), filename);
+            naploAudioComment = new NaploAudioComment(getContext(), filename, mtvRec);
         }
+
+        if (!naploAudioComment.checkRecording(mNaplo)) return;
+
         if(!recordison) {
-            naploAudioComment.setRecordis(false);
+            naploAudioComment.startRecord();
             recordison = true;
-            mtvRec.setVisibility(View.VISIBLE);
-            mtvRec.startAnimation(animation);
         } else {
-            naploAudioComment.setRecordis(true);
+            naploAudioComment.stopRecord();
             recordison = false;
-            mtvRec.setVisibility(View.GONE);
-            mtvRec.clearAnimation();
         }
-        naploAudioComment.startRecord();
     }
 
     public void updateNaploAdat(Naplo naplo) {
@@ -182,14 +170,5 @@ public class JelenlegiEdzesFragment extends Fragment {
 
     public boolean isRecordison() {
         return recordison;
-    }
-
-    public void stopRecord(TextView tvRec) {
-        if(naploAudioComment != null) {
-            naploAudioComment.setRecordis(true);
-            naploAudioComment.startRecord();
-            tvRec.clearAnimation();
-            tvRec.setVisibility(View.GONE);
-        }
     }
 }

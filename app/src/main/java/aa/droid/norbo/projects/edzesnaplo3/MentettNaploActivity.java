@@ -37,6 +37,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.wdullaer.swipeactionadapter.SwipeActionAdapter;
 import com.wdullaer.swipeactionadapter.SwipeDirection;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
@@ -133,7 +134,7 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
                 public void onClick(View v) {
                     if (naplo != null) {
                         if (naplo.getCommentFilePath() != null) {
-                            NaploAudioComment audioComment = new NaploAudioComment(getApplicationContext(), naplo.getCommentFilePath());
+                            NaploAudioComment audioComment = new NaploAudioComment(getApplicationContext(), naplo.getCommentFilePath(), null);
                             audioComment.startPlaying();
                         } else {
                             Toast.makeText(MentettNaploActivity.this, "Nincs rögzítve audio comment", Toast.LENGTH_SHORT).show();
@@ -149,7 +150,7 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
                 public void onClick(View v) {
                     if (naplo != null) {
                         if (naplo.getCommentFilePath() != null) {
-                            NaploAudioComment audioComment = new NaploAudioComment(getApplicationContext(), naplo.getCommentFilePath());
+                            NaploAudioComment audioComment = new NaploAudioComment(getApplicationContext(), naplo.getCommentFilePath(), null);
                             audioComment.startPlaying();
                         } else {
                             Toast.makeText(MentettNaploActivity.this, "Nincs rögzítve audio comment", Toast.LENGTH_SHORT).show();
@@ -193,6 +194,12 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
                     public void onClick(DialogInterface dialog, int which) {
                         naploViewModel.delete(selected);
                         sorozatViewModel.delete(selected.getNaplodatum());
+
+                        if(selected.getCommentFilePath() != null) {
+                            File file = new File(selected.getCommentFilePath());
+                            if(file.exists()) file.delete();
+                        }
+
                         NaploContentProvider.sendRefreshBroadcast(MentettNaploActivity.this);
                         Toast.makeText(MentettNaploActivity.this, "Napló törölve", Toast.LENGTH_SHORT).show();
                     }

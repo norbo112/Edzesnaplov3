@@ -35,7 +35,7 @@ public interface SorozatDao {
                     "WHERE sorozattabla.naplodatum = :naplodatum " +
                     "GROUP BY gynev"
     )
-    Cursor selectForWidget(String naplodatum);
+    Cursor selectAll(String naplodatum);
 
     @Transaction
     @Query("SELECT * FROM sorozattabla")
