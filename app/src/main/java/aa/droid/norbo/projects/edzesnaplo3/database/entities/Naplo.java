@@ -31,6 +31,14 @@ public class Naplo implements Serializable {
         this.sorozats = new ArrayList<>();
     }
 
+    @Ignore
+    public Naplo(String naplodatum, String felhasznalonev, String commentFilePath) {
+        this.naplodatum = naplodatum;
+        this.felhasznalonev = felhasznalonev;
+        this.commentFilePath = commentFilePath;
+        this.sorozats = new ArrayList<>();
+    }
+
     public void addSorozat(Sorozat sorozat) {
         sorozats.add(sorozat);
     }

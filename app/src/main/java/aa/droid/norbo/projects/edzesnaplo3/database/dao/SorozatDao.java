@@ -21,6 +21,9 @@ public interface SorozatDao {
     @Insert
     void insert(List<Sorozat> sorozats);
 
+    @Query("SELECT * FROM sorozattabla")
+    LiveData<List<Sorozat>> getall();
+
     @Query("DELETE FROM sorozattabla WHERE naplodatum = :naplodatum")
     void delete(String naplodatum);
 
@@ -41,9 +44,6 @@ public interface SorozatDao {
     @Query("SELECT * FROM sorozattabla")
     LiveData<List<SorozatWithGyakorlat>> getAllSorozat();
 
-    @Query("SELECT * FROM sorozattabla WHERE naplodatum = :mentettdatum")
-    LiveData<List<Sorozat>> getSorozatByNaplo(String mentettdatum);
-
     @Transaction
     @Query("SELECT * FROM sorozattabla WHERE naplodatum =:naplodatum")
     LiveData<List<SorozatWithGyakorlat>> getSorozatWithGyakorlat(String naplodatum);
@@ -60,7 +60,7 @@ public interface SorozatDao {
 
     @Transaction
     @Query(
-            "SELECT sum(suly * ismetles) FROM sorozattabla WHERE gyakorlatid = :gyakorlatid group by naplodatum order by naplodatum desc limit 1"
+            "SELECT sum(suly * ismetles) FROM sorozattabla WHERE gyakorlatid = :gyakorlatid group by naplodatum order by naplodatum DESC limit 1"
     )
     int getSorozatKorabbiOsszsuly(int gyakorlatid);
 }

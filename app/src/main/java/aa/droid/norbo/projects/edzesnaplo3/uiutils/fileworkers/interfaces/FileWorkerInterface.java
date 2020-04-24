@@ -1,4 +1,4 @@
-package aa.droid.norbo.projects.edzesnaplo3.uiutils;
+package aa.droid.norbo.projects.edzesnaplo3.uiutils.fileworkers.interfaces;
 
 import android.net.Uri;
 

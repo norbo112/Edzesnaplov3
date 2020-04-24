@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -53,9 +52,12 @@ import aa.droid.norbo.projects.edzesnaplo3.database.viewmodels.NaploViewModel;
 import aa.droid.norbo.projects.edzesnaplo3.database.viewmodels.SorozatViewModel;
 import aa.droid.norbo.projects.edzesnaplo3.providers.NaploContentProvider;
 import aa.droid.norbo.projects.edzesnaplo3.rcview.NaploAdapter;
-import aa.droid.norbo.projects.edzesnaplo3.uiutils.FileWorkerImpl;
-import aa.droid.norbo.projects.edzesnaplo3.uiutils.FileWorkerInterface;
+import aa.droid.norbo.projects.edzesnaplo3.uiutils.fileworkers.FileWorker2Impl;
+import aa.droid.norbo.projects.edzesnaplo3.uiutils.fileworkers.FileWorkerImpl;
+import aa.droid.norbo.projects.edzesnaplo3.uiutils.fileworkers.interfaces.FileWorker2Interface;
+import aa.droid.norbo.projects.edzesnaplo3.uiutils.fileworkers.interfaces.FileWorkerInterface;
 import aa.droid.norbo.projects.edzesnaplo3.uiutils.NaploAudioComment;
+import aa.droid.norbo.projects.edzesnaplo3.uiutils.fileworkers.models.NaploAll;
 
 public class MentettNaploActivity extends AppCompatActivity implements AdapterView.OnItemClickListener,
         SwipeActionAdapter.SwipeActionListener {
@@ -71,7 +73,8 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
 
     private SwipeActionAdapter mAdapter;
     private SorozatViewModel sorozatViewModel;
-    private FileWorkerInterface fileWorkerInterface;
+//    private FileWorkerInterface fileWorkerInterface;
+    private FileWorker2Interface fileWorkerInterface;
     private List<SorozatWithGyakorlat> menteshezLista;
 
     private Naplo naplo;
@@ -88,7 +91,7 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
         if(getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        fileWorkerInterface = new FileWorkerImpl(this);
+        fileWorkerInterface = new FileWorker2Impl(this);
         adapter = new MentettNaploListaAdapter(this, new ArrayList<>());
 
         rcnaploview = findViewById(R.id.rcNaploMegtekinto);
@@ -127,7 +130,7 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
         });
 
         FloatingActionButton fabTabPlay = findViewById(R.id.fabNaploCommentPlay);
-        FloatingActionButton fabSmall = findViewById(R.id.fabNaploCommentPlaysmallScreen);
+        FloatingActionButton fabTabPlaySmall = findViewById(R.id.fabNaploCommentPlaysmallScreen);
         if(fabTabPlay != null) {
             fabTabPlay.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -145,7 +148,7 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
                 }
             });
         } else {
-            fabSmall.setOnClickListener(new View.OnClickListener() {
+            fabTabPlaySmall.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (naplo != null) {
@@ -241,7 +244,7 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
 
         } else if(item.getItemId() == R.id.menu_mentett_driveupload) {
             if(naplo != null && menteshezLista != null) {
-                jsonFilePath = fileWorkerInterface.makeJsonFile(menteshezLista, "naplo_"+System.currentTimeMillis()+".json");
+                jsonFilePath = fileWorkerInterface.makeJsonFile(menteshezLista, naplo);
                 Toast.makeText(this, "Napló fájl mentve "+jsonFilePath, Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(this, "Kérlek válassz egy naplót", Toast.LENGTH_SHORT).show();
@@ -271,9 +274,9 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
 
     @SuppressLint("StaticFieldLeak")
     private void loadKulsoMentettLista(Uri data) {
-        new AsyncTask<Object, Void, List<SorozatWithGyakorlat>>() {
+        new AsyncTask<Object, Void, NaploAll>() {
             @Override
-            protected List<SorozatWithGyakorlat> doInBackground(Object... objects) {
+            protected NaploAll doInBackground(Object... objects) {
                 Context context = (Context) objects[0];
                 Uri uri = (Uri) objects[1];
                 try {
@@ -285,10 +288,14 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
             }
 
             @Override
-            protected void onPostExecute(List<SorozatWithGyakorlat> sorozatWithGyakorlats) {
-                if(sorozatWithGyakorlats != null) {
-                    String naplodatum = sorozatWithGyakorlats.get(0).sorozat.getNaplodatum();
-                    Naplo kulso_forras = new Naplo(naplodatum, "kulso_forras");
+            protected void onPostExecute(NaploAll naploAll) {
+                if(naploAll != null) {
+//                    String naplodatum = sorozatWithGyakorlats.get(0).sorozat.getNaplodatum();
+//                    Naplo kulso_forras = new Naplo(naplodatum, "kulso_forras");
+                    List<SorozatWithGyakorlat> sorozatWithGyakorlats = naploAll.getSorozatWithGyakorlats();
+                    Naplo kulso_forras = new Naplo(naploAll.getNaplo().getNaplodatum(),
+                            naploAll.getNaplo().getFelhasznalonev(),
+                            naploAll.getNaplo().getCommentFilePath());
                     naploViewModel.insert(kulso_forras);
 
                     for (int i = 0; i < sorozatWithGyakorlats.size(); i++) {

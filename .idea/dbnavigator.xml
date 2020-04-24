@@ -27,8 +27,10 @@
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="e6b19e2b-0bcd-4096-89b1-d9a4df557ba0">
-      <console name="Edzésnapló" type="STANDARD" schema="main" session="Main"><![CDATA[select * from sorozattabla]]></console>
-      <console name="Edzésnapló 1" type="STANDARD" schema="main" session="Main"><![CDATA[select * from sorozattabla]]></console>
+      <console name="Edzésnapló" type="STANDARD" schema="main" session="Main"><![CDATA[select
+    *
+from
+    sorozattabla where gyakorlatid = 1 and suly = 40 and ismetles = 15  ;]]></console>
     </connection>
     <connection id="cfaf11ab-43d6-4cfa-a5c9-07c3359db861">
       <console name="EdzésnaplóTapanyag" type="STANDARD" schema="main" session="Main" />
@@ -40,6 +42,9 @@
   <component name="DBNavigator.Project.DatabaseSessionManager">
     <connection id="e6b19e2b-0bcd-4096-89b1-d9a4df557ba0" />
     <connection id="cfaf11ab-43d6-4cfa-a5c9-07c3359db861" />
+  </component>
+  <component name="DBNavigator.Project.DatasetFilterManager">
+    <filter-actions connection-id="e6b19e2b-0bcd-4096-89b1-d9a4df557ba0" dataset="main.sorozattabla" active-filter-id="" />
   </component>
   <component name="DBNavigator.Project.EditorStateManager">
     <last-used-providers />
@@ -639,6 +644,10 @@
     </general-settings>
   </component>
   <component name="DBNavigator.Project.StatementExecutionManager">
-    <execution-variables />
+    <execution-variables>
+      <file file-url="db://e6b19e2b-0bcd-4096-89b1-d9a4df557ba0/consoles/Edzésnapló">
+        <variable name=":gyakorlatid" dataType="LITERAL" values="" />
+      </file>
+    </execution-variables>
   </component>
 </project>

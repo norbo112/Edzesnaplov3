@@ -39,6 +39,7 @@ import aa.droid.norbo.projects.edzesnaplo3.database.entities.Naplo;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.NaploUser;
 import aa.droid.norbo.projects.edzesnaplo3.database.viewmodels.NaploUserViewModel;
 import aa.droid.norbo.projects.edzesnaplo3.database.viewmodels.NaploViewModel;
+import aa.droid.norbo.projects.edzesnaplo3.onlytest.NaplodbTabla;
 import aa.droid.norbo.projects.edzesnaplo3.uiutils.MainAdatTolto;
 
 public class MainActivity extends AppCompatActivity
@@ -144,6 +145,8 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(this, DiagramActivity.class));
         } else if(item.getItemId() == R.id.menu_tapanyag) {
             startActivity(new Intent(this, TapanyagActivity.class));
+        } else if (item.getItemId() == R.id.menu_db_test) {
+            startActivity(new Intent(this, NaplodbTabla.class));
         }
         return super.onOptionsItemSelected(item);
     }

@@ -1,4 +1,4 @@
-package aa.droid.norbo.projects.edzesnaplo3.uiutils;
+package aa.droid.norbo.projects.edzesnaplo3.uiutils.fileworkers;
 
 import android.content.Context;
 import android.net.Uri;
@@ -19,6 +19,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 import aa.droid.norbo.projects.edzesnaplo3.database.dao.SorozatWithGyakorlat;
+import aa.droid.norbo.projects.edzesnaplo3.uiutils.fileworkers.interfaces.FileWorkerInterface;
 
 public class FileWorkerImpl implements FileWorkerInterface {
     private static final String TAG = "FileWorker";

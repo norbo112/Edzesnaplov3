@@ -17,7 +17,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -30,7 +29,7 @@ import aa.droid.norbo.projects.edzesnaplo3.database.entities.Gyakorlat;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Naplo;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.NaploUser;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Sorozat;
-import aa.droid.norbo.projects.edzesnaplo3.models.GyakorlatCsomag;
+import aa.droid.norbo.projects.edzesnaplo3.uiutils.fileworkers.models.GyakorlatCsomag;
 
 @Database(entities = {Gyakorlat.class, Sorozat.class, Naplo.class, NaploUser.class}, version = 1)
 public abstract class EdzesNaploDatabase extends RoomDatabase {

@@ -19,15 +19,21 @@ import aa.droid.norbo.projects.edzesnaplo3.database.entities.Sorozat;
 public class SorozatRepo {
     private SorozatDao sorozatDao;
     private LiveData<List<SorozatWithGyakorlat>> sorozatListLiveData;
+    private LiveData<List<Sorozat>> allSorozat;
 
     public SorozatRepo(Application application) {
         EdzesNaploDatabase db = EdzesNaploDatabase.getDatabase(application);
         sorozatDao = db.sorozatDao();
         sorozatListLiveData = sorozatDao.getAllSorozat();
+        allSorozat = sorozatDao.getall();
     }
 
     public LiveData<List<SorozatWithGyakorlat>> getSorozatListLiveData() {
         return sorozatListLiveData;
+    }
+
+    public LiveData<List<Sorozat>> getAllSorozat() {
+        return allSorozat;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)

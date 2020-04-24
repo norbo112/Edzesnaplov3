@@ -68,7 +68,6 @@ public class Edzes extends Fragment implements View.OnClickListener {
     private TextView korabbiSorozat;
     private View fragmentView;
     private TextView tvSorozatTitle;
-    private CardView cardView;
 
     //most csak tablet layouthoz
     private SeekBar seekBarSuly, seekBarIsm;
@@ -112,7 +111,7 @@ public class Edzes extends Fragment implements View.OnClickListener {
 
         View view = inflater.inflate(R.layout.test_tabbed_edzes_layout, container, false);
         this.fragmentView = view;
-        cardView = view.findViewById(R.id.edzes_card_view);
+
         TextView gyaktitle = view.findViewById(R.id.gyak_title);
         tvStopper = view.findViewById(R.id.tvStopper);
 

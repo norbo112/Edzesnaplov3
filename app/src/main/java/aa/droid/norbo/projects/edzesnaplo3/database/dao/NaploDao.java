@@ -22,7 +22,7 @@ public interface NaploDao {
     @Query("SELECT * FROM naplo ORDER BY naplodatum")
     LiveData<List<Naplo>> getNaploLiveData();
 
-    @Query("SELECT * FROM naplo")
+    @Query("SELECT * FROM naplo ORDER BY naplodatum")
     Cursor selectAll();
 
     @Query("DELETE FROM naplo")

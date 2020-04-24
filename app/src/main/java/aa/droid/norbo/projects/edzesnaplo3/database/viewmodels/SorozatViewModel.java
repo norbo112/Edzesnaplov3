@@ -18,15 +18,21 @@ import aa.droid.norbo.projects.edzesnaplo3.database.repositorys.SorozatRepo;
 public class SorozatViewModel extends AndroidViewModel {
     private SorozatRepo sorozatRepo;
     private LiveData<List<SorozatWithGyakorlat>> sorozatListLiveData;
+    private LiveData<List<Sorozat>> allSorozat;
 
     public SorozatViewModel(@NonNull Application application) {
         super(application);
         sorozatRepo = new SorozatRepo(application);
         sorozatListLiveData = sorozatRepo.getSorozatListLiveData();
+        allSorozat = sorozatRepo.getAllSorozat();
     }
 
     public LiveData<List<SorozatWithGyakorlat>> getSorozatListLiveData() {
         return sorozatListLiveData;
+    }
+
+    public LiveData<List<Sorozat>> getAllSorozat() {
+        return allSorozat;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)

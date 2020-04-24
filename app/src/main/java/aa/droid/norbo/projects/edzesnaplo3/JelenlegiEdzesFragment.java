@@ -122,7 +122,11 @@ public class JelenlegiEdzesFragment extends Fragment {
         view.findViewById(R.id.fabNaploComment).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                audiorecord(getContext(), preferences, naplo, tvRec);
+                if(naplo != null) {
+                    audiorecord(getContext(), preferences, naplo, tvRec);
+                } else {
+                    Toast.makeText(getContext(), "Naplo 0!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
