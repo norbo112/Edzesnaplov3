@@ -36,6 +36,10 @@ public class SorozatRepo {
         return allSorozat;
     }
 
+    public List<Sorozat> getallByGyakorlat(int gyakid) {
+        return sorozatDao.getallByGyakorlat(gyakid);
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     public CompletableFuture<LiveData<List<SorozatWithGyakorlat>>> getSorozatWithGyakorlatByNaplo(String naplodatum) {
         return CompletableFuture.supplyAsync(new Supplier<LiveData<List<SorozatWithGyakorlat>>>() {

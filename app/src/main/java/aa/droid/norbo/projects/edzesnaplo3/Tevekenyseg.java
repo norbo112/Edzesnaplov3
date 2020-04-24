@@ -22,6 +22,7 @@ import aa.droid.norbo.projects.edzesnaplo3.database.entities.Gyakorlat;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Naplo;
 import aa.droid.norbo.projects.edzesnaplo3.datainterfaces.AdatBeallitoInterface;
 import aa.droid.norbo.projects.edzesnaplo3.diagram.DiagramFragment;
+import aa.droid.norbo.projects.edzesnaplo3.jelenlegimunka.BovitettMunkaFragment;
 import aa.droid.norbo.projects.edzesnaplo3.ui.main.SectionsPagerAdapter;
 
 public class Tevekenyseg extends AppCompatActivity implements AdatBeallitoInterface {
@@ -83,6 +84,10 @@ public class Tevekenyseg extends AppCompatActivity implements AdatBeallitoInterf
             if(fragments.get(i) instanceof Edzes) {
                 ((Edzes)fragments.get(i)).setGyakorlat(gyakorlat);
             }
+
+            if(fragments.get(i) instanceof BovitettMunkaFragment) {
+                ((BovitettMunkaFragment)fragments.get(i)).adatGyakorlat(gyakorlat);
+            }
         }
     }
 
@@ -92,6 +97,10 @@ public class Tevekenyseg extends AppCompatActivity implements AdatBeallitoInterf
         for (int i = 0; i < fragments.size(); i++) {
             if(fragments.get(i) instanceof JelenlegiEdzesFragment) {
                 ((JelenlegiEdzesFragment)fragments.get(i)).updateNaploAdat(naplo);
+            }
+
+            if(fragments.get(i) instanceof BovitettMunkaFragment) {
+                ((BovitettMunkaFragment)fragments.get(i)).adat(naplo);
             }
         }
     }

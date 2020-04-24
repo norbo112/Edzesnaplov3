@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/enlogo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".onlytest.NaplodbTabla"></activity>
+        <activity android:name=".jelenlegimunka.BovitettKorabbiEdzesFragmant"></activity>
+        <activity android:name=".onlytest.NaplodbTabla" />
 
         <provider
             android:name=".providers.NaploContentProvider"

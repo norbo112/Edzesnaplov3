@@ -35,6 +35,10 @@ public class SorozatViewModel extends AndroidViewModel {
         return allSorozat;
     }
 
+    public List<Sorozat> getallByGyakorlat(int gyakid) {
+        return sorozatRepo.getallByGyakorlat(gyakid);
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     public CompletableFuture<LiveData<List<SorozatWithGyakorlat>>> getSorozatWithGyakByNaplo(String naplodatum) {
         return sorozatRepo.getSorozatWithGyakorlatByNaplo(naplodatum);

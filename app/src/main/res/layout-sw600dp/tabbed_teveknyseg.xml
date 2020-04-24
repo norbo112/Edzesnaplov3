@@ -40,6 +40,6 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:id="@+id/fr3"
-            android:name="aa.droid.norbo.projects.edzesnaplo3.JelenlegiEdzesFragment"/>
+            android:name="aa.droid.norbo.projects.edzesnaplo3.jelenlegimunka.BovitettMunkaFragment"/>
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
