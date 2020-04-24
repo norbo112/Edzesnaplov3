@@ -143,8 +143,7 @@ public class Sorozat implements Serializable, Parcelable {
     @NonNull
     @Override
     public String toString() {
-        return DateTimeFormatter.getDate(naplodatum)+" >> "+
-                suly+"X"+ismetles+" "+ DateTimeFormatter.getTime(ismidopont) +" "+(suly*ismetles)+" Kg";
+        return suly+"X"+ismetles+" "+ DateTimeFormatter.getTime(ismidopont) +" "+(suly*ismetles)+" Kg";
     }
 
     @Ignore

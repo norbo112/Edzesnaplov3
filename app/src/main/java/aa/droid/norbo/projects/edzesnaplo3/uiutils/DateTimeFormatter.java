@@ -1,6 +1,7 @@
 package aa.droid.norbo.projects.edzesnaplo3.uiutils;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -14,6 +15,7 @@ public class DateTimeFormatter {
     public static final SimpleDateFormat dateformatter = new SimpleDateFormat("MM.dd.");
     @SuppressLint("SimpleDateFormat")
     private static final SimpleDateFormat naplodateformatter = new SimpleDateFormat("yyyy.MM.dd. EEE. HH:mm:ss");
+    private static final String TAG = DateTimeFormatter.class.getSimpleName();
 
     public static String getTime(String datetimestr) {
         String time;
@@ -42,6 +44,7 @@ public class DateTimeFormatter {
             Date d = new Date(ld);
             date = dateformatter.format(d);
         } catch (NumberFormatException e) {
+            Log.e(TAG, "getDate: numbeformat", e);
             try {
                 Date d = new Date(datetimestr);
                 date = dateformatter.format(d);

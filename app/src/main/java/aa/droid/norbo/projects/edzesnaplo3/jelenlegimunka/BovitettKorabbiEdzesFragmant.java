@@ -26,6 +26,7 @@ import aa.droid.norbo.projects.edzesnaplo3.R;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Gyakorlat;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Sorozat;
 import aa.droid.norbo.projects.edzesnaplo3.database.viewmodels.SorozatViewModel;
+import aa.droid.norbo.projects.edzesnaplo3.uiutils.DateTimeFormatter;
 
 public class BovitettKorabbiEdzesFragmant extends Fragment {
     private ListView listView;
@@ -39,7 +40,26 @@ public class BovitettKorabbiEdzesFragmant extends Fragment {
         super.onAttach(context);
         this.mContext = context;
         this.sorozats = new ArrayList<>();
-        this.adapter = new ArrayAdapter<>(mContext,android.R.layout.simple_list_item_1, sorozats);
+        this.adapter = getSorozatAdapter();
+    }
+
+    private ArrayAdapter<Sorozat> getSorozatAdapter() {
+        return new ArrayAdapter<Sorozat>(mContext,android.R.layout.simple_list_item_1, sorozats) {
+            @NonNull
+            @Override
+            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                Sorozat item = getItem(position);
+                if(convertView == null)
+                    convertView = getLayoutInflater().inflate(R.layout.bovitett_sorozat_item, parent, false);
+
+                if(item != null) {
+                    ((TextView) convertView.findViewById(R.id.tvSorozatDatum)).setText(DateTimeFormatter.getDate(item.getNaplodatum()));
+                    ((TextView) convertView.findViewById(R.id.tvSorozatAdat)).setText(item.toString());
+                }
+
+                return convertView;
+            }
+        };
     }
 
     @Nullable
