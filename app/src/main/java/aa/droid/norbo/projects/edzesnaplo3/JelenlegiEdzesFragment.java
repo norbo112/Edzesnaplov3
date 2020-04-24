@@ -82,8 +82,8 @@ public class JelenlegiEdzesFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.tabbed_naplo, container, false);
+
         rc = view.findViewById(R.id.rcMentettNaploTabbed);
-        //csak a rend kedvéért az alábbi két sor
         rc.setAdapter(new NaploAdapter(getContext(), new ArrayList<>()));
         rc.setLayoutManager(new LinearLayoutManager(getContext()));
 
