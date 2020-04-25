@@ -66,4 +66,5 @@ dependencies {
     implementation "com.wdullaer:swipeactionadapter:2.0.0"
     //barchart
     implementation "com.github.PhilJay:MPAndroidChart:v2.2.4"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 }

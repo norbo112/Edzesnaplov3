@@ -144,7 +144,7 @@ public class GyakorlatValaszto extends Fragment implements AdapterView.OnItemCli
                 try {
                     ((GyakorlatValaszto.ListItemAdapter) listView.getAdapter()).getFilter().filter(newText);
                 } catch (NullPointerException ex) {
-                    Log.e(TAG, "onQueryTextChange: Valamiért null van itt amikor elforgatom a kijelzőt", ex);
+                    Log.i(TAG, "onQueryTextChange: Valamiért null van itt amikor elforgatom a kijelzőt");
                 }
                 return false;
             }

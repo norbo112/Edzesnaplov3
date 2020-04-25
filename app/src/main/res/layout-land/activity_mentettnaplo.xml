@@ -30,6 +30,31 @@
         android:padding="15dp"
         tools:context=".NaploActivity">
 
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/layoutMentettInfo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@+id/rcNaploMegtekinto"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="#fff"
+                android:text="@string/informacio" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="#fff"
+                android:id="@+id/tvMentettInfo"/>
+
+        </LinearLayout>
+
         <ListView
             android:id="@+id/lvMentettNaploLista"
             android:layout_width="150dp"
@@ -38,7 +63,7 @@
             android:padding="5dp"
             app:layout_constraintBottom_toTopOf="@+id/tvMOsszsuly"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/layoutMentettInfo" />
 
         <View
             android:id="@+id/view"

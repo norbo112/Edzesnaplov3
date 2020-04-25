@@ -53,6 +53,7 @@ import aa.droid.norbo.projects.edzesnaplo3.database.viewmodels.NaploViewModel;
 import aa.droid.norbo.projects.edzesnaplo3.database.viewmodels.SorozatViewModel;
 import aa.droid.norbo.projects.edzesnaplo3.providers.NaploContentProvider;
 import aa.droid.norbo.projects.edzesnaplo3.rcview.NaploAdapter;
+import aa.droid.norbo.projects.edzesnaplo3.uiutils.MentettAdatok;
 import aa.droid.norbo.projects.edzesnaplo3.uiutils.fileworkers.FileWorker2Impl;
 import aa.droid.norbo.projects.edzesnaplo3.uiutils.fileworkers.interfaces.FileWorker2Interface;
 import aa.droid.norbo.projects.edzesnaplo3.uiutils.NaploAudioComment;
@@ -122,6 +123,7 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
                     adapter.addAll(naplos);
                     mAdapter.notifyDataSetChanged();
                     changeConstraitNotNullList();
+                    setInfoView(naplos);
                 } else {
                     changeEmptyTextView();
                 }
@@ -163,6 +165,13 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
                 }
             });
         }
+    }
+
+    private void setInfoView(List<NaploWithSorozat> naplos) {
+        TextView tf = findViewById(R.id.tvMentettInfo);
+        tf.append("Naplók száma: "+naplos.size()+" db");
+        tf.append("\n");
+        tf.append("Megmozgatott súly: "+ MentettAdatok.getOsszNaploSuly(naplos)+" Kg");
     }
 
     private void changeEmptyTextView() {

@@ -22,12 +22,14 @@ import aa.droid.norbo.projects.edzesnaplo3.database.entities.Gyakorlat;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Naplo;
 import aa.droid.norbo.projects.edzesnaplo3.datainterfaces.AdatBeallitoInterface;
 import aa.droid.norbo.projects.edzesnaplo3.diagram.DiagramFragment;
+import aa.droid.norbo.projects.edzesnaplo3.jelenlegimunka.BovitettKorabbiEdzesFragmant;
 import aa.droid.norbo.projects.edzesnaplo3.jelenlegimunka.BovitettMunkaFragment;
 import aa.droid.norbo.projects.edzesnaplo3.ui.main.SectionsPagerAdapter;
 
 public class Tevekenyseg extends AppCompatActivity implements AdatBeallitoInterface {
     private final String TAG = getClass().getSimpleName();
     private String felhasznalonev;
+    private ViewPager viewPager;
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -46,7 +48,8 @@ public class Tevekenyseg extends AppCompatActivity implements AdatBeallitoInterf
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
         sectionsPagerAdapter.addFragment(new GyakorlatValaszto(), "Gyakorlat");
         sectionsPagerAdapter.addFragment(new Edzes(), "Edzés");
-        ViewPager viewPager = findViewById(R.id.view_pager);
+        sectionsPagerAdapter.addFragment(new BovitettKorabbiEdzesFragmant(), "Volt");
+        viewPager = findViewById(R.id.view_pager);
         if(viewPager != null) {
             viewPager.setAdapter(sectionsPagerAdapter);
             TabLayout tabs = findViewById(R.id.tabs);
@@ -88,6 +91,18 @@ public class Tevekenyseg extends AppCompatActivity implements AdatBeallitoInterf
             if(fragments.get(i) instanceof BovitettMunkaFragment) {
                 ((BovitettMunkaFragment)fragments.get(i)).adatGyakorlat(gyakorlat);
             }
+        }
+
+        if(!getResources().getBoolean(R.bool.isTablet)) {
+            prepareThirdFragment(gyakorlat);
+        }
+    }
+
+    private void prepareThirdFragment(Gyakorlat pGyakorlat) {
+        String tag = "android:switcher:" + R.id.view_pager + ":" + 2;
+        BovitettKorabbiEdzesFragmant f = (BovitettKorabbiEdzesFragmant) getSupportFragmentManager().findFragmentByTag(tag);
+        if(f != null) {
+            f.setListViewAdapter(pGyakorlat);
         }
     }
 

@@ -44,7 +44,7 @@ public class DateTimeFormatter {
             Date d = new Date(ld);
             date = dateformatter.format(d);
         } catch (NumberFormatException e) {
-            Log.e(TAG, "getDate: numbeformat", e);
+            Log.i(TAG, "getDate: numbeformat");
             try {
                 Date d = new Date(datetimestr);
                 date = dateformatter.format(d);

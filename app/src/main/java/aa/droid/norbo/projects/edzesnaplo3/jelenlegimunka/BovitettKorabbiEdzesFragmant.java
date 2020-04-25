@@ -10,6 +10,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,9 @@ public class BovitettKorabbiEdzesFragmant extends Fragment {
     private ArrayAdapter<Sorozat> adapter;
     private Context mContext;
 
+    public BovitettKorabbiEdzesFragmant() {
+    }
+
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -44,7 +48,7 @@ public class BovitettKorabbiEdzesFragmant extends Fragment {
     }
 
     private ArrayAdapter<Sorozat> getSorozatAdapter() {
-        return new ArrayAdapter<Sorozat>(mContext,android.R.layout.simple_list_item_1, sorozats) {
+        return new ArrayAdapter<Sorozat>(mContext,R.layout.bovitett_sorozat_item, sorozats) {
             @NonNull
             @Override
             public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -65,6 +69,10 @@ public class BovitettKorabbiEdzesFragmant extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        if(savedInstanceState != null) {
+            sorozats = savedInstanceState.getParcelableArrayList("sorozatok");
+            adapter = getSorozatAdapter();
+        }
         View view =  inflater.inflate(R.layout.activity_bovitett_korabbi_edzes_fragmane, container, false);
         status = view.findViewById(R.id.bovitett_status);
         listView = view.findViewById(R.id.bovitett_korabbi_listview);
@@ -109,5 +117,11 @@ public class BovitettKorabbiEdzesFragmant extends Fragment {
         }
 
         return  mentettnaplok.size();
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putParcelableArrayList("sorozatok", (ArrayList<? extends Parcelable>) sorozats);
+        super.onSaveInstanceState(outState);
     }
 }
