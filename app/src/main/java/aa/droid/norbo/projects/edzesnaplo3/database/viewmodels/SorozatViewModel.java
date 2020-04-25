@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import aa.droid.norbo.projects.edzesnaplo3.database.dao.SorozatWithGyakorlat;
+import aa.droid.norbo.projects.edzesnaplo3.database.dao.SorozatWithGyakorlatAndNaplo;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Sorozat;
 import aa.droid.norbo.projects.edzesnaplo3.database.repositorys.SorozatRepo;
 
@@ -19,12 +20,18 @@ public class SorozatViewModel extends AndroidViewModel {
     private SorozatRepo sorozatRepo;
     private LiveData<List<SorozatWithGyakorlat>> sorozatListLiveData;
     private LiveData<List<Sorozat>> allSorozat;
+    private LiveData<List<SorozatWithGyakorlatAndNaplo>> allSorozatWithNaplo;
 
     public SorozatViewModel(@NonNull Application application) {
         super(application);
         sorozatRepo = new SorozatRepo(application);
         sorozatListLiveData = sorozatRepo.getSorozatListLiveData();
         allSorozat = sorozatRepo.getAllSorozat();
+        allSorozatWithNaplo = sorozatRepo.getAllSorozatWithNaplo();
+    }
+
+    public LiveData<List<SorozatWithGyakorlatAndNaplo>> getAllSorozatWithNaplo() {
+        return allSorozatWithNaplo;
     }
 
     public LiveData<List<SorozatWithGyakorlat>> getSorozatListLiveData() {

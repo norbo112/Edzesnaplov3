@@ -14,17 +14,24 @@ import java.util.function.Supplier;
 import aa.droid.norbo.projects.edzesnaplo3.database.EdzesNaploDatabase;
 import aa.droid.norbo.projects.edzesnaplo3.database.dao.NaploDao;
 import aa.droid.norbo.projects.edzesnaplo3.database.dao.NaploUserDao;
+import aa.droid.norbo.projects.edzesnaplo3.database.dao.NaploWithSorozat;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Naplo;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.NaploUser;
 
 public class NaploRepo {
     private NaploDao naploDao;
     private LiveData<List<Naplo>> naploListLiveData;
+    private LiveData<List<NaploWithSorozat>> naploWithSorozats;
 
     public NaploRepo(Application application) {
         EdzesNaploDatabase db = EdzesNaploDatabase.getDatabase(application);
         naploDao = db.naploDao();
         naploListLiveData = naploDao.getNaploLiveData();
+        naploWithSorozats = naploDao.getNaploWithSorozats();
+    }
+
+    public LiveData<List<NaploWithSorozat>> getNaploWithSorozats() {
+        return naploWithSorozats;
     }
 
     public LiveData<List<Naplo>> getNaploListLiveData() {

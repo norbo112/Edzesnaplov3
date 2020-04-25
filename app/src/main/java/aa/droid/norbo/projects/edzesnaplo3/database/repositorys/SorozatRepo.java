@@ -13,6 +13,7 @@ import java.util.function.Supplier;
 import aa.droid.norbo.projects.edzesnaplo3.database.EdzesNaploDatabase;
 import aa.droid.norbo.projects.edzesnaplo3.database.dao.SorozatDao;
 import aa.droid.norbo.projects.edzesnaplo3.database.dao.SorozatWithGyakorlat;
+import aa.droid.norbo.projects.edzesnaplo3.database.dao.SorozatWithGyakorlatAndNaplo;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Naplo;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Sorozat;
 
@@ -20,12 +21,18 @@ public class SorozatRepo {
     private SorozatDao sorozatDao;
     private LiveData<List<SorozatWithGyakorlat>> sorozatListLiveData;
     private LiveData<List<Sorozat>> allSorozat;
+    private LiveData<List<SorozatWithGyakorlatAndNaplo>> allSorozatWithNaplo;
 
     public SorozatRepo(Application application) {
         EdzesNaploDatabase db = EdzesNaploDatabase.getDatabase(application);
         sorozatDao = db.sorozatDao();
         sorozatListLiveData = sorozatDao.getAllSorozat();
         allSorozat = sorozatDao.getall();
+        allSorozatWithNaplo = sorozatDao.getAllWithNaplo();
+    }
+
+    public LiveData<List<SorozatWithGyakorlatAndNaplo>> getAllSorozatWithNaplo() {
+        return allSorozatWithNaplo;
     }
 
     public LiveData<List<SorozatWithGyakorlat>> getSorozatListLiveData() {

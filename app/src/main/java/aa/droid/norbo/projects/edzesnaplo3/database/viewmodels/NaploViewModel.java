@@ -14,6 +14,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 
 import aa.droid.norbo.projects.edzesnaplo3.database.EdzesNaploDatabase;
+import aa.droid.norbo.projects.edzesnaplo3.database.dao.NaploWithSorozat;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Gyakorlat;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Naplo;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.NaploUser;
@@ -23,11 +24,17 @@ import aa.droid.norbo.projects.edzesnaplo3.database.repositorys.NaploRepo;
 public class NaploViewModel extends AndroidViewModel {
     private NaploRepo naploRepo;
     private LiveData<List<Naplo>> naploListLiveData;
+    private LiveData<List<NaploWithSorozat>> naploWithSorozat;
 
     public NaploViewModel(@NonNull Application application) {
         super(application);
         naploRepo = new NaploRepo(application);
         naploListLiveData = naploRepo.getNaploListLiveData();
+        naploWithSorozat = naploRepo.getNaploWithSorozats();
+    }
+
+    public LiveData<List<NaploWithSorozat>> getNaploWithSorozat() {
+        return naploWithSorozat;
     }
 
     public LiveData<List<Naplo>> getNaploListLiveData() {

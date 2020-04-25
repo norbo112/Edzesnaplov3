@@ -21,6 +21,10 @@ public interface SorozatDao {
     @Insert
     void insert(List<Sorozat> sorozats);
 
+    @Transaction
+    @Query("SELECT * FROM sorozattabla")
+    LiveData<List<SorozatWithGyakorlatAndNaplo>> getAllWithNaplo();
+
     @Query("SELECT * FROM sorozattabla")
     LiveData<List<Sorozat>> getall();
 

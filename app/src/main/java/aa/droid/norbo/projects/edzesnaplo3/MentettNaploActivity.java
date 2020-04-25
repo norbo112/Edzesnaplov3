@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -46,6 +45,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 import aa.droid.norbo.projects.edzesnaplo3.adapters.MentettNaploListaAdapter;
+import aa.droid.norbo.projects.edzesnaplo3.database.dao.NaploWithSorozat;
 import aa.droid.norbo.projects.edzesnaplo3.database.dao.SorozatWithGyakorlat;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Naplo;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Sorozat;
@@ -54,9 +54,7 @@ import aa.droid.norbo.projects.edzesnaplo3.database.viewmodels.SorozatViewModel;
 import aa.droid.norbo.projects.edzesnaplo3.providers.NaploContentProvider;
 import aa.droid.norbo.projects.edzesnaplo3.rcview.NaploAdapter;
 import aa.droid.norbo.projects.edzesnaplo3.uiutils.fileworkers.FileWorker2Impl;
-import aa.droid.norbo.projects.edzesnaplo3.uiutils.fileworkers.FileWorkerImpl;
 import aa.droid.norbo.projects.edzesnaplo3.uiutils.fileworkers.interfaces.FileWorker2Interface;
-import aa.droid.norbo.projects.edzesnaplo3.uiutils.fileworkers.interfaces.FileWorkerInterface;
 import aa.droid.norbo.projects.edzesnaplo3.uiutils.NaploAudioComment;
 import aa.droid.norbo.projects.edzesnaplo3.uiutils.fileworkers.models.NaploAll;
 
@@ -78,7 +76,7 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
     private FileWorker2Interface fileWorkerInterface;
     private List<SorozatWithGyakorlat> menteshezLista;
 
-    private Naplo naplo;
+    private NaploWithSorozat naplo;
     private Uri jsonFilePath;
 
     @Override
@@ -116,9 +114,9 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
         mAdapter.addBackground(SwipeDirection.DIRECTION_NEUTRAL, R.layout.swipe_action_normal);
         mAdapter.setSwipeActionListener(MentettNaploActivity.this);
 
-        naploViewModel.getNaploListLiveData().observe(this, new Observer<List<Naplo>>() {
+        naploViewModel.getNaploWithSorozat().observe(this, new Observer<List<NaploWithSorozat>>() {
             @Override
-            public void onChanged(List<Naplo> naplos) {
+            public void onChanged(List<NaploWithSorozat> naplos) {
                 if(naplos.size() != 0) {
                     adapter.clear();
                     adapter.addAll(naplos);
@@ -137,8 +135,8 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
                 @Override
                 public void onClick(View v) {
                     if (naplo != null) {
-                        if (naplo.getCommentFilePath() != null) {
-                            NaploAudioComment audioComment = new NaploAudioComment(getApplicationContext(), naplo.getCommentFilePath(), null);
+                        if (naplo.daonaplo.getCommentFilePath() != null) {
+                            NaploAudioComment audioComment = new NaploAudioComment(getApplicationContext(), naplo.daonaplo.getCommentFilePath(), null);
                             audioComment.startPlaying();
                         } else {
                             Toast.makeText(MentettNaploActivity.this, "Nincs rögzítve audio comment", Toast.LENGTH_SHORT).show();
@@ -153,8 +151,8 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
                 @Override
                 public void onClick(View v) {
                     if (naplo != null) {
-                        if (naplo.getCommentFilePath() != null) {
-                            NaploAudioComment audioComment = new NaploAudioComment(getApplicationContext(), naplo.getCommentFilePath(), null);
+                        if (naplo.daonaplo.getCommentFilePath() != null) {
+                            NaploAudioComment audioComment = new NaploAudioComment(getApplicationContext(), naplo.daonaplo.getCommentFilePath(), null);
                             audioComment.startPlaying();
                         } else {
                             Toast.makeText(MentettNaploActivity.this, "Nincs rögzítve audio comment", Toast.LENGTH_SHORT).show();
@@ -245,7 +243,7 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
 
         } else if(item.getItemId() == R.id.menu_mentett_driveupload) {
             if(naplo != null && menteshezLista != null) {
-                jsonFilePath = fileWorkerInterface.makeJsonFile(menteshezLista, naplo);
+                jsonFilePath = fileWorkerInterface.makeJsonFile(menteshezLista, naplo.daonaplo);
                 Toast.makeText(this, "Napló fájl mentve "+jsonFilePath, Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(this, "Kérlek válassz egy naplót", Toast.LENGTH_SHORT).show();
@@ -291,22 +289,24 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
             @Override
             protected void onPostExecute(NaploAll naploAll) {
                 if(naploAll != null) {
-//                    String naplodatum = sorozatWithGyakorlats.get(0).sorozat.getNaplodatum();
-//                    Naplo kulso_forras = new Naplo(naplodatum, "kulso_forras");
                     List<SorozatWithGyakorlat> sorozatWithGyakorlats = naploAll.getSorozatWithGyakorlats();
                     Naplo kulso_forras = new Naplo(naploAll.getNaplo().getNaplodatum(),
                             naploAll.getNaplo().getFelhasznalonev(),
                             naploAll.getNaplo().getCommentFilePath());
                     naploViewModel.insert(kulso_forras);
 
+                    List<Sorozat> loadedSorozat = new ArrayList<>();
+
                     for (int i = 0; i < sorozatWithGyakorlats.size(); i++) {
                         Sorozat sorozat = new Sorozat(sorozatWithGyakorlats.get(i).sorozat);
                         sorozatViewModel.insert(sorozat);
-                        kulso_forras.addSorozat(sorozat);
+//                        kulso_forras.addSorozat(sorozat);
+                        loadedSorozat.add(sorozat);
                     }
 
                     NaploContentProvider.sendRefreshBroadcast(MentettNaploActivity.this);
-                    adapter.addNaplo(kulso_forras);
+                    adapter.addNaplo(new NaploWithSorozat(kulso_forras, sorozatWithGyakorlats));
+//                    adapter.addNaplo(kulso_forras);
                     mAdapter.notifyDataSetChanged();
                     Toast.makeText(getApplicationContext(), "Lista betöltve és mentve: mérete= " + sorozatWithGyakorlats.size(), Toast.LENGTH_SHORT).show();
                 } else {
@@ -333,13 +333,13 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
     @SuppressLint("StaticFieldLeak")
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        naplo = (Naplo) listView.getAdapter().getItem(position);
+        naplo = (NaploWithSorozat) listView.getAdapter().getItem(position);
         if(naplo != null) {
             SorozatViewModel sorozatViewModel = new ViewModelProvider(MentettNaploActivity.this)
                     .get(SorozatViewModel.class);
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
                 CompletableFuture<LiveData<List<SorozatWithGyakorlat>>> sorozatWithGyakByNaplo =
-                        sorozatViewModel.getSorozatWithGyakByNaplo(naplo.getNaplodatum());
+                        sorozatViewModel.getSorozatWithGyakByNaplo(naplo.daonaplo.getNaplodatum());
                 try {
                     sorozatWithGyakByNaplo.get().observe(MentettNaploActivity.this, new Observer<List<SorozatWithGyakorlat>>() {
                         @Override
@@ -361,7 +361,7 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
                     @Override
                     protected List<SorozatWithGyakorlat> doInBackground(Void... voids) {
                         List<SorozatWithGyakorlat> sorozatWithGyakByNaploToList =
-                                sorozatViewModel.getSorozatWithGyakByNaploToList(naplo.getNaplodatum());
+                                sorozatViewModel.getSorozatWithGyakByNaploToList(naplo.daonaplo.getNaplodatum());
                         menteshezLista = sorozatWithGyakByNaploToList;
 
                         return sorozatWithGyakByNaploToList;
