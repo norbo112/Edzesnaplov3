@@ -18,10 +18,35 @@
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
     </com.google.android.material.appbar.AppBarLayout>
 
+    <RelativeLayout
+        android:layout_marginTop="?attr/actionBarSize"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/llGyakValaszto">
+        <TextView
+            android:id="@+id/diagramSubTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="Gyakorlat"
+            android:padding="4dp"/>
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/spGyakorlats"
+            android:padding="4dp"/>
+    </LinearLayout>
+
     <com.github.mikephil.charting.charts.BarChart
         android:padding="10dp"
         android:id="@+id/barchart"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="?attr/actionBarSize"/>
+    </RelativeLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

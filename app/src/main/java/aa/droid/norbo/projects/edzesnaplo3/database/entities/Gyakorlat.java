@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity(tableName = "gyakorlattabla")
-public class Gyakorlat implements Serializable {
+public class Gyakorlat implements Serializable, Comparable<Gyakorlat> {
     @PrimaryKey(autoGenerate = true)
     private Integer id;
     @ColumnInfo(name = "csoport")
@@ -44,6 +44,12 @@ public class Gyakorlat implements Serializable {
         this.leiras = leiras;
         this.videolink = videolink;
         this.videostartpoz = videostartpoz;
+    }
+
+    @Ignore
+    public Gyakorlat(int minuszid, String megnevezes) {
+        this.id = minuszid;
+        this.megnevezes = megnevezes;
     }
 
     public Integer getId() {
@@ -100,19 +106,25 @@ public class Gyakorlat implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Gyakorlat gyakorlat = (Gyakorlat) o;
-        return megnevezes.equals(gyakorlat.megnevezes);
+        return id.equals(gyakorlat.id);
+    }
+
+    @Ignore
+    @Override
+    public int compareTo(Gyakorlat o) {
+        return Integer.compare(this.id, o.id);
     }
 
     @Ignore
     @Override
     public int hashCode() {
-        return Objects.hash(megnevezes);
+        return Objects.hash(id);
     }
 
     @Ignore
     @NonNull
     @Override
     public String toString() {
-        return "["+csoport+"] "+megnevezes;
+        return megnevezes;
     }
 }

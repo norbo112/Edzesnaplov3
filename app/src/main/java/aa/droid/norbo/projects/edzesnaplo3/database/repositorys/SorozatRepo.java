@@ -12,6 +12,7 @@ import java.util.function.Supplier;
 
 import aa.droid.norbo.projects.edzesnaplo3.database.EdzesNaploDatabase;
 import aa.droid.norbo.projects.edzesnaplo3.database.dao.SorozatDao;
+import aa.droid.norbo.projects.edzesnaplo3.database.dao.SorozatGyakorlatNevvel;
 import aa.droid.norbo.projects.edzesnaplo3.database.dao.SorozatWithGyakorlat;
 import aa.droid.norbo.projects.edzesnaplo3.database.dao.SorozatWithGyakorlatAndNaplo;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Naplo;

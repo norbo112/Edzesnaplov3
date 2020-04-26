@@ -11,6 +11,7 @@ import androidx.lifecycle.LiveData;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
+import aa.droid.norbo.projects.edzesnaplo3.database.dao.SorozatGyakorlatNevvel;
 import aa.droid.norbo.projects.edzesnaplo3.database.dao.SorozatWithGyakorlat;
 import aa.droid.norbo.projects.edzesnaplo3.database.dao.SorozatWithGyakorlatAndNaplo;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Sorozat;
