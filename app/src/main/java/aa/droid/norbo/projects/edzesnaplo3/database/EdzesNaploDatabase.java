@@ -31,7 +31,7 @@ import aa.droid.norbo.projects.edzesnaplo3.database.entities.NaploUser;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Sorozat;
 import aa.droid.norbo.projects.edzesnaplo3.uiutils.fileworkers.models.GyakorlatCsomag;
 
-@Database(entities = {Gyakorlat.class, Sorozat.class, Naplo.class, NaploUser.class}, version = 1)
+@Database(entities = {Gyakorlat.class, Sorozat.class, Naplo.class, NaploUser.class}, version = 2)
 public abstract class EdzesNaploDatabase extends RoomDatabase {
     private static final String TAG = "EdzésnaplóAdatbázis";
 
@@ -52,6 +52,7 @@ public abstract class EdzesNaploDatabase extends RoomDatabase {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             EdzesNaploDatabase.class, "edzesnaplo_db")
                             .addCallback(new AdatFeltoltes(context))
+                            .addMigrations(MIGRATION_1_2)
                             .allowMainThreadQueries()
 //                            .fallbackToDestructiveMigration()
                             .build();
@@ -64,9 +65,7 @@ public abstract class EdzesNaploDatabase extends RoomDatabase {
     static final Migration MIGRATION_1_2 = new Migration(1,2) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
-            database.execSQL(
-                    "ALTER TABLE 'naplo' ADD COLUMN 'sound_comment_fname' TEXT"
-            );
+
         }
     };
 

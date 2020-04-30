@@ -10,7 +10,6 @@ import android.view.WindowManager;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
@@ -21,7 +20,6 @@ import java.util.List;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Gyakorlat;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Naplo;
 import aa.droid.norbo.projects.edzesnaplo3.datainterfaces.AdatBeallitoInterface;
-import aa.droid.norbo.projects.edzesnaplo3.diagram.DiagramFragment;
 import aa.droid.norbo.projects.edzesnaplo3.jelenlegimunka.BovitettKorabbiEdzesFragmant;
 import aa.droid.norbo.projects.edzesnaplo3.jelenlegimunka.BovitettMunkaFragment;
 import aa.droid.norbo.projects.edzesnaplo3.ui.main.SectionsPagerAdapter;

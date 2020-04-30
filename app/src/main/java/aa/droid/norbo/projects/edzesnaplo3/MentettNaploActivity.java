@@ -169,9 +169,11 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
 
     private void setInfoView(List<NaploWithSorozat> naplos) {
         TextView tf = findViewById(R.id.tvMentettInfo);
-        tf.append("Naplók száma: "+naplos.size()+" db");
-        tf.append("\n");
-        tf.append("Megmozgatott súly: "+ MentettAdatok.getOsszNaploSuly(naplos)+" Kg");
+        StringBuilder sb = new StringBuilder();
+        sb.append("Naplók száma: "+naplos.size()+" db");
+        sb.append("\n");
+        sb.append("Megmozgatott súly: "+ MentettAdatok.getOsszNaploSuly(naplos)+" Kg");
+        tf.setText(sb.toString());
     }
 
     private void changeEmptyTextView() {
@@ -252,7 +254,7 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
 
         } else if(item.getItemId() == R.id.menu_mentett_driveupload) {
             if(naplo != null && menteshezLista != null) {
-                jsonFilePath = fileWorkerInterface.makeJsonFile(menteshezLista, naplo.daonaplo);
+                jsonFilePath = fileWorkerInterface.makeFile(menteshezLista, naplo.daonaplo);
                 Toast.makeText(this, "Napló fájl mentve "+jsonFilePath, Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(this, "Kérlek válassz egy naplót", Toast.LENGTH_SHORT).show();
@@ -288,7 +290,7 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
                 Context context = (Context) objects[0];
                 Uri uri = (Uri) objects[1];
                 try {
-                    return fileWorkerInterface.loadJsonFile(context.getContentResolver().openInputStream(uri));
+                    return fileWorkerInterface.loadFile(context.getContentResolver().openInputStream(uri));
                 } catch (FileNotFoundException e) {
                     Log.e(TAG, "loadKulsoMentettLista: Hiba", e);
                 }

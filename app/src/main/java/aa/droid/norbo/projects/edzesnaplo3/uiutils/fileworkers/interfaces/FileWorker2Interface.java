@@ -11,7 +11,7 @@ import aa.droid.norbo.projects.edzesnaplo3.uiutils.fileworkers.models.GyakorlatC
 import aa.droid.norbo.projects.edzesnaplo3.uiutils.fileworkers.models.NaploAll;
 
 public interface FileWorker2Interface {
-    Uri makeJsonFile(List<SorozatWithGyakorlat> sorozatWithGyakorlats, Naplo naplom);
+    Uri makeFile(List<SorozatWithGyakorlat> sorozatWithGyakorlats, Naplo naplom);
 
-    NaploAll loadJsonFile(InputStream inputStream);
+    NaploAll loadFile(InputStream inputStream);
 }

@@ -23,7 +23,7 @@ public interface NaploDao {
     @Query("SELECT * FROM naplo")
     LiveData<List<NaploWithSorozat>> getNaploWithSorozats();
 
-    @Query("SELECT * FROM naplo ORDER BY naplodatum")
+    @Query("SELECT * FROM naplo ORDER BY naplodatum ASC")
     LiveData<List<Naplo>> getNaploLiveData();
 
     @Query("SELECT * FROM naplo ORDER BY naplodatum")

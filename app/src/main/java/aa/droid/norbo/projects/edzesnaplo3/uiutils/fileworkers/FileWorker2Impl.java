@@ -34,8 +34,8 @@ public class FileWorker2Impl implements FileWorker2Interface {
     }
 
     @Override
-    public Uri makeJsonFile(List<SorozatWithGyakorlat> sorozatWithGyakorlats,
-                            Naplo naplo) {
+    public Uri makeFile(List<SorozatWithGyakorlat> sorozatWithGyakorlats,
+                        Naplo naplo) {
         if(naplo.getCommentFilePath() == null) naplo.setCommentFilePath("");
         String json = new Gson().toJson(new NaploAll(sorozatWithGyakorlats, naplo));
 
@@ -63,7 +63,7 @@ public class FileWorker2Impl implements FileWorker2Interface {
     }
 
     @Override
-    public NaploAll loadJsonFile(InputStream inputStream) {
+    public NaploAll loadFile(InputStream inputStream) {
         BufferedReader reader = null;
         try {
             reader = new BufferedReader(new InputStreamReader(inputStream));

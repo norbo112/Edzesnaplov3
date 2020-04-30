@@ -4,12 +4,9 @@ import android.content.Context;
 import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.TreeSet;
 
-import aa.droid.norbo.projects.edzesnaplo3.database.dao.SorozatGyakorlatNevvel;
 import aa.droid.norbo.projects.edzesnaplo3.database.dao.SorozatWithGyakorlat;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Gyakorlat;
 
