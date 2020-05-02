@@ -424,7 +424,7 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
                     break;
                 case DIRECTION_FAR_RIGHT:
                 case DIRECTION_NORMAL_RIGHT:
-                    alertTorles((Naplo) mAdapter.getItem(poz));
+                    alertTorles(((NaploWithSorozat) mAdapter.getItem(poz)).daonaplo);
                     break;
             }
 

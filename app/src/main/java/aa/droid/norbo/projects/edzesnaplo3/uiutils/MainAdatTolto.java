@@ -25,12 +25,12 @@ public class MainAdatTolto {
     private int naploCntint;
     private int osszSuly;
 
-    public MainAdatTolto(AppCompatActivity pActivity) {
+    public MainAdatTolto(AppCompatActivity pActivity) throws SQLiteException {
         this.activity = pActivity;
         initAdatok();
     }
 
-    private void initAdatok() {
+    private void initAdatok() throws SQLiteException {
         try {
             this.naploCntint = getNaploCnt();
             this.osszSuly = getOsszSuly(naploLista);

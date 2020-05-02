@@ -15,6 +15,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -26,6 +27,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.apache.log4j.Priority;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -39,18 +44,18 @@ import aa.droid.norbo.projects.edzesnaplo3.database.entities.Naplo;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.NaploUser;
 import aa.droid.norbo.projects.edzesnaplo3.database.viewmodels.NaploUserViewModel;
 import aa.droid.norbo.projects.edzesnaplo3.database.viewmodels.NaploViewModel;
+import aa.droid.norbo.projects.edzesnaplo3.logutils.Lgr;
 import aa.droid.norbo.projects.edzesnaplo3.onlytest.NaplodbTabla;
 import aa.droid.norbo.projects.edzesnaplo3.uiutils.MainAdatTolto;
 
 public class MainActivity extends AppCompatActivity
         implements View.OnClickListener {
+    private static final String TAG = "MainActivity";
+    private Logger lgr;
     public static final String FELHASZNALONEV = "aa.droid.norbo.projects.edzesnaplo3.FELHASZNALONEV";
     public static final String INTENT_DATA_NAPLO = "aa.droid.norbo.projects.edzesnaplo3.INTENT_DATA_NAPLO";
     public static final String INTENT_DATA_NEV = "aa.droid.norbo.projects.edzesnaplo3.INTENT_DATA_NEV";
     public static final String AUDIO_RECORD_IS = "aa.droid.norbo.projects.edzesnaplo3.AUDIO_RECORD_IS";
-
-    private static final int RECORD_AUDIO_PERM = 200;
-    private static final String[] MANI_PERMS = new String[] {Manifest.permission.RECORD_AUDIO};
 
     private EditText editText;
     private TextView textView;
@@ -70,54 +75,37 @@ public class MainActivity extends AppCompatActivity
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         naplopref = getSharedPreferences("naplo", MODE_PRIVATE);
-
-        if (ActivityCompat.checkSelfPermission(this, MANI_PERMS[0])
-                == PackageManager.PERMISSION_GRANTED) {
-            SharedPreferences.Editor edit = naplopref.edit();
-            edit.putBoolean(AUDIO_RECORD_IS, true);
-            edit.apply();
-        } else {
-            ActivityCompat.requestPermissions(this, MANI_PERMS, RECORD_AUDIO_PERM);
-        }
-
+        lgr = Lgr.getLogger("MainActivity");
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Edzésnapló v3");
         toolbar.setLogo(R.drawable.ic_run);
         setSupportActionBar(toolbar);
 
-        TextView textViewNaplokSzama = findViewById(R.id.tvMainRogzitettNaplok);
-        TextView textViewMegmozgatottSuly = findViewById(R.id.tvMainMegmozgatottSulyok);
 
         editText = findViewById(R.id.etWelcomeNev);
         textView = findViewById(R.id.tvWelcomeNev);
         textViewTemp = findViewById(R.id.tvTextTemp);
-
-        MainAdatTolto mainAdatTolto = new MainAdatTolto(this);
-        textViewNaplokSzama.setText(mainAdatTolto.getNaploCntint()+" db");
-        textViewMegmozgatottSuly.setText(mainAdatTolto.getOsszSuly()+" KG");
-
         naploUserViewModel = new ViewModelProvider(this).get(NaploUserViewModel.class);
 
         textView.setVisibility(View.GONE);
         textViewTemp.setVisibility(View.GONE);
 
-        checkNevInDB();
-
         Button btnBelep = findViewById(R.id.welcome_belep);
         btnBelep.setOnClickListener(this);
-    }
+        TextView textViewNaplokSzama = findViewById(R.id.tvMainRogzitettNaplok);
+        TextView textViewMegmozgatottSuly = findViewById(R.id.tvMainMegmozgatottSulyok);
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case RECORD_AUDIO_PERM :
-                boolean audiorecordon = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-                SharedPreferences.Editor edit = naplopref.edit();
-                edit.putBoolean(AUDIO_RECORD_IS, audiorecordon);
-                edit.apply();
-                break;
+        try {
+            checkNevInDB();
+
+            MainAdatTolto mainAdatTolto = new MainAdatTolto(this);
+            textViewNaplokSzama.setText(mainAdatTolto.getNaploCntint()+" db");
+            textViewMegmozgatottSuly.setText(mainAdatTolto.getOsszSuly()+" KG");
+        } catch (SQLiteException e) {
+            if(lgr != null) lgr.log(Level.ERROR, "Adatbázis hiba",e);
+            else
+                Log.e(TAG, "onCreate: adatbázis hiba", e);
         }
     }
 
@@ -167,7 +155,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void saveFelhasznaloToDB() {
-
         nevFromFile = editText.getText().toString();
         NaploUser naploUser = new NaploUser();
         naploUser.setFelhasznalonev(nevFromFile);
@@ -178,7 +165,7 @@ public class MainActivity extends AppCompatActivity
         naploUserViewModel.getNaploUserLiveData().observe(this, new Observer<NaploUser>() {
             @Override
             public void onChanged(NaploUser naploUser) {
-                if(naploUser != null) {
+                if (naploUser != null) {
                     nevFromFile = naploUser.getFelhasznalonev();
                     editText.setVisibility(View.GONE);
                     textView.setText(nevFromFile);
