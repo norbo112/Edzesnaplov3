@@ -1,6 +1,7 @@
 package aa.droid.norbo.projects.edzesnaplo3.rcview;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,8 @@ import aa.droid.norbo.projects.edzesnaplo3.NaploActivity;
 import aa.droid.norbo.projects.edzesnaplo3.R;
 
 public class NaploAdapter extends RecyclerView.Adapter<NaploAdapter.NaploViewHolder> {
+    private static final String TAG = "NaploAdapter";
+
     static class NaploViewHolder extends RecyclerView.ViewHolder {
         TextView tvGyakCim;
         ListView listView;
@@ -56,9 +59,17 @@ public class NaploAdapter extends RecyclerView.Adapter<NaploAdapter.NaploViewHol
         ListView listView = holder.listView;
         listView.setAdapter(new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, gyakorlatWithSorozat.getSorozatList()));
 
+        long elteltido;
+        try {
+            elteltido = gyakorlatWithSorozat.getElteltido();
+        } catch (IllegalArgumentException e) {
+            Log.e(TAG, "onBindViewHolder: ", e);
+            elteltido = -1;
+        }
+
         holder.megmozgatottSuly.setText(String.format(Locale.getDefault(), "%d kg, %d perc alatt",
                 gyakorlatWithSorozat.getMegmozgatottSuly(),
-                gyakorlatWithSorozat.getElteltido()));
+                elteltido));
     }
 
     @Override

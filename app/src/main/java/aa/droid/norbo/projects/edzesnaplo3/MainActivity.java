@@ -77,6 +77,8 @@ public class MainActivity extends AppCompatActivity
         naplopref = getSharedPreferences("naplo", MODE_PRIVATE);
         lgr = Lgr.getLogger("MainActivity");
 
+        lgr.log(Level.INFO, "Edzésnapló alkalmazás elindult");
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Edzésnapló v3");
         toolbar.setLogo(R.drawable.ic_run);
@@ -86,7 +88,6 @@ public class MainActivity extends AppCompatActivity
         editText = findViewById(R.id.etWelcomeNev);
         textView = findViewById(R.id.tvWelcomeNev);
         textViewTemp = findViewById(R.id.tvTextTemp);
-        naploUserViewModel = new ViewModelProvider(this).get(NaploUserViewModel.class);
 
         textView.setVisibility(View.GONE);
         textViewTemp.setVisibility(View.GONE);
@@ -97,12 +98,13 @@ public class MainActivity extends AppCompatActivity
         TextView textViewMegmozgatottSuly = findViewById(R.id.tvMainMegmozgatottSulyok);
 
         try {
+            naploUserViewModel = new ViewModelProvider(this).get(NaploUserViewModel.class);
             checkNevInDB();
 
             MainAdatTolto mainAdatTolto = new MainAdatTolto(this);
             textViewNaplokSzama.setText(mainAdatTolto.getNaploCntint()+" db");
             textViewMegmozgatottSuly.setText(mainAdatTolto.getOsszSuly()+" KG");
-        } catch (SQLiteException e) {
+        } catch (Exception e) {
             if(lgr != null) lgr.log(Level.ERROR, "Adatbázis hiba",e);
             else
                 Log.e(TAG, "onCreate: adatbázis hiba", e);

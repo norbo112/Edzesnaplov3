@@ -1,6 +1,7 @@
 package aa.droid.norbo.projects.edzesnaplo3;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -27,6 +29,7 @@ import java.util.Locale;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.regex.MatchResult;
+import java.util.stream.IntStream;
 
 import aa.droid.norbo.projects.edzesnaplo3.database.dao.SorozatWithGyakorlat;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Gyakorlat;
@@ -38,6 +41,7 @@ import aa.droid.norbo.projects.edzesnaplo3.providers.NaploContentProvider;
 import aa.droid.norbo.projects.edzesnaplo3.rcview.NaploAdapter;
 import aa.droid.norbo.projects.edzesnaplo3.uiutils.NaploAudioComment;
 import aa.droid.norbo.projects.edzesnaplo3.uiutils.lists.SorozatSorter;
+import aa.droid.norbo.projects.edzesnaplo3.uiutils.sorozattomb.SorozatTombKeszito;
 
 public class NaploActivity extends AppCompatActivity {
     private final String TAG = getClass().getSimpleName();
@@ -52,6 +56,7 @@ public class NaploActivity extends AppCompatActivity {
     private NaploAudioComment naploAudioComment;
     private String filename;
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -188,16 +193,17 @@ public class NaploActivity extends AppCompatActivity {
         return result;
     }
 
-    public static class RCViewGyakSorozat {
+    public class RCViewGyakSorozat {
         private Gyakorlat gyakorlat;
         private List<Sorozat> sorozatList;
         private int megmozgatottSuly;
-        private int elteltido = 0;
         private String TAG = "GyakorlatWithSorozat";
+        private SorozatTombKeszito sorozatTombKeszito;
 
         RCViewGyakSorozat(Gyakorlat gyakorlat) {
             this.gyakorlat = gyakorlat;
             this.sorozatList = new ArrayList<>();
+            sorozatTombKeszito = new SorozatTombKeszito();
         }
 
         public Gyakorlat getGyakorlat() {
@@ -212,28 +218,15 @@ public class NaploActivity extends AppCompatActivity {
             return megmozgatottSuly;
         }
 
-        public int getElteltido() {
-            return elteltido;
+        public long getElteltido() throws IllegalArgumentException {
+            return sorozatTombKeszito.getEltelIdoSzamitas(
+                    sorozatTombKeszito.getIsmIdoStrLongFromSorozats(
+                            this.sorozatList));
         }
 
         void addSorozat(Sorozat sorozat) {
             sorozatList.add(sorozat);
             megmozgatottSuly += sorozat.getSuly() * sorozat.getIsmetles();
-            elteltido = getEltelIdoSzamitas();
-        }
-
-        private int getEltelIdoSzamitas() {
-            int result;
-            try {
-                result = new Date(
-                        Long.parseLong(sorozatList.get(sorozatList.size()-1).getIsmidopont())).getMinutes();
-                result -= new Date(
-                        Long.parseLong(sorozatList.get(0).getIsmidopont())).getMinutes();
-            } catch (IllegalArgumentException ex) {
-                Log.i(TAG, "getEltelIdoSzamitas: Dátum parse");
-                result = 0;
-            }
-            return Math.abs(result);
         }
 
         @NonNull

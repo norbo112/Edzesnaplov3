@@ -6,6 +6,7 @@ import java.util.Scanner;
 import java.util.regex.MatchResult;
 
 import aa.droid.norbo.projects.edzesnaplo3.NaploActivity;
+import aa.droid.norbo.projects.edzesnaplo3.database.entities.Sorozat;
 
 public class SorozatSorter {
     public static void rcGyakSorozatSort(List<NaploActivity.RCViewGyakSorozat> sorozats) {
@@ -68,5 +69,58 @@ public class SorozatSorter {
             else return -1;
         }
         return 0;
+    }
+
+    public static void intsShorter(int[] nums) {
+        boolean csere;
+        int i = nums.length - 1;
+        do {
+            csere = false;
+            for (int j = 0; j < i; j++) {
+                if(nums[j] > nums[j+1]) {
+                    int tmp = nums[j];
+                    nums[j] = nums[j+1];
+                    nums[j+1] = tmp;
+                    csere = true;
+                }
+            }
+            i--;
+        } while (csere);
+    }
+
+    public static void rcSorozatSorter(List<Sorozat> sorozats) {
+        Sorozat[] list = sorozats.toArray(new Sorozat[0]);
+        boolean csere;
+        int i = list.length - 1;
+        do {
+            csere = false;
+            for (int j = 0; j < i; j++) {
+                if(isDateAfter(list[j].getIsmidopont(), list[j+1].getIsmidopont()) > 0) {
+                    Sorozat tmp = list[j];
+                    list[j] = list[j+1];
+                    list[j+1] = tmp;
+                    csere = true;
+                }
+            }
+            i--;
+        } while (csere);
+
+        sorozats.clear();
+        for (int k = 0; k < list.length; k++) {
+            sorozats.add(list[k]);
+        }
+    }
+
+    public static int isDateAfter(String pA, String pB) {
+        Date a = new Date(Long.parseLong(pA));
+        Date b = new Date(Long.parseLong(pB));
+
+        if(a.after(b)) {
+            return 1;
+        } else if(a.before(b)) {
+            return -1;
+        } else {
+            return 0;
+        }
     }
 }
