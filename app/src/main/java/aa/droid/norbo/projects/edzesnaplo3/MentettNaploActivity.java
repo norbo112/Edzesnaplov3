@@ -133,37 +133,9 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
         FloatingActionButton fabTabPlay = findViewById(R.id.fabNaploCommentPlay);
         FloatingActionButton fabTabPlaySmall = findViewById(R.id.fabNaploCommentPlaysmallScreen);
         if(fabTabPlay != null) {
-            fabTabPlay.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (naplo != null) {
-                        if (naplo.daonaplo.getCommentFilePath() != null) {
-                            NaploAudioComment audioComment = new NaploAudioComment(getApplicationContext(), naplo.daonaplo.getCommentFilePath(), null);
-                            audioComment.startPlaying();
-                        } else {
-                            Toast.makeText(MentettNaploActivity.this, "Nincs rögzítve audio comment", Toast.LENGTH_SHORT).show();
-                        }
-                    } else {
-                        Toast.makeText(MentettNaploActivity.this, "Válassz egy naplót", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
+            fabTabPlay.setOnClickListener(playListener);
         } else {
-            fabTabPlaySmall.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (naplo != null) {
-                        if (naplo.daonaplo.getCommentFilePath() != null) {
-                            NaploAudioComment audioComment = new NaploAudioComment(getApplicationContext(), naplo.daonaplo.getCommentFilePath(), null);
-                            audioComment.startPlaying();
-                        } else {
-                            Toast.makeText(MentettNaploActivity.this, "Nincs rögzítve audio comment", Toast.LENGTH_SHORT).show();
-                        }
-                    } else {
-                        Toast.makeText(MentettNaploActivity.this, "Válassz egy naplót", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
+            fabTabPlaySmall.setOnClickListener(playListener);
         }
     }
 
@@ -431,4 +403,20 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
             mAdapter.notifyDataSetChanged();
         }
     }
+
+    private View.OnClickListener playListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (naplo != null) {
+                if (naplo.daonaplo.getCommentFilePath() != null) {
+                    NaploAudioComment audioComment = new NaploAudioComment(getApplicationContext(), naplo.daonaplo.getCommentFilePath(), null);
+                    audioComment.startPlaying();
+                } else {
+                    Toast.makeText(MentettNaploActivity.this, "Nincs rögzítve audio comment", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(MentettNaploActivity.this, "Válassz egy naplót", Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
 }

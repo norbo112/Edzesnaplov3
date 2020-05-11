@@ -7,8 +7,7 @@ import aa.droid.norbo.projects.edzesnaplo3.uiutils.lists.SorozatSorter;
 
 public class SorozatTombKeszito {
 
-    public String[] getIsmIdoStrLongFromSorozats(List<Sorozat> sorozatList)
-            throws IllegalArgumentException {
+    public String[] getIsmIdoStrLongFromSorozats(List<Sorozat> sorozatList) {
         if(sorozatList == null) return new String[0];
 
         //itt feltételezem hogy longba vannak megadva az időpontok, és igy sorbarendezem
@@ -28,7 +27,9 @@ public class SorozatTombKeszito {
      * @return
      */
     public long getEltelIdoSzamitas(String[] idopontok) {
-        if(idopontok != null && idopontok.length == 0) throw new IllegalArgumentException("Üres tömb nem lehet, minimum 2 elem");
+        if(idopontok != null && idopontok.length < 2) throw new IllegalArgumentException("Üres tömb nem lehet, minimum 2 elem");
+
+        if(idopontok == null) throw new IllegalArgumentException("Nem lehet null a tömb");
 
         long a = Long.parseLong(idopontok[0]);
         long b = Long.parseLong(idopontok[idopontok.length-1]);

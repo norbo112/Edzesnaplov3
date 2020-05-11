@@ -59,13 +59,7 @@ public class NaploAdapter extends RecyclerView.Adapter<NaploAdapter.NaploViewHol
         ListView listView = holder.listView;
         listView.setAdapter(new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, gyakorlatWithSorozat.getSorozatList()));
 
-        long elteltido;
-        try {
-            elteltido = gyakorlatWithSorozat.getElteltido();
-        } catch (IllegalArgumentException e) {
-            Log.e(TAG, "onBindViewHolder: ", e);
-            elteltido = -1;
-        }
+        long elteltido = gyakorlatWithSorozat.getElteltido();
 
         holder.megmozgatottSuly.setText(String.format(Locale.getDefault(), "%d kg, %d perc alatt",
                 gyakorlatWithSorozat.getMegmozgatottSuly(),

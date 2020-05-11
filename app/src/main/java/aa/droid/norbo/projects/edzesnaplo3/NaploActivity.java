@@ -218,10 +218,17 @@ public class NaploActivity extends AppCompatActivity {
             return megmozgatottSuly;
         }
 
-        public long getElteltido() throws IllegalArgumentException {
-            return sorozatTombKeszito.getEltelIdoSzamitas(
-                    sorozatTombKeszito.getIsmIdoStrLongFromSorozats(
-                            this.sorozatList));
+        public long getElteltido() {
+            long result;
+            try {
+                result = sorozatTombKeszito.getEltelIdoSzamitas(
+                        sorozatTombKeszito.getIsmIdoStrLongFromSorozats(
+                                this.sorozatList));
+            } catch (IllegalArgumentException e) {
+                Log.e(TAG, "getElteltido: ", e);
+                result = -1;
+            }
+            return result;
         }
 
         void addSorozat(Sorozat sorozat) {
