@@ -77,7 +77,6 @@ public class MentettNaploListaAdapter extends BaseAdapter {
         StringBuilder builder = new StringBuilder(" ");
         Set<String> stringset = new HashSet<>();
         for (SorozatWithGyakorlat s: sorozats) {
-//            stringset.add(s.gyakorlat.getMegnevezes());
             stringset.add(s.gyakorlat.getCsoport());
         }
 

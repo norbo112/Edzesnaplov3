@@ -332,7 +332,7 @@ public class MentettNaploActivity extends AppCompatActivity implements AdapterVi
                             int napiosszsuly = getNapiOsszSuly(withSorozats);
                             osszsnapisuly.setText(String.format(Locale.getDefault(),"%d Kg napi megmozgatott súly", napiosszsuly));
                             rcnaploview.setAdapter(new NaploAdapter(MentettNaploActivity.this, withSorozats));
-                            rcnaploview.setLayoutManager(new LinearLayoutManager(MentettNaploActivity.this));
+                            rcnaploview.setLayoutManager(new LinearLayoutManager(MentettNaploActivity.this, RecyclerView.HORIZONTAL, false));
                             rcnaploview.setItemAnimator(new DefaultItemAnimator());
                         }
                     });
