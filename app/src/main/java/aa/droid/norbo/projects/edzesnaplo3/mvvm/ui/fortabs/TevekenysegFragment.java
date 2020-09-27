@@ -73,11 +73,14 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface 
         }
 
         public void naploSave() {
+            naploWorker.prepareUjGyakorlat();
+
             new AlertDialog.Builder(getContext())
                     .setTitle("Napló részletek (mentés)")
                     .setMessage(naploWorker.getNaplo().toString())
                     .setNeutralButton("ok", (dialog, which) -> dialog.dismiss())
                     .setPositiveButton("mentés", (dialog, which) -> {
+                        binding.btnSorozatAdd.setEnabled(false);
                         naploWorker.saveNaplo();
                         Toast.makeText(getContext(), "Napló mentve!", Toast.LENGTH_SHORT).show();
                     })
