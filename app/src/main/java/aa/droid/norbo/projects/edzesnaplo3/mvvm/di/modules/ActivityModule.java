@@ -1,26 +1,27 @@
 package aa.droid.norbo.projects.edzesnaplo3.mvvm.di.modules;
 
+import javax.inject.Singleton;
+
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.api.GyakorlatRepository;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.ModelConverter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.GyakorlatViewModel;
 import dagger.Module;
 import dagger.Provides;
 import dagger.hilt.InstallIn;
-import dagger.hilt.android.components.ActivityComponent;
-import dagger.hilt.android.qualifiers.ActivityContext;
+import dagger.hilt.android.components.ApplicationComponent;
 
 @Module
-@InstallIn(ActivityComponent.class)
+@InstallIn(ApplicationComponent.class)
 public class ActivityModule {
 
     @Provides
-    @ActivityContext
+    @Singleton
     GyakorlatViewModel provideGyakorlatViewModel(GyakorlatRepository repository) {
         return new GyakorlatViewModel(repository);
     }
 
     @Provides
-    @ActivityContext
+    @Singleton
     ModelConverter provideModelConverter() {
         return new ModelConverter();
     }
