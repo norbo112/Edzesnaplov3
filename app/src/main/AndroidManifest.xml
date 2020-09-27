@@ -12,37 +12,38 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/enlogo"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:name=".mvvm.di.EdzesnaploApplication">
         <activity android:name=".BelepoActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
-        <activity android:name=".jelenlegimunka.BovitettKorabbiEdzesFragmant" />
+
         <activity android:name=".onlytest.NaplodbTabla" />
 
-        <provider
-            android:name=".providers.NaploContentProvider"
-            android:authorities="aa.dorid.norbo.projects.edzesnaplo3.contentprovider"
-            android:enabled="true"
-            android:exported="true" />
+<!--        <provider-->
+<!--            android:name=".providers.NaploContentProvider"-->
+<!--            android:authorities="aa.dorid.norbo.projects.edzesnaplo3.contentprovider"-->
+<!--            android:enabled="true"-->
+<!--            android:exported="true" />-->
 
-        <receiver android:name=".widgets.NaploCntAppWidget">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
+<!--        <receiver android:name=".widgets.NaploCntAppWidget">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />-->
+<!--            </intent-filter>-->
 
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/naplo_cnt_app_widget_info" />
-        </receiver>
+<!--            <meta-data-->
+<!--                android:name="android.appwidget.provider"-->
+<!--                android:resource="@xml/naplo_cnt_app_widget_info" />-->
+<!--        </receiver>-->
 
-        <service
-            android:name=".widgets.ListItemService"
-            android:exported="false"
-            android:permission="android.permission.BIND_REMOTEVIEWS" />
+<!--        <service-->
+<!--            android:name=".widgets.ListItemService"-->
+<!--            android:exported="false"-->
+<!--            android:permission="android.permission.BIND_REMOTEVIEWS" />-->
 
         <activity
             android:name=".DiagramActivity"
@@ -56,8 +57,7 @@
         <activity
             android:name=".NaploActivity"
             android:parentActivityName=".MainActivity" />
-        <activity android:name=".Edzes" />
-        <activity android:name=".GyakorlatValaszto" />
+
         <activity
             android:name=".MentettNaploActivity"
             android:parentActivityName=".MainActivity" />
@@ -71,6 +71,15 @@
 <!--                <category android:name="android.intent.category.LAUNCHER" />-->
 <!--            </intent-filter>-->
         </activity>
+
+        <activity android:name=".mvvm.ui.TestActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".mvvm.ui.VideoActivity"/>
     </application>
 
 </manifest>

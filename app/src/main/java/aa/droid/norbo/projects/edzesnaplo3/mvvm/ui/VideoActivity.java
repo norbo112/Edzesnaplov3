@@ -1,11 +1,10 @@
-package aa.droid.norbo.projects.edzesnaplo3;
+package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -13,33 +12,36 @@ import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 
-import aa.droid.norbo.projects.edzesnaplo3.database.entities.Gyakorlat;
+import aa.droid.norbo.projects.edzesnaplo3.R;
+import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmVideoActivityBinding;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Gyakorlat;
 
-public class VideoActivity extends AppCompatActivity implements YouTubePlayer.OnInitializedListener {
+public class VideoActivity extends BaseActiviry<MvvmVideoActivityBinding> implements YouTubePlayer.OnInitializedListener {
     public static final String EXTRA_GYAKORLAT = "aa.droid.norbo.projects.edzesnaplov3.EXTRA_GYAKORLAT";
-    private final String TAG = getClass().getSimpleName();
-    private final String YT_API_KEY = "AIzaSyDzSqMr9tFI2MvQ_b7BMCQE8Xrw3DWvtOw";
+    private static final String YT_API_KEY = "AIzaSyDzSqMr9tFI2MvQ_b7BMCQE8Xrw3DWvtOw";
     private Gyakorlat gyakorlat;
 
     private YouTubePlayerSupportFragment youTubePlayerFragment;
     private YouTubePlayer player;
     private Integer videopoz;
 
+    public VideoActivity() {
+        super(R.layout.mvvm_video_activity);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.video_activity);
         initIntentExtraData(getIntent());
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle(gyakorlat.getMegnevezes());
-        toolbar.setLogo(R.drawable.ic_run);
-        setSupportActionBar(toolbar);
+        binding.toolbar.setTitle(gyakorlat.getMegnevezes());
+        binding.toolbar.setLogo(R.drawable.ic_run);
+        setSupportActionBar(binding.toolbar);
 
         youTubePlayerFragment = YouTubePlayerSupportFragment.newInstance();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        //müködik, de az ide hibát jelez
         transaction.add(R.id.ytView, youTubePlayerFragment).commit();
+
         youTubePlayerFragment.initialize(YT_API_KEY, this);
     }
 

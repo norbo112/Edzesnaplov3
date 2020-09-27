@@ -34,6 +34,7 @@ import aa.droid.norbo.projects.edzesnaplo3.uiutils.fileworkers.models.GyakorlatC
 @Database(entities = {Gyakorlat.class, Sorozat.class, Naplo.class, NaploUser.class}, version = 2)
 public abstract class EdzesNaploDatabase extends RoomDatabase {
     private static final String TAG = "EdzésnaplóAdatbázis";
+    public static final String DBNAME = "edzesnaplo_db";
 
     public abstract GyakorlatDao gyakorlatDao();
     public abstract NaploDao naploDao();
@@ -50,7 +51,7 @@ public abstract class EdzesNaploDatabase extends RoomDatabase {
             synchronized (EdzesNaploDatabase.class) {
                 if(INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                            EdzesNaploDatabase.class, "edzesnaplo_db")
+                            EdzesNaploDatabase.class, DBNAME)
                             .addCallback(new AdatFeltoltes(context))
                             .addMigrations(MIGRATION_1_2)
                             .allowMainThreadQueries()

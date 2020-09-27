@@ -37,6 +37,10 @@ public class DateTimeFormatter {
         return time;
     }
 
+    public static String getTime(long timestamp) {
+        return timeformatter.format(new Date(timestamp));
+    }
+
     public static String getDate(String datetimestr) {
         String date;
         try {
@@ -73,5 +77,9 @@ public class DateTimeFormatter {
             }
         }
         return date;
+    }
+
+    public static String getNaploDatum(long timestamp) {
+        return naplodateformatter.format(new Date(timestamp));
     }
 }
