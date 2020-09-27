@@ -99,6 +99,7 @@ public class Naplo implements Serializable {
     @NonNull
     @Override
     public String toString() {
-        return DateTimeFormatter.getNaploDatum(naplodatum);
+//        return DateTimeFormatter.getNaploDatum(naplodatum);
+        return DateTimeFormatter.getNaploDatum(naplodatum)+"\n"+sorozats;
     }
 }

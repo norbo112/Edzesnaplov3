@@ -31,6 +31,10 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
         myFragmentTitles.add(title);
     }
 
+    public void setPageTitle(int position, String newTitle) {
+        myFragmentTitles.set(position, newTitle);
+    }
+
     @Override
     public Fragment getItem(int position) {
         return myFragments.get(position);

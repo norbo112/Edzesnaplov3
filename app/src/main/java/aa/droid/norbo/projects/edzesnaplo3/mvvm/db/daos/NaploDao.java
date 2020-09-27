@@ -24,7 +24,7 @@ public interface NaploDao {
     LiveData<List<NaploWithSorozat>> getNaploWithSorozats();
 
     @Query("SELECT * FROM naplo ORDER BY naplodatum ASC")
-    LiveData<List<Naplo>> getNaploLiveData();
+    LiveData<List<Naplo>> getAll();
 
     @Query("SELECT * FROM naplo ORDER BY naplodatum")
     Cursor selectAll();

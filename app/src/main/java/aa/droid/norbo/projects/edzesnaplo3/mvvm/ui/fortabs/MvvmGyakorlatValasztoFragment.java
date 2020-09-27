@@ -1,6 +1,7 @@
 package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -24,6 +25,7 @@ import androidx.appcompat.view.menu.MenuPopupHelper;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +40,7 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.GyakorlatUI;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Gyakorlat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.utils.AdatFeltoltes;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.VideoActivity;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.adatkozlo.AdatKozloInterface;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.listadapters.GyakorlatItemAdapter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.ModelConverter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.GyakorlatViewModel;
@@ -48,12 +51,19 @@ public class MvvmGyakorlatValasztoFragment extends Fragment implements AdapterVi
     private static final String TAG = "TestActivity";
     private static final String VALASSZ_IZOMCSOP = "Válassz...";
     private MvvmGyakorlatValasztoLayoutBinding binding;
+    private AdatKozloInterface adatKozloInterface;
 
     @Inject
     GyakorlatViewModel gyakorlatViewModel;
 
     @Inject
     ModelConverter modelConverter;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        this.adatKozloInterface = (AdatKozloInterface) context;
+    }
 
     @Nullable
     @Override
@@ -123,12 +133,8 @@ public class MvvmGyakorlatValasztoFragment extends Fragment implements AdapterVi
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.gyakszerk_menu_select :
-//                Gyakorlat gy = (Gyakorlat) binding.lvGyakorlat.getAdapter().getItem(kijeloltGyakPoz);
-//                beallitoInterface.adatGyakorlat(gy);
-//                ViewPager viewById = getActivity().findViewById(R.id.view_pager);
-//                if(viewById != null) viewById.setCurrentItem(1, true);
-//                break;
-                Toast.makeText(getContext(), "Nem müködik :(", Toast.LENGTH_SHORT).show();
+                adatKozloInterface.gyakorlatAtado((GyakorlatUI) binding.lvGyakorlat.getAdapter().getItem(kijeloltGyakPoz));
+                Toast.makeText(getContext(), "Gyakorlat kiválasztva", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.gyakszerk :
                 createGyakorlatDialog((Gyakorlat) binding.lvGyakorlat.getAdapter().getItem(kijeloltGyakPoz));
