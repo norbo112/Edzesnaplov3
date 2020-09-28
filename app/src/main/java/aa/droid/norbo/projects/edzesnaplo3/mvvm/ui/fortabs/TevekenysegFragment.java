@@ -47,6 +47,8 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface 
         binding.setAction(new TevekenysegClick());
         binding.btnSorozatAdd.setEnabled(false);
 
+        binding.sorozatLista.setNestedScrollingEnabled(true);
+
         naploWorker.getLiveSorozatLista().observe(getViewLifecycleOwner(), sorozats -> {
             if(sorozats != null) {
                 binding.sorozatLista.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, sorozats));
@@ -75,21 +77,6 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface 
             } else {
                 Toast.makeText(getContext(), "Súly vagy ismétlés nem lehet üres!", Toast.LENGTH_SHORT).show();
             }
-        }
-
-        public void naploSave() {
-            naploWorker.prepareUjGyakorlat();
-
-            new AlertDialog.Builder(getContext())
-                    .setTitle("Napló részletek (mentés)")
-                    .setMessage(naploWorker.getNaplo().toString())
-                    .setNeutralButton("ok", (dialog, which) -> dialog.dismiss())
-                    .setPositiveButton("mentés", (dialog, which) -> {
-                        binding.btnSorozatAdd.setEnabled(false);
-                        naploWorker.saveNaplo();
-                        Toast.makeText(getContext(), "Napló mentve!", Toast.LENGTH_SHORT).show();
-                    })
-                    .show();
         }
 
         public void ujGyakorlat() {

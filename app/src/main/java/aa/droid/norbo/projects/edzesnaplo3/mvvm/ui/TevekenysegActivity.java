@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,10 +34,10 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.naplo.NaploWorker;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class TestActivity extends BaseActiviry<MvvmActivityTestBinding> implements AdatKozloInterface {
+public class TevekenysegActivity extends BaseActiviry<MvvmActivityTestBinding> implements AdatKozloInterface {
     private static final String TAG = "TestActivity";
 
-    private MvvmCustomNaploToolbarBinding toolbarBinding;
+//    private MvvmCustomNaploToolbarBinding toolbarBinding;
 
     @Inject
     AdatFeltoltes adatFeltoltes;
@@ -44,7 +45,7 @@ public class TestActivity extends BaseActiviry<MvvmActivityTestBinding> implemen
     @Inject
     NaploWorker naploWorker;
 
-    public TestActivity() {
+    public TevekenysegActivity() {
         super(R.layout.mvvm_activity_test);
     }
 
@@ -56,7 +57,7 @@ public class TestActivity extends BaseActiviry<MvvmActivityTestBinding> implemen
 
 //        binding.toolbar.setTitle("Edzésnapló v3");
 //        binding.toolbar.setLogo(R.drawable.ic_run);
-        setSupportActionBar(binding.toolbar);
+        setSupportActionBar(binding.toolbar.customToolbar);
         setupCustomActionBar();
 
         ViewPagerAdapter myViewPagerAdapter = new ViewPagerAdapter(this, getSupportFragmentManager());
@@ -68,9 +69,9 @@ public class TestActivity extends BaseActiviry<MvvmActivityTestBinding> implemen
 
         naploWorker.getGyakorlatSzam().observe(this, integer -> {
             if(integer != 0)
-                toolbarBinding.naploDetails.setText("Napló ("+integer+")");
+                binding.toolbar.naploDetails.setText("Napló ("+integer+")");
             else
-                toolbarBinding.naploDetails.setText("Napló");
+                binding.toolbar.naploDetails.setText("Napló");
 
             Log.i(TAG, "onCreate: Gyakorlatok száma: "+integer);
         });
@@ -78,15 +79,22 @@ public class TestActivity extends BaseActiviry<MvvmActivityTestBinding> implemen
 
     private void setupCustomActionBar() {
         if(getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-            toolbarBinding = MvvmCustomNaploToolbarBinding.inflate(LayoutInflater.from(this), null, false);
-            getSupportActionBar().setCustomView(toolbarBinding.getRoot());
-
-            toolbarBinding.naploDetails.setOnClickListener(v -> new AlertDialog.Builder(this)
-                    .setTitle("Napló részletek")
-                    .setMessage(naploWorker.getNaplo().toString())
-                    .setPositiveButton("ok", (dialog, which) -> dialog.dismiss())
-                    .show());
+            binding.toolbar.naploDetails.setOnClickListener(v -> {
+                naploWorker.prepareUjGyakorlat();
+                new AlertDialog.Builder(this)
+                        .setTitle("Napló részletek (mentés)")
+                        .setMessage(naploWorker.getNaplo().toString())
+                        .setNeutralButton("ok", (dialog, which) -> dialog.dismiss())
+                        .setPositiveButton("mentés", (dialog, which) -> {
+                            if(naploWorker.getNaplo().getSorozats().size() != 0) {
+                                naploWorker.saveNaplo();
+                                Toast.makeText(this, "Napló mentve!", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(this, "Nincs mit menteni!", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .show();
+            });
         }
     }
 

@@ -14,15 +14,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:name=".mvvm.di.EdzesnaploApplication">
-        <activity android:name=".BelepoActivity">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
+        <activity android:name=".mvvm.ui.MvvmBelepoActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
-
-        <activity android:name=".onlytest.NaplodbTabla" />
 
 <!--        <provider-->
 <!--            android:name=".providers.NaploContentProvider"-->
@@ -45,40 +43,7 @@
 <!--            android:exported="false"-->
 <!--            android:permission="android.permission.BIND_REMOTEVIEWS" />-->
 
-        <activity
-            android:name=".DiagramActivity"
-            android:parentActivityName=".MainActivity" />
-        <activity
-            android:name=".VideoActivity"
-            android:parentActivityName=".Tevekenyseg" />
-        <activity
-            android:name=".Tevekenyseg"
-            android:label="@string/title_activity_tevekenyseg" />
-        <activity
-            android:name=".NaploActivity"
-            android:parentActivityName=".MainActivity" />
-
-        <activity
-            android:name=".MentettNaploActivity"
-            android:parentActivityName=".MainActivity" />
-        <activity
-            android:name=".TapanyagActivity"
-            android:parentActivityName=".MainActivity" />
-        <activity android:name=".MainActivity">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-        </activity>
-
-        <activity android:name=".mvvm.ui.TestActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".mvvm.ui.TevekenysegActivity"/>
         <activity android:name=".mvvm.ui.VideoActivity"/>
     </application>
 

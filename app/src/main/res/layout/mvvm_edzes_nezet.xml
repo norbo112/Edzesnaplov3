@@ -12,17 +12,11 @@
             type="aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.TevekenysegFragment.TevekenysegClick" />
     </data>
 
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#120A35">
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
             android:padding="10dp"
-            tools:context=".Edzes">
+            android:background="@color/edzesHatter">
 
             <TextView
                 android:id="@+id/gyak_title"
@@ -154,18 +148,19 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView2"
                 android:layout_width="0dp"
-                android:layout_height="250dp"
-                android:layout_marginTop="15dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="10dp"
                 app:cardCornerRadius="15dp"
                 app:cardPreventCornerOverlap="false"
                 app:contentPadding="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/edzes_card_view">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical">
 
                     <TextView
@@ -188,39 +183,9 @@
                     <ListView
                         android:id="@+id/sorozatLista"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardView3"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                app:cardCornerRadius="15dp"
-                app:contentPadding="10dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardView2">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="15dp"
-                    android:orientation="horizontal"
-                    android:padding="10dp">
-
-                    <Button
-                        android:id="@+id/btnEdzesSave"
-                        style="@android:style/Widget.Holo.Light.Button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Mentés"
-                        android:onClick="@{()->action.naploSave()}"/>
-
+                        android:layout_height="match_parent"
+                        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
 </layout>
