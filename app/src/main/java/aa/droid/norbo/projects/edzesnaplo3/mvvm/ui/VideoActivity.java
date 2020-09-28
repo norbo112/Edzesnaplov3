@@ -73,4 +73,8 @@ public class VideoActivity extends BaseActiviry<MvvmVideoActivityBinding> implem
     public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
         Toast.makeText(this, "Sajnos hiba történt!", Toast.LENGTH_LONG).show();
     }
+
+    @Override
+    public void setupCustomActionBar() {
+    }
 }

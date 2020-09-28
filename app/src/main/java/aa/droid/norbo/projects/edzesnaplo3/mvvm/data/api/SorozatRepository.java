@@ -10,4 +10,6 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Sorozat;
 public interface SorozatRepository {
     void insert(List<Sorozat> sorozat);
     LiveData<List<SorozatWithGyakorlat>> getForNaplo(long naplodatum);
+
+    LiveData<List<Sorozat>> getAll();
 }

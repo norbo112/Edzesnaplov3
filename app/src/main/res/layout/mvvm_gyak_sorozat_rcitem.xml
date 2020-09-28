@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="sorozatesgyakorlat"
+            type="aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.GyakorlatSorozatUI" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/rcitem_gyak_nev"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{sorozatesgyakorlat.gyakorlat.megnevezes}"
+            android:textAlignment="center"
+            android:textSize="21sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ListView
+            android:id="@+id/rcitem_gyak_sorozat_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:choiceMode="none"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rcitem_gyak_nev" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

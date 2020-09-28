@@ -4,25 +4,23 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import java.util.List;
-import java.util.concurrent.ExecutorService;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.EdzesNaploDatabase;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.api.NaploRepository;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Naplo;
+import dagger.hilt.android.scopes.ActivityScoped;
 
 @Singleton
 public class NaploViewModel extends ViewModel {
-    private EdzesNaploDatabase database;
-    private ExecutorService executorService;
+    private NaploRepository naploRepository;
     private LiveData<List<Naplo>> naploList;
 
     @Inject
-    public NaploViewModel(EdzesNaploDatabase database, ExecutorService executorService) {
-        this.database = database;
-        this.executorService = executorService;
-        this.naploList = database.naploDao().getAll();
+    public NaploViewModel(NaploRepository naploRepository) {
+        this.naploRepository = naploRepository;
+        this.naploList = naploRepository.getAll();
     }
 
     public LiveData<List<Naplo>> getNaploList() {

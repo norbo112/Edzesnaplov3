@@ -13,6 +13,14 @@
         tools:context=".BelepoActivity"
         android:background="#000">
 
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/mvvm_custom_naplo_toolbar"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
@@ -20,7 +28,7 @@
             android:contentDescription="@string/welcomeimage"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
             app:srcCompat="@mipmap/belepokep" />
 
         <androidx.cardview.widget.CardView

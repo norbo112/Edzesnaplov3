@@ -100,6 +100,6 @@ public class Naplo implements Serializable {
     @Override
     public String toString() {
 //        return DateTimeFormatter.getNaploDatum(naplodatum);
-        return DateTimeFormatter.getNaploDatum(naplodatum)+"\n"+sorozats;
+        return DateTimeFormatter.getNaploDatum(naplodatum)+ (sorozats!=null ? "\n"+sorozats : "");
     }
 }

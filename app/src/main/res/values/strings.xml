@@ -25,4 +25,5 @@
     <string name="welcomeimage">WelcomeImage</string>
     <string name="mvvm_belepes_btn_label">Belépés</string>
     <string name="mvvm_belepo_info_label">Napló részletek</string>
+    <string name="mvvm_permissions_warning">A médiatartalmak elérését mindenképpen elkell fogadnod, különben nem tudod használni az alkalmazást!</string>
 </resources>

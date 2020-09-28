@@ -18,10 +18,13 @@ public class LocalSorozatRepository implements SorozatRepository {
     private EdzesNaploDatabase database;
     private ExecutorService executorService;
 
+    private LiveData<List<Sorozat>> sorozatLista;
+
     @Inject
     public LocalSorozatRepository(EdzesNaploDatabase database, ExecutorService executorService) {
         this.database = database;
         this.executorService = executorService;
+        this.sorozatLista = database.sorozatDao().getall();
     }
 
     @Override
@@ -32,5 +35,10 @@ public class LocalSorozatRepository implements SorozatRepository {
     @Override
     public LiveData<List<SorozatWithGyakorlat>> getForNaplo(long naplodatum) {
         return database.sorozatDao().getSorozatWithGyakorlat(Long.toString(naplodatum));
+    }
+
+    @Override
+    public LiveData<List<Sorozat>> getAll() {
+        return null;
     }
 }

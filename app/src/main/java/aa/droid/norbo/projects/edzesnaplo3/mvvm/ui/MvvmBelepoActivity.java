@@ -2,22 +2,33 @@ package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
+
+import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.CompletableFuture;
 
 import javax.inject.Inject;
 
 import aa.droid.norbo.projects.edzesnaplo3.MainActivity;
 import aa.droid.norbo.projects.edzesnaplo3.R;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmActivityBelepoBinding;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Naplo;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Sorozat;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.DateTimeFormatter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.NaploViewModel;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.SorozatViewModel;
 import dagger.hilt.android.AndroidEntryPoint;
-import dagger.hilt.android.HiltAndroidApp;
 
 @AndroidEntryPoint
 public class MvvmBelepoActivity extends BaseActiviry<MvvmActivityBelepoBinding> {
@@ -30,13 +41,20 @@ public class MvvmBelepoActivity extends BaseActiviry<MvvmActivityBelepoBinding> 
     @Inject
     NaploViewModel naploViewModel;
 
+    @Inject
+    SorozatViewModel sorozatViewModel;
+
     public MvvmBelepoActivity() {
         super(R.layout.mvvm_activity_belepo);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setSupportActionBar(binding.toolbar.customToolbar);
+        setupCustomActionBar();
+
         binding.btnBelepes.setEnabled(false);
         naplopref = getSharedPreferences("naplo", MODE_PRIVATE);
 
@@ -61,11 +79,41 @@ public class MvvmBelepoActivity extends BaseActiviry<MvvmActivityBelepoBinding> 
         naploViewModel.getNaploList().observe(this, naplos -> {
             if(naplos != null) {
                 binding.belepoInfoDetails.setText("Eddig ["+naplos.size()+" db] napló lett rögzítve");
+                megmozgatottSuly().whenComplete(
+                        (integer, throwable) -> binding.belepoInfoDetails.append(String.format(Locale.getDefault(), "\n Megmozgatott súly: %,d Kg",integer))
+                );
             }
         });
     }
 
-    @SuppressLint("SetTextI18n")
+    @Override
+    public void setupCustomActionBar() {
+        if (getSupportActionBar() != null) {
+            binding.toolbar.naploDetails.setOnClickListener(v -> {
+                naploViewModel.getNaploList().observe(this, naplos -> {
+                    ArrayAdapter<Naplo> listAdapter = new ArrayAdapter<>(MvvmBelepoActivity.this, android.R.layout.simple_list_item_1, naplos);
+                    new AlertDialog.Builder(this)
+                            .setTitle("Mentett naplók")
+                            .setAdapter(listAdapter, (dialog, which) -> {
+                                Naplo naplo = listAdapter.getItem(which);
+                                if(naplo != null) {
+                                    Intent intent = new Intent(this, NaploDetailsActivity.class);
+                                    intent.putExtra(NaploDetailsActivity.EXTRA_NAPLO_DATUM, naplo.getNaplodatum());
+                                    intent.putExtra(NaploDetailsActivity.EXTRA_NAPLO_LABEL, naplo.getNaplodatum());
+                                    startActivity(intent);
+                                } else {
+                                    Toast.makeText(this, "Nem lehet megtekinteni a naplót :(", Toast.LENGTH_SHORT).show();
+                                }
+                            })
+                            .setPositiveButton("ok", (dialog, which) -> dialog.dismiss())
+                            .show();
+                });
+            });
+
+            binding.toolbar.moreOptions.setOnClickListener(this::showMoreOptionsPopupMenu);
+        }
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -77,9 +125,20 @@ public class MvvmBelepoActivity extends BaseActiviry<MvvmActivityBelepoBinding> 
                 edit.apply();
 
                 if (grantResults[1] != PackageManager.PERMISSION_GRANTED) {
-                    binding.warning.setText("A médiatartalmak elérését mindenképpen elkell fogadnod, különben nem tudod használni az alkalmazást!");
+                    binding.warning.setText(R.string.mvvm_permissions_warning);
                 }
                 break;
         }
+    }
+
+    private CompletableFuture<Integer> megmozgatottSuly() {
+        return CompletableFuture.supplyAsync(() -> {
+            int ossz = 0;
+            List<Sorozat> value = sorozatViewModel.getSorozats().getValue();
+            for (Sorozat sorozat: value) {
+                ossz += sorozat.getSuly() * sorozat.getIsmetles();
+            }
+            return ossz;
+        });
     }
 }
