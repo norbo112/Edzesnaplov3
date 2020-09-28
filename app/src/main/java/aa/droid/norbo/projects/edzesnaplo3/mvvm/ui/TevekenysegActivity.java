@@ -1,11 +1,13 @@
 package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
@@ -14,6 +16,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.appcompat.view.menu.MenuPopupHelper;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
@@ -95,6 +100,8 @@ public class TevekenysegActivity extends BaseActiviry<MvvmActivityTestBinding> i
                         })
                         .show();
             });
+
+            binding.toolbar.moreOptions.setOnClickListener(this::showMoreOptionsPopupMenu);
         }
     }
 
@@ -126,5 +133,41 @@ public class TevekenysegActivity extends BaseActiviry<MvvmActivityTestBinding> i
         }
 
         binding.viewPager.setCurrentItem(1, true);
+    }
+
+    @SuppressLint("RestrictedApi")
+    private void showMoreOptionsPopupMenu(View view) {
+        PopupMenu popupMenu = new PopupMenu(this, view);
+        popupMenu.getMenuInflater().inflate(R.menu.mvvm_tevekenyseg_more_options_menu, popupMenu.getMenu());
+
+        popupMenu.setOnMenuItemClickListener(item -> {
+            onContextItemSelected(item);
+            return true;
+        });
+
+        MenuPopupHelper menuPopupHelper = new MenuPopupHelper(this, (MenuBuilder) popupMenu.getMenu(), view);
+        menuPopupHelper.setForceShowIcon(true);
+        menuPopupHelper.show();
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.tevekenyseg_more_options_exit) {
+            kilepes();
+        } else if(item.getItemId() == R.id.tevekenyseg_naplo_view) {
+            Toast.makeText(this, "Naplók megtekintése...", Toast.LENGTH_SHORT).show();
+        }
+        return super.onContextItemSelected(item);
+    }
+
+    public void kilepes() {
+        new AlertDialog.Builder(this)
+                .setMessage("Biztosan ki akarsz lépni?")
+                .setPositiveButton("ok", (dialog, which) -> {
+                    finish();
+                    System.exit(0);
+                })
+                .setNegativeButton("mégse", (dialog, which) -> dialog.dismiss())
+                .show();
     }
 }
