@@ -99,7 +99,6 @@ public class MvvmBelepoActivity extends BaseActiviry<MvvmActivityBelepoBinding> 
                                 if(naplo != null) {
                                     Intent intent = new Intent(this, NaploDetailsActivity.class);
                                     intent.putExtra(NaploDetailsActivity.EXTRA_NAPLO_DATUM, naplo.getNaplodatum());
-                                    intent.putExtra(NaploDetailsActivity.EXTRA_NAPLO_LABEL, naplo.getNaplodatum());
                                     startActivity(intent);
                                 } else {
                                     Toast.makeText(this, "Nem lehet megtekinteni a naplót :(", Toast.LENGTH_SHORT).show();

@@ -20,7 +20,9 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.rcviews.NaploDetailsRcViewAda
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.DateTimeFormatter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.NaploViewModel;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.SorozatViewModel;
+import dagger.hilt.android.AndroidEntryPoint;
 
+@AndroidEntryPoint
 public class NaploDetailsActivity extends BaseActiviry<MvvmNaploDetailsActivityBinding> {
     public static final String EXTRA_NAPLO_DATUM = "aa.droid.norbo.projects.edzesnaplo3.v4.EXTRA_NAPLO_DATUM";
     public static final String EXTRA_NAPLO_LABEL = "aa.droid.norbo.projects.edzesnaplo3.v4.EXTRA_NAPLO_LABEL";
@@ -45,9 +47,9 @@ public class NaploDetailsActivity extends BaseActiviry<MvvmNaploDetailsActivityB
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setSupportActionBar(binding.toolbar.customToolbar);
+        setupCustomActionBar();
 
         long naploDatum = getIntent().getLongExtra(EXTRA_NAPLO_DATUM, 0);
-        long naploLabel = getIntent().getLongExtra(EXTRA_NAPLO_LABEL, 0);
 
         if(naploDatum != 0) {
             setupRcViewWithDate(naploDatum);
