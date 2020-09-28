@@ -81,6 +81,8 @@ public class MvvmGyakorlatValasztoFragment extends Fragment implements AdapterVi
             }
         });
 
+        binding.fabone.setOnClickListener(v -> createGyakorlatDialog(null));
+
         return binding.getRoot();
     }
 
@@ -137,10 +139,10 @@ public class MvvmGyakorlatValasztoFragment extends Fragment implements AdapterVi
                 Toast.makeText(getContext(), "Gyakorlat kiválasztva", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.gyakszerk :
-                createGyakorlatDialog((Gyakorlat) binding.lvGyakorlat.getAdapter().getItem(kijeloltGyakPoz));
+                createGyakorlatDialog(modelConverter.fromUI((GyakorlatUI)binding.lvGyakorlat.getAdapter().getItem(kijeloltGyakPoz)));
                 break;
             case R.id.gyaktorol :
-                showAlertGyakTorles((Gyakorlat) binding.lvGyakorlat.getAdapter().getItem(kijeloltGyakPoz));
+                showAlertGyakTorles(modelConverter.fromUI((GyakorlatUI)binding.lvGyakorlat.getAdapter().getItem(kijeloltGyakPoz)));
                 break;
             case R.id.gyakszerk_menu_video :
                 Gyakorlat gyakorlat = modelConverter.fromUI((GyakorlatUI) binding.lvGyakorlat.getAdapter().getItem(kijeloltGyakPoz));
@@ -184,29 +186,47 @@ public class MvvmGyakorlatValasztoFragment extends Fragment implements AdapterVi
             }
             gyakBinding.etGyakDialogCsoport.setSelection(szerkeszIndex);
             gyakBinding.setGyakorlat(modelConverter.fromEntity(gyakorlat));
+        } else {
+            gyakBinding.setGyakorlat(new GyakorlatUI());
         }
 
         new AlertDialog.Builder(getContext())
                 .setTitle(title)
                 .setView(gyakBinding.getRoot())
                 .setPositiveButton("OK", (dialog, which) -> {
+                    String valasztottCsoport = gyakBinding.etGyakDialogCsoport.getSelectedItem().toString();
+
                     if(TextUtils.isEmpty(gyakBinding.etGyakDialogNev.getText().toString()) ||
-                            gyakBinding.etGyakDialogCsoport.getSelectedItem().toString().equals("Kérlek, válassz...")) {
+                            valasztottCsoport.equals("Kérlek, válassz...")) {
                         Toast.makeText(getContext(), "Izomcsoport, megnevezés kötelező megadni", Toast.LENGTH_LONG).show();
                         return;
                     }
 
-                    int videopoz = (TextUtils.isEmpty(gyakBinding.etGyakDialogVideoStartPoz.getText().toString())) ? 0 :
-                            Integer.parseInt(gyakBinding.etGyakDialogVideoStartPoz.getText().toString());
+                    GyakorlatUI gyakorlat1 = gyakBinding.getGyakorlat();
+
+                    setGyakorlatAdat(gyakBinding, gyakorlat1);
+
                     if(gyakorlat == null) {
-                        gyakorlatViewModel.insert(modelConverter.fromUI(gyakBinding.getGyakorlat()));
+                        gyakorlat1.setCsoport(valasztottCsoport);
+                        gyakorlatViewModel.insert(modelConverter.fromUI(gyakorlat1));
                         Toast.makeText(getContext(), "Gyakorlat felvéve a listára", Toast.LENGTH_SHORT).show();
                     } else {
-                        gyakorlatViewModel.update(modelConverter.fromUI(gyakBinding.getGyakorlat()));
+                        gyakorlatViewModel.update(modelConverter.fromUI(gyakorlat1));
                         Toast.makeText(getContext(), "Gyakorlat szerkesztve", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .setNegativeButton("Mégse", (dialog, which) -> dialog.dismiss()).create().show();
+    }
+
+    private void setGyakorlatAdat(aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmGyakorlatdialogBinding gyakBinding, GyakorlatUI gyakorlat1) {
+        if(TextUtils.isEmpty(gyakBinding.etGyakDialogLeiras.getText().toString()))
+            gyakorlat1.setLeiras("");
+
+        if(TextUtils.isEmpty(gyakBinding.etGyakDialogVideolink.getText().toString()))
+            gyakorlat1.setVideolink("");
+
+        if(TextUtils.isEmpty(gyakBinding.etGyakDialogVideoStartPoz.getText().toString()))
+            gyakorlat1.setVideostartpoz("0");
     }
 
     private void initIzomcsoportSpinner(List<Gyakorlat> gyakorlats, Spinner spinner) {

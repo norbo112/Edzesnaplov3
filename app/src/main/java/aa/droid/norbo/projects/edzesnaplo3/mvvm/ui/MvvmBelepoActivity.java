@@ -79,9 +79,6 @@ public class MvvmBelepoActivity extends BaseActiviry<MvvmActivityBelepoBinding> 
         naploViewModel.getNaploList().observe(this, naplos -> {
             if(naplos != null) {
                 binding.belepoInfoDetails.setText("Eddig ["+naplos.size()+" db] napló lett rögzítve");
-                megmozgatottSuly().whenComplete(
-                        (integer, throwable) -> binding.belepoInfoDetails.append(String.format(Locale.getDefault(), "\n Megmozgatott súly: %,d Kg",integer))
-                );
             }
         });
     }
@@ -128,16 +125,5 @@ public class MvvmBelepoActivity extends BaseActiviry<MvvmActivityBelepoBinding> 
                 }
                 break;
         }
-    }
-
-    private CompletableFuture<Integer> megmozgatottSuly() {
-        return CompletableFuture.supplyAsync(() -> {
-            int ossz = 0;
-            List<Sorozat> value = sorozatViewModel.getSorozats().getValue();
-            for (Sorozat sorozat: value) {
-                ossz += sorozat.getSuly() * sorozat.getIsmetles();
-            }
-            return ossz;
-        });
     }
 }
