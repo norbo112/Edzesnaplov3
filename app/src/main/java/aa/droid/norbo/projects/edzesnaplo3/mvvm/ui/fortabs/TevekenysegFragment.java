@@ -45,6 +45,7 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface 
         binding = MvvmEdzesNezetBinding.inflate(inflater, container, false);
         binding.setSorozatUI(new SorozatUI());
         binding.setAction(new TevekenysegClick());
+        binding.btnSorozatAdd.setEnabled(false);
 
         naploWorker.getLiveSorozatLista().observe(getViewLifecycleOwner(), sorozats -> {
             if(sorozats != null) {
@@ -68,8 +69,12 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface 
     public class TevekenysegClick {
         public void addSorozat() {
             SorozatUI sorozatUI = binding.getSorozatUI();
-            naploWorker.addSorozat(Integer.parseInt(sorozatUI.suly), Integer.parseInt(sorozatUI.ism));
-            Toast.makeText(getContext(), "(* *)", Toast.LENGTH_SHORT).show();
+            if(sorozatUI.suly != null && sorozatUI.ism != null) {
+                naploWorker.addSorozat(Integer.parseInt(sorozatUI.suly), Integer.parseInt(sorozatUI.ism));
+                Toast.makeText(getContext(), "(* *)", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getContext(), "Súly vagy ismétlés nem lehet üres!", Toast.LENGTH_SHORT).show();
+            }
         }
 
         public void naploSave() {

@@ -2,6 +2,7 @@ package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -9,6 +10,8 @@ import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
@@ -19,6 +22,7 @@ import javax.inject.Inject;
 
 import aa.droid.norbo.projects.edzesnaplo3.R;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmActivityTestBinding;
+import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmCustomNaploToolbarBinding;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.GyakorlatUI;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.utils.AdatFeltoltes;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.MvvmGyakorlatValasztoFragment;
@@ -31,6 +35,8 @@ import dagger.hilt.android.AndroidEntryPoint;
 @AndroidEntryPoint
 public class TestActivity extends BaseActiviry<MvvmActivityTestBinding> implements AdatKozloInterface {
     private static final String TAG = "TestActivity";
+
+    private MvvmCustomNaploToolbarBinding toolbarBinding;
 
     @Inject
     AdatFeltoltes adatFeltoltes;
@@ -48,9 +54,10 @@ public class TestActivity extends BaseActiviry<MvvmActivityTestBinding> implemen
 
         adatFeltoltes.gyakorlatAdatFeltoltes();
 
-        binding.toolbar.setTitle("Edzésnapló v3");
-        binding.toolbar.setLogo(R.drawable.ic_run);
+//        binding.toolbar.setTitle("Edzésnapló v3");
+//        binding.toolbar.setLogo(R.drawable.ic_run);
         setSupportActionBar(binding.toolbar);
+        setupCustomActionBar();
 
         ViewPagerAdapter myViewPagerAdapter = new ViewPagerAdapter(this, getSupportFragmentManager());
         myViewPagerAdapter.addFragment(new MvvmGyakorlatValasztoFragment(), "Gyakorlat");
@@ -61,31 +68,45 @@ public class TestActivity extends BaseActiviry<MvvmActivityTestBinding> implemen
 
         naploWorker.getGyakorlatSzam().observe(this, integer -> {
             if(integer != 0)
-                myViewPagerAdapter.setPageTitle(1, "Edzés ("+integer+")");
+                toolbarBinding.naploDetails.setText("Napló ("+integer+")");
             else
-                myViewPagerAdapter.setPageTitle(1, "Edzés ");
+                toolbarBinding.naploDetails.setText("Napló");
 
             Log.i(TAG, "onCreate: Gyakorlatok száma: "+integer);
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.mvvm_tevekenyseg, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
+    private void setupCustomActionBar() {
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+            toolbarBinding = MvvmCustomNaploToolbarBinding.inflate(LayoutInflater.from(this), null, false);
+            getSupportActionBar().setCustomView(toolbarBinding.getRoot());
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == R.id.mvvm_tevekenyseg_naplo_menu) {
-            new AlertDialog.Builder(this)
+            toolbarBinding.naploDetails.setOnClickListener(v -> new AlertDialog.Builder(this)
                     .setTitle("Napló részletek")
                     .setMessage(naploWorker.getNaplo().toString())
                     .setPositiveButton("ok", (dialog, which) -> dialog.dismiss())
-                    .show();
+                    .show());
         }
-        return super.onOptionsItemSelected(item);
     }
+
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.mvvm_tevekenyseg, menu);
+//        return super.onCreateOptionsMenu(menu);
+//    }
+
+//    @Override
+//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+//        if(item.getItemId() == R.id.mvvm_tevekenyseg_naplo_menu) {
+//            new AlertDialog.Builder(this)
+//                    .setTitle("Napló részletek")
+//                    .setMessage(naploWorker.getNaplo().toString())
+//                    .setPositiveButton("ok", (dialog, which) -> dialog.dismiss())
+//                    .show();
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
 
     @Override
     public void gyakorlatAtado(GyakorlatUI gyakorlatUI) {
