@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.Locale;
+
 import javax.inject.Inject;
 
 import aa.droid.norbo.projects.edzesnaplo3.R;
@@ -63,6 +65,9 @@ public class NaploDetailsActivity extends BaseActiviry<MvvmNaploDetailsActivityB
                 binding.naploDetailsRcView.setAdapter(adapterFactory.create(sorozatWithGyakorlats));
                 binding.naploDetailsRcView.setItemAnimator(new DefaultItemAnimator());
                 binding.naploDetailsRcView.setLayoutManager(new LinearLayoutManager(NaploDetailsActivity.this, RecyclerView.HORIZONTAL, false));
+
+                binding.naploDetailsSulyLabel.setText(String.format(Locale.getDefault(), "Összesen %,d Kg megmozgatott súly",
+                        sorozatWithGyakorlats.stream().mapToInt(gyak -> gyak.sorozat.getIsmetles() * gyak.sorozat.getSuly()).sum()));
             }
         });
     }
