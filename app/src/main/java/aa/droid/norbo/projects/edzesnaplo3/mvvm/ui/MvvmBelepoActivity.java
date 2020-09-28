@@ -88,7 +88,7 @@ public class MvvmBelepoActivity extends BaseActiviry<MvvmActivityBelepoBinding> 
         if (getSupportActionBar() != null) {
             binding.toolbar.naploDetails.setOnClickListener(v -> {
                 naploViewModel.getNaploList().observe(this, naplos -> {
-                    if(naplos != null) {
+                    if(naplos.size()>0) {
                         ArrayAdapter<Naplo> listAdapter = new ArrayAdapter<>(MvvmBelepoActivity.this, android.R.layout.simple_list_item_1, naplos);
                         new AlertDialog.Builder(this)
                                 .setTitle("Mentett naplók")
