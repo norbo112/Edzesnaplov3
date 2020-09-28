@@ -77,6 +77,7 @@ public class TevekenysegActivity extends BaseActiviry<MvvmActivityTestBinding> i
                         .setPositiveButton("mentés", (dialog, which) -> {
                             if(naploWorker.getNaplo().getSorozats().size() != 0) {
                                 naploWorker.saveNaplo();
+                                finish();
                                 Toast.makeText(this, "Napló mentve!", Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(this, "Nincs mit menteni!", Toast.LENGTH_SHORT).show();

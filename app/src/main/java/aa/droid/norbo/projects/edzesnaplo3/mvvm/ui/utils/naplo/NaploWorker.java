@@ -64,7 +64,7 @@ public class NaploWorker {
     public void saveNaplo() {
         naplo.addAllSorozat(sorozats);
         naploRepository.insert(naplo);
-        sorozatRepository.insert(sorozats);
+        sorozatRepository.insert(naplo.getSorozats());
     }
 
     public LiveData<List<Sorozat>> getLiveSorozatLista() {

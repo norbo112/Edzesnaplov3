@@ -12,6 +12,7 @@ import javax.inject.Inject;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.GyakorlatSorozatUI;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.SorozatWithGyakorlat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Gyakorlat;
+import dagger.hilt.android.qualifiers.ActivityContext;
 import dagger.hilt.android.scopes.ActivityScoped;
 
 @ActivityScoped
@@ -19,7 +20,7 @@ public class NaploDetailsRcViewAdapterFactory {
     private Context context;
 
     @Inject
-    public NaploDetailsRcViewAdapterFactory(Context context) {
+    public NaploDetailsRcViewAdapterFactory(@ActivityContext Context context) {
         this.context = context;
     }
 

@@ -34,11 +34,11 @@ public class LocalSorozatRepository implements SorozatRepository {
 
     @Override
     public LiveData<List<SorozatWithGyakorlat>> getForNaplo(long naplodatum) {
-        return database.sorozatDao().getSorozatWithGyakorlat(Long.toString(naplodatum));
+        return database.sorozatDao().getSorozatWithGyakorlat(naplodatum);
     }
 
     @Override
     public LiveData<List<Sorozat>> getAll() {
-        return null;
+        return sorozatLista;
     }
 }
