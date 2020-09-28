@@ -7,9 +7,4 @@
         android:icon="@drawable/ic_folder"
         android:title="Naplók"
         app:showAsAction="never" />
-    <item
-        android:id="@+id/tevekenyseg_more_options_exit"
-        android:icon="@drawable/ic_exit"
-        android:title="Kilépés"
-        app:showAsAction="never" />
 </menu>

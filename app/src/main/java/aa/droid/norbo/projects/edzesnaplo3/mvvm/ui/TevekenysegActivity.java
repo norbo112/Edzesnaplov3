@@ -2,8 +2,10 @@ package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
@@ -43,8 +45,6 @@ public class TevekenysegActivity extends BaseActiviry<MvvmActivityTestBinding> i
 
         adatFeltoltes.gyakorlatAdatFeltoltes();
 
-//        binding.toolbar.setTitle("Edzésnapló v3");
-//        binding.toolbar.setLogo(R.drawable.ic_run);
         setSupportActionBar(binding.toolbar.customToolbar);
         setupCustomActionBar();
 
@@ -100,5 +100,13 @@ public class TevekenysegActivity extends BaseActiviry<MvvmActivityTestBinding> i
         }
 
         binding.viewPager.setCurrentItem(1, true);
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.tevekenyseg_naplo_view) {
+            Toast.makeText(this, "Naplók megtekintése TV", Toast.LENGTH_SHORT).show();
+        }
+        return super.onContextItemSelected(item);
     }
 }

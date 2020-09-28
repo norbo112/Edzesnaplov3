@@ -88,21 +88,27 @@ public class MvvmBelepoActivity extends BaseActiviry<MvvmActivityBelepoBinding> 
         if (getSupportActionBar() != null) {
             binding.toolbar.naploDetails.setOnClickListener(v -> {
                 naploViewModel.getNaploList().observe(this, naplos -> {
-                    ArrayAdapter<Naplo> listAdapter = new ArrayAdapter<>(MvvmBelepoActivity.this, android.R.layout.simple_list_item_1, naplos);
-                    new AlertDialog.Builder(this)
-                            .setTitle("Mentett naplók")
-                            .setAdapter(listAdapter, (dialog, which) -> {
-                                Naplo naplo = listAdapter.getItem(which);
-                                if(naplo != null) {
-                                    Intent intent = new Intent(this, NaploDetailsActivity.class);
-                                    intent.putExtra(NaploDetailsActivity.EXTRA_NAPLO_DATUM, naplo.getNaplodatum());
-                                    startActivity(intent);
-                                } else {
-                                    Toast.makeText(this, "Nem lehet megtekinteni a naplót :(", Toast.LENGTH_SHORT).show();
-                                }
-                            })
-                            .setPositiveButton("ok", (dialog, which) -> dialog.dismiss())
-                            .show();
+                    if(naplos != null) {
+                        ArrayAdapter<Naplo> listAdapter = new ArrayAdapter<>(MvvmBelepoActivity.this, android.R.layout.simple_list_item_1, naplos);
+                        new AlertDialog.Builder(this)
+                                .setTitle("Mentett naplók")
+                                .setAdapter(listAdapter, (dialog, which) -> {
+                                    Naplo naplo = listAdapter.getItem(which);
+                                    if (naplo != null) {
+                                        Intent intent = new Intent(this, NaploDetailsActivity.class);
+                                        intent.putExtra(NaploDetailsActivity.EXTRA_NAPLO_DATUM, naplo.getNaplodatum());
+                                        startActivity(intent);
+                                    } else {
+                                        Toast.makeText(this, "Nem lehet megtekinteni a naplót :(", Toast.LENGTH_SHORT).show();
+                                    }
+                                })
+                                .setPositiveButton("ok", (dialog, which) -> dialog.dismiss())
+                                .show();
+                    } else {
+                        new AlertDialog.Builder(this)
+                                .setMessage("Nincsenek még mentve adatok")
+                                .show();
+                    }
                 });
             });
 

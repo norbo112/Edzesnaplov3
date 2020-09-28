@@ -218,7 +218,7 @@ public class MvvmGyakorlatValasztoFragment extends Fragment implements AdapterVi
                 .setNegativeButton("Mégse", (dialog, which) -> dialog.dismiss()).create().show();
     }
 
-    private void setGyakorlatAdat(aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmGyakorlatdialogBinding gyakBinding, GyakorlatUI gyakorlat1) {
+    private void setGyakorlatAdat(MvvmGyakorlatdialogBinding gyakBinding, GyakorlatUI gyakorlat1) {
         if(TextUtils.isEmpty(gyakBinding.etGyakDialogLeiras.getText().toString()))
             gyakorlat1.setLeiras("");
 

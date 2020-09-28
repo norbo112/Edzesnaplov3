@@ -54,23 +54,11 @@ public abstract class BaseActiviry<T extends ViewDataBinding> extends AppCompatA
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == R.id.tevekenyseg_more_options_exit) {
-            kilepes();
-        } else if(item.getItemId() == R.id.tevekenyseg_naplo_view) {
-            Toast.makeText(this, "Naplók megtekintése...", Toast.LENGTH_SHORT).show();
+        if(item.getItemId() == R.id.tevekenyseg_naplo_view) {
+            Toast.makeText(this, "Naplók megtekintése", Toast.LENGTH_SHORT).show();
         }
         return super.onContextItemSelected(item);
     }
 
     public abstract void setupCustomActionBar();
-
-    public void kilepes() {
-        new AlertDialog.Builder(this)
-                .setMessage("Biztosan ki akarsz lépni?")
-                .setPositiveButton("ok", (dialog, which) -> {
-                    Process.killProcess(Process.myPid());
-                })
-                .setNegativeButton("mégse", (dialog, which) -> dialog.dismiss())
-                .show();
-    }
 }
