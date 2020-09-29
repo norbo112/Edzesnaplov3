@@ -7,4 +7,9 @@
         android:icon="@drawable/ic_folder"
         android:title="Naplók"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/tevekenyseg_gyakorlat_view"
+        android:icon="@drawable/ic_directions_walk_black_24dp"
+        android:title="Korábbi sorozatok"
+        app:showAsAction="never" />
 </menu>

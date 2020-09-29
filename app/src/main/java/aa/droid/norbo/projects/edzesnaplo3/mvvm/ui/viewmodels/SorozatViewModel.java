@@ -31,4 +31,8 @@ public class SorozatViewModel extends ViewModel {
     public LiveData<List<SorozatWithGyakorlat>> getForNaplo(long naplodatum) {
         return sorozatRepository.getForNaplo(naplodatum);
     }
+
+    public LiveData<List<Sorozat>> getSorozatByGyakorlat(int gyakorlatid) {
+        return sorozatRepository.getSorozatByGyakorlat(gyakorlatid);
+    }
 }

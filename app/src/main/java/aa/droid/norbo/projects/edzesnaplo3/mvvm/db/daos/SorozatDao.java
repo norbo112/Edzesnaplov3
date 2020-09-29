@@ -28,9 +28,8 @@ public interface SorozatDao {
     @Query("SELECT * FROM sorozattabla")
     LiveData<List<Sorozat>> getall();
 
-    @Transaction
     @Query("SELECT * FROM sorozattabla WHERE gyakorlatid = :gyakid ORDER BY naplodatum DESC")
-    List<Sorozat> getallByGyakorlat(int gyakid);
+    LiveData<List<Sorozat>> getallByGyakorlat(int gyakid);
 
     @Query("DELETE FROM sorozattabla WHERE naplodatum = :naplodatum")
     void delete(String naplodatum);

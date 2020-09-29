@@ -12,4 +12,6 @@ public interface SorozatRepository {
     LiveData<List<SorozatWithGyakorlat>> getForNaplo(long naplodatum);
 
     LiveData<List<Sorozat>> getAll();
+
+    LiveData<List<Sorozat>> getSorozatByGyakorlat(int gyakorlatid);
 }

@@ -3,6 +3,7 @@ package aa.droid.norbo.projects.edzesnaplo3.mvvm.data.repository;
 import androidx.lifecycle.LiveData;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 
 import javax.inject.Inject;
@@ -40,5 +41,10 @@ public class LocalSorozatRepository implements SorozatRepository {
     @Override
     public LiveData<List<Sorozat>> getAll() {
         return sorozatLista;
+    }
+
+    @Override
+    public LiveData<List<Sorozat>> getSorozatByGyakorlat(int gyakorlatid) {
+        return database.sorozatDao().getallByGyakorlat(gyakorlatid);
     }
 }
