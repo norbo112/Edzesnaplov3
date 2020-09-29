@@ -52,13 +52,5 @@ public abstract class BaseActiviry<T extends ViewDataBinding> extends AppCompatA
         menuPopupHelper.show();
     }
 
-    @Override
-    public boolean onContextItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == R.id.tevekenyseg_naplo_view) {
-            Toast.makeText(this, "Naplók megtekintése", Toast.LENGTH_SHORT).show();
-        }
-        return super.onContextItemSelected(item);
-    }
-
     public abstract void setupCustomActionBar();
 }

@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
@@ -86,34 +88,39 @@ public class MvvmBelepoActivity extends BaseActiviry<MvvmActivityBelepoBinding> 
     @Override
     public void setupCustomActionBar() {
         if (getSupportActionBar() != null) {
-            binding.toolbar.naploDetails.setOnClickListener(v -> {
-                naploViewModel.getNaploList().observe(this, naplos -> {
-                    if(naplos.size()>0) {
-                        ArrayAdapter<Naplo> listAdapter = new ArrayAdapter<>(MvvmBelepoActivity.this, android.R.layout.simple_list_item_1, naplos);
-                        new AlertDialog.Builder(this)
-                                .setTitle("Mentett naplók")
-                                .setAdapter(listAdapter, (dialog, which) -> {
-                                    Naplo naplo = listAdapter.getItem(which);
-                                    if (naplo != null) {
-                                        Intent intent = new Intent(this, NaploDetailsActivity.class);
-                                        intent.putExtra(NaploDetailsActivity.EXTRA_NAPLO_DATUM, naplo.getNaplodatum());
-                                        startActivity(intent);
-                                    } else {
-                                        Toast.makeText(this, "Nem lehet megtekinteni a naplót :(", Toast.LENGTH_SHORT).show();
-                                    }
-                                })
-                                .setPositiveButton("ok", (dialog, which) -> dialog.dismiss())
-                                .show();
-                    } else {
-                        new AlertDialog.Builder(this)
-                                .setMessage("Nincsenek még mentve adatok")
-                                .show();
-                    }
-                });
-            });
-
+            binding.toolbar.naploDetails.setVisibility(View.GONE);
             binding.toolbar.moreOptions.setOnClickListener(this::showMoreOptionsPopupMenu);
         }
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.tevekenyseg_naplo_view) {
+            naploViewModel.getNaploList().observe(this, naplos -> {
+                if(naplos.size()>0) {
+                    ArrayAdapter<Naplo> listAdapter = new ArrayAdapter<>(MvvmBelepoActivity.this, android.R.layout.simple_list_item_1, naplos);
+                    new AlertDialog.Builder(this)
+                            .setTitle("Mentett naplók")
+                            .setAdapter(listAdapter, (dialog, which) -> {
+                                Naplo naplo = listAdapter.getItem(which);
+                                if (naplo != null) {
+                                    Intent intent = new Intent(this, NaploDetailsActivity.class);
+                                    intent.putExtra(NaploDetailsActivity.EXTRA_NAPLO_DATUM, naplo.getNaplodatum());
+                                    startActivity(intent);
+                                } else {
+                                    Toast.makeText(this, "Nem lehet megtekinteni a naplót :(", Toast.LENGTH_SHORT).show();
+                                }
+                            })
+                            .setPositiveButton("ok", (dialog, which) -> dialog.dismiss())
+                            .show();
+                } else {
+                    new AlertDialog.Builder(this)
+                            .setMessage("Nincsenek még mentve adatok")
+                            .show();
+                }
+            });
+        }
+        return super.onContextItemSelected(item);
     }
 
     @Override

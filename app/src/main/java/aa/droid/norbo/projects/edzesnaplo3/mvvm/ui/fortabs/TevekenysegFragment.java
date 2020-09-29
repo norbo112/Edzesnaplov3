@@ -2,6 +2,7 @@ package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -24,6 +26,7 @@ import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmEdzesNezetBinding;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.GyakorlatUI;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Sorozat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.adatkozlo.AdatKozloInterface;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.DateTimeFormatter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.ModelConverter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.naplo.NaploWorker;
 import dagger.hilt.android.AndroidEntryPoint;
@@ -33,11 +36,17 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface 
     private MvvmEdzesNezetBinding binding;
     private GyakorlatUI gyakorlatUI;
 
+    private Handler handler = new Handler();
+    private TimerRunner timerRunner = new TimerRunner();
+
     @Inject
     NaploWorker naploWorker;
 
     @Inject
     ModelConverter modelConverter;
+
+    @Inject
+    DateTimeFormatter formatter;
 
     @Nullable
     @Override
@@ -56,6 +65,11 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface 
             }
         });
 
+        //Teszt
+        binding.tvStopper.setOnClickListener(v -> {
+            timerRunner.perc += 14;
+        });
+
         return binding.getRoot();
     }
 
@@ -70,9 +84,14 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface 
 
     public class TevekenysegClick {
         public void addSorozat() {
+            handler.removeCallbacks(timerRunner);
+            binding.tvStopper.setText("00:00");
+
             SorozatUI sorozatUI = binding.getSorozatUI();
             if(sorozatUI.suly != null && sorozatUI.ism != null) {
                 naploWorker.addSorozat(Integer.parseInt(sorozatUI.suly), Integer.parseInt(sorozatUI.ism));
+
+                handler.postDelayed(timerRunner, 500);
                 Toast.makeText(getContext(), "(* *)", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(getContext(), "Súly vagy ismétlés nem lehet üres!", Toast.LENGTH_SHORT).show();
@@ -84,6 +103,9 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface 
             binding.etSuly.setText("");
             binding.etIsm.setText("");
             binding.btnSorozatAdd.setEnabled(false);
+            handler.removeCallbacks(timerRunner);
+            binding.tvStopper.setText("00:00");
+
             naploWorker.prepareUjGyakorlat();
         }
     }
@@ -106,6 +128,37 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface 
 
         public void setIsm(String ism) {
             this.ism = ism;
+        }
+    }
+
+    private class TimerRunner implements Runnable {
+        int perc;
+        int masodperc;
+
+        public TimerRunner() {
+            this.perc = 0;
+            this.masodperc = 0;
+        }
+
+        @SuppressLint("SetTextI18n")
+        @Override
+        public void run() {
+            masodperc++;
+
+            if(masodperc == 60) {
+                perc++;
+                masodperc = 0;
+            }
+
+            if(perc == 60) perc = 0;
+
+            binding.tvStopper.setText(getOo(perc)+":"+getOo(masodperc));
+            handler.postDelayed(this, 1000);
+        }
+
+        private String getOo(int szam) {
+            if (szam / 10 < 1) return "0" + szam;
+            else return "" + szam;
         }
     }
 }

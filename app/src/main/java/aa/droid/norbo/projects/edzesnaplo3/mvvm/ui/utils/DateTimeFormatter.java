@@ -20,6 +20,8 @@ public class DateTimeFormatter {
     @SuppressLint("SimpleDateFormat")
     private static final SimpleDateFormat timeformatter = new SimpleDateFormat("HH:mm:ss");
     @SuppressLint("SimpleDateFormat")
+    private static final SimpleDateFormat timer = new SimpleDateFormat("mm:ss");
+    @SuppressLint("SimpleDateFormat")
     public static final SimpleDateFormat dateformatter = new SimpleDateFormat("MM.dd.");
     @SuppressLint("SimpleDateFormat")
     private static final SimpleDateFormat naplodateformatter = new SimpleDateFormat("yyyy.MM.dd. EEE. HH:mm:ss");
@@ -47,6 +49,10 @@ public class DateTimeFormatter {
 
     public String getTime(long timestamp) {
         return timeformatter.format(new Date(timestamp));
+    }
+
+    public String getTimeStp(long timestamp) {
+        return timer.format(timestamp);
     }
 
     public static String getDate(String datetimestr) {
