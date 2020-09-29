@@ -59,6 +59,7 @@
                 android:text="Napló"
                 android:textColor="#fff"
                 android:textSize="13dp"
+                android:layout_marginEnd="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/more_options"
                 app:layout_constraintTop_toTopOf="parent"

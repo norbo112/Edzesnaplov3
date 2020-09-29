@@ -3,21 +3,32 @@ package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
 import aa.droid.norbo.projects.edzesnaplo3.R;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmActivityTestBinding;
+import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmKorabbiSorozatItemBinding;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.GyakorlatUI;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Naplo;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Sorozat;
@@ -26,6 +37,8 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.MvvmGyakorlatValaszto
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.TevekenysegFragment;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.ViewPagerAdapter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.adatkozlo.AdatKozloInterface;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.rcviews.KorabbiSorozatRcViewAdapter;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.DateTimeFormatter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.naplo.NaploWorker;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.SorozatViewModel;
 import dagger.hilt.android.AndroidEntryPoint;
@@ -43,6 +56,9 @@ public class TevekenysegActivity extends BaseActiviry<MvvmActivityTestBinding> i
 
     @Inject
     SorozatViewModel sorozatViewModel;
+
+    @Inject
+    DateTimeFormatter formatter;
 
     public TevekenysegActivity() {
         super(R.layout.mvvm_activity_test);
@@ -130,9 +146,29 @@ public class TevekenysegActivity extends BaseActiviry<MvvmActivityTestBinding> i
 
         sorozatViewModel.getSorozatByGyakorlat(gyakorlatId).observe(this, sorozats -> {
             if(sorozats != null && sorozats.size() > 0) {
-                ArrayAdapter<Sorozat> listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, sorozats);
+                ArrayAdapter<NaploEsSorozat> listAdapter = new ArrayAdapter<NaploEsSorozat>(this, R.layout.mvvm_korabbi_sorozat_item, makeNaploEsSorozat(sorozats)) {
+                    MvvmKorabbiSorozatItemBinding itemBinding;
+                    @NonNull
+                    @Override
+                    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                        if(convertView == null) {
+                            convertView = LayoutInflater.from(TevekenysegActivity.this).inflate(R.layout.mvvm_korabbi_sorozat_item, parent, false);
+                            itemBinding = DataBindingUtil.bind(convertView);
+                            convertView.setTag(itemBinding);
+                        } else {
+                            itemBinding = (MvvmKorabbiSorozatItemBinding) convertView.getTag();
+                        }
+
+                        NaploEsSorozat item = getItem(position);
+                        itemBinding.korabbiSorozatDatumLabel.setText(formatter.getNaploDatum(item.naplodatum)+" "+getSorozatOsszSuly(item.sorozats));
+                        itemBinding.korabbiSorozatLista.setAdapter(new KorabbiSorozatRcViewAdapter(item.sorozats, formatter));
+                        itemBinding.korabbiSorozatLista.setLayoutManager(new LinearLayoutManager(TevekenysegActivity.this, RecyclerView.HORIZONTAL, false));
+                        return itemBinding.getRoot();
+                    }
+                };
+
                 new AlertDialog.Builder(this)
-                        .setTitle("Mentett naplók")
+                        .setTitle("Sorozatok")
                         .setAdapter(listAdapter, null)
                         .setPositiveButton("ok", (dialog, which) -> dialog.dismiss())
                         .show();
@@ -140,5 +176,46 @@ public class TevekenysegActivity extends BaseActiviry<MvvmActivityTestBinding> i
                 Toast.makeText(this, "Nincs rögzítve még sorozat evvel a gyakorlattal", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private List<NaploEsSorozat> makeNaploEsSorozat(List<Sorozat> sorozats) {
+        List<NaploEsSorozat> list = new ArrayList<>();
+        Set<Long> naploDatumok = sorozats.stream().map(sor -> Long.parseLong(sor.getNaplodatum())).collect(Collectors.toSet());
+        naploDatumok.forEach(aLong -> {
+            NaploEsSorozat naploEsSorozat = new NaploEsSorozat(aLong);
+            List<Sorozat> sorozats1 = new ArrayList<>();
+            sorozats.forEach(sorozat -> {
+                if(aLong == Long.parseLong(sorozat.getNaplodatum()))
+                    sorozats1.add(sorozat);
+            });
+            naploEsSorozat.setSorozats(sorozats1);
+            list.add(naploEsSorozat);
+        });
+        return list;
+    }
+
+    private String getSorozatOsszSuly(List<Sorozat> sorozats) {
+        return String.format(Locale.getDefault(), "%,d Kg", sorozats.stream().mapToInt(sor -> sor.getSuly() * sor.getIsmetles()).sum());
+    }
+
+    public class NaploEsSorozat {
+        private long naplodatum;
+        private List<Sorozat> sorozats;
+
+        public NaploEsSorozat(long naplodatum) {
+            this.naplodatum = naplodatum;
+        }
+
+        public void setSorozats(List<Sorozat> sorozats) {
+            this.sorozats = sorozats;
+        }
+
+        public List<Sorozat> getSorozats() {
+            return sorozats;
+        }
+
+        public long getNaplodatum() {
+            return naplodatum;
+        }
     }
 }
