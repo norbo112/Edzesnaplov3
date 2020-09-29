@@ -38,7 +38,7 @@ public abstract class BaseActiviry<T extends ViewDataBinding> extends AppCompatA
     }
 
     @SuppressLint("RestrictedApi")
-    protected void showMoreOptionsPopupMenu(View view) {
+    protected PopupMenu showMoreOptionsPopupMenu(View view) {
         PopupMenu popupMenu = new PopupMenu(this, view);
         popupMenu.getMenuInflater().inflate(R.menu.mvvm_tevekenyseg_more_options_menu, popupMenu.getMenu());
 
@@ -50,6 +50,7 @@ public abstract class BaseActiviry<T extends ViewDataBinding> extends AppCompatA
         MenuPopupHelper menuPopupHelper = new MenuPopupHelper(this, (MenuBuilder) popupMenu.getMenu(), view);
         menuPopupHelper.setForceShowIcon(true);
         menuPopupHelper.show();
+        return popupMenu;
     }
 
     public abstract void setupCustomActionBar();

@@ -1,6 +1,7 @@
 package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -32,6 +33,7 @@ public class VideoActivity extends BaseActiviry<MvvmVideoActivityBinding> implem
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         initIntentExtraData(getIntent());
 
         binding.toolbar.setTitle(gyakorlat.getMegnevezes());

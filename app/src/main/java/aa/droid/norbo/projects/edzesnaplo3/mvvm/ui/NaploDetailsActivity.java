@@ -2,24 +2,32 @@ package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
 import aa.droid.norbo.projects.edzesnaplo3.R;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmNaploDetailsActivityBinding;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.SorozatWithGyakorlat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Naplo;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.rcviews.NaploDetailsRcViewAdapterFactory;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.DateTimeFormatter;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.DialogFactory;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.NaploViewModel;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.SorozatViewModel;
 import dagger.hilt.android.AndroidEntryPoint;
@@ -40,6 +48,9 @@ public class NaploDetailsActivity extends BaseActiviry<MvvmNaploDetailsActivityB
 
     @Inject
     NaploViewModel naploViewModel;
+
+    @Inject
+    DialogFactory dialogFactory;
 
     public NaploDetailsActivity() {
         super(R.layout.mvvm_naplo_details_activity);
@@ -68,31 +79,35 @@ public class NaploDetailsActivity extends BaseActiviry<MvvmNaploDetailsActivityB
 
                 binding.naploDetailsSulyLabel.setText(String.format(Locale.getDefault(), "Összesen %,d Kg megmozgatott súly",
                         sorozatWithGyakorlats.stream().mapToInt(gyak -> gyak.sorozat.getIsmetles() * gyak.sorozat.getSuly()).sum()));
+                binding.naploDetailsInfoLabel.setText(String.format(Locale.getDefault(), "Elvégzett gyakorlatok száma [%d] db", getGyakDarabSzam(sorozatWithGyakorlats)));
             }
         });
     }
 
+    private int getGyakDarabSzam(List<SorozatWithGyakorlat> sorozatWithGyakorlats) {
+        return sorozatWithGyakorlats.stream().map(sorozatWithGyakorlat -> sorozatWithGyakorlat.gyakorlat).collect(Collectors.toSet()).size();
+    }
+
+    @Override
+    protected PopupMenu showMoreOptionsPopupMenu(View view) {
+        PopupMenu popupMenu = super.showMoreOptionsPopupMenu(view);
+        popupMenu.getMenu().removeItem(R.id.tevekenyseg_gyakorlat_view);
+        return popupMenu;
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.tevekenyseg_naplo_view) {
+            naploViewModel.getNaploList().observe(this, naplos -> dialogFactory.showMentettNaplok(naplos));
+        }
+        return super.onContextItemSelected(item);
+    }
 
     @Override
     public void setupCustomActionBar() {
         if(getSupportActionBar() != null) {
-            binding.toolbar.naploDetails.setOnClickListener(v -> {
-                naploViewModel.getNaploList().observe(this, naplos -> {
-                    ArrayAdapter<Naplo> listAdapter = new ArrayAdapter<>(NaploDetailsActivity.this, android.R.layout.simple_list_item_1, naplos);
-                    new AlertDialog.Builder(this)
-                            .setTitle("Mentett naplók")
-                            .setAdapter(listAdapter, (dialog, which) -> {
-                                Naplo naplo = listAdapter.getItem(which);
-                                if(naplo != null) {
-                                    setupRcViewWithDate(naplo.getNaplodatum());
-                                } else {
-                                    Toast.makeText(this, "Nem lehet megtekinteni a naplót :(", Toast.LENGTH_SHORT).show();
-                                }
-                            })
-                            .setPositiveButton("ok", (dialog, which) -> dialog.dismiss())
-                            .show();
-                });
-            });
+            binding.toolbar.naploDetails.setVisibility(View.GONE);
+            binding.toolbar.moreOptions.setOnClickListener(this::showMoreOptionsPopupMenu);
         }
     }
 }

@@ -27,29 +27,46 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="?attr/actionBarSize"
-            android:padding="10dp"
-            android:background="@color/edzesHatter">
+            android:background="#013A60">
 
-            <TextView
-                android:id="@+id/naplo_details_datum_label"
+            <LinearLayout
+                android:id="@+id/naplo_details_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:textSize="21sp"
-                android:textStyle="bold"
-                android:textColor="#fff"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:orientation="vertical"
+                android:background="@android:color/black">
+
+                <TextView
+                    android:id="@+id/naplo_details_datum_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textColor="#fff"
+                    android:textSize="21sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/naplo_details_info_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textColor="#fff"
+                    android:textSize="18sp"
+                    android:textStyle="italic" />
+            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/naplo_details_rc_view"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
                 app:layout_constraintBottom_toTopOf="@+id/naplo_details_suly_label"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/naplo_details_datum_label" />
+                app:layout_constraintTop_toBottomOf="@+id/naplo_details_info" />
 
             <TextView
                 android:id="@+id/naplo_details_suly_label"
@@ -59,7 +76,8 @@
                 android:textColor="#fff"
                 android:textSize="15sp"
                 android:textStyle="italic"
-                android:layout_marginBottom="5dp"
+                android:background="@android:color/black"
+                android:paddingBottom="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />

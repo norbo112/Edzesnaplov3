@@ -2,34 +2,24 @@ package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.core.app.ActivityCompat;
-
-import java.util.List;
-import java.util.Locale;
-import java.util.concurrent.CompletableFuture;
 
 import javax.inject.Inject;
 
 import aa.droid.norbo.projects.edzesnaplo3.MainActivity;
 import aa.droid.norbo.projects.edzesnaplo3.R;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmActivityBelepoBinding;
-import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Naplo;
-import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Sorozat;
-import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.DateTimeFormatter;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.DialogFactory;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.NaploViewModel;
-import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.SorozatViewModel;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
@@ -44,7 +34,7 @@ public class MvvmBelepoActivity extends BaseActiviry<MvvmActivityBelepoBinding> 
     NaploViewModel naploViewModel;
 
     @Inject
-    SorozatViewModel sorozatViewModel;
+    DialogFactory dialogFactory;
 
     public MvvmBelepoActivity() {
         super(R.layout.mvvm_activity_belepo);
@@ -86,6 +76,13 @@ public class MvvmBelepoActivity extends BaseActiviry<MvvmActivityBelepoBinding> 
     }
 
     @Override
+    protected PopupMenu showMoreOptionsPopupMenu(View view) {
+        PopupMenu popupMenu = super.showMoreOptionsPopupMenu(view);
+        popupMenu.getMenu().removeItem(R.id.tevekenyseg_gyakorlat_view);
+        return popupMenu;
+    }
+
+    @Override
     public void setupCustomActionBar() {
         if (getSupportActionBar() != null) {
             binding.toolbar.naploDetails.setVisibility(View.GONE);
@@ -97,27 +94,7 @@ public class MvvmBelepoActivity extends BaseActiviry<MvvmActivityBelepoBinding> 
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.tevekenyseg_naplo_view) {
             naploViewModel.getNaploList().observe(this, naplos -> {
-                if(naplos.size()>0) {
-                    ArrayAdapter<Naplo> listAdapter = new ArrayAdapter<>(MvvmBelepoActivity.this, android.R.layout.simple_list_item_1, naplos);
-                    new AlertDialog.Builder(this)
-                            .setTitle("Mentett naplók")
-                            .setAdapter(listAdapter, (dialog, which) -> {
-                                Naplo naplo = listAdapter.getItem(which);
-                                if (naplo != null) {
-                                    Intent intent = new Intent(this, NaploDetailsActivity.class);
-                                    intent.putExtra(NaploDetailsActivity.EXTRA_NAPLO_DATUM, naplo.getNaplodatum());
-                                    startActivity(intent);
-                                } else {
-                                    Toast.makeText(this, "Nem lehet megtekinteni a naplót :(", Toast.LENGTH_SHORT).show();
-                                }
-                            })
-                            .setPositiveButton("ok", (dialog, which) -> dialog.dismiss())
-                            .show();
-                } else {
-                    new AlertDialog.Builder(this)
-                            .setMessage("Nincsenek még mentve adatok")
-                            .show();
-                }
+                dialogFactory.showMentettNaplok(naplos);
             });
         }
         return super.onContextItemSelected(item);
