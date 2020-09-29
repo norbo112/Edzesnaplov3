@@ -1,5 +1,6 @@
 package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.naplo;
 
+import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import androidx.lifecycle.LiveData;
@@ -22,6 +23,7 @@ import dagger.hilt.android.scopes.ActivityScoped;
 
 @ActivityScoped
 public class NaploWorker {
+    private static final String TAG = "NaploWorker";
     private Naplo naplo;
     private Gyakorlat gyakorlat;
     private List<Sorozat> sorozats;
@@ -45,7 +47,7 @@ public class NaploWorker {
             sorozats.add(new Sorozat(gyakorlat, suly, ism, System.currentTimeMillis(), Long.toString(naplo.getNaplodatum())));
         }
 
-        liveSorozatLista.postValue(new ArrayList<>(sorozats));
+        liveSorozatLista.postValue(sorozats);
     }
 
     public void setGyakorlat(Gyakorlat gyakorlat) {
@@ -90,5 +92,10 @@ public class NaploWorker {
 
     public LiveData<Integer> getGyakorlatSzam() {
         return gyakorlatSzam;
+    }
+
+    public void setSorozat(int position, Sorozat sorozat) {
+        sorozats.set(position, sorozat);
+        liveSorozatLista.postValue(sorozats);
     }
 }

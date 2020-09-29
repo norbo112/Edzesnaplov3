@@ -6,7 +6,7 @@
     <data>
         <variable
             name="sorozatUI"
-            type="aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.TevekenysegFragment.SorozatUI" />
+            type="aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.TevekenysegFragment.SorozatDisplay" />
         <variable
             name="action"
             type="aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.TevekenysegFragment.TevekenysegClick" />
@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
                 android:gravity="center"
-                android:text="Gyakorlat cím"
+                android:text="@string/mvvm_edzes_nezet_gyakorlat_label"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="#FFFFFF"
                 android:textSize="21sp"

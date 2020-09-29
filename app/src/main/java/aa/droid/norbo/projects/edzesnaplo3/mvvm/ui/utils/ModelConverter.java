@@ -4,7 +4,9 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.GyakorlatUI;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.SorozatUI;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Gyakorlat;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Sorozat;
 
 @Singleton
 public class ModelConverter {
@@ -21,5 +23,18 @@ public class ModelConverter {
     public GyakorlatUI fromEntity(Gyakorlat gyakorlatEntity) {
         return new GyakorlatUI(gyakorlatEntity.getId(), gyakorlatEntity.getCsoport(), gyakorlatEntity.getMegnevezes(),
                 gyakorlatEntity.getLeiras(), gyakorlatEntity.getVideolink(), Integer.toString(gyakorlatEntity.getVideostartpoz()));
+    }
+
+    public SorozatUI fromSorozatEntity(Sorozat sorozat) {
+        return new SorozatUI(sorozat.getGyakorlat(),
+                Integer.toString(sorozat.getSuly()),
+                Integer.toString(sorozat.getIsmetles()), sorozat.getIsmidopont(), sorozat.getNaplodatum());
+    }
+
+    public Sorozat fromSorozatUI(SorozatUI sorozatUI) {
+        return new Sorozat(sorozatUI.getGyakorlat(),
+                Integer.parseInt(sorozatUI.getSuly()),
+                Integer.parseInt(sorozatUI.getIsmetles()), sorozatUI.getIsmidopont(),
+                sorozatUI.getNaplodatum());
     }
 }

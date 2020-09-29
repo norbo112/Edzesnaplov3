@@ -3,10 +3,15 @@ package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.LoginFilter;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -15,15 +20,13 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
-
 import javax.inject.Inject;
 
 import aa.droid.norbo.projects.edzesnaplo3.R;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmEdzesNezetBinding;
+import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmSorozatSzerkesztoBinding;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.GyakorlatUI;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.SorozatUI;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Sorozat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.adatkozlo.AdatKozloInterface;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.DateTimeFormatter;
@@ -33,6 +36,7 @@ import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
 public class TevekenysegFragment extends Fragment implements AdatKozloInterface {
+    private static final String TAG = "TevekenysegFragment";
     private MvvmEdzesNezetBinding binding;
     private GyakorlatUI gyakorlatUI;
 
@@ -52,7 +56,7 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = MvvmEdzesNezetBinding.inflate(inflater, container, false);
-        binding.setSorozatUI(new SorozatUI());
+        binding.setSorozatUI(new SorozatDisplay());
         binding.setAction(new TevekenysegClick());
         binding.btnSorozatAdd.setEnabled(false);
 
@@ -61,17 +65,40 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface 
         naploWorker.getLiveSorozatLista().observe(getViewLifecycleOwner(), sorozats -> {
             if(sorozats != null) {
                 binding.sorozatLista.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, sorozats));
+                sorozatSzerkesztese(binding.sorozatLista);
                 binding.sorozatLabel.setText(naploWorker.getSorozatOsszSuly()+" Kg");
             }
         });
-
-        //Teszt
-        binding.tvStopper.setOnClickListener(v -> {
-            timerRunner.perc += 14;
-        });
-
         return binding.getRoot();
     }
+
+    private void sorozatSzerkesztese(ListView sorozatLista) {
+        sorozatLista.setOnItemClickListener((parent, view, position, id) -> {
+            MvvmSorozatSzerkesztoBinding sorozatSzerkesztoBinding = MvvmSorozatSzerkesztoBinding.inflate(LayoutInflater.from(getContext()),
+                    null, false);
+
+            Sorozat sorozatItem = (Sorozat) parent.getAdapter().getItem(position);
+            sorozatSzerkesztoBinding.setSorozat(modelConverter.fromSorozatEntity(sorozatItem));
+            new AlertDialog.Builder(getContext())
+                    .setTitle("Sorozat szerkesztése")
+                    .setView(sorozatSzerkesztoBinding.getRoot())
+                    .setNegativeButton("mégse", (dialog, which) -> dialog.dismiss())
+                    .setPositiveButton("mentés", (dialog, which) -> {
+                        if(TextUtils.isEmpty(sorozatSzerkesztoBinding.sorozatSuly.getText().toString()) ||
+                            TextUtils.isEmpty(sorozatSzerkesztoBinding.sorozatIsm.getText().toString())) {
+                            Toast.makeText(getContext(), "Kérlek töltsd ki a mezőket", Toast.LENGTH_SHORT).show();
+                        } else {
+                            SorozatUI sorozatUI = sorozatSzerkesztoBinding.getSorozat();
+                            sorozatItem.setSuly(Integer.parseInt(sorozatUI.getSuly()));
+                            sorozatItem.setIsmetles(Integer.parseInt(sorozatUI.getIsmetles()));
+                            naploWorker.setSorozat(position, sorozatItem);
+                            Toast.makeText(getContext(), "Sorozat frissítve", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .show();
+        });
+    }
+
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -87,7 +114,7 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface 
             handler.removeCallbacks(timerRunner);
             binding.tvStopper.setText("00:00");
 
-            SorozatUI sorozatUI = binding.getSorozatUI();
+            SorozatDisplay sorozatUI = binding.getSorozatUI();
             if(sorozatUI.suly != null && sorozatUI.ism != null) {
                 naploWorker.addSorozat(Integer.parseInt(sorozatUI.suly), Integer.parseInt(sorozatUI.ism));
 
@@ -110,7 +137,7 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface 
         }
     }
 
-    public class SorozatUI {
+    public class SorozatDisplay {
         String suly;
         String ism;
 
