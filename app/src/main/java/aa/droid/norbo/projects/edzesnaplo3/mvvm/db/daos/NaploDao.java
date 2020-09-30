@@ -12,6 +12,7 @@ import androidx.room.Update;
 
 import java.util.List;
 
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.toolmodels.NaploWithSorozat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Naplo;
 
 @Dao
@@ -22,6 +23,9 @@ public interface NaploDao {
     @Transaction
     @Query("SELECT * FROM naplo")
     LiveData<List<NaploWithSorozat>> getNaploWithSorozats();
+
+    @Query("SELECT * FROM naplo WHERE naplodatum = :naplodatum")
+    LiveData<List<NaploWithSorozat>> getNaploWithSorozats(long naplodatum);
 
     @Query("SELECT * FROM naplo ORDER BY naplodatum ASC")
     LiveData<List<Naplo>> getAll();

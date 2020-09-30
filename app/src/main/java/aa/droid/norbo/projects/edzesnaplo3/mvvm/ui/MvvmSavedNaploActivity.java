@@ -7,13 +7,12 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.widget.PopupMenu;
 
 import javax.inject.Inject;
 
 import aa.droid.norbo.projects.edzesnaplo3.R;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmActivityMentettNaplokBinding;
-import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Naplo;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.toolmodels.NaploWithSorozat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.DateTimeFormatter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.NaploListFactory;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.NaploViewModel;
@@ -43,15 +42,15 @@ public class MvvmSavedNaploActivity extends BaseActiviry<MvvmActivityMentettNapl
         super.onCreate(savedInstanceState);
         binding.mentettNaplokWarningLabel.setVisibility(View.VISIBLE);
 
-        naploViewModel.getNaploList().observe(this, naplos -> {
+        naploViewModel.getNaploWithSorozat().observe(this, naplos -> {
             if(naplos != null && naplos.size() > 0) {
                 binding.mentettNaplokWarningLabel.setVisibility(View.GONE);
                 binding.mentettNaplokLista.setAdapter(naploListFactory.getListAdapter(naplos));
                 binding.mentettNaplokLista.setOnItemClickListener((parent, view, position, id) -> {
-                    Naplo item = (Naplo) parent.getAdapter().getItem(position);
+                    NaploWithSorozat item = (NaploWithSorozat) parent.getAdapter().getItem(position);
                     Intent intent = new Intent(this, NaploDetailsActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    intent.putExtra(NaploDetailsActivity.EXTRA_NAPLO_DATUM, item.getNaplodatum());
+                    intent.putExtra(NaploDetailsActivity.EXTRA_NAPLO_DATUM, item.daonaplo.getNaplodatum());
                     startActivity(intent);
                     overridePendingTransition(R.anim.move_right_in_activity, R.anim.move_left_out_activity);
                 });

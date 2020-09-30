@@ -1,4 +1,4 @@
-package aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos;
+package aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.toolmodels;
 
 import androidx.room.Embedded;
 import androidx.room.Ignore;
@@ -8,6 +8,7 @@ import java.util.List;
 
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Naplo;
 import aa.droid.norbo.projects.edzesnaplo3.database.entities.Sorozat;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.SorozatWithGyakorlat;
 
 public class NaploWithSorozat {
     @Embedded public Naplo daonaplo;

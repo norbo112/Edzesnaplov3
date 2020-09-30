@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.toolmodels.NaploWithSorozat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Naplo;
 
 public interface NaploRepository {
@@ -11,4 +12,8 @@ public interface NaploRepository {
     LiveData<List<Naplo>> getAll();
 
     void delete(long naplodatum);
+
+    LiveData<List<NaploWithSorozat>> getNaploWithSorozat(long naplodatum);
+
+    LiveData<List<NaploWithSorozat>> getNaploWithSorozat();
 }

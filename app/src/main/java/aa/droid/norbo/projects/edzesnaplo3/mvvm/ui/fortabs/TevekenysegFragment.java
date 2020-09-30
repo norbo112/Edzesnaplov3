@@ -41,7 +41,7 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface 
     private GyakorlatUI gyakorlatUI;
 
     private Handler handler = new Handler();
-    private TimerRunner timerRunner = new TimerRunner();
+    private TimerRunner timerRunner;
 
     @Inject
     NaploWorker naploWorker;
@@ -118,6 +118,7 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface 
             if(sorozatUI.suly != null && sorozatUI.ism != null) {
                 naploWorker.addSorozat(Integer.parseInt(sorozatUI.suly), Integer.parseInt(sorozatUI.ism));
 
+                timerRunner = new TimerRunner();
                 handler.postDelayed(timerRunner, 500);
                 Toast.makeText(getContext(), "(* *)", Toast.LENGTH_SHORT).show();
             } else {

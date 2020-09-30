@@ -12,13 +12,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.inject.Inject;
 
 import aa.droid.norbo.projects.edzesnaplo3.R;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmMentettNaploItemWithDelbuttonBinding;
-import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Naplo;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.toolmodels.NaploWithSorozat;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.SorozatWithGyakorlat;
 import dagger.hilt.android.qualifiers.ActivityContext;
 import dagger.hilt.android.scopes.ActivityScoped;
 
@@ -49,8 +52,9 @@ public class NaploListFactory {
      * @param naplos
      * @return
      */
-    public ArrayAdapter<Naplo> getListAdapter(List<Naplo> naplos) {
-        ArrayAdapter<Naplo> listAdapter = new ArrayAdapter<Naplo>(context, R.layout.mvvm_mentett_naplo_item_with_delbutton, naplos) {
+    public ArrayAdapter<NaploWithSorozat> getListAdapter(List<NaploWithSorozat> naplos) {
+//    public ArrayAdapter<Naplo> getListAdapter(List<Naplo> naplos) {
+        ArrayAdapter<NaploWithSorozat> listAdapter = new ArrayAdapter<NaploWithSorozat>(context, R.layout.mvvm_mentett_naplo_item_with_delbutton, naplos) {
             MvvmMentettNaploItemWithDelbuttonBinding itemBinding;
             @NonNull
             @Override
@@ -63,8 +67,9 @@ public class NaploListFactory {
                     itemBinding = (MvvmMentettNaploItemWithDelbuttonBinding) convertView.getTag();
                 }
 
-                long naplodatum = getItem(position).getNaplodatum();
+                long naplodatum = Long.parseLong(getItem(position).daonaplo.getNaplodatum());
                 itemBinding.mvvmMentettNaploWithDelLabel.setText(timeFormatter.getNaploDatum(naplodatum));
+                itemBinding.mvvmMentettNaploIzomcsoportlista.setText(getIzomcsoportLista(getItem(position)));
                 itemBinding.imBtnNaploTorol.setOnClickListener(v -> {
                     if(naploTorlesInterface != null) {
                         naploTorlesInterface.naplotTorol(naplodatum);
@@ -77,5 +82,15 @@ public class NaploListFactory {
         };
 
         return listAdapter;
+    }
+
+    public String getIzomcsoportLista(NaploWithSorozat naploWithSorozats) {
+        Set<String> izomcsoportok = new LinkedHashSet<>();
+        for (SorozatWithGyakorlat sorozat : naploWithSorozats.sorozats) {
+            izomcsoportok.add(sorozat.gyakorlat.getCsoport());
+        }
+        StringBuilder sb = new StringBuilder();
+        izomcsoportok.forEach(csoport -> sb.append(csoport).append(", "));
+        return sb.toString().substring(0, sb.toString().lastIndexOf(','));
     }
 }

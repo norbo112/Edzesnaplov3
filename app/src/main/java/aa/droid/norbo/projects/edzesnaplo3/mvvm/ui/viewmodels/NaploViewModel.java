@@ -9,8 +9,8 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.api.NaploRepository;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.toolmodels.NaploWithSorozat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Naplo;
-import dagger.hilt.android.scopes.ActivityScoped;
 
 @Singleton
 public class NaploViewModel extends ViewModel {
@@ -29,5 +29,13 @@ public class NaploViewModel extends ViewModel {
 
     public void deleteNaplo(long naplodatum) {
         naploRepository.delete(naplodatum);
+    }
+
+    public LiveData<List<NaploWithSorozat>> getNaploWithSorozat(long naplodatum) {
+        return naploRepository.getNaploWithSorozat(naplodatum);
+    }
+
+    public LiveData<List<NaploWithSorozat>> getNaploWithSorozat() {
+        return naploRepository.getNaploWithSorozat();
     }
 }

@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
@@ -42,9 +43,6 @@ public class NaploDetailsActivity extends BaseActiviry<MvvmNaploDetailsActivityB
     @Inject
     NaploViewModel naploViewModel;
 
-//    @Inject
-//    NaploListFactory naploListFactory;
-
     public NaploDetailsActivity() {
         super(R.layout.mvvm_naplo_details_activity);
     }
@@ -53,7 +51,8 @@ public class NaploDetailsActivity extends BaseActiviry<MvvmNaploDetailsActivityB
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        long naploDatum = getIntent().getLongExtra(EXTRA_NAPLO_DATUM, 0);
+        long naploDatum = Long.parseLong(
+                Objects.requireNonNull(getIntent().getStringExtra(EXTRA_NAPLO_DATUM), "Nem lett átadva a megfelelő adat!"));
 
         if(naploDatum != 0) {
             setupRcViewWithDate(naploDatum);

@@ -10,6 +10,7 @@ import javax.inject.Singleton;
 
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.api.NaploRepository;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.EdzesNaploDatabase;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.toolmodels.NaploWithSorozat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Naplo;
 
 @Singleton
@@ -36,5 +37,15 @@ public class LocalNaploRepository implements NaploRepository {
     @Override
     public void delete(long naplodatum) {
         executorService.execute(() -> database.naploDao().delete(naplodatum));
+    }
+
+    @Override
+    public LiveData<List<NaploWithSorozat>> getNaploWithSorozat(long naplodatum) {
+        return database.naploDao().getNaploWithSorozats(naplodatum);
+    }
+
+    @Override
+    public LiveData<List<NaploWithSorozat>> getNaploWithSorozat() {
+        return database.naploDao().getNaploWithSorozats();
     }
 }
