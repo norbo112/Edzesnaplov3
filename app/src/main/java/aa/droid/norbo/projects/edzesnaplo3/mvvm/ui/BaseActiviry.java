@@ -35,6 +35,7 @@ public abstract class BaseActiviry<T extends ViewDataBinding> extends AppCompatA
         binding = DataBindingUtil.inflate(LayoutInflater.from(this), layoutResource, null, false);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(binding.getRoot());
+        setupCustomActionBar();
     }
 
     @SuppressLint("RestrictedApi")

@@ -49,8 +49,6 @@ public class MvvmBelepoActivity extends BaseActiviry<MvvmActivityBelepoBinding> 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setSupportActionBar(binding.toolbar.customToolbar);
-        setupCustomActionBar();
 
         binding.btnBelepes.setEnabled(false);
         naplopref = getSharedPreferences("naplo", MODE_PRIVATE);
@@ -92,6 +90,7 @@ public class MvvmBelepoActivity extends BaseActiviry<MvvmActivityBelepoBinding> 
 
     @Override
     public void setupCustomActionBar() {
+        setSupportActionBar(binding.toolbar.customToolbar);
         if (getSupportActionBar() != null) {
             binding.toolbar.naploDetails.setVisibility(View.GONE);
             binding.toolbar.moreOptions.setOnClickListener(this::showMoreOptionsPopupMenu);

@@ -52,8 +52,6 @@ public class NaploDetailsActivity extends BaseActiviry<MvvmNaploDetailsActivityB
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setSupportActionBar(binding.toolbar.customToolbar);
-        setupCustomActionBar();
 
         long naploDatum = getIntent().getLongExtra(EXTRA_NAPLO_DATUM, 0);
 
@@ -91,6 +89,7 @@ public class NaploDetailsActivity extends BaseActiviry<MvvmNaploDetailsActivityB
 
     @Override
     public void setupCustomActionBar() {
+        setSupportActionBar(binding.toolbar.customToolbar);
         if(getSupportActionBar() != null) {
             binding.toolbar.naploDetails.setVisibility(View.GONE);
             binding.toolbar.moreOptions.setOnClickListener(this::showMoreOptionsPopupMenu);

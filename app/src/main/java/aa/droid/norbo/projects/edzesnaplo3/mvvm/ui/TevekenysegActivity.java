@@ -70,9 +70,6 @@ public class TevekenysegActivity extends BaseActiviry<MvvmActivityTestBinding> i
 
         adatFeltoltes.gyakorlatAdatFeltoltes();
 
-        setSupportActionBar(binding.toolbar.customToolbar);
-        setupCustomActionBar();
-
         ViewPagerAdapter myViewPagerAdapter = new ViewPagerAdapter(this, getSupportFragmentManager());
         myViewPagerAdapter.addFragment(new MvvmGyakorlatValasztoFragment(), "Gyakorlat");
         myViewPagerAdapter.addFragment(new TevekenysegFragment(), "Edzés");
@@ -92,6 +89,7 @@ public class TevekenysegActivity extends BaseActiviry<MvvmActivityTestBinding> i
 
     @Override
     public void setupCustomActionBar() {
+        setSupportActionBar(binding.toolbar.customToolbar);
         if(getSupportActionBar() != null) {
             binding.toolbar.naploDetails.setOnClickListener(v -> {
                 naploWorker.prepareUjGyakorlat();

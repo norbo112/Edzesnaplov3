@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.PopupMenu;
 
 import javax.inject.Inject;
 
@@ -40,7 +41,6 @@ public class MvvmSavedNaploActivity extends BaseActiviry<MvvmActivityMentettNapl
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setSupportActionBar(binding.toolbar.customToolbar);
         binding.mentettNaplokWarningLabel.setVisibility(View.VISIBLE);
 
         naploViewModel.getNaploList().observe(this, naplos -> {
@@ -61,9 +61,9 @@ public class MvvmSavedNaploActivity extends BaseActiviry<MvvmActivityMentettNapl
 
     @Override
     public void setupCustomActionBar() {
-        if(getSupportActionBar() != null) {
+        setSupportActionBar(binding.toolbar.customToolbar);
+        if(getSupportActionBar() != null)
             binding.toolbar.naploDetails.setVisibility(View.GONE);
-        }
     }
 
     @Override
