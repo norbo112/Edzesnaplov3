@@ -62,7 +62,10 @@ public class MvvmBelepoActivity extends BaseActiviry<MvvmActivityBelepoBinding> 
         if (ActivityCompat.checkSelfPermission(this, MANI_PERMS[1])
                 == PackageManager.PERMISSION_GRANTED) {
             binding.btnBelepes.setEnabled(true);
-            binding.btnBelepes.setOnClickListener(v -> startActivity(new Intent(this, TevekenysegActivity.class)));
+            binding.btnBelepes.setOnClickListener(v -> {
+                startActivity(new Intent(this, TevekenysegActivity.class));
+                overridePendingTransition(R.anim.move_right_in_activity, R.anim.move_left_out_activity);
+            });
         } else {
             ActivityCompat.requestPermissions(this, MANI_PERMS, MY_PERMISSION);
             binding.btnBelepes.setEnabled(false);

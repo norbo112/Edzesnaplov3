@@ -71,8 +71,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@string/mvvm_belepes_btn_label"
                     android:backgroundTint="@color/edzesHatter"
+                    android:drawableEnd="@drawable/ic_right"
+                    android:text="@string/mvvm_belepes_btn_label"
                     android:textColor="#fff" />
 
                 <TextView

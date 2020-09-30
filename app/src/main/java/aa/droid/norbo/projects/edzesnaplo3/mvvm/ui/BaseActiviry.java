@@ -53,5 +53,11 @@ public abstract class BaseActiviry<T extends ViewDataBinding> extends AppCompatA
         return popupMenu;
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.move_left_in_activity, R.anim.move_right_out_activity);
+    }
+
     public abstract void setupCustomActionBar();
 }

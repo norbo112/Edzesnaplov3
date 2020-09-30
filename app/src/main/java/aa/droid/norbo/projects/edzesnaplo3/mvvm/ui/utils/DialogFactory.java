@@ -11,6 +11,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import aa.droid.norbo.projects.edzesnaplo3.R;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Naplo;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.NaploDetailsActivity;
 import dagger.hilt.android.qualifiers.ActivityContext;
