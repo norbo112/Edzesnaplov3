@@ -95,8 +95,8 @@ public class TevekenysegActivity extends BaseActiviry<MvvmActivityTestBinding> i
             binding.toolbar.naploDetails.setOnClickListener(v -> {
                 naploWorker.prepareUjGyakorlat();
                 new AlertDialog.Builder(this)
-                        .setTitle("Napló részletek (mentés)")
-                        .setMessage(formatter.getNaploDatum(naploWorker.getNaplo().getNaplodatum()))
+                        .setTitle("Napló "+formatter.getNaploDatum(naploWorker.getNaplo().getNaplodatum())+" (mentés)")
+//                        .setMessage()
                         .setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, naploWorker.getNaplo().getSorozats()), null)
                         .setNeutralButton("ok", (dialog, which) -> dialog.dismiss())
                         .setPositiveButton("mentés", (dialog, which) -> {
