@@ -35,4 +35,8 @@ public class SorozatViewModel extends ViewModel {
     public LiveData<List<Sorozat>> getSorozatByGyakorlat(int gyakorlatid) {
         return sorozatRepository.getSorozatByGyakorlat(gyakorlatid);
     }
+
+    public void deleteSorozat(long naplodatum) {
+        sorozatRepository.deleteSorozatByNaplo(naplodatum);
+    }
 }

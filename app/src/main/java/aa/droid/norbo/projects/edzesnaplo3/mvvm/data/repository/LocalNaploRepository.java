@@ -32,4 +32,9 @@ public class LocalNaploRepository implements NaploRepository {
     public LiveData<List<Naplo>> getAll() {
         return database.naploDao().getAll();
     }
+
+    @Override
+    public void delete(long naplodatum) {
+        executorService.execute(() -> database.naploDao().delete(naplodatum));
+    }
 }

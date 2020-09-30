@@ -37,4 +37,7 @@ public interface NaploDao {
 
     @Update
     void updateNaplo(Naplo naplo);
+
+    @Query("DELETE FROM naplo WHERE naplodatum =:naplodatum")
+    void delete(long naplodatum);
 }

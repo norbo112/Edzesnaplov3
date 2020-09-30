@@ -26,4 +26,8 @@ public class NaploViewModel extends ViewModel {
     public LiveData<List<Naplo>> getNaploList() {
         return naploList;
     }
+
+    public void deleteNaplo(long naplodatum) {
+        naploRepository.delete(naplodatum);
+    }
 }

@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
@@ -18,12 +19,13 @@ import javax.inject.Inject;
 import aa.droid.norbo.projects.edzesnaplo3.MainActivity;
 import aa.droid.norbo.projects.edzesnaplo3.R;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmActivityBelepoBinding;
-import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.DialogFactory;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.NaploListFactory;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.NaploViewModel;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.SorozatViewModel;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class MvvmBelepoActivity extends BaseActiviry<MvvmActivityBelepoBinding> {
+public class MvvmBelepoActivity extends BaseActiviry<MvvmActivityBelepoBinding> implements NaploListFactory.NaploTorlesInterface {
     private static final int MY_PERMISSION = 200;
     private static final String[] MANI_PERMS = new String[] {
             Manifest.permission.RECORD_AUDIO,
@@ -34,7 +36,10 @@ public class MvvmBelepoActivity extends BaseActiviry<MvvmActivityBelepoBinding> 
     NaploViewModel naploViewModel;
 
     @Inject
-    DialogFactory dialogFactory;
+    NaploListFactory naploListFactory;
+
+    @Inject
+    SorozatViewModel sorozatViewModel;
 
     public MvvmBelepoActivity() {
         super(R.layout.mvvm_activity_belepo);
@@ -96,9 +101,8 @@ public class MvvmBelepoActivity extends BaseActiviry<MvvmActivityBelepoBinding> 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.tevekenyseg_naplo_view) {
-            naploViewModel.getNaploList().observe(this, naplos -> {
-                dialogFactory.showMentettNaplok(naplos);
-            });
+            startActivity(new Intent(this, MvvmSavedNaploActivity.class));
+            overridePendingTransition(R.anim.move_right_in_activity, R.anim.move_left_out_activity);
         }
         return super.onContextItemSelected(item);
     }
@@ -118,5 +122,12 @@ public class MvvmBelepoActivity extends BaseActiviry<MvvmActivityBelepoBinding> 
                 }
                 break;
         }
+    }
+
+    @Override
+    public void naplotTorol(long naplodatum) {
+        naploViewModel.deleteNaplo(naplodatum);
+        sorozatViewModel.deleteSorozat(naplodatum);
+        Toast.makeText(this, "Napló törölve", Toast.LENGTH_SHORT).show();
     }
 }

@@ -47,4 +47,9 @@ public class LocalSorozatRepository implements SorozatRepository {
     public LiveData<List<Sorozat>> getSorozatByGyakorlat(int gyakorlatid) {
         return database.sorozatDao().getallByGyakorlat(gyakorlatid);
     }
+
+    @Override
+    public void deleteSorozatByNaplo(long naplodatum) {
+        executorService.execute(() -> database.sorozatDao().delete(Long.toString(naplodatum)));
+    }
 }

@@ -14,4 +14,6 @@ public interface SorozatRepository {
     LiveData<List<Sorozat>> getAll();
 
     LiveData<List<Sorozat>> getSorozatByGyakorlat(int gyakorlatid);
+
+    void deleteSorozatByNaplo(long naplodatum);
 }
