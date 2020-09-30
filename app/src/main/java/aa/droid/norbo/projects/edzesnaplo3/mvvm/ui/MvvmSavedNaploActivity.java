@@ -54,6 +54,9 @@ public class MvvmSavedNaploActivity extends BaseActiviry<MvvmActivityMentettNapl
                     startActivity(intent);
                     overridePendingTransition(R.anim.move_right_in_activity, R.anim.move_left_out_activity);
                 });
+            } else {
+                binding.mentettNaplokWarningLabel.setVisibility(View.VISIBLE);
+                binding.mentettNaplokLista.setVisibility(View.GONE);
             }
         });
     }
