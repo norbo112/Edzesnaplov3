@@ -39,6 +39,7 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.ViewPagerAdapter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.adatkozlo.AdatKozloInterface;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.rcviews.KorabbiSorozatRcViewAdapter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.DateTimeFormatter;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.NaploListFactory;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.naplo.NaploWorker;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.SorozatViewModel;
 import dagger.hilt.android.AndroidEntryPoint;
@@ -95,7 +96,8 @@ public class TevekenysegActivity extends BaseActiviry<MvvmActivityTestBinding> i
                 naploWorker.prepareUjGyakorlat();
                 new AlertDialog.Builder(this)
                         .setTitle("Napló részletek (mentés)")
-                        .setMessage(naploWorker.getNaplo().toString())
+                        .setMessage(formatter.getNaploDatum(naploWorker.getNaplo().getNaplodatum()))
+                        .setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, naploWorker.getNaplo().getSorozats()), null)
                         .setNeutralButton("ok", (dialog, which) -> dialog.dismiss())
                         .setPositiveButton("mentés", (dialog, which) -> {
                             if(naploWorker.getNaplo().getSorozats().size() != 0) {
