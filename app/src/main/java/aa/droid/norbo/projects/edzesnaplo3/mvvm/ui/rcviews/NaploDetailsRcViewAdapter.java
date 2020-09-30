@@ -1,14 +1,18 @@
 package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.rcviews;
 
 import android.content.Context;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 import java.util.Locale;
 
@@ -28,9 +32,6 @@ public class NaploDetailsRcViewAdapter extends RecyclerView.Adapter<NaploDetails
     @Override
     public void onBindViewHolder(@NonNull NaploDetailsViewHolder holder, int position) {
         holder.bind(gyakorlatSorozatUIS.get(position));
-//        holder.binding.rcitemGyakSorozatList
-//                .setAdapter(new ArrayAdapter<>(context, android.R.layout.simple_list_item_1,
-//                        gyakorlatSorozatUIS.get(position).getSorozats()));
     }
 
     @NonNull
@@ -60,7 +61,15 @@ public class NaploDetailsRcViewAdapter extends RecyclerView.Adapter<NaploDetails
             binding.rcitemGyakSorozatList
                     .setAdapter(new ArrayAdapter<>(binding.getRoot().getContext(), android.R.layout.simple_list_item_1, sorozat.getSorozats()));
             binding.info.setText(String.format(Locale.getDefault(), "Megmozgatott súly %,d Kg", osszsuly));
+            long el = elteltIdo(sorozat);
+            binding.info.append(String.format(Locale.getDefault(), "\n %d óra és %d perc alatt elvégezve", el/60, el%60));
             binding.executePendingBindings();
+        }
+
+        private long elteltIdo(GyakorlatSorozatUI gyakorlatSorozatUI) {
+            Duration between = Duration.between(Instant.ofEpochMilli(gyakorlatSorozatUI.getSorozats().get(0).getIsmidopont()),
+                    Instant.ofEpochMilli(gyakorlatSorozatUI.getSorozats().get(gyakorlatSorozatUI.getSorozats().size() - 1).getIsmidopont()));
+            return between.toMinutes();
         }
     }
 }
