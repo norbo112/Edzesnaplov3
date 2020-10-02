@@ -22,6 +22,7 @@ import aa.droid.norbo.projects.edzesnaplo3.R;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmMentettNaploItemWithDelbuttonBinding;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.toolmodels.NaploWithSorozat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.SorozatWithGyakorlat;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Gyakorlat;
 import dagger.hilt.android.qualifiers.ActivityContext;
 import dagger.hilt.android.scopes.ActivityScoped;
 
@@ -45,6 +46,7 @@ public class NaploListFactory {
 
     public interface NaploTorlesInterface {
         void naplotTorol(long naplodatum);
+        void naplotMent(long naplodatum);
     }
 
     /**
@@ -77,6 +79,14 @@ public class NaploListFactory {
                         Toast.makeText(context, "Napló törlése nem lehetséges!", Toast.LENGTH_SHORT).show();
                     }
                 });
+
+                itemBinding.imBtnNaploMent.setOnClickListener(v -> {
+                    if(naploTorlesInterface != null) {
+                        naploTorlesInterface.naplotMent(naplodatum);
+                    } else {
+                        Toast.makeText(context, "Nem lehetséges a napló mentése!", Toast.LENGTH_SHORT).show();
+                    }
+                });
                 return itemBinding.getRoot();
             }
         };
@@ -87,10 +97,15 @@ public class NaploListFactory {
     public String getIzomcsoportLista(NaploWithSorozat naploWithSorozats) {
         Set<String> izomcsoportok = new LinkedHashSet<>();
         for (SorozatWithGyakorlat sorozat : naploWithSorozats.sorozats) {
-            izomcsoportok.add(sorozat.gyakorlat.getCsoport());
+            Gyakorlat gyakorlat = sorozat.gyakorlat;
+            if(gyakorlat != null)
+                izomcsoportok.add(gyakorlat.getCsoport());
+            else
+                izomcsoportok.add("...");
+
         }
         StringBuilder sb = new StringBuilder();
         izomcsoportok.forEach(csoport -> sb.append(csoport).append(", "));
-        return sb.toString().substring(0, sb.toString().lastIndexOf(','));
+        return izomcsoportok.size() > 0 ? sb.toString().substring(0, sb.toString().lastIndexOf(',')) : "";
     }
 }

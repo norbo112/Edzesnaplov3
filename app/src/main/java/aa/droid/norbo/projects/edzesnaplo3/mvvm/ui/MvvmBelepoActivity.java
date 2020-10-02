@@ -25,7 +25,7 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.SorozatViewModel;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class MvvmBelepoActivity extends BaseActiviry<MvvmActivityBelepoBinding> implements NaploListFactory.NaploTorlesInterface {
+public class MvvmBelepoActivity extends BaseActiviry<MvvmActivityBelepoBinding> {
     private static final int MY_PERMISSION = 200;
     private static final String[] MANI_PERMS = new String[] {
             Manifest.permission.RECORD_AUDIO,
@@ -121,12 +121,5 @@ public class MvvmBelepoActivity extends BaseActiviry<MvvmActivityBelepoBinding> 
                 }
                 break;
         }
-    }
-
-    @Override
-    public void naplotTorol(long naplodatum) {
-        naploViewModel.deleteNaplo(naplodatum);
-        sorozatViewModel.deleteSorozat(naplodatum);
-        Toast.makeText(this, "Napló törölve", Toast.LENGTH_SHORT).show();
     }
 }

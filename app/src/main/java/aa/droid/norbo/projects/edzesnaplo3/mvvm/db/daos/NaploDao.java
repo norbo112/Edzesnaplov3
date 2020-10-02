@@ -12,6 +12,7 @@ import androidx.room.Update;
 
 import java.util.List;
 
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.toolmodels.NaploWithOnlySorozats;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.toolmodels.NaploWithSorozat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Naplo;
 
@@ -24,8 +25,13 @@ public interface NaploDao {
     @Query("SELECT * FROM naplo")
     LiveData<List<NaploWithSorozat>> getNaploWithSorozats();
 
+    @Transaction
     @Query("SELECT * FROM naplo WHERE naplodatum = :naplodatum")
     LiveData<List<NaploWithSorozat>> getNaploWithSorozats(long naplodatum);
+
+    @Transaction
+    @Query("SELECT * FROM naplo WHERE naplodatum =:naplodatum")
+    LiveData<NaploWithOnlySorozats> getNaploWithOnlySorozats(long naplodatum);
 
     @Query("SELECT * FROM naplo ORDER BY naplodatum ASC")
     LiveData<List<Naplo>> getAll();
@@ -44,4 +50,8 @@ public interface NaploDao {
 
     @Query("DELETE FROM naplo WHERE naplodatum =:naplodatum")
     void delete(long naplodatum);
+
+    @Transaction
+    @Query("SELECT * FROM naplo WHERE naplodatum =:naplodatum")
+    NaploWithOnlySorozats getSyncNaploWithOnlySorozats(long naplodatum);
 }

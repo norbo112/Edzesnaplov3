@@ -1,9 +1,16 @@
 package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.appcompat.view.menu.MenuPopupHelper;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,6 +26,7 @@ import javax.inject.Inject;
 import aa.droid.norbo.projects.edzesnaplo3.R;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmNaploDetailsActivityBinding;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.SorozatWithGyakorlat;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.service.files.MyFileService;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.rcviews.NaploDetailsRcViewAdapterFactory;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.DateTimeFormatter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.NaploListFactory;
@@ -28,6 +36,7 @@ import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
 public class NaploDetailsActivity extends BaseActiviry<MvvmNaploDetailsActivityBinding> implements NaploListFactory.NaploTorlesInterface {
+    private static final String TAG = "NaploDetailsActivity";
     public static final String EXTRA_NAPLO_DATUM = "aa.droid.norbo.projects.edzesnaplo3.v4.EXTRA_NAPLO_DATUM";
     public static final String EXTRA_NAPLO_LABEL = "aa.droid.norbo.projects.edzesnaplo3.v4.EXTRA_NAPLO_LABEL";
 
@@ -43,6 +52,11 @@ public class NaploDetailsActivity extends BaseActiviry<MvvmNaploDetailsActivityB
     @Inject
     NaploViewModel naploViewModel;
 
+    @Inject
+    MyFileService myFileService;
+
+    private Long naploDatum;
+
     public NaploDetailsActivity() {
         super(R.layout.mvvm_naplo_details_activity);
     }
@@ -51,7 +65,7 @@ public class NaploDetailsActivity extends BaseActiviry<MvvmNaploDetailsActivityB
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        long naploDatum = Long.parseLong(
+        naploDatum = Long.parseLong(
                 Objects.requireNonNull(getIntent().getStringExtra(EXTRA_NAPLO_DATUM), "Nem lett átadva a megfelelő adat!"));
 
         if(naploDatum != 0) {
@@ -78,11 +92,20 @@ public class NaploDetailsActivity extends BaseActiviry<MvvmNaploDetailsActivityB
         return sorozatWithGyakorlats.stream().map(sorozatWithGyakorlat -> sorozatWithGyakorlat.gyakorlat).collect(Collectors.toSet()).size();
     }
 
+    @SuppressLint("RestrictedApi")
     @Override
     protected PopupMenu showMoreOptionsPopupMenu(View view) {
-        PopupMenu popupMenu = super.showMoreOptionsPopupMenu(view);
-        popupMenu.getMenu().removeItem(R.id.tevekenyseg_gyakorlat_view);
-        popupMenu.getMenu().removeItem(R.id.tevekenyseg_naplo_view);
+        PopupMenu popupMenu = new PopupMenu(this, view);
+        popupMenu.getMenuInflater().inflate(R.menu.mvvm_naplo_details_edit, popupMenu.getMenu());
+
+        popupMenu.setOnMenuItemClickListener(item -> {
+            onContextItemSelected(item);
+            return true;
+        });
+
+        MenuPopupHelper menuPopupHelper = new MenuPopupHelper(this, (MenuBuilder) popupMenu.getMenu(), view);
+        menuPopupHelper.setForceShowIcon(true);
+        menuPopupHelper.show();
         return popupMenu;
     }
 
@@ -96,9 +119,43 @@ public class NaploDetailsActivity extends BaseActiviry<MvvmNaploDetailsActivityB
     }
 
     @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.naplo_details_save) {
+            naplotMent(naploDatum);
+        } else if(item.getItemId() == R.id.naplo_details_delete) {
+            uiNaplotTorol(naploDatum);
+        }
+
+        return super.onContextItemSelected(item);
+    }
+
+    private void uiNaplotTorol(Long naploDatum) {
+        if(naploDatum != null && naploDatum != 0) {
+            new AlertDialog.Builder(this)
+                    .setTitle("Törés")
+                    .setMessage("Biztosan törölni szeretnéd a naplót?")
+                    .setPositiveButton("ok", (dialog, which) -> naplotTorol(naploDatum))
+                    .setNegativeButton("mégse", (dialog, which) -> dialog.dismiss())
+                    .show();
+        }
+    }
+
+    @Override
     public void naplotTorol(long naplodatum) {
         naploViewModel.deleteNaplo(naplodatum);
         sorozatViewModel.deleteSorozat(naplodatum);
         Toast.makeText(this, "Napló törölve", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void naplotMent(long naplodatum) {
+        myFileService.futureFileSave(naplodatum).whenComplete((uri, throwable) -> {
+            if (throwable == null) {
+                runOnUiThread(() -> Toast.makeText(this, "Fájl mentve: " + uri.toString(), Toast.LENGTH_SHORT).show());
+            } else {
+                runOnUiThread(() -> Toast.makeText(this, "Hiba a mentés végrehajtása közben", Toast.LENGTH_SHORT).show());
+                Log.e(TAG, "naplotMent: ", throwable);
+            }
+        });
     }
 }

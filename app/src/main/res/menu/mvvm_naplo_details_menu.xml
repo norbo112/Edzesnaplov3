@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/naplo_details_v3_load"
+        android:icon="@drawable/ic_file_upload"
+        android:title="V3 Betöltés" />
+    <item
+        android:id="@+id/naplo_details_load_from_file"
+        android:icon="@drawable/ic_folder"
+        android:title="Betöltés fájlból" />
+    <item
+        android:id="@+id/naplo_details_save_to_file"
+        android:icon="@drawable/ic_save"
+        android:title="Mentés fájlba" />
+</menu>

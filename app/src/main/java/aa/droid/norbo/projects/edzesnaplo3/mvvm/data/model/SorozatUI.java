@@ -18,7 +18,7 @@ public class SorozatUI implements Serializable, Parcelable {
     private String suly;
     private String ismetles;
     private long ismidopont;
-    private String naplodatum;
+    private long naplodatum;
     private Gyakorlat gyakorlat;
 
     public SorozatUI(){}
@@ -37,11 +37,11 @@ public class SorozatUI implements Serializable, Parcelable {
         suly = parcel.readString();
         ismetles = parcel.readString();
         ismidopont = parcel.readLong();
-        naplodatum = parcel.readString();
+        naplodatum = parcel.readLong();
         gyakorlat = (Gyakorlat) parcel.readSerializable();
     }
 
-    public SorozatUI(Gyakorlat gyakorlat, String suly, String ismetles, long ismidopont, String naplodatum) {
+    public SorozatUI(Gyakorlat gyakorlat, String suly, String ismetles, long ismidopont, long naplodatum) {
         this.gyakorlat = gyakorlat;
         this.gyakorlatid = gyakorlat.getId();
         this.suly = suly;
@@ -102,11 +102,11 @@ public class SorozatUI implements Serializable, Parcelable {
         this.ismidopont = ismidopont;
     }
 
-    public String getNaplodatum() {
+    public long getNaplodatum() {
         return naplodatum;
     }
 
-    public void setNaplodatum(String naplodatum) {
+    public void setNaplodatum(long naplodatum) {
         this.naplodatum = naplodatum;
     }
 
@@ -149,7 +149,7 @@ public class SorozatUI implements Serializable, Parcelable {
         dest.writeString(suly);
         dest.writeString(ismetles);
         dest.writeLong(ismidopont);
-        dest.writeString(naplodatum);
+        dest.writeLong(naplodatum);
         dest.writeSerializable(gyakorlat);
     }
 }

@@ -44,7 +44,7 @@ public class NaploWorker {
 
     public void addSorozat(int suly, int ism) {
         if(gyakorlat != null) {
-            sorozats.add(new Sorozat(gyakorlat, suly, ism, System.currentTimeMillis(), Long.toString(naplo.getNaplodatum())));
+            sorozats.add(new Sorozat(gyakorlat, suly, ism, System.currentTimeMillis(), naplo.getNaplodatum()));
         }
 
         liveSorozatLista.postValue(sorozats);

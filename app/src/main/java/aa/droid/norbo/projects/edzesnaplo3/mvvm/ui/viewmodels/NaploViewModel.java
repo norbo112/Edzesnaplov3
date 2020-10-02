@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.api.NaploRepository;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.toolmodels.NaploWithOnlySorozats;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.toolmodels.NaploWithSorozat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Naplo;
 
@@ -37,5 +38,17 @@ public class NaploViewModel extends ViewModel {
 
     public LiveData<List<NaploWithSorozat>> getNaploWithSorozat() {
         return naploRepository.getNaploWithSorozat();
+    }
+
+    public LiveData<NaploWithOnlySorozats> getNaploWithOnlySorozats(long naplodatum) {
+        return naploRepository.getNaploWithOnlySorozat(naplodatum);
+    }
+
+    public NaploWithOnlySorozats getSyncNaploWithOnlySorozats(long naplodatum) {
+        return naploRepository.getSyncNaploWithOnlySorozats(naplodatum);
+    }
+
+    public void insert(Naplo naplo) {
+        naploRepository.insert(naplo);
     }
 }

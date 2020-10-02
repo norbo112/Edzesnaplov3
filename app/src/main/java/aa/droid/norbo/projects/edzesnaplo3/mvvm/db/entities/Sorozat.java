@@ -21,7 +21,7 @@ public class Sorozat implements Serializable, Parcelable {
     private int suly;
     private int ismetles;
     private long ismidopont;
-    private String naplodatum;
+    private long naplodatum;
     @Ignore
     private Gyakorlat gyakorlat;
 
@@ -43,14 +43,23 @@ public class Sorozat implements Serializable, Parcelable {
         suly = parcel.readInt();
         ismetles = parcel.readInt();
         ismidopont = parcel.readLong();
-        naplodatum = parcel.readString();
+        naplodatum = parcel.readLong();
         gyakorlat = (Gyakorlat) parcel.readSerializable();
     }
 
     @Ignore
-    public Sorozat(Gyakorlat gyakorlat, int suly, int ismetles, long ismidopont, String naplodatum) {
+    public Sorozat(Gyakorlat gyakorlat, int suly, int ismetles, long ismidopont, long naplodatum) {
         this.gyakorlat = gyakorlat;
         this.gyakorlatid = gyakorlat.getId();
+        this.suly = suly;
+        this.ismetles = ismetles;
+        this.ismidopont = ismidopont;
+        this.naplodatum = naplodatum;
+    }
+
+    @Ignore
+    public Sorozat(int gyakorlatid, int suly, int ismetles, long ismidopont, long naplodatum) {
+        this.gyakorlatid = gyakorlatid;
         this.suly = suly;
         this.ismetles = ismetles;
         this.ismidopont = ismidopont;
@@ -109,11 +118,11 @@ public class Sorozat implements Serializable, Parcelable {
         this.ismidopont = ismidopont;
     }
 
-    public String getNaplodatum() {
+    public long getNaplodatum() {
         return naplodatum;
     }
 
-    public void setNaplodatum(String naplodatum) {
+    public void setNaplodatum(long naplodatum) {
         this.naplodatum = naplodatum;
     }
 
@@ -156,7 +165,7 @@ public class Sorozat implements Serializable, Parcelable {
         dest.writeInt(suly);
         dest.writeInt(ismetles);
         dest.writeLong(ismidopont);
-        dest.writeString(naplodatum);
+        dest.writeLong(naplodatum);
         dest.writeSerializable(gyakorlat);
     }
 }

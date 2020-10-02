@@ -180,12 +180,12 @@ public class TevekenysegActivity extends BaseActiviry<MvvmActivityTestBinding> i
 
     private List<NaploEsSorozat> makeNaploEsSorozat(List<Sorozat> sorozats) {
         List<NaploEsSorozat> list = new ArrayList<>();
-        Set<Long> naploDatumok = sorozats.stream().map(sor -> Long.parseLong(sor.getNaplodatum())).collect(Collectors.toSet());
+        Set<Long> naploDatumok = sorozats.stream().map(Sorozat::getNaplodatum).collect(Collectors.toSet());
         naploDatumok.forEach(aLong -> {
             NaploEsSorozat naploEsSorozat = new NaploEsSorozat(aLong);
             List<Sorozat> sorozats1 = new ArrayList<>();
             sorozats.forEach(sorozat -> {
-                if(aLong == Long.parseLong(sorozat.getNaplodatum()))
+                if(aLong == (sorozat.getNaplodatum()))
                     sorozats1.add(sorozat);
             });
             naploEsSorozat.setSorozats(sorozats1);

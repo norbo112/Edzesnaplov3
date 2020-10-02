@@ -39,4 +39,10 @@ public class SorozatViewModel extends ViewModel {
     public void deleteSorozat(long naplodatum) {
         sorozatRepository.deleteSorozatByNaplo(naplodatum);
     }
+
+    public void insertAll(List<Sorozat> sorozats) {
+        sorozatRepository.insert(sorozats);
+    }
+
+    public void insert(Sorozat sorozat) { sorozatRepository.insert(sorozat);}
 }

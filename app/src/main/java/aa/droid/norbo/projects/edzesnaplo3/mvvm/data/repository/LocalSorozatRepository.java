@@ -52,4 +52,9 @@ public class LocalSorozatRepository implements SorozatRepository {
     public void deleteSorozatByNaplo(long naplodatum) {
         executorService.execute(() -> database.sorozatDao().delete(Long.toString(naplodatum)));
     }
+
+    @Override
+    public void insert(Sorozat sorozat) {
+        executorService.execute(() -> database.sorozatDao().insert(sorozat));
+    }
 }
