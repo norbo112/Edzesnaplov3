@@ -19,6 +19,7 @@ import javax.inject.Inject;
 import aa.droid.norbo.projects.edzesnaplo3.MainActivity;
 import aa.droid.norbo.projects.edzesnaplo3.R;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmActivityBelepoBinding;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.utils.AdatFeltoltes;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.NaploListFactory;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.NaploViewModel;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.SorozatViewModel;
@@ -31,6 +32,9 @@ public class MvvmBelepoActivity extends BaseActiviry<MvvmActivityBelepoBinding> 
             Manifest.permission.RECORD_AUDIO,
             Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private SharedPreferences naplopref;
+
+    @Inject
+    AdatFeltoltes adatFeltoltes;
 
     @Inject
     NaploViewModel naploViewModel;
@@ -49,7 +53,8 @@ public class MvvmBelepoActivity extends BaseActiviry<MvvmActivityBelepoBinding> 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        adatFeltoltes.gyakorlatAdatFeltoltes();
+        
         binding.btnBelepes.setEnabled(false);
         naplopref = getSharedPreferences("naplo", MODE_PRIVATE);
 

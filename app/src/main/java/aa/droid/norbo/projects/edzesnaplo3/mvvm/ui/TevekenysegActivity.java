@@ -50,9 +50,6 @@ public class TevekenysegActivity extends BaseActiviry<MvvmActivityTestBinding> i
     private Integer gyakorlatId;
 
     @Inject
-    AdatFeltoltes adatFeltoltes;
-
-    @Inject
     NaploWorker naploWorker;
 
     @Inject
@@ -68,8 +65,6 @@ public class TevekenysegActivity extends BaseActiviry<MvvmActivityTestBinding> i
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        adatFeltoltes.gyakorlatAdatFeltoltes();
 
         ViewPagerAdapter myViewPagerAdapter = new ViewPagerAdapter(this, getSupportFragmentManager());
         myViewPagerAdapter.addFragment(new MvvmGyakorlatValasztoFragment(), "Gyakorlat");
