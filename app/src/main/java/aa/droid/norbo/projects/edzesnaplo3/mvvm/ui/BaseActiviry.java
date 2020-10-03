@@ -7,6 +7,7 @@ import android.os.Process;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -32,6 +33,7 @@ public abstract class BaseActiviry<T extends ViewDataBinding> extends AppCompatA
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         binding = DataBindingUtil.inflate(LayoutInflater.from(this), layoutResource, null, false);
         if (getResources().getBoolean(R.bool.isTablet)) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);

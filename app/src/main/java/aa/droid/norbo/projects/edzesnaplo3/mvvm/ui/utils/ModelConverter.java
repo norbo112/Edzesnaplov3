@@ -6,6 +6,7 @@ import javax.inject.Singleton;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.GyakorlatUI;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.SorozatUI;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Gyakorlat;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Naplo;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Sorozat;
 
 @Singleton
@@ -36,5 +37,46 @@ public class ModelConverter {
                 Integer.parseInt(sorozatUI.getSuly()),
                 Integer.parseInt(sorozatUI.getIsmetles()), sorozatUI.getIsmidopont(),
                 sorozatUI.getNaplodatum());
+    }
+
+    /**
+     * V3-as naplók mentésének betöltésére szolgál
+     * @param naplo
+     * @return
+     */
+    public Naplo getNaploFromV3(aa.droid.norbo.projects.edzesnaplo3.database.entities.Naplo naplo) {
+        return new Naplo(Long.parseLong(naplo.getNaplodatum()), "kulso_forras", naplo.getCommentFilePath());
+    }
+
+    /**
+     * V3-as naplók mentésének betöltésére szolgál
+     * @param sorozat
+     * @return
+     */
+    public Sorozat getSorozatFromV3(aa.droid.norbo.projects.edzesnaplo3.database.entities.Sorozat sorozat) {
+        return new Sorozat(sorozat.getGyakorlatid(), sorozat.getSuly(), sorozat.getIsmetles(),
+                Long.parseLong(sorozat.getIsmidopont()),
+                Long.parseLong(sorozat.getNaplodatum()));
+    }
+
+    /**
+     * A készülékkel mentett naplók megosztása más készülékekkel, ilyenkor új id kell,
+     * tehát, új napló lesz beszúrva
+     * @param naplo
+     * @return
+     */
+    public Naplo getNewNaplo(Naplo naplo) {
+        return new Naplo(naplo.getNaplodatum(), naplo.getFelhasznalonev(),
+                naplo.getCommentFilePath());
+    }
+
+    /**
+     * Készülékek közt megosztott napló sorozatai, újként lesznek beszúrva, id-k ütközése miatt
+     * @param sorozat
+     * @return
+     */
+    public Sorozat getNewSorozat(Sorozat sorozat) {
+        return new Sorozat(sorozat.getGyakorlatid(), sorozat.getSuly(), sorozat.getIsmetles(), sorozat.getIsmidopont(),
+                sorozat.getNaplodatum());
     }
 }

@@ -1,11 +1,14 @@
 package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -34,6 +37,7 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Sorozat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.service.files.MyFileService;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.rcviews.NaploDetailsRcViewAdapterFactory;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.DateTimeFormatter;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.ModelConverter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.NaploListFactory;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.NaploViewModel;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.SorozatViewModel;
@@ -63,6 +67,9 @@ public class MvvmSavedNaploActivity extends BaseActiviry<MvvmActivityMentettNapl
     @Inject
     NaploDetailsRcViewAdapterFactory adapterFactory;
 
+    @Inject
+    ModelConverter modelConverter;
+
     public MvvmSavedNaploActivity() {
         super(R.layout.mvvm_activity_mentett_naplok);
     }
@@ -75,6 +82,11 @@ public class MvvmSavedNaploActivity extends BaseActiviry<MvvmActivityMentettNapl
         if(getResources().getBoolean(R.bool.isTablet)) {
             binding.naploDetailsDatumLabel.setText(R.string.mvvm_saved_tablet_info);
         }
+
+        ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Naplók betöltése");
+        progressDialog.show();
+
 
         naploViewModel.getNaploWithSorozat().observe(this, naplos -> {
             if(naplos != null && naplos.size() > 0) {
@@ -95,6 +107,7 @@ public class MvvmSavedNaploActivity extends BaseActiviry<MvvmActivityMentettNapl
                         loadInfoForTablet(item);
                     }
                 });
+                runOnUiThread(progressDialog::dismiss);
             } else {
                 binding.mentettNaplokWarningLabel.setVisibility(View.VISIBLE);
                 binding.mentettNaplokLista.setVisibility(View.GONE);
@@ -172,10 +185,10 @@ public class MvvmSavedNaploActivity extends BaseActiviry<MvvmActivityMentettNapl
 
             if(naploAllList != null) {
                 for (NaploAll egyNaplo : naploAllList) {
-                    naploViewModel.insert(getNaploFromV3(egyNaplo.getNaplo()));
+                    naploViewModel.insert(modelConverter.getNaploFromV3(egyNaplo.getNaplo()));
                     List<Sorozat> sorozats = egyNaplo.getSorozatWithGyakorlats()
                             .stream()
-                            .map(srs -> getSorozatFromV3(srs.sorozat))
+                            .map(srs -> modelConverter.getSorozatFromV3(srs.sorozat))
                             .collect(Collectors.toList());
                     sorozatViewModel.insertAll(sorozats);
                 }
@@ -194,12 +207,8 @@ public class MvvmSavedNaploActivity extends BaseActiviry<MvvmActivityMentettNapl
                 }
 
                 if(naplo != null) {
-                    naploViewModel.insert(new Naplo(naplo.naplo.getNaplodatum(), naplo.naplo.getFelhasznalonev(),
-                            naplo.naplo.getCommentFilePath()));
-                    sorozatViewModel.insertAll(naplo.sorozats.stream().map(sorozat -> {
-                        return new Sorozat(sorozat.getGyakorlatid(), sorozat.getSuly(), sorozat.getIsmetles(), sorozat.getIsmidopont(),
-                                sorozat.getNaplodatum());
-                    }).collect(Collectors.toList()));
+                    naploViewModel.insert(modelConverter.getNewNaplo(naplo.naplo));
+                    sorozatViewModel.insertAll(naplo.sorozats.stream().map(sorozat -> modelConverter.getNewSorozat(sorozat)).collect(Collectors.toList()));
                     toast("Napló betöltve!");
                 }
             });
@@ -243,15 +252,5 @@ public class MvvmSavedNaploActivity extends BaseActiviry<MvvmActivityMentettNapl
 
     private void toast(String msg) {
         runOnUiThread(() -> Toast.makeText(MvvmSavedNaploActivity.this, msg, Toast.LENGTH_SHORT).show());
-    }
-
-    private Naplo getNaploFromV3(aa.droid.norbo.projects.edzesnaplo3.database.entities.Naplo naplo) {
-        return new Naplo(Long.parseLong(naplo.getNaplodatum()), "kulso_forras", naplo.getCommentFilePath());
-    }
-
-    private Sorozat getSorozatFromV3(aa.droid.norbo.projects.edzesnaplo3.database.entities.Sorozat sorozat) {
-        return new Sorozat(sorozat.getGyakorlatid(), sorozat.getSuly(), sorozat.getIsmetles(),
-                Long.parseLong(sorozat.getIsmidopont()),
-                Long.parseLong(sorozat.getNaplodatum()));
     }
 }

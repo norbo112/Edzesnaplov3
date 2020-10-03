@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".mvvm.ui.MvvmSavedNaploActivity"
-        android:background="#000">
+        android:background="#000"
+        android:id="@+id/mvvm_mentett_root_single">
 
         <include
             android:id="@+id/toolbar"
