@@ -134,7 +134,11 @@ public class NaploDetailsActivity extends BaseActiviry<MvvmNaploDetailsActivityB
             new AlertDialog.Builder(this)
                     .setTitle("Törés")
                     .setMessage("Biztosan törölni szeretnéd a naplót?")
-                    .setPositiveButton("ok", (dialog, which) -> naplotTorol(naploDatum))
+                    .setPositiveButton("ok", (dialog, which) -> {
+                        naplotTorol(naploDatum);
+                        onBackPressed();
+                        finish();
+                    })
                     .setNegativeButton("mégse", (dialog, which) -> dialog.dismiss())
                     .show();
         }

@@ -54,7 +54,7 @@ public class MvvmBelepoActivity extends BaseActiviry<MvvmActivityBelepoBinding> 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         adatFeltoltes.gyakorlatAdatFeltoltes();
-        
+
         binding.btnBelepes.setEnabled(false);
         naplopref = getSharedPreferences("naplo", MODE_PRIVATE);
 

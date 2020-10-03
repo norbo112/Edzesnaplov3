@@ -9,9 +9,14 @@ import com.google.gson.JsonSyntaxException;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 
@@ -26,6 +31,7 @@ import dagger.hilt.android.scopes.ActivityScoped;
 @ActivityScoped
 public class MyFileService {
     private static final String TAG = "FilaService";
+    private static final String APP_CHILD_FOLDER = "1001";
     private Context context;
     private ExecutorService fileExecutorService;
     private NaploViewModel naploViewModel;
@@ -55,16 +61,29 @@ public class MyFileService {
 
     /**
      * NaploAll osztály nem akarom használni, csak a régi edzésekez szeretném betölteni az uj adatbázisba
-     * @param data
      * @return
      */
-    private NaploAll getV3Naplo(Uri data) {
-        try(InputStreamReader inputStream = new InputStreamReader(context.getContentResolver().openInputStream(data))) {
-            return new Gson().fromJson(inputStream, NaploAll.class);
-        } catch (IOException | NullPointerException | JsonSyntaxException e) {
-            Log.e(TAG, "loadSaveFile: ", e);
-            return null;
+    private List<NaploAll> getV3Naplo() {
+        List<NaploAll> naploAlls = null;
+        File folder = new File(context.getExternalFilesDir(null), APP_CHILD_FOLDER);
+        if(folder.isDirectory()) {
+            naploAlls = new ArrayList<>();
+            for (File file : folder.listFiles()) {
+                Uri uri = Uri.parse(file.getAbsolutePath());
+                try (InputStreamReader inputStream =
+                             new InputStreamReader(new FileInputStream(file.getAbsolutePath()))) {
+                    naploAlls.add(new Gson().fromJson(inputStream, NaploAll.class));
+                    if (file.delete()) {
+                        Log.i(TAG, "getV3Naplo: "+file.getName()+" törölve a kártyáról!");
+                    }
+                } catch (Exception e) {
+                    Log.e(TAG, "loadSaveFile: ", e);
+                    return null;
+                }
+            }
         }
+
+        return naploAlls;
     }
 
     private NaploWithOnlySorozats loadSaveFile(Uri data) {
@@ -87,7 +106,7 @@ public class MyFileService {
         return CompletableFuture.supplyAsync(() -> loadSaveFile(data));
     }
 
-    public CompletableFuture<NaploAll> futureLoadV3saves(Uri data) {
-        return CompletableFuture.supplyAsync(() -> getV3Naplo(data));
+    public CompletableFuture<List<NaploAll>> futureLoadV3saves() {
+        return CompletableFuture.supplyAsync(() -> getV3Naplo());
     }
 }

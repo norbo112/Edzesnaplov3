@@ -22,7 +22,7 @@ public interface NaploDao {
     void insertNaplo(Naplo naplo);
 
     @Transaction
-    @Query("SELECT * FROM naplo")
+    @Query("SELECT * FROM naplo ORDER BY naplodatum DESC")
     LiveData<List<NaploWithSorozat>> getNaploWithSorozats();
 
     @Transaction

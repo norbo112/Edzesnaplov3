@@ -32,6 +32,7 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.DateTimeFormatter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.NaploListFactory;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.NaploViewModel;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.SorozatViewModel;
+import aa.droid.norbo.projects.edzesnaplo3.uiutils.fileworkers.models.NaploAll;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
@@ -113,19 +114,40 @@ public class MvvmSavedNaploActivity extends BaseActiviry<MvvmActivityMentettNapl
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.naplo_details_load_from_file) {
-            loadNaploFileFromSD(FILE_LOAD_RCODE);
+            loadNaploFileFromSD();
         } else if(item.getItemId() == R.id.naplo_details_v3_load) {
-            loadNaploFileFromSD(FILE_V3_LOAD);
+            loadV3NaploFromDirectory();
         }
         return super.onContextItemSelected(item);
     }
 
-    private void loadNaploFileFromSD(int code) {
+    private void loadNaploFileFromSD() {
         Intent filechooser = new Intent(Intent.ACTION_GET_CONTENT);
         filechooser.setType("*/*");
         filechooser.putExtra(Intent.EXTRA_MIME_TYPES, new String[]{"application/octet-stream", "application/json"});
         filechooser.addCategory(Intent.CATEGORY_OPENABLE);
-        startActivityForResult(filechooser, code);
+        startActivityForResult(filechooser, FILE_LOAD_RCODE);
+    }
+
+    private void loadV3NaploFromDirectory() {
+        myFileService.futureLoadV3saves().whenComplete((naploAllList, throwable) -> {
+            if(throwable != null) {
+                toast("Nem sikerült betölteni a fájlokat\n"+throwable.getMessage());
+                return;
+            }
+
+            if(naploAllList != null) {
+                for (NaploAll egyNaplo : naploAllList) {
+                    naploViewModel.insert(getNaploFromV3(egyNaplo.getNaplo()));
+                    List<Sorozat> sorozats = egyNaplo.getSorozatWithGyakorlats()
+                            .stream()
+                            .map(srs -> getSorozatFromV3(srs.sorozat))
+                            .collect(Collectors.toList());
+                    sorozatViewModel.insertAll(sorozats);
+                }
+                toast("Sikeresen betöltve a naplók!");
+            }
+        });
     }
 
     @Override
@@ -141,23 +163,6 @@ public class MvvmSavedNaploActivity extends BaseActiviry<MvvmActivityMentettNapl
                     naploViewModel.insert(naplo.naplo);
                     sorozatViewModel.insertAll(naplo.sorozats);
                     toast("Napló betöltve!");
-                }
-            });
-        } else if(requestCode == FILE_V3_LOAD && resultCode == RESULT_OK) {
-            myFileService.futureLoadV3saves(data.getData()).whenComplete((naploAll, throwable) -> {
-                if(throwable != null) {
-                    toast("Nem sikerült betölteni a fájlt\n"+throwable.getMessage());
-                    return;
-                }
-
-                if(naploAll != null) {
-                    naploViewModel.insert(getNaploFromV3(naploAll.getNaplo()));
-                    List<Sorozat> sorozats = naploAll.getSorozatWithGyakorlats()
-                            .stream()
-                            .map(srs -> getSorozatFromV3(srs.sorozat))
-                            .collect(Collectors.toList());
-                    sorozatViewModel.insertAll(sorozats);
-                    toast("Sikeresen betöltve a napló!");
                 }
             });
         }
