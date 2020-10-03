@@ -81,6 +81,8 @@ public class MvvmSavedNaploActivity extends BaseActiviry<MvvmActivityMentettNapl
                 binding.mentettNaplokWarningLabel.setVisibility(View.GONE);
                 binding.mentettNaplokLista.setVisibility(View.VISIBLE);
                 binding.mentettNaplokLista.setAdapter(naploListFactory.getListAdapter(naplos));
+                binding.mentettNaploDbOsszsuly.setText(String.format(Locale.getDefault(), "[%,d] db mentve, %,d Kg megmozgatott súly",
+                        naplos.size(), naplos.stream().mapToInt(np -> getSorozatOsszSuly(np.sorozats)).sum()));
                 binding.mentettNaplokLista.setOnItemClickListener((parent, view, position, id) -> {
                     NaploWithSorozat item = (NaploWithSorozat) parent.getAdapter().getItem(position);
                     if(!getResources().getBoolean(R.bool.isTablet)) {
@@ -233,6 +235,10 @@ public class MvvmSavedNaploActivity extends BaseActiviry<MvvmActivityMentettNapl
 
     private int getGyakDarabSzam(List<SorozatWithGyakorlat> sorozatWithGyakorlats) {
         return sorozatWithGyakorlats.stream().map(sorozatWithGyakorlat -> sorozatWithGyakorlat.gyakorlat).collect(Collectors.toSet()).size();
+    }
+
+    private int getSorozatOsszSuly(List<SorozatWithGyakorlat> sorozatWithGyakorlat) {
+        return sorozatWithGyakorlat.stream().mapToInt(srs -> srs.sorozat.getIsmetles() * srs.sorozat.getSuly()).sum();
     }
 
     private void toast(String msg) {

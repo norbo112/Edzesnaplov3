@@ -14,6 +14,7 @@ import androidx.databinding.DataBindingUtil;
 
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import javax.inject.Inject;
@@ -23,6 +24,7 @@ import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmMentettNaploItemWithD
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.toolmodels.NaploWithSorozat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.SorozatWithGyakorlat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Gyakorlat;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Sorozat;
 import dagger.hilt.android.qualifiers.ActivityContext;
 import dagger.hilt.android.scopes.ActivityScoped;
 
@@ -69,9 +71,11 @@ public class NaploListFactory {
                     itemBinding = (MvvmMentettNaploItemWithDelbuttonBinding) convertView.getTag();
                 }
 
-                long naplodatum = Long.parseLong(getItem(position).daonaplo.getNaplodatum());
+                NaploWithSorozat naploWithSorozat = getItem(position);
+                long naplodatum = Long.parseLong(naploWithSorozat.daonaplo.getNaplodatum());
                 itemBinding.mvvmMentettNaploWithDelLabel.setText(timeFormatter.getNaploDatum(naplodatum));
-                itemBinding.mvvmMentettNaploIzomcsoportlista.setText(getIzomcsoportLista(getItem(position)));
+                itemBinding.mvvmMentettNaploIzomcsoportlista.setText(getIzomcsoportLista(naploWithSorozat));
+                itemBinding.naploOsszSuly.setText(String.format(Locale.getDefault(), "%,d Kg", getNaploOsszSuly(naploWithSorozat)));
                 itemBinding.imBtnNaploTorol.setOnClickListener(v -> {
                     if(naploTorlesInterface != null) {
                         naploTorlesInterface.naplotTorol(naplodatum);
@@ -107,5 +111,13 @@ public class NaploListFactory {
         StringBuilder sb = new StringBuilder();
         izomcsoportok.forEach(csoport -> sb.append(csoport).append(", "));
         return izomcsoportok.size() > 0 ? sb.toString().substring(0, sb.toString().lastIndexOf(',')) : "";
+    }
+
+    private int getNaploOsszSuly(NaploWithSorozat naploWithSorozat) {
+        int ossz = 0;
+        for (SorozatWithGyakorlat sorozat: naploWithSorozat.sorozats) {
+            ossz += sorozat.sorozat.getSuly() * sorozat.sorozat.getIsmetles();
+        }
+        return ossz;
     }
 }

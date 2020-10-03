@@ -24,8 +24,8 @@ public class NaploDetailsRcViewAdapter extends RecyclerView.Adapter<NaploDetails
     private List<GyakorlatSorozatUI> gyakorlatSorozatUIS;
     private Context context;
 
-    public NaploDetailsRcViewAdapter(List<GyakorlatSorozatUI> Sorozat, Context context) {
-        this.gyakorlatSorozatUIS = Sorozat;
+    public NaploDetailsRcViewAdapter(List<GyakorlatSorozatUI> sorozat, Context context) {
+        this.gyakorlatSorozatUIS = sorozat;
         this.context = context;
     }
 

@@ -52,7 +52,7 @@ public interface SorozatDao {
     LiveData<List<SorozatWithGyakorlat>> getAllSorozat();
 
     @Transaction
-    @Query("SELECT * FROM sorozattabla WHERE naplodatum =:naplodatum")
+    @Query("SELECT * FROM sorozattabla WHERE naplodatum =:naplodatum ORDER BY ismidopont ASC")
     LiveData<List<SorozatWithGyakorlat>> getSorozatWithGyakorlat(long naplodatum);
 
     @Transaction
