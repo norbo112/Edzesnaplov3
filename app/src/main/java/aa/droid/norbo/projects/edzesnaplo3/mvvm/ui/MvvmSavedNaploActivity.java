@@ -192,8 +192,12 @@ public class MvvmSavedNaploActivity extends BaseActiviry<MvvmActivityMentettNapl
                 }
 
                 if(naplo != null) {
-                    naploViewModel.insert(naplo.naplo);
-                    sorozatViewModel.insertAll(naplo.sorozats);
+                    naploViewModel.insert(new Naplo(naplo.naplo.getNaplodatum(), naplo.naplo.getFelhasznalonev(),
+                            naplo.naplo.getCommentFilePath()));
+                    sorozatViewModel.insertAll(naplo.sorozats.stream().map(sorozat -> {
+                        return new Sorozat(sorozat.getGyakorlatid(), sorozat.getSuly(), sorozat.getIsmetles(), sorozat.getIsmidopont(),
+                                sorozat.getNaplodatum());
+                    }).collect(Collectors.toList()));
                     toast("Napló betöltve!");
                 }
             });

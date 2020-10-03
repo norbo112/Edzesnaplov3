@@ -10,8 +10,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".BelepoActivity"
-        android:background="#000">
+        android:background="#000"
+        tools:context=".BelepoActivity">
 
         <include
             android:id="@+id/toolbar"
@@ -31,14 +31,10 @@
             app:layout_constraintTop_toBottomOf="@+id/toolbar"
             app:srcCompat="@mipmap/belepokep" />
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/belepo_first_card"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:elevation="8dp"
-            app:cardBackgroundColor="#29B6F6"
-            app:cardCornerRadius="10dp"
-            app:cardUseCompatPadding="true"
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -47,81 +43,98 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:gravity="center">
 
-                <TextView
-                    android:layout_width="match_parent"
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/belepo_first_card"
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="9dp"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:text="@string/welcome_title_belepo"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                    android:elevation="8dp"
+                    app:cardBackgroundColor="#29B6F6"
+                    app:cardCornerRadius="10dp"
+                    app:cardUseCompatPadding="true">
 
-                <TextView
-                    android:layout_width="match_parent"
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="9dp"
+                            android:gravity="center"
+                            android:text="@string/welcome_title_belepo"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="9dp"
+                            android:gravity="center"
+                            android:text="@string/welcome_belepo_desc"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                        <Button
+                            android:id="@+id/btnBelepes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:backgroundTint="@color/edzesHatter"
+                            android:drawableEnd="@drawable/ic_right"
+                            android:text="@string/mvvm_belepes_btn_label"
+                            android:textColor="#fff" />
+
+                        <TextView
+                            android:id="@+id/warning"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="9dp"
+                            android:gravity="center"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                            android:textColor="#FF0000" />
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/belepo_info"
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="9dp"
-                    android:gravity="center"
-                    android:text="@string/welcome_belepo_desc"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                    android:layout_marginTop="10dp"
+                    android:elevation="8dp"
+                    app:cardBackgroundColor="#29B6F6"
+                    app:cardCornerRadius="10dp"
+                    app:cardUseCompatPadding="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/belepo_first_card">
 
-                <Button
-                    android:id="@+id/btnBelepes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:backgroundTint="@color/edzesHatter"
-                    android:drawableEnd="@drawable/ic_right"
-                    android:text="@string/mvvm_belepes_btn_label"
-                    android:textColor="#fff" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/warning"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="9dp"
-                    android:gravity="center"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                    android:textColor="#FF0000" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/mvvm_belepo_info_label"
+                            android:textAlignment="center"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
 
+                        <TextView
+                            android:id="@+id/belepo_info_details"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/mvvm_belepo_info_label"
+                            android:textAlignment="center"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
             </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/belepo_info"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:elevation="8dp"
-            android:layout_marginTop="10dp"
-            app:cardBackgroundColor="#29B6F6"
-            app:cardCornerRadius="10dp"
-            app:cardUseCompatPadding="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/belepo_first_card">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/mvvm_belepo_info_label"
-                    android:textAlignment="center"
-                    android:textSize="20sp"
-                    android:textStyle="bold"/>
-
-                <TextView
-                    android:id="@+id/belepo_info_details"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/mvvm_belepo_info_label"
-                    android:textAlignment="center"
-                    android:textSize="16sp" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
+        </androidx.core.widget.NestedScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
