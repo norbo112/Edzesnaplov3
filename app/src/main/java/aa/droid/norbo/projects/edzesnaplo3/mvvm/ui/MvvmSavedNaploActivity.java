@@ -7,8 +7,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.ProgressBar;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -31,8 +31,6 @@ import aa.droid.norbo.projects.edzesnaplo3.R;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmActivityMentettNaplokBinding;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.SorozatWithGyakorlat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.toolmodels.NaploWithSorozat;
-import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Gyakorlat;
-import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Naplo;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Sorozat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.service.files.MyFileService;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.rcviews.NaploDetailsRcViewAdapterFactory;
@@ -49,6 +47,10 @@ public class MvvmSavedNaploActivity extends BaseActiviry<MvvmActivityMentettNapl
     private static final String TAG = "MvvmSavedNaploActivity";
     private static final int FILE_LOAD_RCODE = 10001;
     private static final int FILE_V3_LOAD = 2001;
+
+    private Animation naploBeAnim;
+    private Animation naploKiAnim;
+
     @Inject
     NaploViewModel naploViewModel;
 
@@ -83,6 +85,9 @@ public class MvvmSavedNaploActivity extends BaseActiviry<MvvmActivityMentettNapl
             binding.naploDetailsDatumLabel.setText(R.string.mvvm_saved_tablet_info);
         }
 
+        naploBeAnim = AnimationUtils.loadAnimation(this, R.anim.tablet_mentett_naplo_reszletek_view);
+        naploKiAnim = AnimationUtils.loadAnimation(this, R.anim.tablet_mentett_naplo_reszletek_clear);
+
         ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Naplók betöltése");
         progressDialog.show();
@@ -116,9 +121,13 @@ public class MvvmSavedNaploActivity extends BaseActiviry<MvvmActivityMentettNapl
     }
 
     private void loadInfoForTablet(NaploWithSorozat item) {
+        //Teszt
+        binding.naploReszletek.startAnimation(naploKiAnim);
+
         long naplodatum = Long.parseLong(item.daonaplo.getNaplodatum());
         sorozatViewModel.getForNaplo(naplodatum).observe(this, sorozatWithGyakorlats -> {
             if(sorozatWithGyakorlats != null) {
+                binding.naploReszletek.startAnimation(naploBeAnim);
                 binding.naploDetailsDatumLabel.setText(dateTimeFormatter.getNaploDatum(naplodatum));
                 binding.naploDetailsRcView.setAdapter(adapterFactory.create(sorozatWithGyakorlats));
                 binding.naploDetailsRcView.setItemAnimator(new DefaultItemAnimator());
