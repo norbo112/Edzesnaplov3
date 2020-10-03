@@ -66,12 +66,14 @@ public class TevekenysegActivity extends BaseActiviry<MvvmActivityTestBinding> i
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ViewPagerAdapter myViewPagerAdapter = new ViewPagerAdapter(this, getSupportFragmentManager());
-        myViewPagerAdapter.addFragment(new MvvmGyakorlatValasztoFragment(), "Gyakorlat");
-        myViewPagerAdapter.addFragment(new TevekenysegFragment(), "Edzés");
+        if (! getResources().getBoolean(R.bool.isTablet)) {
+            ViewPagerAdapter myViewPagerAdapter = new ViewPagerAdapter(this, getSupportFragmentManager());
+            myViewPagerAdapter.addFragment(new MvvmGyakorlatValasztoFragment(), "Gyakorlat");
+            myViewPagerAdapter.addFragment(new TevekenysegFragment(), "Edzés");
 
-        binding.viewPager.setAdapter(myViewPagerAdapter);
-        binding.tabs.setupWithViewPager(binding.viewPager);
+            binding.viewPager.setAdapter(myViewPagerAdapter);
+            binding.tabs.setupWithViewPager(binding.viewPager);
+        }
 
         naploWorker.getGyakorlatSzam().observe(this, integer -> {
             if(integer != 0)
@@ -120,7 +122,9 @@ public class TevekenysegActivity extends BaseActiviry<MvvmActivityTestBinding> i
             }
         }
 
-        binding.viewPager.setCurrentItem(1, true);
+        if (!getResources().getBoolean(R.bool.isTablet)) {
+            binding.viewPager.setCurrentItem(1, true);
+        }
     }
 
     @Override

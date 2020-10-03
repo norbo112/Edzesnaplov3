@@ -14,20 +14,25 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.view.menu.MenuPopupHelper;
 import androidx.appcompat.widget.PopupMenu;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
 import aa.droid.norbo.projects.edzesnaplo3.R;
-import aa.droid.norbo.projects.edzesnaplo3.database.dao.SorozatWithGyakorlat;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmActivityMentettNaplokBinding;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.SorozatWithGyakorlat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.toolmodels.NaploWithSorozat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Gyakorlat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Naplo;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Sorozat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.service.files.MyFileService;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.rcviews.NaploDetailsRcViewAdapterFactory;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.DateTimeFormatter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.NaploListFactory;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.NaploViewModel;
@@ -55,6 +60,9 @@ public class MvvmSavedNaploActivity extends BaseActiviry<MvvmActivityMentettNapl
     @Inject
     MyFileService myFileService;
 
+    @Inject
+    NaploDetailsRcViewAdapterFactory adapterFactory;
+
     public MvvmSavedNaploActivity() {
         super(R.layout.mvvm_activity_mentett_naplok);
     }
@@ -64,6 +72,10 @@ public class MvvmSavedNaploActivity extends BaseActiviry<MvvmActivityMentettNapl
         super.onCreate(savedInstanceState);
         binding.mentettNaplokWarningLabel.setVisibility(View.VISIBLE);
 
+        if(getResources().getBoolean(R.bool.isTablet)) {
+            binding.naploDetailsDatumLabel.setText(R.string.mvvm_saved_tablet_info);
+        }
+
         naploViewModel.getNaploWithSorozat().observe(this, naplos -> {
             if(naplos != null && naplos.size() > 0) {
                 binding.mentettNaplokWarningLabel.setVisibility(View.GONE);
@@ -71,15 +83,35 @@ public class MvvmSavedNaploActivity extends BaseActiviry<MvvmActivityMentettNapl
                 binding.mentettNaplokLista.setAdapter(naploListFactory.getListAdapter(naplos));
                 binding.mentettNaplokLista.setOnItemClickListener((parent, view, position, id) -> {
                     NaploWithSorozat item = (NaploWithSorozat) parent.getAdapter().getItem(position);
-                    Intent intent = new Intent(this, NaploDetailsActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    intent.putExtra(NaploDetailsActivity.EXTRA_NAPLO_DATUM, item.daonaplo.getNaplodatum());
-                    startActivity(intent);
-                    overridePendingTransition(R.anim.move_right_in_activity, R.anim.move_left_out_activity);
+                    if(!getResources().getBoolean(R.bool.isTablet)) {
+                        Intent intent = new Intent(this, NaploDetailsActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        intent.putExtra(NaploDetailsActivity.EXTRA_NAPLO_DATUM, item.daonaplo.getNaplodatum());
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.move_right_in_activity, R.anim.move_left_out_activity);
+                    } else {
+                        loadInfoForTablet(item);
+                    }
                 });
             } else {
                 binding.mentettNaplokWarningLabel.setVisibility(View.VISIBLE);
                 binding.mentettNaplokLista.setVisibility(View.GONE);
+            }
+        });
+    }
+
+    private void loadInfoForTablet(NaploWithSorozat item) {
+        long naplodatum = Long.parseLong(item.daonaplo.getNaplodatum());
+        sorozatViewModel.getForNaplo(naplodatum).observe(this, sorozatWithGyakorlats -> {
+            if(sorozatWithGyakorlats != null) {
+                binding.naploDetailsDatumLabel.setText(dateTimeFormatter.getNaploDatum(naplodatum));
+                binding.naploDetailsRcView.setAdapter(adapterFactory.create(sorozatWithGyakorlats));
+                binding.naploDetailsRcView.setItemAnimator(new DefaultItemAnimator());
+                binding.naploDetailsRcView.setLayoutManager(new LinearLayoutManager(MvvmSavedNaploActivity.this, RecyclerView.HORIZONTAL, false));
+
+                binding.naploDetailsSulyLabel.setText(String.format(Locale.getDefault(), "Összesen %,d Kg megmozgatott súly",
+                        sorozatWithGyakorlats.stream().mapToInt(gyak -> gyak.sorozat.getIsmetles() * gyak.sorozat.getSuly()).sum()));
+                binding.naploDetailsInfoLabel.setText(String.format(Locale.getDefault(), "Elvégzett gyakorlatok száma [%d] db", getGyakDarabSzam(sorozatWithGyakorlats)));
             }
         });
     }
@@ -193,6 +225,10 @@ public class MvvmSavedNaploActivity extends BaseActiviry<MvvmActivityMentettNapl
                 Log.e(TAG, "naplotMent: ", throwable);
             }
         });
+    }
+
+    private int getGyakDarabSzam(List<SorozatWithGyakorlat> sorozatWithGyakorlats) {
+        return sorozatWithGyakorlats.stream().map(sorozatWithGyakorlat -> sorozatWithGyakorlat.gyakorlat).collect(Collectors.toSet()).size();
     }
 
     private void toast(String msg) {

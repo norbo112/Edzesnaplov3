@@ -127,7 +127,9 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface 
         }
 
         public void ujGyakorlat() {
-            ((ViewPager)getActivity().findViewById(R.id.view_pager)).setCurrentItem(0, true);
+            if (! getActivity().getResources().getBoolean(R.bool.isTablet)) {
+                ((ViewPager)getActivity().findViewById(R.id.view_pager)).setCurrentItem(0, true);
+            }
             binding.etSuly.setText("");
             binding.etIsm.setText("");
             binding.btnSorozatAdd.setEnabled(false);
