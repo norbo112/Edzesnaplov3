@@ -60,7 +60,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="Sorozat hozzáadása"
+                        android:text="@string/mvvm_tevekenyseg_sorozat_add_label"
                         android:background="#0277BD"
                         android:textColor="#fff"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
@@ -68,7 +68,8 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:baselineAligned="false">
 
                         <LinearLayout
                             android:layout_width="250dp"
@@ -83,7 +84,7 @@
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
                                 android:padding="10dp"
-                                android:text="00:00"
+                                android:text="@string/mvvm_tevekenyseg_sorozat_stopper_0"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
                             <androidx.appcompat.widget.SwitchCompat
@@ -93,7 +94,7 @@
                                 android:layout_gravity="center"
                                 android:paddingStart="5dp"
                                 android:paddingEnd="5dp"
-                                android:text="x10"
+                                android:text="@string/mvvm_tevekenyseg_sorozat_szorzo1"
                                 android:textSize="14sp" />
                         </LinearLayout>
 
@@ -111,7 +112,7 @@
                                     android:id="@+id/suly_label"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
-                                    android:text="Súly"
+                                    android:text="@string/mvvm_tevekenyseg_suly_label"
                                     android:textSize="12sp"
                                     android:textStyle="bold"
                                     android:textAlignment="center"
@@ -124,7 +125,7 @@
                                 <TextView
                                     android:layout_width="0dp"
                                     android:layout_height="0dp"
-                                    android:text="X"
+                                    android:text="@string/mvvm_tevekenyseg_x"
                                     android:gravity="center"
                                     android:textSize="21sp"
                                     android:textStyle="bold"
@@ -139,7 +140,7 @@
                                     android:id="@+id/ism_label"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
-                                    android:text="Ismétlés"
+                                    android:text="@string/mvvm_tevekenyseg_ismetles_label"
                                     android:textSize="12sp"
                                     android:textStyle="bold"
                                     android:textAlignment="center"
@@ -173,7 +174,7 @@
                                         android:id="@+id/suly_up"
                                         android:layout_width="50dp"
                                         android:layout_height="wrap_content"
-                                        android:contentDescription="Súly növelése"
+                                        android:contentDescription="@string/mvvm_tevekenyseg_sulynovelo_image_desc"
                                         android:onClick="@{() -> sorozatAction.increaseSorozatSuly(sorozatUI)}"
                                         app:srcCompat="@drawable/ic_up" />
 
@@ -181,7 +182,7 @@
                                         android:id="@+id/suly_down"
                                         android:layout_width="50dp"
                                         android:layout_height="wrap_content"
-                                        android:contentDescription="Súly csökkentése"
+                                        android:contentDescription="@string/mvvm_tevekenyseg_sulycsokk_image_desc"
                                         android:onClick="@{() -> sorozatAction.decreaseSorozatSuly(sorozatUI)}"
                                         app:srcCompat="@drawable/ic_down" />
                                 </LinearLayout>
@@ -211,7 +212,7 @@
                                         android:id="@+id/ism_up"
                                         android:layout_width="50dp"
                                         android:layout_height="wrap_content"
-                                        android:contentDescription="Ismétlés növelése"
+                                        android:contentDescription="@string/mvvm_tevekenyseg_ismnovelo_image_desc"
                                         android:onClick="@{() -> sorozatAction.increaseSorozatIsm(sorozatUI)}"
                                         app:srcCompat="@drawable/ic_up" />
 
@@ -219,7 +220,7 @@
                                         android:id="@+id/ism_down"
                                         android:layout_width="50dp"
                                         android:layout_height="wrap_content"
-                                        android:contentDescription="Ismétlés csökkentése"
+                                        android:contentDescription="@string/mvvm_tevekenyseg_ismcsokk_image_desc"
                                         android:onClick="@{() -> sorozatAction.decreaseSorozatIsm(sorozatUI)}"
                                         app:srcCompat="@drawable/ic_down" />
                                 </LinearLayout>
@@ -233,17 +234,19 @@
                                 android:layout_marginTop="15dp">
 
                                 <Button
+                                    style="@style/Widget.AppCompat.Button"
                                     android:id="@+id/btnEdzesUjGy"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="new"
+                                    android:text="@string/mvvm_tevekenyseg_ujgyak_label"
                                     android:onClick="@{()-> action.ujGyakorlat()}"/>
 
                                 <Button
+                                    style="@style/Widget.AppCompat.Button"
                                     android:id="@+id/btnSorozatAdd"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="add"
+                                    android:text="@string/mvvm_tevekenyseg_sorozat_plusz"
                                     android:onClick="@{() -> action.addSorozat()}"/>
 
                             </LinearLayout>

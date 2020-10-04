@@ -32,4 +32,16 @@
     <string name="mvvm_edzes_nezet_gyakorlat_label">Gyakorlat cím</string>
     <string name="mvvm_mentett_naplok_warning_label">Nincsenek mentve naplók</string>
     <string name="mvvm_saved_tablet_info">Kérlek válassz egy naplót a részletekért!</string>
+    <string name="mvvm_tevekenyseg_sorozat_add_label">Sorozat hozzáadása</string>
+    <string name="mvvm_tevekenyseg_sorozat_stopper_0">00:00</string>
+    <string name="mvvm_tevekenyseg_sorozat_szorzo1">x10</string>
+    <string name="mvvm_tevekenyseg_suly_label">Súly</string>
+    <string name="mvvm_tevekenyseg_x">X</string>
+    <string name="mvvm_tevekenyseg_ismetles_label">Ismétlés</string>
+    <string name="mvvm_tevekenyseg_sulynovelo_image_desc">Súly növelése</string>
+    <string name="mvvm_tevekenyseg_sulycsokk_image_desc">Súly csökkentése</string>
+    <string name="mvvm_tevekenyseg_ismnovelo_image_desc">Ismétlés növelése</string>
+    <string name="mvvm_tevekenyseg_ismcsokk_image_desc">Ismétlés csökkentése</string>
+    <string name="mvvm_tevekenyseg_ujgyak_label">new</string>
+    <string name="mvvm_tevekenyseg_sorozat_plusz">add</string>
 </resources>
