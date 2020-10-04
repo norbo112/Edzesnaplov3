@@ -61,9 +61,8 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface 
         binding = MvvmEdzesNezetBinding.inflate(inflater, container, false);
         binding.setSorozatUI(new SorozatDisplay());
         binding.setAction(new TevekenysegClick());
-        binding.setSorozatAction(new SorozatAction());
         binding.btnSorozatAdd.setEnabled(false);
-
+        binding.setSorozatAction(new SorozatAction());
         binding.sorozatLista.setNestedScrollingEnabled(true);
 
         if(getResources().getBoolean(R.bool.isTablet))
@@ -151,26 +150,38 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface 
     public class SorozatAction {
         public void increaseSorozatSuly(SorozatDisplay sorozatUI) {
             int suly = Integer.parseInt(sorozatUI.getSuly());
-            suly += binding.plusz10switch.isChecked() ? 10 : 2;
+            if(binding.plusz10switch != null && binding.plusz10switch.isChecked())
+                suly += 10;
+            else
+                suly += 2;
             binding.etSuly.setText(Integer.toString(suly));
         }
 
         public void decreaseSorozatSuly(SorozatDisplay sorozatUI) {
             int suly = Integer.parseInt(sorozatUI.getSuly());
-            suly -= binding.plusz10switch.isChecked() ? 10 : 2;
+            if(binding.plusz10switch != null && binding.plusz10switch.isChecked())
+                suly -= 10;
+            else
+                suly -= 2;
             if(suly < 0) suly = 0;
             binding.etSuly.setText(Integer.toString(suly));
         }
 
         public void increaseSorozatIsm(SorozatDisplay sorozatUI) {
             int ism = Integer.parseInt(sorozatUI.getIsm());
-            ism += binding.plusz10switch.isChecked() ? 10 : 1;;
+            if(binding.plusz10switch != null && binding.plusz10switch.isChecked())
+                ism += 10;
+            else
+                ism += 1;
             binding.etIsm.setText(Integer.toString(ism));
         }
 
         public void decreaseSorozatIsm(SorozatDisplay sorozatUI) {
             int ism = Integer.parseInt(sorozatUI.getIsm());
-            ism -= binding.plusz10switch.isChecked() ? 10 : 1;;
+            if(binding.plusz10switch != null && binding.plusz10switch.isChecked())
+                ism -= 10;
+            else
+                ism -= 1;
             if(ism < 0) ism = 0;
             binding.etIsm.setText(Integer.toString(ism));
         }
