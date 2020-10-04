@@ -73,25 +73,32 @@
 
                         <LinearLayout
                             android:layout_width="250dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_weight="1"
+                            android:weightSum="2"
                             android:layout_gravity="center"
                             android:orientation="vertical">
 
                             <TextView
                                 android:id="@+id/tvStopper"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_height="0dp"
+                                android:layout_weight="2"
                                 android:gravity="center"
                                 android:padding="10dp"
                                 android:text="@string/mvvm_tevekenyseg_sorozat_stopper_0"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
                             <androidx.appcompat.widget.SwitchCompat
+                                android:layout_marginStart="2dp"
+                                android:layout_marginEnd="2dp"
+                                android:layout_marginBottom="2dp"
+                                android:layout_weight="1"
                                 android:id="@+id/plusz10switch"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
+                                android:background="#E2F0F3"
                                 android:paddingStart="5dp"
                                 android:paddingEnd="5dp"
                                 android:text="@string/mvvm_tevekenyseg_sorozat_szorzo1"

@@ -164,13 +164,13 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface 
 
         public void increaseSorozatIsm(SorozatDisplay sorozatUI) {
             int ism = Integer.parseInt(sorozatUI.getIsm());
-            ism += binding.plusz10switch.isChecked() ? 10 : 2;;
+            ism += binding.plusz10switch.isChecked() ? 10 : 1;;
             binding.etIsm.setText(Integer.toString(ism));
         }
 
         public void decreaseSorozatIsm(SorozatDisplay sorozatUI) {
             int ism = Integer.parseInt(sorozatUI.getIsm());
-            ism -= binding.plusz10switch.isChecked() ? 10 : 2;;
+            ism -= binding.plusz10switch.isChecked() ? 10 : 1;;
             if(ism < 0) ism = 0;
             binding.etIsm.setText(Integer.toString(ism));
         }
