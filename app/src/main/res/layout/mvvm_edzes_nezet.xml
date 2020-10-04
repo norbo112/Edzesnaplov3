@@ -241,7 +241,7 @@
                                 android:layout_marginTop="15dp">
 
                                 <Button
-                                    style="@style/Widget.AppCompat.Button"
+                                    style="@style/Widget.AppCompat.Button.Colored"
                                     android:id="@+id/btnEdzesUjGy"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -249,7 +249,7 @@
                                     android:onClick="@{()-> action.ujGyakorlat()}"/>
 
                                 <Button
-                                    style="@style/Widget.AppCompat.Button"
+                                    style="@style/Widget.AppCompat.Button.Colored"
                                     android:id="@+id/btnSorozatAdd"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"

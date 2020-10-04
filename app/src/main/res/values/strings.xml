@@ -29,7 +29,7 @@
     <string name="mvvm_belepes_btn_label">Edzés megkezdése</string>
     <string name="mvvm_belepo_info_label">Napló részletek</string>
     <string name="mvvm_permissions_warning">A médiatartalmak elérését mindenképpen elkell fogadnod, különben nem tudod használni az alkalmazást!</string>
-    <string name="mvvm_edzes_nezet_gyakorlat_label">Gyakorlat cím</string>
+    <string name="mvvm_edzes_nezet_gyakorlat_label">Válassz egy gyakorlatot</string>
     <string name="mvvm_mentett_naplok_warning_label">Nincsenek mentve naplók</string>
     <string name="mvvm_saved_tablet_info">Kérlek válassz egy naplót a részletekért!</string>
     <string name="mvvm_tevekenyseg_sorozat_add_label">Sorozat hozzáadása</string>
