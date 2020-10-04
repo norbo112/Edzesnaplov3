@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="10dp"
-            android:background="@color/edzesHatter">
+            android:background="@drawable/tablet_tevekenyseg_hatter">
 
             <TextView
                 android:id="@+id/gyak_title"
@@ -53,9 +53,11 @@
                 app:layout_constraintTop_toBottomOf="@+id/gyak_title">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:id="@+id/vezerlo_layout"
+                    android:layout_width="480dp"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
+                    android:layout_gravity="center"
                     android:background="@drawable/sorozat_hozzaadas_hatter">
 
                     <TextView

@@ -1,6 +1,7 @@
 package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -75,6 +76,8 @@ public class TevekenysegActivity extends BaseActiviry<MvvmActivityTestBinding> i
 
             binding.viewPager.setAdapter(myViewPagerAdapter);
             binding.tabs.setupWithViewPager(binding.viewPager);
+        } else {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         }
 
         naploWorker.getGyakorlatSzam().observe(this, integer -> {
