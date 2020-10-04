@@ -117,7 +117,7 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface 
             binding.tvStopper.setText("00:00");
 
             SorozatDisplay sorozatUI = binding.getSorozatUI();
-            if(sorozatUI.suly != null && sorozatUI.ism != null) {
+            if(!sorozatUI.suly.equals("0") && !sorozatUI.ism.equals("0")) {
                 naploWorker.addSorozat(Integer.parseInt(sorozatUI.suly), Integer.parseInt(sorozatUI.ism));
 
                 timerRunner = new TimerRunner();
@@ -146,31 +146,27 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface 
         public void increaseSorozatSuly(SorozatDisplay sorozatUI) {
             int suly = Integer.parseInt(sorozatUI.getSuly());
             suly += 2;
-            sorozatUI.setSuly(suly+"");
-            binding.setSorozatUI(sorozatUI);
+            binding.etSuly.setText(Integer.toString(suly));
         }
 
         public void decreaseSorozatSuly(SorozatDisplay sorozatUI) {
             int suly = Integer.parseInt(sorozatUI.getSuly());
             suly -= 2;
             if(suly < 0) suly = 0;
-            sorozatUI.setSuly(suly+"");
-            binding.setSorozatUI(sorozatUI);
+            binding.etSuly.setText(Integer.toString(suly));
         }
 
         public void increaseSorozatIsm(SorozatDisplay sorozatUI) {
             int ism = Integer.parseInt(sorozatUI.getIsm());
             ism += 2;
-            sorozatUI.setIsm(ism+"");
-            binding.setSorozatUI(sorozatUI);
+            binding.etIsm.setText(Integer.toString(ism));
         }
 
         public void decreaseSorozatIsm(SorozatDisplay sorozatUI) {
             int ism = Integer.parseInt(sorozatUI.getIsm());
             ism -= 2;
             if(ism < 0) ism = 0;
-            sorozatUI.setIsm(ism+"");
-            binding.setSorozatUI(sorozatUI);
+            binding.etIsm.setText(Integer.toString(ism));
         }
     }
 
