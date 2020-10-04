@@ -17,6 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.databinding.Bindable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
@@ -58,6 +59,7 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface 
         binding = MvvmEdzesNezetBinding.inflate(inflater, container, false);
         binding.setSorozatUI(new SorozatDisplay());
         binding.setAction(new TevekenysegClick());
+        binding.setSorozatAction(new SorozatAction());
         binding.btnSorozatAdd.setEnabled(false);
 
         binding.sorozatLista.setNestedScrollingEnabled(true);
@@ -130,8 +132,8 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface 
             if (! getActivity().getResources().getBoolean(R.bool.isTablet)) {
                 ((ViewPager)getActivity().findViewById(R.id.view_pager)).setCurrentItem(0, true);
             }
-            binding.etSuly.setText("");
-            binding.etIsm.setText("");
+            binding.etSuly.setText("0");
+            binding.etIsm.setText("0");
             binding.btnSorozatAdd.setEnabled(false);
             handler.removeCallbacks(timerRunner);
             binding.tvStopper.setText("00:00");
@@ -140,9 +142,41 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface 
         }
     }
 
+    public class SorozatAction {
+        public void increaseSorozatSuly(SorozatDisplay sorozatUI) {
+            int suly = Integer.parseInt(sorozatUI.getSuly());
+            suly += 2;
+            sorozatUI.setSuly(suly+"");
+            binding.setSorozatUI(sorozatUI);
+        }
+
+        public void decreaseSorozatSuly(SorozatDisplay sorozatUI) {
+            int suly = Integer.parseInt(sorozatUI.getSuly());
+            suly -= 2;
+            if(suly < 0) suly = 0;
+            sorozatUI.setSuly(suly+"");
+            binding.setSorozatUI(sorozatUI);
+        }
+
+        public void increaseSorozatIsm(SorozatDisplay sorozatUI) {
+            int ism = Integer.parseInt(sorozatUI.getIsm());
+            ism += 2;
+            sorozatUI.setIsm(ism+"");
+            binding.setSorozatUI(sorozatUI);
+        }
+
+        public void decreaseSorozatIsm(SorozatDisplay sorozatUI) {
+            int ism = Integer.parseInt(sorozatUI.getIsm());
+            ism -= 2;
+            if(ism < 0) ism = 0;
+            sorozatUI.setIsm(ism+"");
+            binding.setSorozatUI(sorozatUI);
+        }
+    }
+
     public class SorozatDisplay {
-        String suly;
-        String ism;
+        String suly = "0";
+        String ism = "0";
 
         public String getSuly() {
             return suly;

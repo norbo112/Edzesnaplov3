@@ -10,6 +10,9 @@
         <variable
             name="action"
             type="aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.TevekenysegFragment.TevekenysegClick" />
+        <variable
+            name="sorozatAction"
+            type="aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.TevekenysegFragment.SorozatAction" />
     </data>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -49,7 +52,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:background="@drawable/sorozat_hozzaadas_hatter">
 
                     <TextView
                         android:id="@+id/textView5"
@@ -57,6 +61,8 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="Sorozat hozzáadása"
+                        android:background="#0277BD"
+                        android:textColor="#fff"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                     <LinearLayout
@@ -80,62 +86,147 @@
                             android:layout_weight="1"
                             android:orientation="vertical">
 
-                            <LinearLayout
+                            <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="0"
-                                android:orientation="horizontal">
-
-                                <EditText
-                                    android:id="@+id/etSuly"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:ems="5"
-                                    android:text="@={sorozatUI.suly}"
-                                    android:inputType="number" />
+                                android:layout_height="wrap_content">
 
                                 <TextView
-                                    android:id="@+id/textView4"
-                                    android:layout_width="wrap_content"
+                                    android:id="@+id/suly_label"
+                                    android:layout_width="0dp"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:gravity="center"
-                                    android:text="X"
-                                    android:textStyle="bold" />
+                                    android:text="Súly"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold"
+                                    android:textAlignment="center"
+                                    android:background="#0277BD"
+                                    android:textColor="#fff"
+                                    app:layout_constraintEnd_toEndOf="@+id/linearLayout3"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
 
-                                <EditText
-                                    android:id="@+id/etIsm"
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="0dp"
+                                    android:text="X"
+                                    android:gravity="center"
+                                    android:textSize="21sp"
+                                    android:textStyle="bold"
+                                    android:background="#0277BD"
+                                    android:textColor="#fff"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toStartOf="@+id/etIsm"
+                                    app:layout_constraintStart_toEndOf="@+id/linearLayout3"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <TextView
+                                    android:id="@+id/ism_label"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Ismétlés"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold"
+                                    android:textAlignment="center"
+                                    android:background="#0277BD"
+                                    android:textColor="#fff"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="@+id/etIsm"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <TextView
+                                    android:id="@+id/etSuly"
+                                    android:layout_width="50dp"
+                                    android:layout_height="0dp"
+                                    android:gravity="center"
+                                    android:text="@={sorozatUI.suly}"
+                                    android:textSize="21sp"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/suly_label" />
+
+                                <LinearLayout
+                                    android:id="@+id/linearLayout3"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:ems="5"
+                                    android:orientation="vertical"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toEndOf="@+id/etSuly"
+                                    app:layout_constraintTop_toBottomOf="@+id/suly_label">
+
+                                    <ImageView
+                                        android:id="@+id/suly_up"
+                                        android:layout_width="50dp"
+                                        android:layout_height="wrap_content"
+                                        android:contentDescription="Súly növelése"
+                                        android:onClick="@{() -> sorozatAction.increaseSorozatSuly(sorozatUI)}"
+                                        app:srcCompat="@drawable/ic_up" />
+
+                                    <ImageView
+                                        android:id="@+id/suly_down"
+                                        android:layout_width="50dp"
+                                        android:layout_height="wrap_content"
+                                        android:contentDescription="Súly csökkentése"
+                                        android:onClick="@{() -> sorozatAction.decreaseSorozatSuly(sorozatUI)}"
+                                        app:srcCompat="@drawable/ic_down" />
+                                </LinearLayout>
+
+
+                                <TextView
+                                    android:id="@+id/etIsm"
+                                    android:layout_width="50dp"
+                                    android:layout_height="0dp"
+                                    android:gravity="center"
                                     android:text="@={sorozatUI.ism}"
-                                    android:inputType="number" />
-                            </LinearLayout>
+                                    android:textSize="21sp"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toStartOf="@+id/linearLayout4"
+                                    app:layout_constraintTop_toBottomOf="@+id/ism_label" />
+
+                                <LinearLayout
+                                    android:id="@+id/linearLayout4"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/ism_label">
+
+                                    <ImageView
+                                        android:id="@+id/ism_up"
+                                        android:layout_width="50dp"
+                                        android:layout_height="wrap_content"
+                                        android:contentDescription="Ismétlés növelése"
+                                        android:onClick="@{() -> sorozatAction.increaseSorozatIsm(sorozatUI)}"
+                                        app:srcCompat="@drawable/ic_up" />
+
+                                    <ImageView
+                                        android:id="@+id/ism_down"
+                                        android:layout_width="50dp"
+                                        android:layout_height="wrap_content"
+                                        android:contentDescription="Ismétlés csökkentése"
+                                        android:onClick="@{() -> sorozatAction.decreaseSorozatIsm(sorozatUI)}"
+                                        app:srcCompat="@drawable/ic_down" />
+                                </LinearLayout>
+                            </androidx.constraintlayout.widget.ConstraintLayout>
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:layout_weight="3"
-                                android:orientation="horizontal">
+                                android:orientation="horizontal"
+                                android:gravity="center"
+                                android:layout_marginTop="15dp">
 
                                 <Button
                                     android:id="@+id/btnEdzesUjGy"
-                                    style="@android:style/Widget.Holo.Light.Button.Small"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:text="Új gyakorlat"
+                                    android:text="new"
                                     android:onClick="@{()-> action.ujGyakorlat()}"/>
 
                                 <Button
                                     android:id="@+id/btnSorozatAdd"
-                                    style="@android:style/Widget.Holo.Light.Button.Small"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:text="Hozzáadás"
+                                    android:text="add"
                                     android:onClick="@{() -> action.addSorozat()}"/>
 
                             </LinearLayout>
