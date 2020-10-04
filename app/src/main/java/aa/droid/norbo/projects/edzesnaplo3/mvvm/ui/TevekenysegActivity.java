@@ -19,6 +19,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -190,6 +192,7 @@ public class TevekenysegActivity extends BaseActiviry<MvvmActivityTestBinding> i
             naploEsSorozat.setSorozats(sorozats1);
             list.add(naploEsSorozat);
         });
+        list.sort((o1, o2) -> Long.compare(o2.naplodatum, o1.naplodatum));
         return list;
     }
 

@@ -13,6 +13,9 @@
         <variable
             name="sorozatAction"
             type="aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.TevekenysegFragment.SorozatAction" />
+        <variable
+            name="sorozatActionForTab2x"
+            type="aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.TevekenysegFragment.SorozatActionForTab2x" />
     </data>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -51,7 +54,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:background="@drawable/sorozat_hozzaadas_hatter">
 
@@ -67,39 +70,22 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:orientation="horizontal">
 
-                        <LinearLayout
+                        <TextView
+                            android:id="@+id/tvStopper"
                             android:layout_width="250dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:layout_gravity="center"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/tvStopper"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:padding="10dp"
-                                android:text="00:00"
-                                android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
-
-                            <androidx.appcompat.widget.SwitchCompat
-                                android:id="@+id/plusz10switch"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:paddingStart="5dp"
-                                android:paddingEnd="5dp"
-                                android:text="x10"
-                                android:textSize="14sp" />
-                        </LinearLayout>
+                            android:gravity="center"
+                            android:padding="10dp"
+                            android:text="00:00"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:orientation="vertical">
 
@@ -111,40 +97,41 @@
                                     android:id="@+id/suly_label"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
+                                    android:background="#0277BD"
                                     android:text="Súly"
+                                    android:textAlignment="center"
+                                    android:textColor="#fff"
                                     android:textSize="12sp"
                                     android:textStyle="bold"
-                                    android:textAlignment="center"
-                                    android:background="#0277BD"
-                                    android:textColor="#fff"
-                                    app:layout_constraintEnd_toEndOf="@+id/linearLayout3"
+                                    app:layout_constraintEnd_toEndOf="@+id/fortab_suly_2x"
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintTop_toTopOf="parent" />
 
                                 <TextView
+                                    android:id="@+id/textView19"
                                     android:layout_width="0dp"
                                     android:layout_height="0dp"
-                                    android:text="X"
+                                    android:background="#0277BD"
                                     android:gravity="center"
+                                    android:text="X"
+                                    android:textColor="#fff"
                                     android:textSize="21sp"
                                     android:textStyle="bold"
-                                    android:background="#0277BD"
-                                    android:textColor="#fff"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toStartOf="@+id/etIsm"
-                                    app:layout_constraintStart_toEndOf="@+id/linearLayout3"
+                                    app:layout_constraintStart_toEndOf="@+id/fortab_suly_2x"
                                     app:layout_constraintTop_toTopOf="parent" />
 
                                 <TextView
                                     android:id="@+id/ism_label"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
+                                    android:background="#0277BD"
                                     android:text="Ismétlés"
+                                    android:textAlignment="center"
+                                    android:textColor="#fff"
                                     android:textSize="12sp"
                                     android:textStyle="bold"
-                                    android:textAlignment="center"
-                                    android:background="#0277BD"
-                                    android:textColor="#fff"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintStart_toStartOf="@+id/etIsm"
                                     app:layout_constraintTop_toTopOf="parent" />
@@ -186,6 +173,31 @@
                                         app:srcCompat="@drawable/ic_down" />
                                 </LinearLayout>
 
+                                <LinearLayout
+                                    android:id="@+id/fortab_suly_2x"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toEndOf="@+id/linearLayout3"
+                                    app:layout_constraintTop_toBottomOf="@+id/suly_label">
+
+                                    <ImageView
+                                        android:id="@+id/suly_up2x"
+                                        android:layout_width="50dp"
+                                        android:layout_height="wrap_content"
+                                        android:contentDescription="Súly növelése"
+                                        android:onClick="@{() -> sorozatActionForTab2x.increaseSorozatSuly2x(sorozatUI)}"
+                                        app:srcCompat="@drawable/ic_up_2xtab" />
+
+                                    <ImageView
+                                        android:id="@+id/suly_down2x"
+                                        android:layout_width="50dp"
+                                        android:layout_height="wrap_content"
+                                        android:contentDescription="Súly csökkentése"
+                                        android:onClick="@{() -> sorozatActionForTab2x.decreaseSorozatSuly2x(sorozatUI)}"
+                                        app:srcCompat="@drawable/ic_down_2xtab" />
+                                </LinearLayout>
 
                                 <TextView
                                     android:id="@+id/etIsm"
@@ -195,8 +207,9 @@
                                     android:text="@={sorozatUI.ism}"
                                     android:textSize="21sp"
                                     app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintEnd_toStartOf="@+id/linearLayout4"
-                                    app:layout_constraintTop_toBottomOf="@+id/ism_label" />
+                                    app:layout_constraintEnd_toStartOf="@+id/sorozat_ism_2x"
+                                    app:layout_constraintTop_toBottomOf="@+id/ism_label"
+                                    app:layout_constraintVertical_bias="1.0" />
 
                                 <LinearLayout
                                     android:id="@+id/linearLayout4"
@@ -222,6 +235,32 @@
                                         android:contentDescription="Ismétlés csökkentése"
                                         android:onClick="@{() -> sorozatAction.decreaseSorozatIsm(sorozatUI)}"
                                         app:srcCompat="@drawable/ic_down" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:id="@+id/sorozat_ism_2x"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toStartOf="@+id/linearLayout4"
+                                    app:layout_constraintTop_toBottomOf="@+id/suly_label">
+
+                                    <ImageView
+                                        android:id="@+id/ism_up_2x"
+                                        android:layout_width="50dp"
+                                        android:layout_height="wrap_content"
+                                        android:contentDescription="Súly növelése"
+                                        android:onClick="@{() -> sorozatActionForTab2x.increaseSorozatIsm2x(sorozatUI)}"
+                                        app:srcCompat="@drawable/ic_up_2xtab" />
+
+                                    <ImageView
+                                        android:id="@+id/ism_down_2x"
+                                        android:layout_width="50dp"
+                                        android:layout_height="wrap_content"
+                                        android:contentDescription="Súly csökkentése"
+                                        android:onClick="@{() -> sorozatActionForTab2x.decreaseSorozatIsm2x(sorozatUI)}"
+                                        app:srcCompat="@drawable/ic_down_2xtab" />
                                 </LinearLayout>
                             </androidx.constraintlayout.widget.ConstraintLayout>
 

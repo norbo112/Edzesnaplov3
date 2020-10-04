@@ -7,6 +7,7 @@ import android.text.LoginFilter;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -53,6 +54,7 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface 
     @Inject
     DateTimeFormatter formatter;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -64,6 +66,9 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface 
 
         binding.sorozatLista.setNestedScrollingEnabled(true);
 
+        if(getResources().getBoolean(R.bool.isTablet))
+            binding.setSorozatActionForTab2x(new SorozatActionForTab2x());
+
         naploWorker.getLiveSorozatLista().observe(getViewLifecycleOwner(), sorozats -> {
             if(sorozats != null) {
                 binding.sorozatLista.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, sorozats));
@@ -71,6 +76,7 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface 
                 binding.sorozatLabel.setText(naploWorker.getSorozatOsszSuly()+" Kg");
             }
         });
+
         return binding.getRoot();
     }
 
@@ -145,26 +151,54 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface 
     public class SorozatAction {
         public void increaseSorozatSuly(SorozatDisplay sorozatUI) {
             int suly = Integer.parseInt(sorozatUI.getSuly());
-            suly += 2;
+            suly += binding.plusz10switch.isChecked() ? 10 : 2;
             binding.etSuly.setText(Integer.toString(suly));
         }
 
         public void decreaseSorozatSuly(SorozatDisplay sorozatUI) {
             int suly = Integer.parseInt(sorozatUI.getSuly());
-            suly -= 2;
+            suly -= binding.plusz10switch.isChecked() ? 10 : 2;
             if(suly < 0) suly = 0;
             binding.etSuly.setText(Integer.toString(suly));
         }
 
         public void increaseSorozatIsm(SorozatDisplay sorozatUI) {
             int ism = Integer.parseInt(sorozatUI.getIsm());
-            ism += 2;
+            ism += binding.plusz10switch.isChecked() ? 10 : 2;;
             binding.etIsm.setText(Integer.toString(ism));
         }
 
         public void decreaseSorozatIsm(SorozatDisplay sorozatUI) {
             int ism = Integer.parseInt(sorozatUI.getIsm());
-            ism -= 2;
+            ism -= binding.plusz10switch.isChecked() ? 10 : 2;;
+            if(ism < 0) ism = 0;
+            binding.etIsm.setText(Integer.toString(ism));
+        }
+    }
+
+    public class SorozatActionForTab2x {
+        public void increaseSorozatSuly2x(SorozatDisplay sorozatUI) {
+            int suly = Integer.parseInt(sorozatUI.getSuly());
+            suly += 10;
+            binding.etSuly.setText(Integer.toString(suly));
+        }
+
+        public void decreaseSorozatSuly2x(SorozatDisplay sorozatUI) {
+            int suly = Integer.parseInt(sorozatUI.getSuly());
+            suly -= 10;
+            if(suly < 0) suly = 0;
+            binding.etSuly.setText(Integer.toString(suly));
+        }
+
+        public void increaseSorozatIsm2x(SorozatDisplay sorozatUI) {
+            int ism = Integer.parseInt(sorozatUI.getIsm());
+            ism += 10;
+            binding.etIsm.setText(Integer.toString(ism));
+        }
+
+        public void decreaseSorozatIsm2x(SorozatDisplay sorozatUI) {
+            int ism = Integer.parseInt(sorozatUI.getIsm());
+            ism -= 10;
             if(ism < 0) ism = 0;
             binding.etIsm.setText(Integer.toString(ism));
         }
