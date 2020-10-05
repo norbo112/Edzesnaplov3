@@ -1,26 +1,8 @@
 <resources>
     <string name="app_name">Edzesnaplo v3</string>
     <string name="app_name_v4">Edzésnapló</string>
-    <string name="welcome_title">Üdvözöllek az edzésnaplóban</string>
-    <string name="welcome_name_hint">Kérem a neved</string>
-    <string name="welcome_enter">belépés</string>
-    <string name="welcome_text_nev">Naplója</string>
-    <string name="tev_kenys_g_oldql">Tevékenység oldal</string>
     <string name="menu_mentett_naplok_title">Mentett naplók</string>
-    <string name="mentett_naplo_valaszto_titile">Válassz egy naplót</string>
-    <string name="title_activity_tevekenyseg">Tevékenység</string>
-    <string name="tab_text_1">Gyakorlat</string>
-    <string name="tab_text_2">Edzés</string>
-    <string name="appwidget_text">Naplók</string>
-    <string name="add_widget">Add widget</string>
-    <string name="mentett_naplo_empty">Jelenleg nincs megjeleníthető elem!</string>
-    <string name="stopper_kijelzo">00:00</string>
-    <string name="napi_osszsuly">Megmozgatott súly</string>
-    <string name="mentett_naplo_notempty_title">Válassz egy naplót...</string>
     <string name="sorozat_list_title">Elvégzett sorozatok</string>
-    <string name="gyakorlat_title">Kérlek válassz egy gyakorlatot</string>
-    <string name="stopper_init_title">00:00</string>
-    <string name="informacio">Információ</string>
     <string name="welcome_title_belepo">Belépés az Edzésnaplóba</string>
     <string name="welcome_mentett_naplok_title">Mentett naplók</string>
     <string name="welcome_belepo_desc">Üdvözöllek az edzésnapló alkalmazásban!</string>
