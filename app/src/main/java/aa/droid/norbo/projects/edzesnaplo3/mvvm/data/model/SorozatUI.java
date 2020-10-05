@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Gyakorlat;
-import aa.droid.norbo.projects.edzesnaplo3.uiutils.DateTimeFormatter;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.DateTimeFormatter;
 
 public class SorozatUI implements Serializable, Parcelable {
     private int id;
@@ -131,7 +131,8 @@ public class SorozatUI implements Serializable, Parcelable {
     @NonNull
     @Override
     public String toString() {
-        return "["+gyakorlatid+"] "+suly+"X"+ismetles+" "+ DateTimeFormatter.getTime(ismidopont) +" "+
+        DateTimeFormatter dateTimeFormatter = new DateTimeFormatter();
+        return "["+gyakorlatid+"] "+suly+"X"+ismetles+" "+ dateTimeFormatter.getTime(ismidopont) +" "+
                 (Integer.parseInt(suly)*Integer.parseInt(ismetles))+" Kg\n";
     }
 

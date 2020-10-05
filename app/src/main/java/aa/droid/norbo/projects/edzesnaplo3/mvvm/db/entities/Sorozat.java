@@ -11,7 +11,7 @@ import androidx.room.PrimaryKey;
 import java.io.Serializable;
 import java.util.Objects;
 
-import aa.droid.norbo.projects.edzesnaplo3.uiutils.DateTimeFormatter;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.DateTimeFormatter;
 
 @Entity(tableName = "sorozattabla")
 public class Sorozat implements Serializable, Parcelable {
@@ -147,8 +147,9 @@ public class Sorozat implements Serializable, Parcelable {
     @NonNull
     @Override
     public String toString() {
+        DateTimeFormatter dateTimeFormatter = new DateTimeFormatter();
         return "["+(gyakorlat != null ? gyakorlat.getMegnevezes().substring(0, 5)+"..." : gyakorlatid)+"] " +
-                suly+"X"+ismetles+" "+ DateTimeFormatter.getTime(ismidopont) +" "+(suly*ismetles)+" Kg\n";
+                suly+"X"+ismetles+" "+ dateTimeFormatter.getTime(ismidopont) +" "+(suly*ismetles)+" Kg\n";
     }
 
     @Ignore

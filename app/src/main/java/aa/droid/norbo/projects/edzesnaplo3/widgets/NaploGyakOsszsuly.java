@@ -3,14 +3,8 @@ package aa.droid.norbo.projects.edzesnaplo3.widgets;
 import androidx.annotation.NonNull;
 
 import java.io.Serializable;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-
-import aa.droid.norbo.projects.edzesnaplo3.uiutils.DateTimeFormatter;
 
 public class NaploGyakOsszsuly implements Serializable {
     private String naplodatum;
