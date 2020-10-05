@@ -83,6 +83,11 @@ public class MvvmBelepoActivity extends BaseActiviry<MvvmActivityBelepoBinding> 
                 binding.belepoInfoDetails.setText("Eddig ["+naplos.size()+" db] napló lett rögzítve");
             }
         });
+
+        binding.btnNaplok.setOnClickListener(v -> {
+            startActivity(new Intent(this, MvvmSavedNaploActivity.class));
+            overridePendingTransition(R.anim.move_right_in_activity, R.anim.move_left_out_activity);
+        });
     }
 
     @Override
@@ -97,17 +102,8 @@ public class MvvmBelepoActivity extends BaseActiviry<MvvmActivityBelepoBinding> 
         setSupportActionBar(binding.toolbar.customToolbar);
         if (getSupportActionBar() != null) {
             binding.toolbar.naploDetails.setVisibility(View.GONE);
-            binding.toolbar.moreOptions.setOnClickListener(this::showMoreOptionsPopupMenu);
+            binding.toolbar.moreOptions.setVisibility(View.GONE);
         }
-    }
-
-    @Override
-    public boolean onContextItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == R.id.tevekenyseg_naplo_view) {
-            startActivity(new Intent(this, MvvmSavedNaploActivity.class));
-            overridePendingTransition(R.anim.move_right_in_activity, R.anim.move_left_out_activity);
-        }
-        return super.onContextItemSelected(item);
     }
 
     @Override
@@ -121,6 +117,7 @@ public class MvvmBelepoActivity extends BaseActiviry<MvvmActivityBelepoBinding> 
                 edit.apply();
 
                 if (grantResults[1] != PackageManager.PERMISSION_GRANTED) {
+                    binding.warning.setVisibility(View.VISIBLE);
                     binding.warning.setText(R.string.mvvm_permissions_warning);
                 }
                 break;
