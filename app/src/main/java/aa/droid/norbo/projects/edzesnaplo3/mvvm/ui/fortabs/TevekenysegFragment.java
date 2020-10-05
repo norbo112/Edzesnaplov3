@@ -70,6 +70,7 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface 
 
         naploWorker.getLiveSorozatLista().observe(getViewLifecycleOwner(), sorozats -> {
             if(sorozats != null) {
+                sorozats.sort((o1, o2) -> Long.compare(o2.getIsmidopont(), o1.getIsmidopont()));
                 binding.sorozatLista.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, sorozats));
                 sorozatSzerkesztese(binding.sorozatLista);
                 binding.sorozatLabel.setText(naploWorker.getSorozatOsszSuly()+" Kg");
