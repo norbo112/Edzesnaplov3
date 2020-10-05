@@ -41,6 +41,8 @@ public class NaploDetailsRcViewAdapterFactory {
             list.add(gyakorlatSorozatUI);
         }
 
+        list.sort((o1, o2) -> Long.compare(o1.getSorozats().get(0).getIsmidopont(), o2.getSorozats().get(o2.getSorozats().size() -1).getIsmidopont()));
+
         return list;
     }
 }
