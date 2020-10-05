@@ -36,7 +36,7 @@ public abstract class BaseActiviry<T extends ViewDataBinding> extends AppCompatA
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         binding = DataBindingUtil.inflate(LayoutInflater.from(this), layoutResource, null, false);
         if (getResources().getBoolean(R.bool.isTablet)) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         } else {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }

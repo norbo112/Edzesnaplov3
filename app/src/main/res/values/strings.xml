@@ -27,4 +27,6 @@
     <string name="mvvm_tevekenyseg_ismcsokk_image_desc">Ismétlés csökkentése</string>
     <string name="mvvm_tevekenyseg_ujgyak_label">new</string>
     <string name="mvvm_tevekenyseg_sorozat_plusz">add</string>
+    <string name="mvvm_alert_dialog_img_desc">Edzés - tevékenyság elhagyása</string>
+    <string name="mvvm_tevekenyseg_alert_backpressed">Ha visszalépsz az edzés jelenlegi állása törlődik, biztosan akarod?</string>
 </resources>

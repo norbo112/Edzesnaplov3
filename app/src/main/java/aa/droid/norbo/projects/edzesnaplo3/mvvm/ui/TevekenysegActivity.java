@@ -1,5 +1,6 @@
 package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -31,6 +32,7 @@ import javax.inject.Inject;
 
 import aa.droid.norbo.projects.edzesnaplo3.R;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmActivityTestBinding;
+import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmAlertTevekenysegElhagyasaBinding;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmKorabbiSorozatItemBinding;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.GyakorlatUI;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Naplo;
@@ -88,6 +90,19 @@ public class TevekenysegActivity extends BaseActiviry<MvvmActivityTestBinding> i
 
             Log.i(TAG, "onCreate: Gyakorlatok száma: "+integer);
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        MvvmAlertTevekenysegElhagyasaBinding viewBinding = MvvmAlertTevekenysegElhagyasaBinding.inflate(LayoutInflater.from(this), null, false);
+        viewBinding.alertMessage.setText(R.string.mvvm_tevekenyseg_alert_backpressed);
+        //alert
+        new AlertDialog.Builder(this)
+                .setTitle("Figyelem")
+                .setView(viewBinding.getRoot())
+                .setNegativeButton("mégse", (dialog, which) -> dialog.dismiss())
+                .setPositiveButton("Visszalép", (dialog, which) -> super.onBackPressed())
+                .show();
     }
 
     @Override
