@@ -10,7 +10,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import aa.droid.norbo.projects.edzesnaplo3.uiutils.DateTimeFormatter;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.DateTimeFormatter;
+
 
 @Entity(tableName = "naplo")
 public class Naplo implements Serializable {
@@ -99,7 +100,7 @@ public class Naplo implements Serializable {
     @NonNull
     @Override
     public String toString() {
-//        return DateTimeFormatter.getNaploDatum(naplodatum);
-        return DateTimeFormatter.getNaploDatum(naplodatum)+ (sorozats!=null ? "\n"+sorozats : "");
+        DateTimeFormatter dateTimeFormatter = new DateTimeFormatter();
+        return dateTimeFormatter.getNaploDatum(naplodatum)+ (sorozats!=null ? "\n"+sorozats : "");
     }
 }
