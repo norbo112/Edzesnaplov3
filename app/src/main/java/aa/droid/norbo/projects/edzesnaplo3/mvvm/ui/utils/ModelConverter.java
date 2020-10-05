@@ -44,7 +44,7 @@ public class ModelConverter {
      * @param naplo
      * @return
      */
-    public Naplo getNaploFromV3(aa.droid.norbo.projects.edzesnaplo3.database.entities.Naplo naplo) {
+    public Naplo getNaploFromV3(aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.v3.Naplo naplo) {
         return new Naplo(Long.parseLong(naplo.getNaplodatum()), "kulso_forras", naplo.getCommentFilePath());
     }
 
@@ -53,7 +53,7 @@ public class ModelConverter {
      * @param sorozat
      * @return
      */
-    public Sorozat getSorozatFromV3(aa.droid.norbo.projects.edzesnaplo3.database.entities.Sorozat sorozat) {
+    public Sorozat getSorozatFromV3(aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.v3.Sorozat sorozat) {
         return new Sorozat(sorozat.getGyakorlatid(), sorozat.getSuly(), sorozat.getIsmetles(),
                 Long.parseLong(sorozat.getIsmidopont()),
                 Long.parseLong(sorozat.getNaplodatum()));

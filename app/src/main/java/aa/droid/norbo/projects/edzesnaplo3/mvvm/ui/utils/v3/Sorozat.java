@@ -1,22 +1,14 @@
-package aa.droid.norbo.projects.edzesnaplo3.database.entities;
+package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.v3;
 
-import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Objects;
-import java.util.Scanner;
-import java.util.regex.MatchResult;
-
-import aa.droid.norbo.projects.edzesnaplo3.uiutils.DateTimeFormatter;
 
 @Entity(tableName = "sorozattabla")
 public class Sorozat implements Serializable, Parcelable {
@@ -140,10 +132,16 @@ public class Sorozat implements Serializable, Parcelable {
         return Objects.hash(id);
     }
 
-    @NonNull
     @Override
     public String toString() {
-        return suly+"X"+ismetles+" "+ DateTimeFormatter.getTime(ismidopont) +" "+(suly*ismetles)+" Kg";
+        return "Sorozat{" +
+                "id=" + id +
+                ", gyakorlatid=" + gyakorlatid +
+                ", suly=" + suly +
+                ", ismetles=" + ismetles +
+                ", ismidopont='" + ismidopont + '\'' +
+                ", naplodatum='" + naplodatum + '\'' +
+                '}';
     }
 
     @Ignore

@@ -1,13 +1,9 @@
-package aa.droid.norbo.projects.edzesnaplo3.database.dao;
+package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.v3;
 
 import androidx.annotation.NonNull;
 import androidx.room.Embedded;
-import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.Relation;
-
-import aa.droid.norbo.projects.edzesnaplo3.database.entities.Gyakorlat;
-import aa.droid.norbo.projects.edzesnaplo3.database.entities.Sorozat;
 
 public class SorozatWithGyakorlat {
     @Embedded public Sorozat sorozat;

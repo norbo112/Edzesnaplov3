@@ -1,10 +1,9 @@
-package aa.droid.norbo.projects.edzesnaplo3.database.entities;
+package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.v3;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
-import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;

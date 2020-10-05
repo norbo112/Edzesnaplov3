@@ -10,12 +10,10 @@ import com.google.gson.JsonSyntaxException;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
@@ -24,7 +22,7 @@ import javax.inject.Inject;
 
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.toolmodels.NaploWithOnlySorozats;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.NaploViewModel;
-import aa.droid.norbo.projects.edzesnaplo3.uiutils.fileworkers.models.NaploAll;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.v3.NaploAll;
 import dagger.hilt.android.qualifiers.ActivityContext;
 import dagger.hilt.android.scopes.ActivityScoped;
 

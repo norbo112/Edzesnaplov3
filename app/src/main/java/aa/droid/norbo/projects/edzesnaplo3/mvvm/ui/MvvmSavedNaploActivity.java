@@ -39,7 +39,7 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.ModelConverter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.NaploListFactory;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.NaploViewModel;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.SorozatViewModel;
-import aa.droid.norbo.projects.edzesnaplo3.uiutils.fileworkers.models.NaploAll;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.v3.NaploAll;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint

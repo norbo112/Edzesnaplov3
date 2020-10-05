@@ -13,9 +13,9 @@ import android.widget.Toast;
 
 import java.io.IOException;
 
-import aa.droid.norbo.projects.edzesnaplo3.MainActivity;
 import aa.droid.norbo.projects.edzesnaplo3.R;
-import aa.droid.norbo.projects.edzesnaplo3.database.entities.Naplo;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.v3.Naplo;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.MvvmBelepoActivity;
 
 public class NaploAudioComment {
     private static final String LOG_TAG = NaploAudioComment.class.getSimpleName();
@@ -93,7 +93,7 @@ public class NaploAudioComment {
 
 
     public boolean checkRecording(Naplo mNaplo) {
-        if(!preferences.getBoolean(MainActivity.AUDIO_RECORD_IS, false)) {
+        if(!preferences.getBoolean(MvvmBelepoActivity.AUDIO_RECORD_IS, false)) {
             Toast.makeText(context, "Audio rögzítésre nem jogosult", Toast.LENGTH_SHORT).show();
             return false;
         }

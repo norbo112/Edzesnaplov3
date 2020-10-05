@@ -8,7 +8,6 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
@@ -16,7 +15,6 @@ import androidx.core.app.ActivityCompat;
 
 import javax.inject.Inject;
 
-import aa.droid.norbo.projects.edzesnaplo3.MainActivity;
 import aa.droid.norbo.projects.edzesnaplo3.R;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmActivityBelepoBinding;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.utils.AdatFeltoltes;
@@ -27,6 +25,7 @@ import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
 public class MvvmBelepoActivity extends BaseActiviry<MvvmActivityBelepoBinding> {
+    public static final String AUDIO_RECORD_IS = "aa.droid.norbo.projects.edzesnaplo3.AUDIO_RECORD_IS";
     private static final int MY_PERMISSION = 200;
     private static final String[] MANI_PERMS = new String[] {
             Manifest.permission.RECORD_AUDIO,
@@ -62,7 +61,7 @@ public class MvvmBelepoActivity extends BaseActiviry<MvvmActivityBelepoBinding> 
                 == PackageManager.PERMISSION_GRANTED) {
 
             SharedPreferences.Editor edit = naplopref.edit();
-            edit.putBoolean(MainActivity.AUDIO_RECORD_IS, true);
+            edit.putBoolean(AUDIO_RECORD_IS, true);
             edit.apply();
         }
 
@@ -118,7 +117,7 @@ public class MvvmBelepoActivity extends BaseActiviry<MvvmActivityBelepoBinding> 
             case MY_PERMISSION:
                 boolean audiorecordon = grantResults[0] == PackageManager.PERMISSION_GRANTED;
                 SharedPreferences.Editor edit = naplopref.edit();
-                edit.putBoolean(MainActivity.AUDIO_RECORD_IS, audiorecordon);
+                edit.putBoolean(AUDIO_RECORD_IS, audiorecordon);
                 edit.apply();
 
                 if (grantResults[1] != PackageManager.PERMISSION_GRANTED) {

@@ -6,8 +6,8 @@ import androidx.room.Relation;
 
 import java.util.List;
 
-import aa.droid.norbo.projects.edzesnaplo3.database.entities.Naplo;
-import aa.droid.norbo.projects.edzesnaplo3.database.entities.Sorozat;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.v3.Naplo;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.v3.Sorozat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.SorozatWithGyakorlat;
 
 public class NaploWithSorozat {
