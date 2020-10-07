@@ -23,7 +23,5 @@
         android:icon="@drawable/ic_local_dining"
         android:title="Tápanyag"
         app:showAsAction="ifRoom|withText" />
-    <item
-        android:id="@+id/menu_db_test"
-        android:title="Sorozat tábla" />
+    <item android:title="Sorozat tábla" />
 </menu>

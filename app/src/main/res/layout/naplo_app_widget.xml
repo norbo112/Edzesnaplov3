@@ -3,8 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#1E88E5"
-    android:padding="@dimen/widget_margin"
-    android:id="@+id/widget_container">
+    android:padding="@dimen/widget_margin">
 
     <TextView
         android:id="@+id/naplo_cnt_text"

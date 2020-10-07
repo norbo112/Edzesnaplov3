@@ -13,16 +13,18 @@ import java.util.List;
 import java.util.Set;
 
 import aa.droid.norbo.projects.edzesnaplo3.R;
-import aa.droid.norbo.projects.edzesnaplo3.uiutils.DateTimeFormatter;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.DateTimeFormatter;
 
 public class ListItemViewFactory implements RemoteViewsService.RemoteViewsFactory {
     private List<NaploGyakOsszsuly> naploGyakOsszsulyList;
     private Context context;
     private int appWidgetId;
+    private DateTimeFormatter dateTimeFormatter;
 
     public ListItemViewFactory(Context context, Intent intent) {
         this.context = context;
         this.appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+        this.dateTimeFormatter = new DateTimeFormatter();
     }
 
     @Override

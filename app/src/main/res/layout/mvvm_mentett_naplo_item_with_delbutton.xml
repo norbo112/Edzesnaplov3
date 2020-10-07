@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.CheckableLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal"
+        android:background="@drawable/customselect">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/mvvm_mentett_naplo_with_del_label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:textAlignment="center"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/imBtnNaploMent"
+                app:layout_constraintStart_toEndOf="@+id/naplo_ossz_suly"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imBtnNaploTorol"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginEnd="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_delete"
+                app:tint="#C62828" />
+
+            <ImageView
+                android:id="@+id/imBtnNaploMent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/imBtnNaploTorol"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_save"
+                app:tint="#1565C0" />
+
+            <TextView
+                android:id="@+id/naplo_ossz_suly"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:text="13340kg"
+                android:textSize="18sp"
+                android:layout_margin="4dp"
+                android:gravity="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/mvvm_mentett_naplo_izomcsoportlista"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textSize="14sp"
+                android:textStyle="italic"
+                app:layout_constraintEnd_toStartOf="@+id/imBtnNaploMent"
+                app:layout_constraintStart_toEndOf="@+id/naplo_ossz_suly"
+                app:layout_constraintTop_toBottomOf="@+id/mvvm_mentett_naplo_with_del_label" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.CheckableLinearLayout>
+</layout>

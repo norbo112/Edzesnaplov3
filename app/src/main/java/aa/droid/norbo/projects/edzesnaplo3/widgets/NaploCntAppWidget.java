@@ -11,13 +11,8 @@ import android.net.Uri;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import aa.droid.norbo.projects.edzesnaplo3.MainActivity;
 import aa.droid.norbo.projects.edzesnaplo3.R;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.MvvmBelepoActivity;
 
 /**
  * Implementation of App Widget functionality.
@@ -44,7 +39,7 @@ public class NaploCntAppWidget extends AppWidgetProvider {
         views.setTextViewText(R.id.naplo_cnt_text, ((listnaplo != null) ? listnaplo.getCount()+" db napló":"0 db napló") + " rögzítve");
         views.setRemoteAdapter(R.id.listView, intent);
 
-        Intent titleIntent = new Intent(context, MainActivity.class);
+        Intent titleIntent = new Intent(context, MvvmBelepoActivity.class);
         PendingIntent titlePendingIntent = PendingIntent.getActivity(context, 0, titleIntent, 0);
         views.setOnClickPendingIntent(R.id.naplo_cnt_text, titlePendingIntent);
 

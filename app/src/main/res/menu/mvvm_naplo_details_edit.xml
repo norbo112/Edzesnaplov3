@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/naplo_details_delete"
+        android:icon="@drawable/ic_delete"
+        android:title="Naplo törlés"
+        android:iconTint="#C62828"/>
+    <item
+        android:id="@+id/naplo_details_save"
+        android:icon="@drawable/ic_save"
+        android:title="Napló mentés féjlba" />
+</menu>
