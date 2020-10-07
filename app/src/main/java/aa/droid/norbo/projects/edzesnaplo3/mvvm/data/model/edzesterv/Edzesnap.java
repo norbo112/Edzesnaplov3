@@ -19,4 +19,8 @@ public class Edzesnap {
     public List<Csoport> getValasztottCsoport() {
         return valasztottCsoport;
     }
+
+    public String getEdzesNapLabel() {
+        return edzesNapLabel;
+    }
 }

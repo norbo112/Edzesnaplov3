@@ -21,6 +21,14 @@ public class EdzesTerv {
         return edzesnapList;
     }
 
+    public String getMegnevezes() {
+        return megnevezes;
+    }
+
+    public void setMegnevezes(String megnevezes) {
+        this.megnevezes = megnevezes;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

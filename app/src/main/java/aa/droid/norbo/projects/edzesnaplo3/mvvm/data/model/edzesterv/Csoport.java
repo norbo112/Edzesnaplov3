@@ -21,6 +21,10 @@ public class Csoport {
         return valasztottGyakorlatok;
     }
 
+    public String getIzomcsoport() {
+        return izomcsoport;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
