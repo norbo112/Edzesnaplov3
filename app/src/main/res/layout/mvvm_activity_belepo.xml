@@ -131,23 +131,17 @@
                             android:textAppearance="@style/TextAppearance.AppCompat.Large"
                             android:textColor="#FF0000" />
 
+                        <Button
+                            android:id="@+id/btnEdzesTervek"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:backgroundTint="@color/edzesHatter"
+                            android:drawableStart="@drawable/ic_edzesterv1"
+                            android:drawableTint="#00B6FF"
+                            android:text="@string/mvvm_tervek_btn_label"
+                            android:textColor="#fff" />
                     </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/belepo_info"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:elevation="8dp"
-                    app:cardBackgroundColor="#29B6F6"
-                    app:cardCornerRadius="10dp"
-                    app:cardUseCompatPadding="true"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/belepo_first_card">
-
-
                 </androidx.cardview.widget.CardView>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>

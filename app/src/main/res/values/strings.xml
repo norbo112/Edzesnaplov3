@@ -10,6 +10,7 @@
     <string name="welcomeimage">WelcomeImage</string>
     <string name="mvvm_belepes_btn_label">Edzés megkezdése</string>
     <string name="mvvm_naplok_btn_label">Mentett naplók</string>
+    <string name="mvvm_tervek_btn_label">Edzéstervek</string>
     <string name="mvvm_belepo_info_label">Napló részletek</string>
     <string name="mvvm_permissions_warning">A médiatartalmak elérését mindenképpen elkell fogadnod, különben nem tudod használni az alkalmazást!</string>
     <string name="mvvm_edzes_nezet_gyakorlat_label">Válassz egy gyakorlatot</string>
