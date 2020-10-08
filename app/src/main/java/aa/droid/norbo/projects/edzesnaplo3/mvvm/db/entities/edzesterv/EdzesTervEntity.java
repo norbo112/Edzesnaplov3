@@ -1,6 +1,7 @@
 package aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.edzesterv;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ public class EdzesTervEntity {
     public EdzesTervEntity() {
     }
 
+    @Ignore
     public EdzesTervEntity(String megnevezes) {
         this.megnevezes = megnevezes;
     }

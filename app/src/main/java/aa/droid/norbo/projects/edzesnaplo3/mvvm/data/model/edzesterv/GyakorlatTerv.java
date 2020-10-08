@@ -6,15 +6,19 @@ import java.util.Objects;
 
 public class GyakorlatTerv {
     private String megnevezes;
-    private int id;
     private List<Integer> sorozatSzam;
     private List<Integer> ismetlesSzam;
 
-    public GyakorlatTerv(String megnevezes, int id) {
+    public GyakorlatTerv(String megnevezes) {
         this.megnevezes = megnevezes;
-        this.id = id;
         this.sorozatSzam = new ArrayList<>();
         this.ismetlesSzam = new ArrayList<>();
+    }
+
+    public GyakorlatTerv(String megnevezes, List<Integer> sorozatSzam, List<Integer> ismetlesSzam) {
+        this.megnevezes = megnevezes;
+        this.sorozatSzam = sorozatSzam;
+        this.ismetlesSzam = ismetlesSzam;
     }
 
     public String getMegnevezes() {
@@ -23,14 +27,6 @@ public class GyakorlatTerv {
 
     public void setMegnevezes(String megnevezes) {
         this.megnevezes = megnevezes;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public void addSorozatSzam(int sorozatSzam) {
@@ -54,13 +50,12 @@ public class GyakorlatTerv {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         GyakorlatTerv that = (GyakorlatTerv) o;
-        return id == that.id &&
-                megnevezes.equals(that.megnevezes);
+        return megnevezes.equals(that.megnevezes);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(megnevezes, id);
+        return Objects.hash(megnevezes);
     }
 
     @Override

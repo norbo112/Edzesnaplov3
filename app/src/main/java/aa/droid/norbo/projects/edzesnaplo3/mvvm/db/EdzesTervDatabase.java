@@ -2,7 +2,9 @@ package aa.droid.norbo.projects.edzesnaplo3.mvvm.db;
 
 import androidx.room.Database;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.converters.ListOfIntegers;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.GyakorlatDao;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.NaploDao;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.NaploUserDao;
@@ -21,6 +23,7 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.edzesterv.EdzesnapEn
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.edzesterv.GyakorlatTervEntity;
 
 
+@TypeConverters({ListOfIntegers.class})
 @Database(entities = {EdzesTervEntity.class, GyakorlatTervEntity.class, EdzesnapEntity.class, CsoportEntity.class}, version = 1)
 public abstract class EdzesTervDatabase extends RoomDatabase {
     private static final String TAG = "EdzesTervDatabase";

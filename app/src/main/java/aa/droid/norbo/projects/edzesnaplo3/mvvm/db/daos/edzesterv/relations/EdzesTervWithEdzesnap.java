@@ -12,8 +12,8 @@ public class EdzesTervWithEdzesnap {
     @Embedded public EdzesTervEntity edzesTervEntity;
     @Relation(
             entity = EdzesnapEntity.class,
-            parentColumn = "edzestervId",
-            entityColumn = "id"
+            parentColumn = "id",
+            entityColumn = "edzestervId"
     )
     public List<EdzesnapWithCsoport> edzesnapList;
 }

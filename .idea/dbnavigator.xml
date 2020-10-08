@@ -48,13 +48,13 @@ from
     <connection id="34a19e45-1185-4b09-ab81-24e5e8e7e5dc" />
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
-    <filter-actions connection-id="e6b19e2b-0bcd-4096-89b1-d9a4df557ba0" dataset="main.sorozattabla" active-filter-id="" />
     <filter-actions connection-id="34a19e45-1185-4b09-ab81-24e5e8e7e5dc" dataset="main.naplo" active-filter-id="f6f95976-20f2-4ce0-9101-e0575aeb8de8">
       <filter id="f6f95976-20f2-4ce0-9101-e0575aeb8de8" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND" />
     </filter-actions>
     <filter-actions connection-id="34a19e45-1185-4b09-ab81-24e5e8e7e5dc" dataset="main.sorozattabla" active-filter-id="bccce907-063a-4976-9727-de82533421d0">
       <filter id="bccce907-063a-4976-9727-de82533421d0" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND" />
     </filter-actions>
+    <filter-actions connection-id="e6b19e2b-0bcd-4096-89b1-d9a4df557ba0" dataset="main.sorozattabla" active-filter-id="" />
   </component>
   <component name="DBNavigator.Project.EditorStateManager">
     <last-used-providers />

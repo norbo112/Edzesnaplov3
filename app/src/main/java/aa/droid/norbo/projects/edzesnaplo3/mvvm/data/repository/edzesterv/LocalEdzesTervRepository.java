@@ -30,20 +30,18 @@ public class LocalEdzesTervRepository implements EdzesTervRepository {
 
     @Override
     public CompletableFuture<Void> insert(EdzesTerv edzesTerv) {
-        return CompletableFuture.runAsync(() -> {
-            executorService.execute(() -> {
-                long tervid = database.edzesTervDao().insert(modelConverter.getEdzesTervEntity(edzesTerv));
-                for (Edzesnap edzesnap : edzesTerv.getEdzesnapList()) {
-                    database.edzesnapDao().insert(modelConverter.getEdzesnapEntity((int) tervid, edzesnap));
-                    List<Csoport> valasztottCsoport = edzesnap.getValasztottCsoport();
-                    for (Csoport csoport: valasztottCsoport) {
-                        long csoportid = database.csoportDao().insert(modelConverter.getCsoportEntity(csoport));
-                        for (GyakorlatTerv gyakorlatTerv: csoport.getValasztottGyakorlatok()) {
-                            database.gyakorlatTervDao().insert(modelConverter.getGyakorlatTervEntity((int) csoportid, gyakorlatTerv));
-                        }
+        return CompletableFuture.runAsync(() -> executorService.execute(() -> database.runInTransaction(() -> {
+            long tervid = database.edzesTervDao().insert(modelConverter.getEdzesTervEntity(edzesTerv));
+            for (Edzesnap edzesnap : edzesTerv.getEdzesnapList()) {
+                database.edzesnapDao().insert(modelConverter.getEdzesnapEntity((int) tervid, edzesnap));
+                List<Csoport> valasztottCsoport = edzesnap.getValasztottCsoport();
+                for (Csoport csoport: valasztottCsoport) {
+                    long csoportid = database.csoportDao().insert(modelConverter.getCsoportEntity(csoport));
+                    for (GyakorlatTerv gyakorlatTerv: csoport.getValasztottGyakorlatok()) {
+                        database.gyakorlatTervDao().insert(modelConverter.getGyakorlatTervEntity((int) csoportid, gyakorlatTerv));
                     }
                 }
-            });
-        }, executorService);
+            }
+        })), executorService);
     }
 }

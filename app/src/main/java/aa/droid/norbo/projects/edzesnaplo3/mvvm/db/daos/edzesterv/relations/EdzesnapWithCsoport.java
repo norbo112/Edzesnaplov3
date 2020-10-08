@@ -6,13 +6,14 @@ import androidx.room.Relation;
 import java.util.List;
 
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.edzesterv.CsoportEntity;
-import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.edzesterv.GyakorlatTervEntity;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.edzesterv.EdzesnapEntity;
 
 public class EdzesnapWithCsoport {
-    @Embedded public CsoportEntity csoportEntity;
+    @Embedded public EdzesnapEntity edzesnapEntity;
     @Relation(
-            parentColumn = "edzesNapId",
-            entityColumn = "id"
+            entity = CsoportEntity.class,
+            parentColumn = "id",
+            entityColumn = "edzesNapId"
     )
-    public List<GyakorlatTervEntity> gyakorlatTervEntities;
+    public List<CsoportWithGyakorlatTerv> csoportsWithGyakorlat;
 }
