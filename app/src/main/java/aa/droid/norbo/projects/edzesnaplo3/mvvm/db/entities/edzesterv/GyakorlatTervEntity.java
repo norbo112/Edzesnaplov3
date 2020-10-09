@@ -11,6 +11,7 @@ public class GyakorlatTervEntity {
     @PrimaryKey(autoGenerate = true)
     private int id;
     private int csoportId;
+    private int edzesnapId;
     private String megnevezes;
     private List<Integer> sorozatSzam;
     private List<Integer> ismetlesSzam;
@@ -19,11 +20,20 @@ public class GyakorlatTervEntity {
     }
 
     @Ignore
-    public GyakorlatTervEntity(int csoportId, String megnevezes, List<Integer> sorozatSzam, List<Integer> ismetlesSzam) {
+    public GyakorlatTervEntity(int edzesnapId, int csoportId, String megnevezes, List<Integer> sorozatSzam, List<Integer> ismetlesSzam) {
+        this.edzesnapId = edzesnapId;
         this.csoportId = csoportId;
         this.megnevezes = megnevezes;
         this.sorozatSzam = sorozatSzam;
         this.ismetlesSzam = ismetlesSzam;
+    }
+
+    public int getEdzesnapId() {
+        return edzesnapId;
+    }
+
+    public void setEdzesnapId(int edzesnapId) {
+        this.edzesnapId = edzesnapId;
     }
 
     public String getMegnevezes() {

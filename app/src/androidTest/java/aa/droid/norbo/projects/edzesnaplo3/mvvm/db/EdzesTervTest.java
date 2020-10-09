@@ -18,13 +18,18 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
 
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.converters.TervModelConverter;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.Csoport;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.EdzesTerv;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.Edzesnap;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.GyakorlatTerv;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.repository.edzesterv.LocalEdzesTervRepository;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.edzesterv.CsoportDao;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.edzesterv.EdzesTervDao;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.edzesterv.EdzesnapDao;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.edzesterv.GyakorlatTervDao;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.edzesterv.relations.EdzesTervWithEdzesnap;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.edzesterv.relations.EdzesTervWithGyakorlatTervek;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.ModelConverter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.fortest.TestEdzesTerv;
 
 @RunWith(AndroidJUnit4.class)
@@ -35,7 +40,7 @@ public class EdzesTervTest {
     EdzesnapDao edzesnapDao;
 
     private EdzesTervDatabase db;
-    private LocalEdzesTervRepository repository;
+    private TervModelConverter modelConverter;
 
     @Before
     public void init() {
@@ -45,8 +50,10 @@ public class EdzesTervTest {
         csoportDao = db.csoportDao();
         gyakorlatTervDao = db.gyakorlatTervDao();
         edzesnapDao = db.edzesnapDao();
-        repository = new LocalEdzesTervRepository(db, Executors.newSingleThreadExecutor(),
-                new TervModelConverter());
+        modelConverter = new TervModelConverter();
+
+
+
     }
 
     @After
@@ -57,24 +64,25 @@ public class EdzesTervTest {
     @Test
     public void createEdzesnap() throws Exception {
         EdzesTerv edzesTerv = TestEdzesTerv.getEdzesTerv("Teszt 1 edzésterv");
-        EdzesTerv edzesTerv1 = TestEdzesTerv.getEdzesTerv("Teszt 2 terv");
-        CompletableFuture<Void> insert = repository.insert(edzesTerv);
 
-//        EdzesTervEntity edzesTervEntity = new EdzesTervEntity("Első edzésterv");
-//        long insertedTerv = edzesTervDao.insert(edzesTervEntity);
-//        EdzesnapEntity edzesnapEntity = new EdzesnapEntity((int) insertedTerv, "1.nap");
-//        long intertedEdzesnap = edzesnapDao.insert(edzesnapEntity);
-
-        insert.whenComplete((aVoid, throwable) -> {
-            Assert.assertNull(throwable);
-        });
+        long insertedEdzesterv = edzesTervDao.insert(modelConverter.getEdzesTervEntity(edzesTerv));
+        for (Edzesnap edzesnap : edzesTerv.getEdzesnapList()) {
+            edzesnapDao.insert(modelConverter.getEdzesnapEntity((int) insertedEdzesterv, edzesnap));
+            List<Csoport> valasztottCsoport = edzesnap.getValasztottCsoport();
+            for (Csoport csoport: valasztottCsoport) {
+                long csoportid = csoportDao.insert(modelConverter.getCsoportEntity(csoport));
+                for (GyakorlatTerv gyakorlatTerv: csoport.getValasztottGyakorlatok()) {
+                    gyakorlatTervDao.insert(modelConverter.getGyakorlatTervEntity((int) insertedEdzesterv, (int) csoportid, gyakorlatTerv));
+                }
+            }
+        }
 
         List<EdzesTervWithEdzesnap> edzesTervWithEdzesnaps = edzesTervDao.getAllForTest();
 
-        for (EdzesTervWithEdzesnap e: edzesTervWithEdzesnaps) {
-            Assert.assertEquals(edzesTerv.getMegnevezes(), e.edzesTervEntity.getMegnevezes());
-        }
-
         Assert.assertEquals(1, edzesTervWithEdzesnaps.size());
+        Assert.assertEquals(2, edzesTervWithEdzesnaps.get(0).edzesnapList.size());
+
+        List<EdzesTervWithGyakorlatTervek> gyakorlatTerveks = edzesTervDao.getAllGyakorlatForEdzestervToTest();
+        Assert.assertEquals(4, gyakorlatTerveks.size());
     }
 }

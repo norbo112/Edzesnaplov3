@@ -38,7 +38,7 @@ public class LocalEdzesTervRepository implements EdzesTervRepository {
                 for (Csoport csoport: valasztottCsoport) {
                     long csoportid = database.csoportDao().insert(modelConverter.getCsoportEntity(csoport));
                     for (GyakorlatTerv gyakorlatTerv: csoport.getValasztottGyakorlatok()) {
-                        database.gyakorlatTervDao().insert(modelConverter.getGyakorlatTervEntity((int) csoportid, gyakorlatTerv));
+                        database.gyakorlatTervDao().insert(modelConverter.getGyakorlatTervEntity((int) tervid, (int) csoportid, gyakorlatTerv));
                     }
                 }
             }
