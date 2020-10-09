@@ -1,5 +1,7 @@
 package aa.droid.norbo.projects.edzesnaplo3.mvvm.data.repository.edzesterv;
 
+import androidx.lifecycle.LiveData;
+
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
@@ -14,6 +16,7 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.EdzesTerv;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.Edzesnap;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.GyakorlatTerv;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.EdzesTervDatabase;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.edzesterv.relations.EdzesTervWithEdzesnap;
 
 @Singleton
 public class LocalEdzesTervRepository implements EdzesTervRepository {
@@ -43,5 +46,10 @@ public class LocalEdzesTervRepository implements EdzesTervRepository {
                 }
             }
         })), executorService);
+    }
+
+    @Override
+    public LiveData<List<EdzesTervWithEdzesnap>> getTervek() {
+        return database.edzesTervDao().getAll();
     }
 }

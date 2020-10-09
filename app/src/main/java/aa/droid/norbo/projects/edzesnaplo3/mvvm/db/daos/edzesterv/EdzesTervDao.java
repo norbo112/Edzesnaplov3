@@ -15,7 +15,7 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.edzesterv.EdzesTervE
 public interface EdzesTervDao extends BaseDao<EdzesTervEntity> {
     @Transaction
     @Query("SELECT * FROM edzesterventity")
-    LiveData<EdzesTervWithEdzesnap> getAll();
+    LiveData<List<EdzesTervWithEdzesnap>> getAll();
 
     @Transaction
     @Query("SELECT * FROM edzesterventity")
