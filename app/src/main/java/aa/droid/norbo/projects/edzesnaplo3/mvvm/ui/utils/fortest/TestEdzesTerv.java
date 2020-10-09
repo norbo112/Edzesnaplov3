@@ -32,9 +32,13 @@ public class TestEdzesTerv {
         csoport.addGyakorlat(new GyakorlatTerv("Állva kétkezes", gl(3,2), gl(15,10)));
         csoport.addGyakorlat(new GyakorlatTerv("Scott padon egykezes", gl(2,2), gl(8,6)));
 
+        Edzesnap edzesnapPiheno = new Edzesnap("3.nap pihenő");
+
         edzesnap2.addCsoport(csoport4);
         edzesnap2.addCsoport(csoport3);
         edzesTerv.addEdzesNap(edzesnap2);
+
+        edzesTerv.addEdzesNap(edzesnapPiheno);
         return edzesTerv;
     }
 

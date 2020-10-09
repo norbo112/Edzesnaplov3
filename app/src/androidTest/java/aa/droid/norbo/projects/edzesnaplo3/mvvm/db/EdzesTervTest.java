@@ -80,9 +80,11 @@ public class EdzesTervTest {
         List<EdzesTervWithEdzesnap> edzesTervWithEdzesnaps = edzesTervDao.getAllForTest();
 
         Assert.assertEquals(1, edzesTervWithEdzesnaps.size());
-        Assert.assertEquals(2, edzesTervWithEdzesnaps.get(0).edzesnapList.size());
+        Assert.assertEquals(3, edzesTervWithEdzesnaps.get(0).edzesnapList.size());
+
+        Assert.assertEquals("3.nap pihenő", edzesTervWithEdzesnaps.get(0).edzesnapList.get(2).edzesnapEntity.getEdzesNapLabel());
 
         List<EdzesTervWithGyakorlatTervek> gyakorlatTerveks = edzesTervDao.getAllGyakorlatForEdzestervToTest();
-        Assert.assertEquals(4, gyakorlatTerveks.size());
+        Assert.assertEquals(8, gyakorlatTerveks.get(0).gyakorlatTervEntity.size());
     }
 }
