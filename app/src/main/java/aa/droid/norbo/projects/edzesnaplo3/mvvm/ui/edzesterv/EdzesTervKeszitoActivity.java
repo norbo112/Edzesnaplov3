@@ -11,6 +11,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
+import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.TextView;
@@ -56,7 +58,7 @@ public class EdzesTervKeszitoActivity extends EdzesTervBaseActivity<MvvmActivity
         super.onCreate(savedInstanceState);
         setSupportActionBar(binding.tervToolbar);
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle("Edzésnapló v4");
+            getSupportActionBar().setTitle("Edzésterv készítő");
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
@@ -94,13 +96,23 @@ public class EdzesTervKeszitoActivity extends EdzesTervBaseActivity<MvvmActivity
         binding.valasztottCsoportokList.setOnDragListener(dragListener);
         binding.valasztottCsoportokList.setOnItemClickListener(removeCsoportItemListener);
 
-        for (String csoport: getResources().getStringArray(R.array.csoportokForTervezo)) {
+        String[] izomcsoportArrayFromRes = getResources().getStringArray(R.array.csoportokForTervezo);
+        binding.izomcsoportokLl.setColumnCount(4);
+        binding.izomcsoportokLl.setRowCount((izomcsoportArrayFromRes.length / 4) + 1);
+
+        for (String csoport: izomcsoportArrayFromRes) {
             TextView textView = new TextView(this);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+//            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,
+                    FrameLayout.LayoutParams.WRAP_CONTENT);
             params.bottomMargin = 20;
             params.topMargin = 20;
+            params.rightMargin = 20;
+            params.leftMargin = 20;
 
             textView.setLayoutParams(params);
+            textView.setPadding(10,10,10,10);
+            textView.setBackgroundResource(R.drawable.custom_et_gyak_hatter);
             textView.setText(csoport);
             textView.setClickable(true);
             textView.setOnTouchListener(myTouchListener);
@@ -112,16 +124,25 @@ public class EdzesTervKeszitoActivity extends EdzesTervBaseActivity<MvvmActivity
     private void initCsoportokGyakorlataiLinearLayout(List<Gyakorlat> gyakorlats) {
         binding.csoportokGyakorlatai.removeAllViews();
         binding.csoportokGyakorlatai.invalidate();
+
+        binding.csoportokGyakorlatai.setColumnCount(2);
+        binding.csoportokGyakorlatai.setRowCount((gyakorlats.size() / 2) + 1);
+
         for (Gyakorlat gyakorlat: gyakorlats) {
             TextView textView = new TextView(this);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,
+                    FrameLayout.LayoutParams.WRAP_CONTENT);
             params.bottomMargin = 20;
             params.topMargin = 20;
-            params.gravity = Gravity.CENTER_HORIZONTAL;
+            params.rightMargin = 20;
+            params.leftMargin = 20;
 
             textView.setLayoutParams(params);
             textView.setText(gyakorlat.getMegnevezes());
             textView.setClickable(true);
+            textView.setTextSize(12);
+            textView.setPadding(10,10,10,10);
+            textView.setBackgroundResource(R.drawable.custom_et_gyak_hatter);
             textView.setOnTouchListener(myTouchListener);
             binding.csoportokGyakorlatai.addView(textView);
         }
