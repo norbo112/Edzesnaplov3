@@ -11,6 +11,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -70,7 +71,7 @@ public class EdzesTervKeszitoActivity extends EdzesTervBaseActivity<MvvmActivity
         initEdzesnap();
 
         if(edzesTervViewModel.getEdzesTerv() != null) {
-            binding.edzestervMegnevezes.setText(edzesTervViewModel.getEdzesTerv().getMegnevezes());
+            binding.btnEdzesTervElnevezes.setText(edzesTervViewModel.getEdzesTerv().getMegnevezes());
         }
 
         binding.clearValasztottGyakorlatok.setOnClickListener(v -> {
@@ -131,8 +132,20 @@ public class EdzesTervKeszitoActivity extends EdzesTervBaseActivity<MvvmActivity
                         .setMessage("Ezt a napot már rögzítetted, válassz másikat, vagy mentéshez nyisd meg az előnézetet")
                         .show();
             }
+        });
 
-
+        binding.btnEdzesTervElnevezes.setOnClickListener(v -> {
+            EditText textView = new EditText(this);
+            new AlertDialog.Builder(this)
+                    .setTitle("Edzésterv elnevezése")
+                    .setView(textView)
+                    .setPositiveButton("ok", (dialog, which) -> {
+                        if(!TextUtils.isEmpty(textView.getText().toString())) {
+                            binding.btnEdzesTervElnevezes.setText(textView.getText().toString());
+                        }
+                    })
+                    .setNegativeButton("mégse", (dialog, which) -> dialog.dismiss())
+                    .show();
         });
     }
 
@@ -363,12 +376,13 @@ public class EdzesTervKeszitoActivity extends EdzesTervBaseActivity<MvvmActivity
     }
 
     private boolean isTervGood() {
-        if(TextUtils.isEmpty(binding.edzestervMegnevezes.getText().toString())) {
+        if(TextUtils.isEmpty(binding.btnEdzesTervElnevezes.getText().toString()) ||
+            binding.btnEdzesTervElnevezes.getText().toString().equals("elnevezés megadása")) {
             return false;
         }
 
         if(edzesTervViewModel.getEdzesTerv() == null) {
-            edzesTervViewModel.createEdzesTerv(binding.edzestervMegnevezes.getText().toString());
+            edzesTervViewModel.createEdzesTerv(binding.btnEdzesTervElnevezes.getText().toString());
         }
 
         return true;
