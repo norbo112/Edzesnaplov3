@@ -60,6 +60,11 @@ public class GyakorlatTerv {
 
     @Override
     public String toString() {
-        return megnevezes+" sor: "+sorozatSzam.toString()+", ism: "+ismetlesSzam.toString();
+        StringBuilder sb = new StringBuilder();
+        for(int i=0; i<sorozatSzam.size(); i++) {
+            sb.append(sorozatSzam.get(i)).append("x").append(ismetlesSzam.get(i)).append(", ");
+        }
+        return megnevezes+ (sorozatSzam.size() != 0 ?
+                " sor: "+sb.toString().substring(0, sb.toString().lastIndexOf(",")) : " 0x0");
     }
 }

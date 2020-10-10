@@ -34,4 +34,10 @@ public class EdzesTervBaseActivity<T extends ViewDataBinding> extends AppCompatA
 
         setContentView(binding.getRoot());
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.move_left_in_activity, R.anim.move_right_out_activity);
+    }
 }
