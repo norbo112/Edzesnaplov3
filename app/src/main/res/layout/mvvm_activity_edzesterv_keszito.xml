@@ -89,13 +89,17 @@
                         android:textSize="18sp"
                         android:textAlignment="center"
                         android:text="Gyakorlatok kiválasztása"/>
+                    <HorizontalScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp">
                     <GridLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="#64B5F6"
                         android:id="@+id/csoportokGyakorlatai"
-                        android:layout_margin="10dp"/>
-
+                        />
+                    </HorizontalScrollView>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
