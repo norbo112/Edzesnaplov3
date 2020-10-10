@@ -103,7 +103,7 @@ public class EdzesTervNezokeActivity extends EdzesTervBaseActivity<MvvmActivityE
     private void initElonezet(List<EdzesTerv> edzesTervs) {
         for(EdzesTerv terv: edzesTervs) {
             LinearLayout linearLayout = new LinearLayout(this);
-            LinearLayout.LayoutParams llparam = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            LinearLayout.LayoutParams llparam = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             llparam.topMargin = 20;
             llparam.bottomMargin = 20;
             linearLayout.setLayoutParams(llparam);
