@@ -46,6 +46,21 @@ public class EdzesTervElonezetActivity extends EdzesTervBaseActivity<MvvmActivit
         }
 
         initElonezet();
+
+        binding.tervMentesBtn.setOnClickListener(v -> {
+            try {
+                edzesTervViewModel.mentes().whenComplete((aVoid, throwable) -> {
+                    if (throwable != null) {
+                        runOnUiThread(() -> Toast.makeText(this, "Hiba történt a mentés közben", Toast.LENGTH_SHORT).show());
+                        return;
+                    }
+
+                    runOnUiThread(() -> Toast.makeText(this, "Az edzésterv sikeresen mentve", Toast.LENGTH_SHORT).show());
+                });
+            } catch (NullPointerException e) {
+                Toast.makeText(this, "Nincs mit menteni", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void initElonezet() {

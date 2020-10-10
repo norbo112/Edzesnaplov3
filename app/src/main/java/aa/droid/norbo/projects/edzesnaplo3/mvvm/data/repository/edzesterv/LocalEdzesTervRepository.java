@@ -17,6 +17,7 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.Edzesnap;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.GyakorlatTerv;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.EdzesTervDatabase;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.edzesterv.relations.EdzesTervWithEdzesnap;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.fortest.TestEdzesTerv;
 
 @Singleton
 public class LocalEdzesTervRepository implements EdzesTervRepository {
@@ -36,10 +37,10 @@ public class LocalEdzesTervRepository implements EdzesTervRepository {
         return CompletableFuture.runAsync(() -> executorService.execute(() -> database.runInTransaction(() -> {
             long tervid = database.edzesTervDao().insert(modelConverter.getEdzesTervEntity(edzesTerv));
             for (Edzesnap edzesnap : edzesTerv.getEdzesnapList()) {
-                database.edzesnapDao().insert(modelConverter.getEdzesnapEntity((int) tervid, edzesnap));
+                long edzesnapId = database.edzesnapDao().insert(modelConverter.getEdzesnapEntity((int) tervid, edzesnap));
                 List<Csoport> valasztottCsoport = edzesnap.getValasztottCsoport();
                 for (Csoport csoport: valasztottCsoport) {
-                    long csoportid = database.csoportDao().insert(modelConverter.getCsoportEntity(csoport));
+                    long csoportid = database.csoportDao().insert(modelConverter.getCsoportEntity((int) edzesnapId, csoport));
                     for (GyakorlatTerv gyakorlatTerv: csoport.getValasztottGyakorlatok()) {
                         database.gyakorlatTervDao().insert(modelConverter.getGyakorlatTervEntity((int) tervid, (int) csoportid, gyakorlatTerv));
                     }

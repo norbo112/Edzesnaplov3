@@ -60,22 +60,13 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Edzésterv előnézet"
-                                android:textAlignment="center"
-                                android:textColor="#fff"
-                                android:textSize="21sp" />
-
-                            <TextView
-                                android:id="@+id/tervMegnevezes"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="10dp"
-                                android:text="Megnevezés"
+                                android:text="Mentett tervek megtekintése"
                                 android:textAlignment="center"
                                 android:textColor="#fff"
                                 android:textSize="21sp"
-                                android:textStyle="italic" />
+                                android:layout_margin="10dp"/>
                         </LinearLayout>
+
 
                         <HorizontalScrollView
                             android:layout_width="match_parent"
@@ -89,14 +80,7 @@
                                 android:orientation="vertical" />
                         </HorizontalScrollView>
 
-                        <Button
-                            android:id="@+id/tervMentesBtn"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:backgroundTint="@color/edzesHatter"
-                            android:text="Terv mentése"
-                            android:textColor="#fff" />
+
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 

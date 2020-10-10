@@ -19,7 +19,6 @@ import androidx.appcompat.app.AlertDialog;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -84,20 +83,33 @@ public class EdzesTervKeszitoActivity extends EdzesTervBaseActivity<MvvmActivity
             dialogSorozatSzerkeszto(gyakorlatTerv);
         });
 
+        binding.btnPihenotRogzit.setOnClickListener(v -> {
+            if(!isTervGood()) {
+                Toast.makeText(this, "Kérlek add meg az edzésterv címét", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            String edzesnap = binding.edzesnapSpinner.getSelectedItem().toString();
+
+            if(edzesTervViewModel.isEdzesnapInEdzesterv(edzesnap)) {
+                Toast.makeText(this, "Az edzésnap már rögzítve lett", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            edzesTervViewModel.addEdzesnapForEdzesTerv(new Edzesnap(edzesnap+" pihenőnap"));
+            clearItems();
+            Toast.makeText(this, "Pihenőnap r9gzítve", Toast.LENGTH_SHORT).show();
+        });
+
         binding.btnEdzesnapElonezet.setOnClickListener(v -> {
             startActivity(new Intent(this, EdzesTervElonezetActivity.class));
             overridePendingTransition(R.anim.move_right_in_activity, R.anim.move_left_out_activity);
         });
 
         binding.btnEdzesnapFelvetele.setOnClickListener(v -> {
-            //TODO edzésnap itten van felvéve a megadott adatokkal
-            if(TextUtils.isEmpty(binding.edzestervMegnevezes.getText().toString())) {
+            if(!isTervGood()) {
                 Toast.makeText(this, "Kérlek add meg az edzésterv címét", Toast.LENGTH_SHORT).show();
                 return;
-            }
-
-            if(edzesTervViewModel.getEdzesTerv() == null) {
-                edzesTervViewModel.createEdzesTerv(binding.edzestervMegnevezes.getText().toString());
             }
 
             Edzesnap edzesnap = new Edzesnap(binding.edzesnapSpinner.getSelectedItem().toString());
@@ -224,11 +236,20 @@ public class EdzesTervKeszitoActivity extends EdzesTervBaseActivity<MvvmActivity
             textView.setPadding(10,10,10,10);
             textView.setBackgroundResource(R.drawable.custom_et_gyak_hatter);
             textView.setOnTouchListener(gyakorlatValasztoTouchListener);
+            textView.setOnLongClickListener(gyakorlatLongClick);
             binding.csoportokGyakorlatai.addView(textView);
         }
 
         binding.valasztottGyakorlatokTerv.setOnDragListener(dragListener);
     }
+
+    private View.OnLongClickListener gyakorlatLongClick = v -> {
+        GyakorlatAdatTextView v1 = (GyakorlatAdatTextView) v;
+        gyakorlatTervs.add(new GyakorlatTerv(v1.getGyakorlat().getMegnevezes(), v1.getGyakorlat().getCsoport()));
+        gyakorlatTervArrayAdapter.notifyDataSetChanged();
+        Toast.makeText(this, "Gyakorlat hozzáadva a tervhez!", Toast.LENGTH_SHORT).show();
+        return true;
+    };
 
     private AdapterView.OnItemClickListener removeCsoportItemListener = (parent, view, position, id) -> {
         binding.csoportokGyakorlatai.removeAllViews();
@@ -339,6 +360,18 @@ public class EdzesTervKeszitoActivity extends EdzesTervBaseActivity<MvvmActivity
                     super.onBackPressed();
                 })
                 .show();
+    }
+
+    private boolean isTervGood() {
+        if(TextUtils.isEmpty(binding.edzestervMegnevezes.getText().toString())) {
+            return false;
+        }
+
+        if(edzesTervViewModel.getEdzesTerv() == null) {
+            edzesTervViewModel.createEdzesTerv(binding.edzestervMegnevezes.getText().toString());
+        }
+
+        return true;
     }
 
     public class SorozatAdatUI {

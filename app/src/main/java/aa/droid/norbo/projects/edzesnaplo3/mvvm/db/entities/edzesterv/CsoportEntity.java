@@ -15,8 +15,9 @@ public class CsoportEntity {
     }
 
     @Ignore
-    public CsoportEntity(String izomcsoport) {
+    public CsoportEntity(String izomcsoport, int edzesNapId) {
         this.izomcsoport = izomcsoport;
+        this.edzesNapId = edzesNapId;
     }
 
     public int getEdzesNapId() {

@@ -23,7 +23,11 @@
     <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
     <show-object-properties value="true" />
-    <loaded-nodes />
+    <loaded-nodes>
+      <connection connection-id="c04e3ea8-b1da-4da8-bfb8-c7f42166aa05">
+        <schema name="main" object-types="column, constraint, index, table, view, dataset trigger" />
+      </connection>
+    </loaded-nodes>
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="e6b19e2b-0bcd-4096-89b1-d9a4df557ba0">
@@ -38,6 +42,9 @@ from
     <connection id="34a19e45-1185-4b09-ab81-24e5e8e7e5dc">
       <console name="Edzésnapló v4" type="STANDARD" schema="main" session="Main" />
     </connection>
+    <connection id="c04e3ea8-b1da-4da8-bfb8-c7f42166aa05">
+      <console name="edzesterv" type="STANDARD" schema="main" session="Main" />
+    </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
     <open-files />
@@ -46,8 +53,21 @@ from
     <connection id="e6b19e2b-0bcd-4096-89b1-d9a4df557ba0" />
     <connection id="cfaf11ab-43d6-4cfa-a5c9-07c3359db861" />
     <connection id="34a19e45-1185-4b09-ab81-24e5e8e7e5dc" />
+    <connection id="c04e3ea8-b1da-4da8-bfb8-c7f42166aa05" />
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
+    <filter-actions connection-id="c04e3ea8-b1da-4da8-bfb8-c7f42166aa05" dataset="main.CsoportEntity" active-filter-id="a9e4b0cb-da9b-429c-98e1-ffc219f99b3c">
+      <filter id="a9e4b0cb-da9b-429c-98e1-ffc219f99b3c" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND" />
+    </filter-actions>
+    <filter-actions connection-id="c04e3ea8-b1da-4da8-bfb8-c7f42166aa05" dataset="main.GyakorlatTervEntity" active-filter-id="6203ed19-666b-4e28-8d59-67d8f5abc408">
+      <filter id="6203ed19-666b-4e28-8d59-67d8f5abc408" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND" />
+    </filter-actions>
+    <filter-actions connection-id="c04e3ea8-b1da-4da8-bfb8-c7f42166aa05" dataset="main.EdzesTervEntity" active-filter-id="47bf52dc-d289-4ba9-a117-a7034ea9513e">
+      <filter id="47bf52dc-d289-4ba9-a117-a7034ea9513e" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND" />
+    </filter-actions>
+    <filter-actions connection-id="c04e3ea8-b1da-4da8-bfb8-c7f42166aa05" dataset="main.EdzesnapEntity" active-filter-id="021f21ce-5d34-4d27-a7a6-dfca423d82ae">
+      <filter id="021f21ce-5d34-4d27-a7a6-dfca423d82ae" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND" />
+    </filter-actions>
     <filter-actions connection-id="34a19e45-1185-4b09-ab81-24e5e8e7e5dc" dataset="main.naplo" active-filter-id="f6f95976-20f2-4ce0-9101-e0575aeb8de8">
       <filter id="f6f95976-20f2-4ce0-9101-e0575aeb8de8" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND" />
     </filter-actions>
@@ -267,6 +287,92 @@ from
           <database value="database" />
           <files>
             <file path="C:\Users\igloi\Documents\edzesnaplov4\edzesnaplov4_db" schema="main" />
+          </files>
+          <type value="NONE" />
+          <user value="" />
+          <deprecated-pwd value="" />
+        </database>
+        <properties>
+          <auto-commit value="false" />
+        </properties>
+        <ssh-settings>
+          <active value="false" />
+          <proxy-host value="" />
+          <proxy-port value="22" />
+          <proxy-user value="" />
+          <deprecated-proxy-pwd value="" />
+          <auth-type value="PASSWORD" />
+          <key-file value="" />
+          <key-passphrase value="" />
+        </ssh-settings>
+        <ssl-settings>
+          <active value="false" />
+          <certificate-authority-file value="" />
+          <client-certificate-file value="" />
+          <client-key-file value="" />
+        </ssl-settings>
+        <details>
+          <charset value="UTF-8" />
+          <session-management value="true" />
+          <ddl-file-binding value="true" />
+          <database-logging value="false" />
+          <connect-automatically value="true" />
+          <restore-workspace value="true" />
+          <restore-workspace-deep value="true" />
+          <environment-type value="default" />
+          <idle-time-to-disconnect value="30" />
+          <idle-time-to-disconnect-pool value="5" />
+          <credential-expiry-time value="10" />
+          <max-connection-pool-size value="7" />
+          <alternative-statement-delimiter value="" />
+        </details>
+        <object-filters hide-empty-schemas="false" hide-pseudo-columns="false">
+          <object-type-filter use-master-settings="true">
+            <object-type name="SCHEMA" enabled="true" />
+            <object-type name="USER" enabled="true" />
+            <object-type name="ROLE" enabled="true" />
+            <object-type name="PRIVILEGE" enabled="true" />
+            <object-type name="CHARSET" enabled="true" />
+            <object-type name="TABLE" enabled="true" />
+            <object-type name="VIEW" enabled="true" />
+            <object-type name="MATERIALIZED_VIEW" enabled="true" />
+            <object-type name="NESTED_TABLE" enabled="true" />
+            <object-type name="COLUMN" enabled="true" />
+            <object-type name="INDEX" enabled="true" />
+            <object-type name="CONSTRAINT" enabled="true" />
+            <object-type name="DATASET_TRIGGER" enabled="true" />
+            <object-type name="DATABASE_TRIGGER" enabled="true" />
+            <object-type name="SYNONYM" enabled="true" />
+            <object-type name="SEQUENCE" enabled="true" />
+            <object-type name="PROCEDURE" enabled="true" />
+            <object-type name="FUNCTION" enabled="true" />
+            <object-type name="PACKAGE" enabled="true" />
+            <object-type name="TYPE" enabled="true" />
+            <object-type name="TYPE_ATTRIBUTE" enabled="true" />
+            <object-type name="ARGUMENT" enabled="true" />
+            <object-type name="DIMENSION" enabled="true" />
+            <object-type name="CLUSTER" enabled="true" />
+            <object-type name="DBLINK" enabled="true" />
+          </object-type-filter>
+          <object-name-filters />
+        </object-filters>
+      </connection>
+      <connection id="c04e3ea8-b1da-4da8-bfb8-c7f42166aa05" active="true">
+        <database>
+          <name value="edzesterv" />
+          <description value="" />
+          <database-type value="SQLITE" />
+          <config-type value="BASIC" />
+          <database-version value="3.21" />
+          <driver-source value="BUILTIN" />
+          <driver-library value="" />
+          <driver value="" />
+          <url-type value="FILE" />
+          <host value="localhost" />
+          <port value="1234" />
+          <database value="database" />
+          <files>
+            <file path="C:\Users\igloi\Documents\edzesnaplov4\edzestervv4_db" schema="main" />
           </files>
           <type value="NONE" />
           <user value="" />

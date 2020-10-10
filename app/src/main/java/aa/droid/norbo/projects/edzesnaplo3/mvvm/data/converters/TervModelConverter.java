@@ -7,6 +7,7 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.Csoport;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.EdzesTerv;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.Edzesnap;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.GyakorlatTerv;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Gyakorlat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.edzesterv.CsoportEntity;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.edzesterv.EdzesTervEntity;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.edzesterv.EdzesnapEntity;
@@ -36,7 +37,11 @@ public class TervModelConverter {
         return new GyakorlatTervEntity(edzesnapId, csoportid, gyakorlatTerv.getMegnevezes(), gyakorlatTerv.getSorozatSzam(), gyakorlatTerv.getIsmetlesSzam());
     }
 
-    public CsoportEntity getCsoportEntity(Csoport csoport) {
-        return new CsoportEntity(csoport.getIzomcsoport());
+    public CsoportEntity getCsoportEntity(int edzesnapid, Csoport csoport) {
+        return new CsoportEntity(csoport.getIzomcsoport(), edzesnapid);
+    }
+
+    public GyakorlatTerv getFromEntity(GyakorlatTervEntity entity) {
+        return new GyakorlatTerv(entity.getMegnevezes(), entity.getSorozatSzam(), entity.getIsmetlesSzam());
     }
 }

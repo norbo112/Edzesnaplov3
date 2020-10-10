@@ -27,6 +27,10 @@ public class GyakorlatTerv {
         return izomcsoportNev;
     }
 
+    public void setIzomcsoportNev(String izomcsoportNev) {
+        this.izomcsoportNev = izomcsoportNev;
+    }
+
     public String getMegnevezes() {
         return megnevezes;
     }

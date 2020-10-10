@@ -29,7 +29,10 @@ public class EdzesTervBelepoActivity extends EdzesTervBaseActivity<MvvmActivityE
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        binding.tervekMegtekintese.setOnClickListener(v -> Toast.makeText(this, "Fejlesztés alatt", Toast.LENGTH_SHORT).show());
+        binding.tervekMegtekintese.setOnClickListener(v -> {
+            startActivity(new Intent(this, EdzesTervNezokeActivity.class));
+            overridePendingTransition(R.anim.move_right_in_activity, R.anim.move_left_out_activity);
+        });
 
         binding.tervezoBelepesBtn.setOnClickListener(v -> {
             startActivity(new Intent(this, EdzesTervKeszitoActivity.class));
