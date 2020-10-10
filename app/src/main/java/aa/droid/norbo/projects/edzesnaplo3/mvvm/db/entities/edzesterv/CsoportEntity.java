@@ -9,15 +9,25 @@ public class CsoportEntity {
     @PrimaryKey(autoGenerate = true)
     private int id;
     private int edzesNapId;
+    private int edzesTervId;
     private String izomcsoport;
 
     public CsoportEntity() {
     }
 
     @Ignore
-    public CsoportEntity(String izomcsoport, int edzesNapId) {
+    public CsoportEntity(String izomcsoport, int edzesNapId, int edzesTervId) {
         this.izomcsoport = izomcsoport;
         this.edzesNapId = edzesNapId;
+        this.edzesTervId = edzesTervId;
+    }
+
+    public int getEdzesTervId() {
+        return edzesTervId;
+    }
+
+    public void setEdzesTervId(int edzesTervId) {
+        this.edzesTervId = edzesTervId;
     }
 
     public int getEdzesNapId() {

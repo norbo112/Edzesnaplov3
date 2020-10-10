@@ -33,12 +33,12 @@ public class TervModelConverter {
      * @param gyakorlatTerv
      * @return
      */
-    public GyakorlatTervEntity getGyakorlatTervEntity(int edzesnapId, int csoportid, GyakorlatTerv gyakorlatTerv) {
-        return new GyakorlatTervEntity(edzesnapId, csoportid, gyakorlatTerv.getMegnevezes(), gyakorlatTerv.getSorozatSzam(), gyakorlatTerv.getIsmetlesSzam());
+    public GyakorlatTervEntity getGyakorlatTervEntity(int edzesTervId, int edzesnapId, int csoportid, GyakorlatTerv gyakorlatTerv) {
+        return new GyakorlatTervEntity(edzesTervId, edzesnapId, csoportid, gyakorlatTerv.getMegnevezes(), gyakorlatTerv.getSorozatSzam(), gyakorlatTerv.getIsmetlesSzam());
     }
 
-    public CsoportEntity getCsoportEntity(int edzesnapid, Csoport csoport) {
-        return new CsoportEntity(csoport.getIzomcsoport(), edzesnapid);
+    public CsoportEntity getCsoportEntity(int edzesTervId, int edzesnapid, Csoport csoport) {
+        return new CsoportEntity(csoport.getIzomcsoport(), edzesnapid, edzesTervId);
     }
 
     public GyakorlatTerv getFromEntity(GyakorlatTervEntity entity) {

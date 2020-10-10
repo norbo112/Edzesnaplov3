@@ -47,7 +47,7 @@ public class EdzesTervNezokeActivity extends EdzesTervBaseActivity<MvvmActivityE
         super.onCreate(savedInstanceState);
         setSupportActionBar(binding.tervToolbar);
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle("Edzésterv előnézet");
+            getSupportActionBar().setTitle("Edzéstervek");
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 

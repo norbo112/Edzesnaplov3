@@ -12,6 +12,7 @@ public class GyakorlatTervEntity {
     private int id;
     private int csoportId;
     private int edzesnapId;
+    private int edzesTervId;
     private String megnevezes;
     private List<Integer> sorozatSzam;
     private List<Integer> ismetlesSzam;
@@ -20,12 +21,21 @@ public class GyakorlatTervEntity {
     }
 
     @Ignore
-    public GyakorlatTervEntity(int edzesnapId, int csoportId, String megnevezes, List<Integer> sorozatSzam, List<Integer> ismetlesSzam) {
+    public GyakorlatTervEntity(int edzesTervId, int edzesnapId, int csoportId, String megnevezes, List<Integer> sorozatSzam, List<Integer> ismetlesSzam) {
+        this.edzesTervId = edzesTervId;
         this.edzesnapId = edzesnapId;
         this.csoportId = csoportId;
         this.megnevezes = megnevezes;
         this.sorozatSzam = sorozatSzam;
         this.ismetlesSzam = ismetlesSzam;
+    }
+
+    public int getEdzesTervId() {
+        return edzesTervId;
+    }
+
+    public void setEdzesTervId(int edzesTervId) {
+        this.edzesTervId = edzesTervId;
     }
 
     public int getEdzesnapId() {
