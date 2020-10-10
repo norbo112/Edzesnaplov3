@@ -47,7 +47,37 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
-
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:hintTextColor="@color/edzesHatter"
+                        android:hint="Edzésterv elnevezése"
+                        android:layout_margin="10dp">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/edzestervMegnevezes"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_margin="10dp">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Edzésnap kiválasztása"
+                            android:layout_weight="1"/>
+                        <Spinner
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:id="@+id/edzesnapSpinner"/>
+                    </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:background="@color/edzesHatter"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -140,6 +170,45 @@
                             android:layout_height="50dp"
                             android:contentDescription="gyakorlatok kiválasztása"
                             app:srcCompat="@drawable/ic_clear" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/edzesHatter"
+                        android:orientation="horizontal"
+                        android:layout_margin="10dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textAlignment="center"
+                            android:text="válassz edzésnapot"
+                            android:id="@+id/valasztottEdzesnap"
+                            android:textSize="18sp"
+                            android:textColor="#fff"/>
+
+                        <Button
+                            android:id="@+id/btnEdzesnapFelvetele"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@color/edzesHatter"
+                            android:drawableLeft="@drawable/ic_add_circle"
+                            android:enabled="false"
+                            android:text="edzésnap felvétele"
+                            android:textColor="#fff" />
+                        <Button
+                            android:id="@+id/btnEdzesnapElonezet"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@color/edzesHatter"
+                            android:drawableLeft="@drawable/ic_add_circle"
+                            android:text="edzésnap előnézet"
+                            android:textColor="#fff" />
+
                     </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>

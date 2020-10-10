@@ -18,6 +18,8 @@
             android:parentActivityName=".mvvm.ui.MvvmBelepoActivity"/>
         <activity android:name=".mvvm.ui.edzesterv.EdzesTervKeszitoActivity"
             android:parentActivityName=".mvvm.ui.edzesterv.EdzesTervBelepoActivity"/>
+        <activity android:name=".mvvm.ui.edzesterv.EdzesTervElonezetActivity"
+            android:parentActivityName=".mvvm.ui.edzesterv.EdzesTervKeszitoActivity"/>
         <activity android:name=".mvvm.ui.MvvmBelepoActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

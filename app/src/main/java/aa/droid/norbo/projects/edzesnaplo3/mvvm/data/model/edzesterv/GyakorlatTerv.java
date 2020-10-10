@@ -6,11 +6,13 @@ import java.util.Objects;
 
 public class GyakorlatTerv {
     private String megnevezes;
+    private String izomcsoportNev;
     private List<Integer> sorozatSzam;
     private List<Integer> ismetlesSzam;
 
-    public GyakorlatTerv(String megnevezes) {
+    public GyakorlatTerv(String megnevezes, String izomcsoportNev) {
         this.megnevezes = megnevezes;
+        this.izomcsoportNev = izomcsoportNev;
         this.sorozatSzam = new ArrayList<>();
         this.ismetlesSzam = new ArrayList<>();
     }
@@ -19,6 +21,10 @@ public class GyakorlatTerv {
         this.megnevezes = megnevezes;
         this.sorozatSzam = sorozatSzam;
         this.ismetlesSzam = ismetlesSzam;
+    }
+
+    public String getIzomcsoportNev() {
+        return izomcsoportNev;
     }
 
     public String getMegnevezes() {

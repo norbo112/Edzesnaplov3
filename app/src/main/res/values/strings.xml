@@ -30,4 +30,5 @@
     <string name="mvvm_tevekenyseg_sorozat_plusz">add</string>
     <string name="mvvm_alert_dialog_img_desc">Edzés - tevékenyság elhagyása</string>
     <string name="mvvm_tevekenyseg_alert_backpressed">Ha visszalépsz az edzés jelenlegi állása törlődik, biztosan akarod?</string>
+    <string name="mvvm_edzesterv_keszito_warning_backpressed">Visszalépés az edzésterv mentése nélkül, a terv elveszik?</string>
 </resources>

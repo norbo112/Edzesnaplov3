@@ -4,12 +4,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import javax.inject.Inject;
+
 import aa.droid.norbo.projects.edzesnaplo3.R;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmActivityEdzestervBelepoBinding;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.edzesterv.utils.EdzesTervViewModel;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
 public class EdzesTervBelepoActivity extends EdzesTervBaseActivity<MvvmActivityEdzestervBelepoBinding> {
+    @Inject
+    EdzesTervViewModel edzesTervViewModel;
+
     public EdzesTervBelepoActivity() {
         super(R.layout.mvvm_activity_edzesterv_belepo);
     }
@@ -29,5 +35,8 @@ public class EdzesTervBelepoActivity extends EdzesTervBaseActivity<MvvmActivityE
             startActivity(new Intent(this, EdzesTervKeszitoActivity.class));
             overridePendingTransition(R.anim.move_right_in_activity, R.anim.move_left_out_activity);
         });
+
+        if(edzesTervViewModel.getEdzesTerv() != null)
+            edzesTervViewModel.clear();
     }
 }
