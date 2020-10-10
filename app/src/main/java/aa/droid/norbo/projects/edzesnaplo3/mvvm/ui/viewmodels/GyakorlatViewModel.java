@@ -35,4 +35,8 @@ public class GyakorlatViewModel extends ViewModel {
     public void update(Gyakorlat gyakorlat) {
         gyakorlatRepository.update(gyakorlat);
     }
+
+    public LiveData<List<Gyakorlat>> getGyakorlatByCsoport(List<String> csoportok) {
+        return gyakorlatRepository.getByCsoport(csoportok);
+    }
 }

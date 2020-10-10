@@ -18,6 +18,7 @@ import javax.inject.Inject;
 import aa.droid.norbo.projects.edzesnaplo3.R;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmActivityBelepoBinding;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.utils.AdatFeltoltes;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.edzesterv.EdzesTervBelepoActivity;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.NaploListFactory;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.NaploViewModel;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.SorozatViewModel;
@@ -86,6 +87,11 @@ public class MvvmBelepoActivity extends BaseActiviry<MvvmActivityBelepoBinding> 
 
         binding.btnNaplok.setOnClickListener(v -> {
             startActivity(new Intent(this, MvvmSavedNaploActivity.class));
+            overridePendingTransition(R.anim.move_right_in_activity, R.anim.move_left_out_activity);
+        });
+
+        binding.btnEdzesTervek.setOnClickListener(v -> {
+            startActivity(new Intent(this, EdzesTervBelepoActivity.class));
             overridePendingTransition(R.anim.move_right_in_activity, R.anim.move_left_out_activity);
         });
     }

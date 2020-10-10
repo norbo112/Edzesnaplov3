@@ -31,4 +31,7 @@ public interface GyakorlatDao {
 
     @Query("SELECT count(*) FROM gyakorlattabla")
     int countRows();
+
+    @Query("SELECT * FROM gyakorlattabla WHERE csoport IN (:izomcsoportok)")
+    LiveData<List<Gyakorlat>> getByIzomcsoport(List<String> izomcsoportok);
 }
