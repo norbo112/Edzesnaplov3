@@ -3,10 +3,13 @@ package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.edzesterv;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.core.content.res.ResourcesCompat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -107,20 +110,24 @@ public class EdzesTervNezokeActivity extends EdzesTervBaseActivity<MvvmActivityE
             llparam.topMargin = 20;
             llparam.bottomMargin = 20;
             linearLayout.setLayoutParams(llparam);
+            linearLayout.setBackgroundResource(R.drawable.custom_edzesterv_hatter);
             linearLayout.setOrientation(LinearLayout.VERTICAL);
 
             List<Edzesnap> edzesnapList = terv.getEdzesnapList();
 
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT);
-            params.topMargin = 20;
+            params.topMargin = 0;
             params.bottomMargin = 20;
 
             TextView tt = new TextView(this);
             tt.setLayoutParams(params);
             tt.setText(terv.getMegnevezes());
+            tt.setGravity(Gravity.CENTER);
             tt.setBackgroundColor(Color.BLACK);
             tt.setTextColor(Color.WHITE);
+            tt.setPadding(20,20,20,20);
+            tt.setTextSize(21);
 
             linearLayout.addView(tt);
 
