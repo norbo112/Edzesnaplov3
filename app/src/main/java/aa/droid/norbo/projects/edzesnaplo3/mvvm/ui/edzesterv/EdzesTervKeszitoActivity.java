@@ -209,18 +209,31 @@ public class EdzesTervKeszitoActivity extends EdzesTervBaseActivity<MvvmActivity
         binding.valasztottCsoportokList.setOnItemClickListener(removeCsoportItemListener);
 
         String[] izomcsoportArrayFromRes = getResources().getStringArray(R.array.csoportokForTervezo);
-        binding.izomcsoportokLl.setColumnCount(4);
-        binding.izomcsoportokLl.setRowCount((izomcsoportArrayFromRes.length / 4) + 1);
+
+        if(getResources().getBoolean(R.bool.isTablet)) {
+            binding.izomcsoportokLl.setColumnCount(3);
+            binding.izomcsoportokLl.setRowCount((izomcsoportArrayFromRes.length / 3) + 1);
+        } else {
+            binding.izomcsoportokLl.setColumnCount(4);
+            binding.izomcsoportokLl.setRowCount((izomcsoportArrayFromRes.length / 4) + 1);
+        }
 
         for (String csoport: izomcsoportArrayFromRes) {
             TextView textView = new TextView(this);
 //            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,
                     FrameLayout.LayoutParams.WRAP_CONTENT);
-            params.bottomMargin = 20;
-            params.topMargin = 20;
-            params.rightMargin = 20;
-            params.leftMargin = 20;
+            if(isTablet()) {
+                params.bottomMargin = 5;
+                params.topMargin = 5;
+                params.rightMargin = 5;
+                params.leftMargin = 5;
+            } else {
+                params.bottomMargin = 20;
+                params.topMargin = 20;
+                params.rightMargin = 20;
+                params.leftMargin = 20;
+            }
 
             textView.setLayoutParams(params);
             textView.setPadding(10,10,10,10);
@@ -237,17 +250,29 @@ public class EdzesTervKeszitoActivity extends EdzesTervBaseActivity<MvvmActivity
         binding.csoportokGyakorlatai.removeAllViews();
         binding.csoportokGyakorlatai.invalidate();
 
-        binding.csoportokGyakorlatai.setColumnCount(2);
-        binding.csoportokGyakorlatai.setRowCount((gyakorlats.size() / 2) + 1);
+        if(getResources().getBoolean(R.bool.isTablet)) {
+            binding.csoportokGyakorlatai.setColumnCount(4);
+            binding.csoportokGyakorlatai.setRowCount((gyakorlats.size() / 4) + 1);
+        } else {
+            binding.csoportokGyakorlatai.setColumnCount(2);
+            binding.csoportokGyakorlatai.setRowCount((gyakorlats.size() / 2) + 1);
+        }
 
         for (Gyakorlat gyakorlat: gyakorlats) {
             GyakorlatAdatTextView textView = new GyakorlatAdatTextView(this, gyakorlat);
             FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,
                     FrameLayout.LayoutParams.WRAP_CONTENT);
-            params.bottomMargin = 20;
-            params.topMargin = 20;
-            params.rightMargin = 20;
-            params.leftMargin = 20;
+            if(isTablet()) {
+                params.bottomMargin = 5;
+                params.topMargin = 5;
+                params.rightMargin = 5;
+                params.leftMargin = 5;
+            } else {
+                params.bottomMargin = 20;
+                params.topMargin = 20;
+                params.rightMargin = 20;
+                params.leftMargin = 20;
+            }
 
             textView.setLayoutParams(params);
             textView.setText(gyakorlat.getMegnevezes());
@@ -255,8 +280,11 @@ public class EdzesTervKeszitoActivity extends EdzesTervBaseActivity<MvvmActivity
             textView.setTextSize(12);
             textView.setPadding(10,10,10,10);
             textView.setBackgroundResource(R.drawable.custom_et_gyak_hatter);
-//            textView.setOnTouchListener(gyakorlatValasztoTouchListener);
-            textView.setOnLongClickListener(gyakorlatLongClick);
+            if(isTablet()) {
+                textView.setOnTouchListener(gyakorlatValasztoTouchListener);
+            } else {
+                textView.setOnLongClickListener(gyakorlatLongClick);
+            }
             binding.csoportokGyakorlatai.addView(textView);
         }
 
@@ -398,6 +426,10 @@ public class EdzesTervKeszitoActivity extends EdzesTervBaseActivity<MvvmActivity
         }
 
         return true;
+    }
+
+    private boolean isTablet() {
+        return getResources().getBoolean(R.bool.isTablet);
     }
 
     public class SorozatAdatUI {
