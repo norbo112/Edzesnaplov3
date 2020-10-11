@@ -113,6 +113,11 @@ public class EdzesTervKeszitoActivity extends EdzesTervBaseActivity<MvvmActivity
                 return;
             }
 
+            if(gyakorlatTervs.size() == 0) {
+                Toast.makeText(this, "Nem választottál gyakorlatokat az edzésnaphoz", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             Edzesnap edzesnap = new Edzesnap(binding.edzesnapSpinner.getSelectedItem().toString());
             for(String csoport: izomcsoportok) {
                 Csoport tervCsoport = new Csoport(csoport);
@@ -125,8 +130,10 @@ public class EdzesTervKeszitoActivity extends EdzesTervBaseActivity<MvvmActivity
             }
 
             if (edzesTervViewModel.addEdzesnapForEdzesTerv(edzesnap)) {
-                startActivity(new Intent(this, EdzesTervElonezetActivity.class));
-                overridePendingTransition(R.anim.move_right_in_activity, R.anim.move_left_out_activity);
+                Toast.makeText(this, "Edzésnap rögzítve", Toast.LENGTH_SHORT).show();
+                clearItems();
+//                startActivity(new Intent(this, EdzesTervElonezetActivity.class));
+//                overridePendingTransition(R.anim.move_right_in_activity, R.anim.move_left_out_activity);
             } else {
                 new AlertDialog.Builder(this)
                         .setMessage("Ezt a napot már rögzítetted, válassz másikat, vagy mentéshez nyisd meg az előnézetet")
@@ -248,7 +255,7 @@ public class EdzesTervKeszitoActivity extends EdzesTervBaseActivity<MvvmActivity
             textView.setTextSize(12);
             textView.setPadding(10,10,10,10);
             textView.setBackgroundResource(R.drawable.custom_et_gyak_hatter);
-            textView.setOnTouchListener(gyakorlatValasztoTouchListener);
+//            textView.setOnTouchListener(gyakorlatValasztoTouchListener);
             textView.setOnLongClickListener(gyakorlatLongClick);
             binding.csoportokGyakorlatai.addView(textView);
         }
@@ -258,9 +265,14 @@ public class EdzesTervKeszitoActivity extends EdzesTervBaseActivity<MvvmActivity
 
     private View.OnLongClickListener gyakorlatLongClick = v -> {
         GyakorlatAdatTextView v1 = (GyakorlatAdatTextView) v;
-        gyakorlatTervs.add(new GyakorlatTerv(v1.getGyakorlat().getMegnevezes(), v1.getGyakorlat().getCsoport()));
-        gyakorlatTervArrayAdapter.notifyDataSetChanged();
-        Toast.makeText(this, "Gyakorlat hozzáadva a tervhez!", Toast.LENGTH_SHORT).show();
+        GyakorlatTerv e = new GyakorlatTerv(v1.getGyakorlat().getMegnevezes(), v1.getGyakorlat().getCsoport());
+        if(!gyakorlatTervs.contains(e)) {
+            gyakorlatTervs.add(e);
+            gyakorlatTervArrayAdapter.notifyDataSetChanged();
+            Toast.makeText(this, "Gyakorlat hozzáadva a tervhez!", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Ezt a gyakorlatot már hozzáadtad", Toast.LENGTH_SHORT).show();
+        }
         return true;
     };
 
