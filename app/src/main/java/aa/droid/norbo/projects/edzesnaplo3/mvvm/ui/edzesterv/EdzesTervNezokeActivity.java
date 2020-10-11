@@ -62,9 +62,10 @@ public class EdzesTervNezokeActivity extends EdzesTervBaseActivity<MvvmActivityE
         }
 
         edzesTervViewModel.getEdzestervek().observe(this, edzesTervWithEdzesnaps -> {
-            if(edzesTervWithEdzesnaps != null && edzesTervWithEdzesnaps.size() > 0) {
-                binding.tervElonezetLinearLayout.removeAllViews();
-                binding.tervElonezetLinearLayout.invalidate();
+            binding.tervElonezetLinearLayout.removeAllViews();
+            binding.tervElonezetLinearLayout.invalidate();
+            if (edzesTervWithEdzesnaps != null && edzesTervWithEdzesnaps.size() > 0) {
+
                 initElonezet(makeEdzesterv(edzesTervWithEdzesnaps), binding.tervElonezetLinearLayout);
             } else {
                 appendInfo();
@@ -88,15 +89,15 @@ public class EdzesTervNezokeActivity extends EdzesTervBaseActivity<MvvmActivityE
         for (EdzesTervWithEdzesnap edzesTervWithEdzesnap : edzesTervWithEdzesnaps) {
             EdzesTerv edzesTerv = new EdzesTerv(edzesTervWithEdzesnap.edzesTervEntity.getMegnevezes());
             edzesTerv.setTervId(edzesTervWithEdzesnap.edzesTervEntity.getId());
-            for (EdzesnapWithCsoport eddzesnap: edzesTervWithEdzesnap.edzesnapList) {
+            for (EdzesnapWithCsoport eddzesnap : edzesTervWithEdzesnap.edzesnapList) {
                 Set<String> csoport = eddzesnap.csoportsWithGyakorlat.stream().map(
                         csoportWithGyakorlatTerv -> csoportWithGyakorlatTerv.csoportEntity.getIzomcsoport()
                 ).collect(Collectors.toSet());
                 Edzesnap edzesnap = new Edzesnap(eddzesnap.edzesnapEntity.getEdzesNapLabel());
                 csoport.forEach(s -> {
                     Csoport csoport1 = new Csoport(s);
-                    for(CsoportWithGyakorlatTerv csoportsWithGyakorlat: eddzesnap.csoportsWithGyakorlat) {
-                        if(csoportsWithGyakorlat.csoportEntity.getIzomcsoport().equals(s)) {
+                    for (CsoportWithGyakorlatTerv csoportsWithGyakorlat : eddzesnap.csoportsWithGyakorlat) {
+                        if (csoportsWithGyakorlat.csoportEntity.getIzomcsoport().equals(s)) {
                             for (GyakorlatTervEntity gy : csoportsWithGyakorlat.gyakorlatTervEntities) {
                                 csoport1.addGyakorlat(modelConverter.getFromEntity(gy));
                             }
@@ -113,7 +114,7 @@ public class EdzesTervNezokeActivity extends EdzesTervBaseActivity<MvvmActivityE
     }
 
     public void initElonezet(List<EdzesTerv> edzesTervs, LinearLayout layout) {
-        for(EdzesTerv terv: edzesTervs) {
+        for (EdzesTerv terv : edzesTervs) {
             LinearLayout linearLayout = new LinearLayout(this);
             LinearLayout.LayoutParams llparam = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             llparam.topMargin = 20;
@@ -143,7 +144,7 @@ public class EdzesTervNezokeActivity extends EdzesTervBaseActivity<MvvmActivityE
 
             linearLayout.addView(titleLayoutBinding.getRoot());
 
-            for (Edzesnap edzesnap: edzesnapList) {
+            for (Edzesnap edzesnap : edzesnapList) {
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT);
                 params.topMargin = 20;
@@ -153,12 +154,12 @@ public class EdzesTervNezokeActivity extends EdzesTervBaseActivity<MvvmActivityE
                 TextView textView = new TextView(this);
                 textView.setLayoutParams(params);
                 textView.setText(edzesnap.getEdzesNapLabel());
-                textView.setPadding(10,10,10,10);
+                textView.setPadding(10, 10, 10, 10);
                 textView.setBackgroundResource(R.drawable.custom_et_gyak_hatter);
 //                binding.tervElonezetLinearLayout.setGravity(Gravity.CENTER);
                 linearLayout.addView(textView);
 
-                for(Csoport csoport: edzesnap.getValasztottCsoport()) {
+                for (Csoport csoport : edzesnap.getValasztottCsoport()) {
                     params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT);
                     params.topMargin = 20;
@@ -175,7 +176,7 @@ public class EdzesTervNezokeActivity extends EdzesTervBaseActivity<MvvmActivityE
                     params.topMargin = 20;
                     params.bottomMargin = 20;
                     params.leftMargin = 100;
-                    for(GyakorlatTerv gyakorlatTerv: csoport.getValasztottGyakorlatok()) {
+                    for (GyakorlatTerv gyakorlatTerv : csoport.getValasztottGyakorlatok()) {
                         TextView textView2 = new TextView(this);
                         textView2.setLayoutParams(params);
                         textView2.setText(gyakorlatTerv.toString());
@@ -194,11 +195,11 @@ public class EdzesTervNezokeActivity extends EdzesTervBaseActivity<MvvmActivityE
             new AlertDialog.Builder(EdzesTervNezokeActivity.this)
                     .setMessage("Biztosan törölni szeretnéd a tervet?")
                     .setPositiveButton("igen", (dialog, which) -> edzesTervViewModel.deleteTerv(tervId).whenComplete((aVoid, throwable) -> {
-                        if(throwable != null) {
+                        if (throwable != null) {
                             runOnUiThread(() -> Toast.makeText(EdzesTervNezokeActivity.this, "Nem sikerült a törlés!", Toast.LENGTH_SHORT).show());
                             Log.e(TAG, "tervTorlese: törlés nem sikerült", throwable);
                         } else {
-                            runOnUiThread(() -> Toast.makeText(EdzesTervNezokeActivity.this, tervId+" A terv törlésre került", Toast.LENGTH_SHORT).show());
+                            runOnUiThread(() -> Toast.makeText(EdzesTervNezokeActivity.this, tervId + " A terv törlésre került", Toast.LENGTH_SHORT).show());
                         }
                     }))
                     .setNegativeButton("mégse", (dialog, which) -> dialog.dismiss())

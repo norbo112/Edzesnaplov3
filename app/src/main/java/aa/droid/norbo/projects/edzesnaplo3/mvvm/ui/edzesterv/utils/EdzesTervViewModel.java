@@ -39,12 +39,6 @@ public class EdzesTervViewModel extends ViewModel {
         if(mutableLiveData != null)
             mutableLiveData.postValue(edzesTerv);
         return true;
-//        EdzesTerv edzesTerv = mutableLiveData.getValue();
-//        if(edzesTerv.getEdzesnapList().contains(edzesnap)) {
-//            return false;
-//        }
-//        edzesTerv.addEdzesNap(edzesnap);
-//        mutableLiveData.postValue(edzesTerv);
     }
 
     public boolean isEdzesnapInEdzesterv(String edzesnapLabel) {
@@ -61,7 +55,7 @@ public class EdzesTervViewModel extends ViewModel {
 
     public void clear() {
         this.edzesTerv = null;
-        mutableLiveData.postValue(edzesTerv);
+        this.mutableLiveData = null;
     }
 
     public CompletableFuture<Void> mentes() throws NullPointerException {
