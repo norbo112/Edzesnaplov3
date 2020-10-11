@@ -437,9 +437,14 @@ public class EdzesTervKeszitoActivity extends EdzesTervBaseActivity<MvvmActivity
                 .setNegativeButton("mégse", (dialog, which) -> dialog.dismiss())
                 .setPositiveButton("felvétel", (dialog, which) -> {
                     SorozatAdatUI sorozat = binding.getSorozat();
-                    gyakorlatTerv.addSorozatSzam(Integer.parseInt(sorozat.getSorozat()));
-                    gyakorlatTerv.addIsmetlesSzam(Integer.parseInt(sorozat.getIsmetles()));
-                    gyakorlatTervArrayAdapter.notifyDataSetChanged();
+                    if(sorozat.getIsmetles() == null || sorozat.getSorozat() == null) {
+                        Toast.makeText(this, "Kérlek töltsd ki az adatokat", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                    } else {
+                        gyakorlatTerv.addSorozatSzam(Integer.parseInt(sorozat.getSorozat()));
+                        gyakorlatTerv.addIsmetlesSzam(Integer.parseInt(sorozat.getIsmetles()));
+                        gyakorlatTervArrayAdapter.notifyDataSetChanged();
+                    }
                 })
                 .show();
     }
