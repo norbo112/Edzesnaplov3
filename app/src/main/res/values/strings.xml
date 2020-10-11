@@ -31,4 +31,8 @@
     <string name="mvvm_alert_dialog_img_desc">Edzés - tevékenyság elhagyása</string>
     <string name="mvvm_tevekenyseg_alert_backpressed">Ha visszalépsz az edzés jelenlegi állása törlődik, biztosan akarod?</string>
     <string name="mvvm_edzesterv_keszito_warning_backpressed">Visszalépés az edzésterv mentése nélkül, a terv elveszik?</string>
+    <string name="mvvm_belepo_logo_desc">Logo1</string>
+    <string name="mvvm_edzesterv_belepo_title">Edzésterv tervező</string>
+    <string name="mvm_edzesterv_belepo_tervezo_open_label">Belépés a tervezőbe</string>
+    <string name="mvm_edzesterv_belepo_terv_label">Edzéstervek\nmegtekintése</string>
 </resources>
