@@ -3,12 +3,16 @@ package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.edzesterv;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.res.ResourcesCompat;
 
 import java.util.ArrayList;
@@ -21,6 +25,7 @@ import javax.inject.Inject;
 import aa.droid.norbo.projects.edzesnaplo3.R;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmActivityEdzestervElonezetBinding;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmActivityEdzestervNezokeBinding;
+import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmEdzestervTitleLayoutBinding;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.converters.TervModelConverter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.Csoport;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.EdzesTerv;
@@ -35,6 +40,8 @@ import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
 public class EdzesTervNezokeActivity extends EdzesTervBaseActivity<MvvmActivityEdzestervNezokeBinding> {
+    private static final String TAG = "EdzesTervNezokeActivity";
+
     @Inject
     EdzesTervViewModel edzesTervViewModel;
 
@@ -79,6 +86,7 @@ public class EdzesTervNezokeActivity extends EdzesTervBaseActivity<MvvmActivityE
 
         for (EdzesTervWithEdzesnap edzesTervWithEdzesnap : edzesTervWithEdzesnaps) {
             EdzesTerv edzesTerv = new EdzesTerv(edzesTervWithEdzesnap.edzesTervEntity.getMegnevezes());
+            edzesTerv.setTervId(edzesTervWithEdzesnap.edzesTervEntity.getId());
             for (EdzesnapWithCsoport eddzesnap: edzesTervWithEdzesnap.edzesnapList) {
                 Set<String> csoport = eddzesnap.csoportsWithGyakorlat.stream().map(
                         csoportWithGyakorlatTerv -> csoportWithGyakorlatTerv.csoportEntity.getIzomcsoport()
@@ -115,24 +123,27 @@ public class EdzesTervNezokeActivity extends EdzesTervBaseActivity<MvvmActivityE
 
             List<Edzesnap> edzesnapList = terv.getEdzesnapList();
 
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT);
-            params.topMargin = 0;
-            params.bottomMargin = 20;
+            MvvmEdzestervTitleLayoutBinding titleLayoutBinding = MvvmEdzestervTitleLayoutBinding.inflate(LayoutInflater.from(this), null, false);
+            titleLayoutBinding.etTitleLabel.setText(terv.getMegnevezes());
+            titleLayoutBinding.setTervId(terv.getTervId());
+            titleLayoutBinding.setSzerkeszto(new TervSzerkeszto());
+//            params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+//                    LinearLayout.LayoutParams.WRAP_CONTENT);
+//            params.topMargin = 0;
+//            params.bottomMargin = 20;
+//            TextView tt = new TextView(this);
+//            tt.setLayoutParams(params);
+//            tt.setText(terv.getMegnevezes());
+//            tt.setGravity(Gravity.CENTER);
+//            tt.setBackgroundColor(Color.BLACK);
+//            tt.setTextColor(Color.WHITE);
+//            tt.setPadding(20,20,20,20);
+//            tt.setTextSize(21);
 
-            TextView tt = new TextView(this);
-            tt.setLayoutParams(params);
-            tt.setText(terv.getMegnevezes());
-            tt.setGravity(Gravity.CENTER);
-            tt.setBackgroundColor(Color.BLACK);
-            tt.setTextColor(Color.WHITE);
-            tt.setPadding(20,20,20,20);
-            tt.setTextSize(21);
-
-            linearLayout.addView(tt);
+            linearLayout.addView(titleLayoutBinding.getRoot());
 
             for (Edzesnap edzesnap: edzesnapList) {
-                params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT);
                 params.topMargin = 20;
                 params.bottomMargin = 20;
@@ -174,6 +185,24 @@ public class EdzesTervNezokeActivity extends EdzesTervBaseActivity<MvvmActivityE
             }
 
             binding.tervElonezetLinearLayout.addView(linearLayout);
+        }
+    }
+
+    public class TervSzerkeszto {
+        public void tervTorlese(int tervId) {
+            new AlertDialog.Builder(EdzesTervNezokeActivity.this)
+                    .setMessage("Biztosan törölni szeretnéd a tervet?")
+                    .setPositiveButton("igen", (dialog, which) -> edzesTervViewModel.deleteTerv(tervId).whenComplete((aVoid, throwable) -> {
+                        if(throwable != null) {
+                            runOnUiThread(() -> Toast.makeText(EdzesTervNezokeActivity.this, "Nem sikerült a törlés!", Toast.LENGTH_SHORT).show());
+                            Log.e(TAG, "tervTorlese: törlés nem sikerült", throwable);
+                        } else {
+                            runOnUiThread(() -> Toast.makeText(EdzesTervNezokeActivity.this, tervId+" A terv törlésre került", Toast.LENGTH_SHORT).show());
+                        }
+                    }))
+                    .setNegativeButton("mégse", (dialog, which) -> dialog.dismiss())
+                    .show();
+
         }
     }
 }

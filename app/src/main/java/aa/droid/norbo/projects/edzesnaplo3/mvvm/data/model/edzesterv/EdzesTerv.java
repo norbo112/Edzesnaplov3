@@ -5,12 +5,21 @@ import java.util.List;
 import java.util.Objects;
 
 public class EdzesTerv {
+    private int tervId;
     private String megnevezes;
     private List<Edzesnap> edzesnapList;
 
     public EdzesTerv(String megnevezes) {
         this.megnevezes = megnevezes;
         this.edzesnapList = new ArrayList<>();
+    }
+
+    public int getTervId() {
+        return tervId;
+    }
+
+    public void setTervId(int tervId) {
+        this.tervId = tervId;
     }
 
     public void addEdzesNap(Edzesnap edzesnap) {

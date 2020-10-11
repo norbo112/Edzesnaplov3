@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="szerkeszto"
+            type="aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.edzesterv.EdzesTervNezokeActivity.TervSzerkeszto" />
+        <variable
+            name="tervId"
+            type="Integer" />
+    </data>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="10dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:background="@color/edzesHatter">
+        <TextView
+            android:id="@+id/etTitleLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Edzésterv elnevezés"
+            android:textSize="21sp"
+            android:textStyle="bold"
+            android:textColor="#fff"
+            android:layout_gravity="center"
+            android:textAlignment="center"/>
+
+        <ImageButton
+            android:id="@+id/etBtnTorles"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:layout_weight="3"
+            android:background="@color/edzesHatter"
+            android:drawableTint="#4FBB00"
+            android:src="@drawable/ic_delete"
+            android:text="törlés"
+            android:textColor="#fff"
+            android:onClick="@{() -> szerkeszto.tervTorlese(tervId)}"/>
+    </LinearLayout>
+</layout>

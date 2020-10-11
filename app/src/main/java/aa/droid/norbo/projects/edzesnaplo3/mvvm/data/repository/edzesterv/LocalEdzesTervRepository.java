@@ -17,7 +17,6 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.Edzesnap;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.GyakorlatTerv;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.EdzesTervDatabase;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.edzesterv.relations.EdzesTervWithEdzesnap;
-import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.fortest.TestEdzesTerv;
 
 @Singleton
 public class LocalEdzesTervRepository implements EdzesTervRepository {
@@ -47,6 +46,16 @@ public class LocalEdzesTervRepository implements EdzesTervRepository {
                 }
             }
         })), executorService);
+    }
+
+    @Override
+    public CompletableFuture<Void> deleteTerv(int tervId) {
+        return CompletableFuture.runAsync(() -> executorService.execute(() -> database.runInTransaction(() -> {
+            database.edzesTervDao().deleteById(tervId);
+            database.edzesnapDao().deleteById(tervId);
+            database.csoportDao().deleteById(tervId);
+            database.gyakorlatTervDao().deleteById(tervId);
+        })));
     }
 
     @Override
