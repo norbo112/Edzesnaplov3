@@ -64,6 +64,7 @@ public class EdzesTervNezokeActivity extends EdzesTervBaseActivity<MvvmActivityE
         edzesTervViewModel.getEdzestervek().observe(this, edzesTervWithEdzesnaps -> {
             if(edzesTervWithEdzesnaps != null && edzesTervWithEdzesnaps.size() > 0) {
                 binding.tervElonezetLinearLayout.removeAllViews();
+                binding.tervElonezetLinearLayout.invalidate();
                 initElonezet(makeEdzesterv(edzesTervWithEdzesnaps), binding.tervElonezetLinearLayout);
             } else {
                 appendInfo();
