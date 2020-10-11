@@ -40,4 +40,8 @@ public class EdzesTervBaseActivity<T extends ViewDataBinding> extends AppCompatA
         super.onBackPressed();
         overridePendingTransition(R.anim.move_left_in_activity, R.anim.move_right_out_activity);
     }
+
+    protected boolean isTablet() {
+        return getResources().getBoolean(R.bool.isTablet);
+    }
 }
