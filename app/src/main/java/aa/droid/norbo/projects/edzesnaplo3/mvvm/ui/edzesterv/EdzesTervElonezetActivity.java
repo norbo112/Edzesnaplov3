@@ -1,5 +1,6 @@
 package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.edzesterv;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -26,6 +27,7 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.Edzesnap;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.GyakorlatTerv;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.edzesterv.utils.EdzesTervViewModel;
 import dagger.hilt.android.AndroidEntryPoint;
+import dagger.hilt.android.qualifiers.ActivityContext;
 
 @AndroidEntryPoint
 public class EdzesTervElonezetActivity extends EdzesTervBaseActivity<MvvmActivityEdzestervElonezetBinding> {
@@ -45,7 +47,7 @@ public class EdzesTervElonezetActivity extends EdzesTervBaseActivity<MvvmActivit
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        initElonezet();
+        initElonezet(edzesTervViewModel.getEdzesTerv(), binding.tervElonezetLinearLayout, this);
 
         binding.tervMentesBtn.setOnClickListener(v -> {
             try {
@@ -63,10 +65,11 @@ public class EdzesTervElonezetActivity extends EdzesTervBaseActivity<MvvmActivit
         });
     }
 
-    private void initElonezet() {
-        EdzesTerv edzesTerv = edzesTervViewModel.getEdzesTerv();
+    public void initElonezet(EdzesTerv edzesTerv, LinearLayout layout, Context mContext) {
+//        EdzesTerv edzesTerv = edzesTervViewModel.getEdzesTerv();
         if(edzesTerv != null) {
-            binding.tervMegnevezes.setText(edzesTerv.getMegnevezes());
+            if(!isTablet(mContext)) binding.tervMegnevezes.setText(edzesTerv.getMegnevezes());
+
             List<Edzesnap> edzesnapList = edzesTerv.getEdzesnapList();
 
             for (Edzesnap edzesnap: edzesnapList) {
@@ -76,13 +79,13 @@ public class EdzesTervElonezetActivity extends EdzesTervBaseActivity<MvvmActivit
                 params.bottomMargin = 20;
                 params.leftMargin = 10;
 
-                TextView textView = new TextView(this);
+                TextView textView = new TextView(mContext);
                 textView.setLayoutParams(params);
                 textView.setText(edzesnap.getEdzesNapLabel());
                 textView.setPadding(10,10,10,10);
                 textView.setBackgroundResource(R.drawable.custom_et_gyak_hatter);
 //                binding.tervElonezetLinearLayout.setGravity(Gravity.CENTER);
-                binding.tervElonezetLinearLayout.addView(textView);
+                layout.addView(textView);
 
                 for(Csoport csoport: edzesnap.getValasztottCsoport()) {
                     params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -91,10 +94,10 @@ public class EdzesTervElonezetActivity extends EdzesTervBaseActivity<MvvmActivit
                     params.bottomMargin = 20;
                     params.leftMargin = 70;
 
-                    TextView textView1 = new TextView(this);
+                    TextView textView1 = new TextView(mContext);
                     textView1.setLayoutParams(params);
                     textView1.setText(csoport.getIzomcsoport());
-                    binding.tervElonezetLinearLayout.addView(textView1);
+                    layout.addView(textView1);
 
                     params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -102,14 +105,18 @@ public class EdzesTervElonezetActivity extends EdzesTervBaseActivity<MvvmActivit
                     params.bottomMargin = 20;
                     params.leftMargin = 100;
                     for(GyakorlatTerv gyakorlatTerv: csoport.getValasztottGyakorlatok()) {
-                        TextView textView2 = new TextView(this);
+                        TextView textView2 = new TextView(mContext);
                         textView2.setLayoutParams(params);
                         textView2.setText(gyakorlatTerv.toString());
 
-                        binding.tervElonezetLinearLayout.addView(textView2);
+                        layout.addView(textView2);
                     }
                 }
             }
         }
+    }
+
+    private boolean isTablet(Context context) {
+        return context.getResources().getBoolean(R.bool.isTablet);
     }
 }

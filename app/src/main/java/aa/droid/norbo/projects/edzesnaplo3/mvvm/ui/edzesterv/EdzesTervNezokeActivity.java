@@ -64,7 +64,7 @@ public class EdzesTervNezokeActivity extends EdzesTervBaseActivity<MvvmActivityE
         edzesTervViewModel.getEdzestervek().observe(this, edzesTervWithEdzesnaps -> {
             if(edzesTervWithEdzesnaps != null && edzesTervWithEdzesnaps.size() > 0) {
                 binding.tervElonezetLinearLayout.removeAllViews();
-                initElonezet(makeEdzesterv(edzesTervWithEdzesnaps));
+                initElonezet(makeEdzesterv(edzesTervWithEdzesnaps), binding.tervElonezetLinearLayout);
             } else {
                 appendInfo();
             }
@@ -81,7 +81,7 @@ public class EdzesTervNezokeActivity extends EdzesTervBaseActivity<MvvmActivityE
         binding.tervElonezetLinearLayout.addView(textView);
     }
 
-    private List<EdzesTerv> makeEdzesterv(List<EdzesTervWithEdzesnap> edzesTervWithEdzesnaps) {
+    public List<EdzesTerv> makeEdzesterv(List<EdzesTervWithEdzesnap> edzesTervWithEdzesnaps) {
         List<EdzesTerv> edzesTervs = new ArrayList<>();
 
         for (EdzesTervWithEdzesnap edzesTervWithEdzesnap : edzesTervWithEdzesnaps) {
@@ -111,7 +111,7 @@ public class EdzesTervNezokeActivity extends EdzesTervBaseActivity<MvvmActivityE
         return edzesTervs;
     }
 
-    private void initElonezet(List<EdzesTerv> edzesTervs) {
+    public void initElonezet(List<EdzesTerv> edzesTervs, LinearLayout layout) {
         for(EdzesTerv terv: edzesTervs) {
             LinearLayout linearLayout = new LinearLayout(this);
             LinearLayout.LayoutParams llparam = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -184,7 +184,7 @@ public class EdzesTervNezokeActivity extends EdzesTervBaseActivity<MvvmActivityE
                 }
             }
 
-            binding.tervElonezetLinearLayout.addView(linearLayout);
+            layout.addView(linearLayout);
         }
     }
 

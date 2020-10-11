@@ -28,6 +28,7 @@ import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmActivityEdzestervKesz
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmAlertTevekenysegElhagyasaBinding;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmEdzestervHanyszorhanySzerkesztoBinding;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.Csoport;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.EdzesTerv;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.Edzesnap;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.GyakorlatTerv;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Gyakorlat;
@@ -66,6 +67,8 @@ public class EdzesTervKeszitoActivity extends EdzesTervBaseActivity<MvvmActivity
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
+        binding.setIstablet(isTablet());
+
         initAdapters();
         initIzomcsoportok();
         initEdzesnap();
@@ -102,10 +105,40 @@ public class EdzesTervKeszitoActivity extends EdzesTervBaseActivity<MvvmActivity
             Toast.makeText(this, "Pihenőnap r9gzítve", Toast.LENGTH_SHORT).show();
         });
 
-        binding.btnEdzesnapElonezet.setOnClickListener(v -> {
-            startActivity(new Intent(this, EdzesTervElonezetActivity.class));
-            overridePendingTransition(R.anim.move_right_in_activity, R.anim.move_left_out_activity);
-        });
+        if(!isTablet()) {
+            binding.btnEdzesnapElonezet.setOnClickListener(v -> {
+                startActivity(new Intent(this, EdzesTervElonezetActivity.class));
+                overridePendingTransition(R.anim.move_right_in_activity, R.anim.move_left_out_activity);
+            });
+        }
+
+        if(isTablet()) {
+            EdzesTervElonezetActivity elonezetActivity = new EdzesTervElonezetActivity();
+            edzesTervViewModel.getEdzesTervLiveData().observe(this, edzesTerv -> {
+                if(edzesTerv != null) {
+                    binding.edzestervElonezetInKeszito.tervElonezetLinearLayout.removeAllViews();
+                    binding.edzestervElonezetInKeszito.tervMegnevezes.setText(edzesTerv.getMegnevezes());
+                    elonezetActivity.initElonezet(edzesTerv, binding.edzestervElonezetInKeszito.tervElonezetLinearLayout, EdzesTervKeszitoActivity.this);
+                }
+            });
+
+            binding.edzestervElonezetInKeszito.tervMentesBtn.setOnClickListener(v -> {
+                try {
+                    edzesTervViewModel.mentes().whenComplete((aVoid, throwable) -> {
+                        if (throwable != null) {
+                            runOnUiThread(() -> Toast.makeText(EdzesTervKeszitoActivity.this, "Hiba történt a mentés közben", Toast.LENGTH_SHORT).show());
+                            return;
+                        }
+                        runOnUiThread(() -> Toast.makeText(EdzesTervKeszitoActivity.this, "Az edzésterv sikeresen mentve", Toast.LENGTH_SHORT).show());
+                    });
+
+                    clearItems();
+                    edzesTervViewModel.clear();
+                } catch (NullPointerException e) {
+                    Toast.makeText(EdzesTervKeszitoActivity.this, "Nincs mit menteni", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
 
         binding.btnEdzesnapFelvetele.setOnClickListener(v -> {
             if(!isTervGood()) {

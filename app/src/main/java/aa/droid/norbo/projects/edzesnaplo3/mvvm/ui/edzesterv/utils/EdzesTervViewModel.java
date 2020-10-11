@@ -1,6 +1,7 @@
 package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.edzesterv.utils;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import java.util.List;
@@ -18,6 +19,7 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.edzesterv.relations.Edze
 public class EdzesTervViewModel extends ViewModel {
     private EdzesTervRepository edzesTervRepository;
     private EdzesTerv edzesTerv;
+    private MutableLiveData<EdzesTerv> mutableLiveData;
 
     @Inject
     public EdzesTervViewModel(EdzesTervRepository edzesTervRepository) {
@@ -33,7 +35,16 @@ public class EdzesTervViewModel extends ViewModel {
             return false;
         }
         edzesTerv.addEdzesNap(edzesnap);
+
+        if(mutableLiveData != null)
+            mutableLiveData.postValue(edzesTerv);
         return true;
+//        EdzesTerv edzesTerv = mutableLiveData.getValue();
+//        if(edzesTerv.getEdzesnapList().contains(edzesnap)) {
+//            return false;
+//        }
+//        edzesTerv.addEdzesNap(edzesnap);
+//        mutableLiveData.postValue(edzesTerv);
     }
 
     public boolean isEdzesnapInEdzesterv(String edzesnapLabel) {
@@ -50,6 +61,7 @@ public class EdzesTervViewModel extends ViewModel {
 
     public void clear() {
         this.edzesTerv = null;
+        mutableLiveData.postValue(edzesTerv);
     }
 
     public CompletableFuture<Void> mentes() throws NullPointerException {
@@ -65,5 +77,13 @@ public class EdzesTervViewModel extends ViewModel {
 
     public CompletableFuture<Void> deleteTerv(int tervId) {
         return edzesTervRepository.deleteTerv(tervId);
+    }
+
+    public LiveData<EdzesTerv> getEdzesTervLiveData() {
+        if(mutableLiveData == null) {
+            mutableLiveData = new MutableLiveData<>();
+            mutableLiveData.setValue(edzesTerv);
+        }
+        return mutableLiveData;
     }
 }
