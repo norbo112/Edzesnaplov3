@@ -461,10 +461,6 @@ public class EdzesTervKeszitoActivity extends EdzesTervBaseActivity<MvvmActivity
         return true;
     }
 
-    private boolean isTablet() {
-        return getResources().getBoolean(R.bool.isTablet);
-    }
-
     public class SorozatAdatUI {
         String sorozat;
         String ismetles;
