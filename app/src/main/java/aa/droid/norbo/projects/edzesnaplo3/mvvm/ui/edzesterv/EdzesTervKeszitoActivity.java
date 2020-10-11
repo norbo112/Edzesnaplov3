@@ -20,6 +20,8 @@ import androidx.appcompat.app.AlertDialog;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -151,6 +153,11 @@ public class EdzesTervKeszitoActivity extends EdzesTervBaseActivity<MvvmActivity
                 return;
             }
 
+            if(!csoportGyakorlatai()) {
+                Toast.makeText(this, "Nem választottál gyakorlatokat az izomcsoportokhoz", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             Edzesnap edzesnap = new Edzesnap(binding.edzesnapSpinner.getSelectedItem().toString());
             for(String csoport: izomcsoportok) {
                 Csoport tervCsoport = new Csoport(csoport);
@@ -187,6 +194,11 @@ public class EdzesTervKeszitoActivity extends EdzesTervBaseActivity<MvvmActivity
                     .setNegativeButton("mégse", (dialog, which) -> dialog.dismiss())
                     .show();
         });
+    }
+
+    private boolean csoportGyakorlatai() {
+        Set<String> gyakorlatokCsoportjai = gyakorlatTervs.stream().map(gy -> gy.getIzomcsoportNev()).collect(Collectors.toSet());
+        return gyakorlatokCsoportjai.containsAll(izomcsoportok);
     }
 
     private void initEdzesnap() {
