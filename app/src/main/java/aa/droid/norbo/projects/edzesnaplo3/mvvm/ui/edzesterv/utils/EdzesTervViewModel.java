@@ -65,6 +65,10 @@ public class EdzesTervViewModel extends ViewModel {
         return edzesTervRepository.insert(edzesTerv);
     }
 
+    public CompletableFuture<Void> mentes(EdzesTerv edzesTerv) {
+        return edzesTervRepository.insert(edzesTerv);
+    }
+
     public LiveData<List<EdzesTervWithEdzesnap>> getEdzestervek() {
         return edzesTervRepository.getTervek();
     }

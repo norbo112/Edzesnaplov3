@@ -3,6 +3,8 @@ package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.edzesterv;
 import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.Intent;
+import android.media.MediaActionSound;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.DragEvent;

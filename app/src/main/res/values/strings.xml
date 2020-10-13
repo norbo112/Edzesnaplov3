@@ -35,4 +35,8 @@
     <string name="mvvm_edzesterv_belepo_title">Edzésterv tervező</string>
     <string name="mvm_edzesterv_belepo_tervezo_open_label">Belépés a tervezőbe</string>
     <string name="mvm_edzesterv_belepo_terv_label">Edzéstervek\nmegtekintése</string>
+    <string name="mvvm_edzesterv_title_layout_button_del">Adott edzésterv törlése</string>
+    <string name="mvvm_edzesterv_title_layout_button_save">Adott edzésterv mentése</string>
+    <string name="mvvm_edzesterv_title_layout_terv_label">Edzésterv elnevezés</string>
+    <string name="edzesterv_menu_betoltes">Terv betöltése</string>
 </resources>

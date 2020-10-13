@@ -1,10 +1,11 @@
 package aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class EdzesTerv {
+public class EdzesTerv implements Serializable {
     private int tervId;
     private String megnevezes;
     private List<Edzesnap> edzesnapList;

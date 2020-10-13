@@ -1,17 +1,24 @@
 package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.edzesterv;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.res.ResourcesCompat;
 
@@ -19,12 +26,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.inject.Inject;
 
 import aa.droid.norbo.projects.edzesnaplo3.R;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmActivityEdzestervElonezetBinding;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmActivityEdzestervNezokeBinding;
+import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmDialogLoadEdzestervLayoutBinding;
+import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmEdzestervTitleDialogLayoutBinding;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmEdzestervTitleLayoutBinding;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.converters.TervModelConverter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.Csoport;
@@ -35,6 +45,8 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.edzesterv.relations.Csop
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.edzesterv.relations.EdzesTervWithEdzesnap;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.edzesterv.relations.EdzesnapWithCsoport;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.edzesterv.GyakorlatTervEntity;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.service.files.edzesterv.TervFileService;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.edzesterv.utils.EdzesTervKeszito;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.edzesterv.utils.EdzesTervViewModel;
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -47,6 +59,13 @@ public class EdzesTervNezokeActivity extends EdzesTervBaseActivity<MvvmActivityE
 
     @Inject
     TervModelConverter modelConverter;
+
+    @Inject
+    EdzesTervKeszito edzesTervKeszito;
+
+    @Inject
+    TervFileService tervFileService;
+    private static final int FILE_LOAD_RCODE = 1001;
 
     public EdzesTervNezokeActivity() {
         super(R.layout.mvvm_activity_edzesterv_nezoke);
@@ -65,10 +84,63 @@ public class EdzesTervNezokeActivity extends EdzesTervBaseActivity<MvvmActivityE
             binding.tervElonezetLinearLayout.removeAllViews();
             binding.tervElonezetLinearLayout.invalidate();
             if (edzesTervWithEdzesnaps != null && edzesTervWithEdzesnaps.size() > 0) {
-
-                initElonezet(makeEdzesterv(edzesTervWithEdzesnaps), binding.tervElonezetLinearLayout);
+                initElonezet(edzesTervKeszito.makeEdzesterv(edzesTervWithEdzesnaps), binding.tervElonezetLinearLayout, false);
             } else {
                 appendInfo();
+            }
+        });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.mvvm_edzesterv_nezoke_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.edzesterv_menu_betoltes) {
+            Intent filechooser = new Intent(Intent.ACTION_GET_CONTENT);
+            filechooser.setType("*/*");
+            filechooser.putExtra(Intent.EXTRA_MIME_TYPES, new String[]{"application/octet-stream", "application/json"});
+            filechooser.addCategory(Intent.CATEGORY_OPENABLE);
+            startActivityForResult(filechooser, FILE_LOAD_RCODE);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if(requestCode == FILE_LOAD_RCODE && resultCode == RESULT_OK) {
+            betoltottTervDialog(data.getData());
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void betoltottTervDialog(Uri data) {
+        tervFileService.futureLoadSaveFile(data).whenComplete((edzesTerv, throwable) -> {
+            if(throwable != null) {
+                runOnUiThread(() -> Toast.makeText(EdzesTervNezokeActivity.this, "Nem sikerült betölteni a fájlt", Toast.LENGTH_SHORT).show());
+                Log.e(TAG, "betoltottTervDialog: ", throwable);
+            } else {
+                runOnUiThread(() -> {
+                    MvvmDialogLoadEdzestervLayoutBinding binding = MvvmDialogLoadEdzestervLayoutBinding.inflate(getLayoutInflater(), null, false);
+                    initElonezet(Stream.of(edzesTerv).collect(Collectors.toList()), binding.tervElonezetLinearLayout, true);
+                    new AlertDialog.Builder(EdzesTervNezokeActivity.this)
+                            .setTitle("Edzésterv rögzítése az adatbázisban?")
+                            .setView(binding.getRoot())
+                            .setNegativeButton("mégse", (dialog, which) -> dialog.dismiss())
+                            .setPositiveButton("mentés", (dialog, which) -> edzesTervViewModel.mentes(edzesTerv).whenComplete((aVoid, throwable1) -> {
+                                if(throwable1 != null) {
+                                    Toast.makeText(EdzesTervNezokeActivity.this, "Nem sikerült menteni az adatbázisba :(", Toast.LENGTH_SHORT).show();
+                                    Log.e(TAG, "betoltottTervDialog: adat mentés fájlból adatbázisba", throwable1);
+                                } else {
+                                    Toast.makeText(EdzesTervNezokeActivity.this, "Sikertesen mentve az adatbázisba", Toast.LENGTH_SHORT).show();
+                                    dialog.dismiss();
+                                }
+                            }))
+                            .show();
+                });
             }
         });
     }
@@ -83,37 +155,7 @@ public class EdzesTervNezokeActivity extends EdzesTervBaseActivity<MvvmActivityE
         binding.tervElonezetLinearLayout.addView(textView);
     }
 
-    public List<EdzesTerv> makeEdzesterv(List<EdzesTervWithEdzesnap> edzesTervWithEdzesnaps) {
-        List<EdzesTerv> edzesTervs = new ArrayList<>();
-
-        for (EdzesTervWithEdzesnap edzesTervWithEdzesnap : edzesTervWithEdzesnaps) {
-            EdzesTerv edzesTerv = new EdzesTerv(edzesTervWithEdzesnap.edzesTervEntity.getMegnevezes());
-            edzesTerv.setTervId(edzesTervWithEdzesnap.edzesTervEntity.getId());
-            for (EdzesnapWithCsoport eddzesnap : edzesTervWithEdzesnap.edzesnapList) {
-                Set<String> csoport = eddzesnap.csoportsWithGyakorlat.stream().map(
-                        csoportWithGyakorlatTerv -> csoportWithGyakorlatTerv.csoportEntity.getIzomcsoport()
-                ).collect(Collectors.toSet());
-                Edzesnap edzesnap = new Edzesnap(eddzesnap.edzesnapEntity.getEdzesNapLabel());
-                csoport.forEach(s -> {
-                    Csoport csoport1 = new Csoport(s);
-                    for (CsoportWithGyakorlatTerv csoportsWithGyakorlat : eddzesnap.csoportsWithGyakorlat) {
-                        if (csoportsWithGyakorlat.csoportEntity.getIzomcsoport().equals(s)) {
-                            for (GyakorlatTervEntity gy : csoportsWithGyakorlat.gyakorlatTervEntities) {
-                                csoport1.addGyakorlat(modelConverter.getFromEntity(gy));
-                            }
-                        }
-                    }
-                    edzesnap.addCsoport(csoport1);
-                });
-                edzesTerv.addEdzesNap(edzesnap);
-            }
-            edzesTervs.add(edzesTerv);
-        }
-
-        return edzesTervs;
-    }
-
-    public void initElonezet(List<EdzesTerv> edzesTervs, LinearLayout layout) {
+    public void initElonezet(List<EdzesTerv> edzesTervs, LinearLayout layout, boolean isDialog) {
         for (EdzesTerv terv : edzesTervs) {
             LinearLayout linearLayout = new LinearLayout(this);
             LinearLayout.LayoutParams llparam = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -125,24 +167,19 @@ public class EdzesTervNezokeActivity extends EdzesTervBaseActivity<MvvmActivityE
 
             List<Edzesnap> edzesnapList = terv.getEdzesnapList();
 
-            MvvmEdzestervTitleLayoutBinding titleLayoutBinding = MvvmEdzestervTitleLayoutBinding.inflate(LayoutInflater.from(this), null, false);
-            titleLayoutBinding.etTitleLabel.setText(terv.getMegnevezes());
-            titleLayoutBinding.setTervId(terv.getTervId());
-            titleLayoutBinding.setSzerkeszto(new TervSzerkeszto());
-//            params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-//                    LinearLayout.LayoutParams.WRAP_CONTENT);
-//            params.topMargin = 0;
-//            params.bottomMargin = 20;
-//            TextView tt = new TextView(this);
-//            tt.setLayoutParams(params);
-//            tt.setText(terv.getMegnevezes());
-//            tt.setGravity(Gravity.CENTER);
-//            tt.setBackgroundColor(Color.BLACK);
-//            tt.setTextColor(Color.WHITE);
-//            tt.setPadding(20,20,20,20);
-//            tt.setTextSize(21);
 
-            linearLayout.addView(titleLayoutBinding.getRoot());
+            if(isDialog) {
+                MvvmEdzestervTitleDialogLayoutBinding titleLayoutBinding = MvvmEdzestervTitleDialogLayoutBinding.inflate(LayoutInflater.from(this), null, false);
+                titleLayoutBinding.etTitleLabel.setText(terv.getMegnevezes());
+                linearLayout.addView(titleLayoutBinding.getRoot());
+            } else {
+                MvvmEdzestervTitleLayoutBinding titleLayoutBinding = MvvmEdzestervTitleLayoutBinding.inflate(LayoutInflater.from(this), null, false);
+                titleLayoutBinding.etTitleLabel.setText(terv.getMegnevezes());
+                titleLayoutBinding.setTervId(terv.getTervId());
+                titleLayoutBinding.setEdzesterv(terv);
+                titleLayoutBinding.setSzerkeszto(new TervSzerkeszto());
+                linearLayout.addView(titleLayoutBinding.getRoot());
+            }
 
             for (Edzesnap edzesnap : edzesnapList) {
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -205,6 +242,19 @@ public class EdzesTervNezokeActivity extends EdzesTervBaseActivity<MvvmActivityE
                     .setNegativeButton("mégse", (dialog, which) -> dialog.dismiss())
                     .show();
 
+        }
+
+        public void tervMentese(EdzesTerv edzesTerv) {
+            tervFileService.futureFileSave(edzesTerv).whenComplete((uri, throwable) -> {
+                if(throwable != null) {
+                    runOnUiThread(() -> Toast.makeText(EdzesTervNezokeActivity.this, "Nem sikerült betölteni a fájlt", Toast.LENGTH_SHORT).show());
+                    return;
+                }
+
+                if(uri != null) {
+                    runOnUiThread(() -> Toast.makeText(EdzesTervNezokeActivity.this, uri.getEncodedPath()+" fájl mentve!", Toast.LENGTH_SHORT).show());
+                }
+            });
         }
     }
 }

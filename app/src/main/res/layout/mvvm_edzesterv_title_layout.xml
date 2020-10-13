@@ -8,6 +8,9 @@
         <variable
             name="tervId"
             type="Integer" />
+        <variable
+            name="edzesterv"
+            type="aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.EdzesTerv" />
     </data>
 
     <LinearLayout
@@ -24,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Edzésterv elnevezés"
+            android:text="@string/mvvm_edzesterv_title_layout_terv_label"
             android:textSize="21sp"
             android:textStyle="bold"
             android:textColor="#fff"
@@ -41,8 +44,21 @@
             android:background="@color/edzesHatter"
             android:drawableTint="#4FBB00"
             android:src="@drawable/ic_delete"
-            android:text="törlés"
             android:textColor="#fff"
-            android:onClick="@{() -> szerkeszto.tervTorlese(tervId)}"/>
+            android:onClick="@{() -> szerkeszto.tervTorlese(tervId)}"
+            android:contentDescription="@string/mvvm_edzesterv_title_layout_button_del" />
+
+        <ImageButton
+            android:id="@+id/etMentes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:layout_weight="3"
+            android:background="@color/edzesHatter"
+            android:onClick="@{() -> szerkeszto.tervMentese(edzesterv)}"
+            android:src="@drawable/ic_save"
+            android:textColor="#fff"
+            android:contentDescription="@string/mvvm_edzesterv_title_layout_button_save" />
     </LinearLayout>
 </layout>
