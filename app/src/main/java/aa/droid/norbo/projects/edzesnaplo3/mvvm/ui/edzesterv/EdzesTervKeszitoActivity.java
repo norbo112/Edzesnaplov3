@@ -174,8 +174,6 @@ public class EdzesTervKeszitoActivity extends EdzesTervBaseActivity<MvvmActivity
             if (edzesTervViewModel.addEdzesnapForEdzesTerv(edzesnap)) {
                 Toast.makeText(this, "Edzésnap rögzítve", Toast.LENGTH_SHORT).show();
                 clearItems();
-//                startActivity(new Intent(this, EdzesTervElonezetActivity.class));
-//                overridePendingTransition(R.anim.move_right_in_activity, R.anim.move_left_out_activity);
             } else {
                 new AlertDialog.Builder(this)
                         .setMessage("Ezt a napot már rögzítetted, válassz másikat, vagy mentéshez nyisd meg az előnézetet")
@@ -199,7 +197,7 @@ public class EdzesTervKeszitoActivity extends EdzesTervBaseActivity<MvvmActivity
     }
 
     private boolean csoportGyakorlatai() {
-        Set<String> gyakorlatokCsoportjai = gyakorlatTervs.stream().map(gy -> gy.getIzomcsoportNev()).collect(Collectors.toSet());
+        Set<String> gyakorlatokCsoportjai = gyakorlatTervs.stream().map(GyakorlatTerv::getIzomcsoportNev).collect(Collectors.toSet());
         return gyakorlatokCsoportjai.containsAll(izomcsoportok);
     }
 
