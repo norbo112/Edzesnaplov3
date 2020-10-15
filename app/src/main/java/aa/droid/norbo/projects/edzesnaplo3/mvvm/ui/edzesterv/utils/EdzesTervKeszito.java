@@ -1,6 +1,7 @@
 package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.edzesterv.utils;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -38,9 +39,9 @@ public class EdzesTervKeszito {
             EdzesTerv edzesTerv = new EdzesTerv(edzesTervWithEdzesnap.edzesTervEntity.getMegnevezes());
             edzesTerv.setTervId(edzesTervWithEdzesnap.edzesTervEntity.getId());
             for (EdzesnapWithCsoport eddzesnap : edzesTervWithEdzesnap.edzesnapList) {
-                Set<String> csoport = eddzesnap.csoportsWithGyakorlat.stream().map(
+                List<String> csoport = eddzesnap.csoportsWithGyakorlat.stream().map(
                         csoportWithGyakorlatTerv -> csoportWithGyakorlatTerv.csoportEntity.getIzomcsoport()
-                ).collect(Collectors.toSet());
+                ).distinct().collect(Collectors.toList());
                 Edzesnap edzesnap = new Edzesnap(eddzesnap.edzesnapEntity.getEdzesNapLabel());
                 csoport.forEach(s -> {
                     Csoport csoport1 = new Csoport(s);
