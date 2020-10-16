@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.LifecycleOwner;
 
 import java.util.List;
@@ -18,10 +19,12 @@ import java.util.stream.Collectors;
 import javax.inject.Inject;
 
 import aa.droid.norbo.projects.edzesnaplo3.R;
+import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmKorabbiSorozatItemBinding;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.TevekenysegEdzestervValasztoDialogItemBinding;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.Csoport;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.EdzesTerv;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.Edzesnap;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.TevekenysegActivity;
 import dagger.hilt.android.scopes.ActivityScoped;
 
 @ActivityScoped
@@ -65,11 +68,17 @@ public class EdzesTervValasztoDialog {
 
     public ArrayAdapter<EdzesTerv> getTervListAdapter(Context context, List<EdzesTerv> edzesTervs) {
         return new ArrayAdapter<EdzesTerv>(context, R.layout.tevekenyseg_edzesterv_valaszto_dialog_item, edzesTervs) {
+            TevekenysegEdzestervValasztoDialogItemBinding binding;
             @NonNull
             @Override
             public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-                @SuppressLint("ViewHolder") TevekenysegEdzestervValasztoDialogItemBinding binding = TevekenysegEdzestervValasztoDialogItemBinding.inflate(
-                        (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE), parent, false);
+                if(convertView == null) {
+                    convertView = LayoutInflater.from(context).inflate(R.layout.tevekenyseg_edzesterv_valaszto_dialog_item, parent, false);
+                    binding = DataBindingUtil.bind(convertView);
+                    convertView.setTag(binding);
+                } else {
+                    binding = (TevekenysegEdzestervValasztoDialogItemBinding) convertView.getTag();
+                }
 
                 EdzesTerv item = getItem(position);
                 binding.tevekenysegTervValasztoMegnevezes.setText(item.getMegnevezes());
