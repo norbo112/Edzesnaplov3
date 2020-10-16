@@ -1,9 +1,7 @@
 package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.edzesterv.utils;
 
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;

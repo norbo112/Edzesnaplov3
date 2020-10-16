@@ -67,12 +67,12 @@ public class EdzesTervTest {
 
         long insertedEdzesterv = edzesTervDao.insert(modelConverter.getEdzesTervEntity(edzesTerv));
         for (Edzesnap edzesnap : edzesTerv.getEdzesnapList()) {
-            edzesnapDao.insert(modelConverter.getEdzesnapEntity((int) insertedEdzesterv, edzesnap));
+            long insertEdzesnap = edzesnapDao.insert(modelConverter.getEdzesnapEntity((int) insertedEdzesterv, edzesnap));
             List<Csoport> valasztottCsoport = edzesnap.getValasztottCsoport();
             for (Csoport csoport: valasztottCsoport) {
-                long csoportid = csoportDao.insert(modelConverter.getCsoportEntity(csoport));
+                long csoportid = csoportDao.insert(modelConverter.getCsoportEntity((int)insertedEdzesterv, (int)insertEdzesnap, csoport));
                 for (GyakorlatTerv gyakorlatTerv: csoport.getValasztottGyakorlatok()) {
-                    gyakorlatTervDao.insert(modelConverter.getGyakorlatTervEntity((int) insertedEdzesterv, (int) csoportid, gyakorlatTerv));
+                    gyakorlatTervDao.insert(modelConverter.getGyakorlatTervEntity((int) insertedEdzesterv, (int) insertEdzesnap, (int) csoportid, gyakorlatTerv));
                 }
             }
         }
@@ -84,7 +84,7 @@ public class EdzesTervTest {
 
         Assert.assertEquals("3.nap pihenő", edzesTervWithEdzesnaps.get(0).edzesnapList.get(2).edzesnapEntity.getEdzesNapLabel());
 
-        List<EdzesTervWithGyakorlatTervek> gyakorlatTerveks = edzesTervDao.getAllGyakorlatForEdzestervToTest();
+        List<EdzesTervWithGyakorlatTervek> gyakorlatTerveks = edzesTervDao.getAllGyakorlatForEdzestervToTest((int) insertedEdzesterv);
         Assert.assertEquals(8, gyakorlatTerveks.get(0).gyakorlatTervEntity.size());
     }
 }

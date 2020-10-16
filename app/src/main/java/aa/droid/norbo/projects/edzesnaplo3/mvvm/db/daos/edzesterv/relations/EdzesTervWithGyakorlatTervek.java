@@ -12,7 +12,7 @@ public class EdzesTervWithGyakorlatTervek {
     @Embedded public EdzesTervEntity edzesTervEntity;
     @Relation(
             parentColumn = "id",
-            entityColumn = "edzesnapId"
+            entityColumn = "edzesTervId"
     )
     public List<GyakorlatTervEntity> gyakorlatTervEntity;
 }

@@ -22,8 +22,8 @@ public interface EdzesTervDao extends BaseDao<EdzesTervEntity> {
     List<EdzesTervWithEdzesnap> getAllForTest();
 
     @Transaction
-    @Query("SELECT * FROM edzesterventity")
-    List<EdzesTervWithGyakorlatTervek> getAllGyakorlatForEdzestervToTest();
+    @Query("SELECT * FROM edzesterventity WHERE id =:edzestervId")
+    List<EdzesTervWithGyakorlatTervek> getAllGyakorlatForEdzestervToTest(int edzestervId);
 
     @Query("DELETE FROM edzesterventity WHERE id =:tervId")
     void deleteById(int tervId);
