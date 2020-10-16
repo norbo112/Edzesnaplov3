@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class EdzesTerv implements Serializable {
     private int tervId;
@@ -54,8 +55,11 @@ public class EdzesTerv implements Serializable {
 
     @Override
     public String toString() {
-        return "EdzesTerv{" +
-                "megnevezes='" + megnevezes + '\'' +
-                '}';
+        if(edzesnapList != null) {
+            String csoportok = edzesnapList.stream().map(edzesnap -> edzesnap.getValasztottCsoport().toString()).collect(Collectors.joining(","));
+            return megnevezes+" "+csoportok;
+        } else {
+            return megnevezes;
+        }
     }
 }

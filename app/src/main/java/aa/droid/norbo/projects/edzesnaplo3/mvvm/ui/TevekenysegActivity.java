@@ -2,6 +2,7 @@ package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
@@ -35,9 +36,11 @@ import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmActivityTestBinding;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmAlertTevekenysegElhagyasaBinding;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmKorabbiSorozatItemBinding;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.GyakorlatUI;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.EdzesTerv;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Naplo;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Sorozat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.utils.AdatFeltoltes;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.edzesterv.utils.EdzesTervValasztoDialog;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.MvvmGyakorlatValasztoFragment;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.TevekenysegFragment;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.ViewPagerAdapter;
@@ -50,7 +53,7 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.SorozatViewModel;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class TevekenysegActivity extends BaseActiviry<MvvmActivityTestBinding> implements AdatKozloInterface {
+public class TevekenysegActivity extends BaseActiviry<MvvmActivityTestBinding> implements AdatKozloInterface, EdzesTervValasztoDialog.TervValasztoInterface {
     private static final String TAG = "TestActivity";
     private Integer gyakorlatId;
 
@@ -62,6 +65,12 @@ public class TevekenysegActivity extends BaseActiviry<MvvmActivityTestBinding> i
 
     @Inject
     DateTimeFormatter formatter;
+
+    @Inject
+    EdzesTervValasztoDialog tervValasztoDialog;
+
+    @Inject
+    SharedPreferences sharedPreferences;
 
     public TevekenysegActivity() {
         super(R.layout.mvvm_activity_test);
@@ -153,8 +162,22 @@ public class TevekenysegActivity extends BaseActiviry<MvvmActivityTestBinding> i
             Toast.makeText(this, "Naplók megtekintése TV", Toast.LENGTH_SHORT).show();
         } else if (item.getItemId() == R.id.tevekenyseg_gyakorlat_view) {
             korabbiSorozatokMegtekintese();
+        } else if(item.getItemId() == R.id.tevekenyseg_edzesterv_valaszto) {
+            tervValasztoDialog.makeValasztoDialog(this, this, this);
         }
         return super.onContextItemSelected(item);
+    }
+
+    @Override
+    public void tervValasztva(EdzesTerv edzesTerv) {
+        SharedPreferences.Editor edit = sharedPreferences.edit();
+        edit.putInt(VALASZTOTT_TERV, edzesTerv.getTervId());
+        if (edit.commit()) {
+            Toast.makeText(this, "Terv kiválasztva: "+edzesTerv.getMegnevezes(), Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Nem sikerült a kiválasztás", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     private void korabbiSorozatokMegtekintese() {

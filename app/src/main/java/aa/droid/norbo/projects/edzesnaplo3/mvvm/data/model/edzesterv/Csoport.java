@@ -37,4 +37,9 @@ public class Csoport {
     public int hashCode() {
         return Objects.hash(izomcsoport);
     }
+
+    @Override
+    public String toString() {
+        return izomcsoport+" ";
+    }
 }
