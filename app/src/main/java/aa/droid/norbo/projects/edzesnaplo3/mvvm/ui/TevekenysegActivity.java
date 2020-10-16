@@ -1,53 +1,34 @@
 package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui;
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
 import aa.droid.norbo.projects.edzesnaplo3.R;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmActivityTestBinding;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmAlertTevekenysegElhagyasaBinding;
-import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmKorabbiSorozatItemBinding;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.GyakorlatUI;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.EdzesTerv;
-import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Naplo;
-import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Sorozat;
-import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.utils.AdatFeltoltes;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.edzesterv.utils.EdzesTervValasztoDialog;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.MvvmGyakorlatValasztoFragment;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.TevekenysegFragment;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.ViewPagerAdapter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.adatkozlo.AdatKozloInterface;
-import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.rcviews.KorabbiSorozatRcViewAdapter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.DateTimeFormatter;
-import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.NaploListFactory;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.naplo.NaploWorker;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.naplo.SorozatUtil;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.SorozatViewModel;
@@ -56,7 +37,7 @@ import dagger.hilt.android.AndroidEntryPoint;
 @AndroidEntryPoint
 public class TevekenysegActivity extends BaseActiviry<MvvmActivityTestBinding> implements AdatKozloInterface, EdzesTervValasztoDialog.TervValasztoInterface {
     private static final String TAG = "TestActivity";
-    private Integer gyakorlatId;
+    private GyakorlatUI gyakorlatUI;
 
     @Inject
     NaploWorker naploWorker;
@@ -151,9 +132,10 @@ public class TevekenysegActivity extends BaseActiviry<MvvmActivityTestBinding> i
         for (Fragment fragment: fragments) {
             if(fragment instanceof TevekenysegFragment) {
                 ((TevekenysegFragment)fragment).gyakorlatAtado(gyakorlatUI);
-                gyakorlatId = gyakorlatUI.getId();
             }
         }
+
+        this.gyakorlatUI = gyakorlatUI;
 
         if (!getResources().getBoolean(R.bool.isTablet)) {
             binding.viewPager.setCurrentItem(1, true);
@@ -185,15 +167,15 @@ public class TevekenysegActivity extends BaseActiviry<MvvmActivityTestBinding> i
     }
 
     private void korabbiSorozatokMegtekintese() {
-        if(gyakorlatId == null) {
+        if(gyakorlatUI == null) {
             Toast.makeText(this, "Kérlek válassz egy gyakorlatot a megtekintéshez!", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        sorozatViewModel.getSorozatByGyakorlat(gyakorlatId).observe(this, sorozats -> {
+        sorozatViewModel.getSorozatByGyakorlat(gyakorlatUI.getId()).observe(this, sorozats -> {
             if(sorozats != null && sorozats.size() > 0) {
                 new AlertDialog.Builder(this)
-                        .setTitle("Sorozatok")
+                        .setTitle(gyakorlatUI.getMegnevezes())
                         .setAdapter(sorozatUtil.getSorozatEsNaploAdapter(sorozats), null)
                         .setPositiveButton("ok", (dialog, which) -> dialog.dismiss())
                         .show();
