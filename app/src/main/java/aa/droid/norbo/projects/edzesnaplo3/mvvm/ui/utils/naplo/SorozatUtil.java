@@ -83,7 +83,8 @@ public class SorozatUtil {
                 NaploEsSorozat item = getItem(position);
                 itemBinding.korabbiSorozatDatumLabel.setText(formatter.getNaploDatum(item.naplodatum) + " " + getSorozatOsszSuly(item.sorozats));
                 itemBinding.korabbiSorozatLista.setAdapter(new KorabbiSorozatRcViewAdapter(item.sorozats, formatter));
-                itemBinding.korabbiSorozatLista.setLayoutManager(new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false));
+//                itemBinding.korabbiSorozatLista.setLayoutManager(new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false));
+                itemBinding.korabbiSorozatLista.setLayoutManager(new LinearLayoutManager(context));
                 return itemBinding.getRoot();
             }
         };

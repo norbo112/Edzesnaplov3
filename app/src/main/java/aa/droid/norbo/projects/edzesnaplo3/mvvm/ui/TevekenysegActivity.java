@@ -23,8 +23,7 @@ import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmActivityTestBinding;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmAlertTevekenysegElhagyasaBinding;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.GyakorlatUI;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.EdzesTerv;
-import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.edzesterv.utils.EdzesTervValasztoUtil;
-import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.edzesterv.utils.EdzesTervViewModel;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.edzesterv.utils.EdzesTervManageUtil;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.MvvmGyakorlatValasztoFragment;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.TevekenysegFragment;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.ViewPagerAdapter;
@@ -36,7 +35,7 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.SorozatViewModel;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class TevekenysegActivity extends BaseActiviry<MvvmActivityTestBinding> implements AdatKozloInterface, EdzesTervValasztoUtil.TervValasztoInterface {
+public class TevekenysegActivity extends BaseActiviry<MvvmActivityTestBinding> implements AdatKozloInterface, EdzesTervManageUtil.TervValasztoInterface {
     private static final String TAG = "TestActivity";
     private GyakorlatUI gyakorlatUI;
 
@@ -50,7 +49,7 @@ public class TevekenysegActivity extends BaseActiviry<MvvmActivityTestBinding> i
     DateTimeFormatter formatter;
 
     @Inject
-    EdzesTervValasztoUtil edzesTervValasztoUtil;
+    EdzesTervManageUtil edzesTervManageUtil;
 
     @Inject
     SorozatUtil sorozatUtil;
@@ -92,7 +91,7 @@ public class TevekenysegActivity extends BaseActiviry<MvvmActivityTestBinding> i
     private void checkSharedPrefForEdzesTerv() {
         String string = sharedPreferences.getString(VALASZTOTT_TERV_MEGNEVEZES, null);
         if(string != null) {
-            edzesTervValasztoUtil.getEdzesTervById(this, sharedPreferences.getInt(VALASZTOTT_TERV_ID, 0))
+            edzesTervManageUtil.getEdzesTervById(this, sharedPreferences.getInt(VALASZTOTT_TERV_ID, 0))
                     .observe(this, this::valasztottTervFragmentErtesites);
         }
     }
@@ -160,7 +159,7 @@ public class TevekenysegActivity extends BaseActiviry<MvvmActivityTestBinding> i
         } else if (item.getItemId() == R.id.tevekenyseg_gyakorlat_view) {
             sorozatUtil.sorozatNezokeDialog(this, gyakorlatUI);
         } else if(item.getItemId() == R.id.tevekenyseg_edzesterv_valaszto) {
-            edzesTervValasztoUtil.makeValasztoDialog(this, this, this);
+            edzesTervManageUtil.makeValasztoDialog(this, this, this);
         }
         return super.onContextItemSelected(item);
     }
@@ -181,8 +180,8 @@ public class TevekenysegActivity extends BaseActiviry<MvvmActivityTestBinding> i
 
     public void valasztottTervFragmentErtesites(EdzesTerv edzesTerv) {
         for (Fragment fragment: getSupportFragmentManager().getFragments()) {
-            if(fragment instanceof EdzesTervValasztoUtil.TervValasztoInterface) {
-                ((EdzesTervValasztoUtil.TervValasztoInterface)fragment).tervValasztva(edzesTerv);
+            if(fragment instanceof EdzesTervManageUtil.TervValasztoInterface) {
+                ((EdzesTervManageUtil.TervValasztoInterface)fragment).tervValasztva(edzesTerv);
             }
         }
     }
