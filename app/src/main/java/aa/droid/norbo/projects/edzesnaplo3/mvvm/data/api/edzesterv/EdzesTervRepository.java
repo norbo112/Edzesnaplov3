@@ -14,4 +14,6 @@ public interface EdzesTervRepository {
     LiveData<List<EdzesTervWithEdzesnap>> getTervek();
 
     CompletableFuture<Void> deleteTerv(int tervId);
+
+    LiveData<EdzesTervWithEdzesnap> getTervek(int id);
 }

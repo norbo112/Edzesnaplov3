@@ -5,10 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,9 +25,11 @@ import javax.inject.Inject;
 
 import aa.droid.norbo.projects.edzesnaplo3.R;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmKorabbiSorozatItemBinding;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.GyakorlatUI;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Sorozat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.rcviews.KorabbiSorozatRcViewAdapter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.DateTimeFormatter;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.SorozatViewModel;
 import dagger.hilt.android.qualifiers.ActivityContext;
 import dagger.hilt.android.scopes.ActivityScoped;
 
@@ -32,11 +37,32 @@ import dagger.hilt.android.scopes.ActivityScoped;
 public class SorozatUtil {
     private Context context;
     private DateTimeFormatter formatter;
+    private SorozatViewModel sorozatViewModel;
 
     @Inject
-    public SorozatUtil(@ActivityContext Context context, DateTimeFormatter formatter) {
+    public SorozatUtil(@ActivityContext Context context, DateTimeFormatter formatter, SorozatViewModel sorozatViewModel) {
         this.context = context;
         this.formatter = formatter;
+        this.sorozatViewModel = sorozatViewModel;
+    }
+
+    public void sorozatNezokeDialog(LifecycleOwner owner, GyakorlatUI gyakorlatUI) {
+        if(gyakorlatUI == null) {
+            Toast.makeText(context, "Kérlek válassz egy gyakorlatot a megtekintéshez!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        sorozatViewModel.getSorozatByGyakorlat(gyakorlatUI.getId()).observe(owner, sorozats -> {
+            if(sorozats != null && sorozats.size() > 0) {
+                new AlertDialog.Builder(context)
+                        .setTitle(gyakorlatUI.getMegnevezes())
+                        .setAdapter(getSorozatEsNaploAdapter(sorozats), null)
+                        .setPositiveButton("ok", (dialog, which) -> dialog.dismiss())
+                        .show();
+            } else {
+                Toast.makeText(context, "Nincs rögzítve még sorozat evvel a gyakorlattal", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public ArrayAdapter<NaploEsSorozat> getSorozatEsNaploAdapter(List<Sorozat> sorozats) {

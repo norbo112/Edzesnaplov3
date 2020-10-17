@@ -27,4 +27,8 @@ public interface EdzesTervDao extends BaseDao<EdzesTervEntity> {
 
     @Query("DELETE FROM edzesterventity WHERE id =:tervId")
     void deleteById(int tervId);
+
+    @Transaction
+    @Query("SELECT * FROM edzesterventity WHERE id =:id")
+    LiveData<EdzesTervWithEdzesnap> getById(int id);
 }

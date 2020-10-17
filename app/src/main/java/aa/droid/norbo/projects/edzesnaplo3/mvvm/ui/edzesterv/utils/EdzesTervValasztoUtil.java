@@ -1,6 +1,5 @@
 package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.edzesterv.utils;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,23 +11,24 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.inject.Inject;
 
 import aa.droid.norbo.projects.edzesnaplo3.R;
-import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmKorabbiSorozatItemBinding;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.TevekenysegEdzestervValasztoDialogItemBinding;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.Csoport;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.EdzesTerv;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.Edzesnap;
-import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.TevekenysegActivity;
 import dagger.hilt.android.scopes.ActivityScoped;
 
 @ActivityScoped
-public class EdzesTervValasztoDialog {
+public class EdzesTervValasztoUtil {
     private EdzesTervViewModel edzesTervViewModel;
     private EdzesTervKeszito edzesTervKeszito;
 
@@ -37,7 +37,7 @@ public class EdzesTervValasztoDialog {
     }
 
     @Inject
-    public EdzesTervValasztoDialog(EdzesTervViewModel edzesTervViewModel, EdzesTervKeszito edzesTervKeszito) {
+    public EdzesTervValasztoUtil(EdzesTervViewModel edzesTervViewModel, EdzesTervKeszito edzesTervKeszito) {
         this.edzesTervViewModel = edzesTervViewModel;
         this.edzesTervKeszito = edzesTervKeszito;
     }
@@ -99,5 +99,15 @@ public class EdzesTervValasztoDialog {
                 return sb.toString();
             }
         };
-    };
+    }
+
+    public LiveData<EdzesTerv> getEdzesTervById(LifecycleOwner owner, int id) {
+        MutableLiveData<EdzesTerv> liveData = new MutableLiveData<>();
+        edzesTervViewModel.getEdzesTervById(id).observe(owner, edzesTervWithEdzesnaps -> {
+            if(edzesTervWithEdzesnaps!=null) {
+                liveData.postValue(edzesTervKeszito.makeEdzesterv(Stream.of(edzesTervWithEdzesnaps).collect(Collectors.toList())).get(0));
+            }
+        });
+        return liveData;
+    }
 }

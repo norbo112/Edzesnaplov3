@@ -62,4 +62,9 @@ public class LocalEdzesTervRepository implements EdzesTervRepository {
     public LiveData<List<EdzesTervWithEdzesnap>> getTervek() {
         return database.edzesTervDao().getAll();
     }
+
+    @Override
+    public LiveData<EdzesTervWithEdzesnap> getTervek(int id) {
+        return database.edzesTervDao().getById(id);
+    }
 }

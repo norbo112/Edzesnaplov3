@@ -73,6 +73,10 @@ public class EdzesTervViewModel extends ViewModel {
         return edzesTervRepository.getTervek();
     }
 
+    public LiveData<EdzesTervWithEdzesnap> getEdzesTervById(int id) {
+        return edzesTervRepository.getTervek(id);
+    }
+
     public CompletableFuture<Void> deleteTerv(int tervId) {
         return edzesTervRepository.deleteTerv(tervId);
     }
