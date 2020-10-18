@@ -11,6 +11,7 @@
         <item>Alkar</item>
         <item>Has</item>
         <item>Csuklya</item>
+        <item>Vádli</item>
     </string-array>
     <string-array name="csoportokForTervezo">
         <item>Mell</item>
@@ -22,6 +23,7 @@
         <item>Alkar</item>
         <item>Has</item>
         <item>Csuklya</item>
+        <item>Vádli</item>
     </string-array>
 
     <string-array name="edzesnapok">
