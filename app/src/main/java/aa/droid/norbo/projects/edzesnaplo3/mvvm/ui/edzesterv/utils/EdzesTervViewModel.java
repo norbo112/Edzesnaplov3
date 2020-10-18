@@ -11,8 +11,10 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.api.edzesterv.EdzesTervRepository;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.Csoport;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.EdzesTerv;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.Edzesnap;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.GyakorlatTerv;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.edzesterv.relations.EdzesTervWithEdzesnap;
 
 @Singleton
@@ -87,5 +89,46 @@ public class EdzesTervViewModel extends ViewModel {
             mutableLiveData.setValue(edzesTerv);
         }
         return mutableLiveData;
+    }
+
+    public void notifyEdzesTerv() {
+        mutableLiveData.postValue(edzesTerv);
+    }
+
+    public boolean deleteGyakorlatTerv(GyakorlatTerv gyakorlatTerv) {
+        boolean oke = false;
+        for(Edzesnap edzesnap: edzesTerv.getEdzesnapList()) {
+            for (Csoport csoport: edzesnap.getValasztottCsoport()) {
+                oke = csoport.getValasztottGyakorlatok().remove(gyakorlatTerv);
+
+                if(csoport.getValasztottGyakorlatok().size() == 0)
+                    edzesnap.getValasztottCsoport().remove(csoport);
+            }
+
+            if(edzesnap.getValasztottCsoport().size() == 0)
+                edzesTerv.getEdzesnapList().remove(edzesnap);
+        }
+
+        notifyEdzesTerv();
+        return oke;
+    }
+
+    public boolean deleteCsoport(Csoport csoport) {
+        boolean oke = false;
+        for(Edzesnap edzesnap: edzesTerv.getEdzesnapList()) {
+            oke = edzesnap.getValasztottCsoport().remove(csoport);
+
+            if(edzesnap.getValasztottCsoport().size() == 0)
+                edzesTerv.getEdzesnapList().remove(edzesnap);
+        }
+
+        notifyEdzesTerv();
+        return oke;
+    }
+
+    public boolean deleteEdzesnap(Edzesnap edzesnap) {
+        boolean oke = edzesTerv.getEdzesnapList().remove(edzesnap);
+        notifyEdzesTerv();
+        return oke;
     }
 }

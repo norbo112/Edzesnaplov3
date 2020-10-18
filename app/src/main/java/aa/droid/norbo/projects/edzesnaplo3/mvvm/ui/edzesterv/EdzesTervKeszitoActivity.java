@@ -117,7 +117,7 @@ public class EdzesTervKeszitoActivity extends EdzesTervBaseActivity<MvvmActivity
         }
 
         if(isTablet()) {
-            EdzesTervElonezetActivity elonezetActivity = new EdzesTervElonezetActivity();
+            EdzesTervElonezetActivity elonezetActivity = new EdzesTervElonezetActivity(edzesTervViewModel);
             edzesTervViewModel.getEdzesTervLiveData().observe(this, edzesTerv -> {
                 if(edzesTerv != null) {
                     binding.edzestervElonezetInKeszito.tervElonezetLinearLayout.removeAllViews();
@@ -402,8 +402,11 @@ public class EdzesTervKeszitoActivity extends EdzesTervBaseActivity<MvvmActivity
                 Intent intent = event.getClipData().getItemAt(0).getIntent();
                 if(intent.getExtras().get("gyakorlatAdat") != null) {
                     Gyakorlat gyakorlat = (Gyakorlat) intent.getExtras().get("gyakorlatAdat");
-                    gyakorlatTervs.add(new GyakorlatTerv(gyakorlat.getMegnevezes(), gyakorlat.getCsoport()));
-                    gyakorlatTervArrayAdapter.notifyDataSetChanged();
+                    GyakorlatTerv gyterv = new GyakorlatTerv(gyakorlat.getMegnevezes(), gyakorlat.getCsoport());
+                    if(!gyakorlatTervs.contains(gyterv)) {
+                        gyakorlatTervs.add(gyterv);
+                        gyakorlatTervArrayAdapter.notifyDataSetChanged();
+                    }
                 }
             }
             return true;

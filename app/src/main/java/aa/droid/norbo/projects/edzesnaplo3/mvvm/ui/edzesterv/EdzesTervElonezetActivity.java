@@ -1,15 +1,23 @@
 package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.edzesterv;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.QuickContactBadge;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.appcompat.view.menu.MenuPopupHelper;
+import androidx.appcompat.widget.PopupMenu;
 
 import org.w3c.dom.Text;
 
@@ -34,8 +42,15 @@ public class EdzesTervElonezetActivity extends EdzesTervBaseActivity<MvvmActivit
     @Inject
     EdzesTervViewModel edzesTervViewModel;
 
+    private Context context;
+
     public EdzesTervElonezetActivity() {
         super(R.layout.mvvm_activity_edzesterv_elonezet);
+    }
+
+    public EdzesTervElonezetActivity(EdzesTervViewModel edzesTervViewModel) {
+        super(R.layout.mvvm_activity_edzesterv_elonezet);
+        this.edzesTervViewModel = edzesTervViewModel;
     }
 
     @Override
@@ -66,6 +81,7 @@ public class EdzesTervElonezetActivity extends EdzesTervBaseActivity<MvvmActivit
     }
 
     public void initElonezet(EdzesTerv edzesTerv, LinearLayout layout, Context mContext) {
+        this.context = mContext;
 //        EdzesTerv edzesTerv = edzesTervViewModel.getEdzesTerv();
         if(edzesTerv != null) {
             if(!isTablet(mContext)) binding.tervMegnevezes.setText(edzesTerv.getMegnevezes());
@@ -80,6 +96,8 @@ public class EdzesTervElonezetActivity extends EdzesTervBaseActivity<MvvmActivit
                 params.leftMargin = 10;
 
                 TextView textView = new TextView(mContext);
+                textView.setTag(edzesnap);
+                textView.setOnLongClickListener(tervAdatokListener);
                 textView.setLayoutParams(params);
                 textView.setText(edzesnap.getEdzesNapLabel());
                 textView.setPadding(10,10,10,10);
@@ -95,8 +113,10 @@ public class EdzesTervElonezetActivity extends EdzesTervBaseActivity<MvvmActivit
                     params.leftMargin = 70;
 
                     TextView textView1 = new TextView(mContext);
+                    textView1.setTag(csoport);
                     textView1.setLayoutParams(params);
                     textView1.setText(csoport.getIzomcsoport());
+                    textView1.setOnLongClickListener(tervAdatokListener);
                     layout.addView(textView1);
 
                     params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -106,9 +126,10 @@ public class EdzesTervElonezetActivity extends EdzesTervBaseActivity<MvvmActivit
                     params.leftMargin = 100;
                     for(GyakorlatTerv gyakorlatTerv: csoport.getValasztottGyakorlatok()) {
                         TextView textView2 = new TextView(mContext);
+                        textView2.setTag(gyakorlatTerv);
                         textView2.setLayoutParams(params);
                         textView2.setText(gyakorlatTerv.toString());
-
+                        textView2.setOnLongClickListener(tervAdatokListener);
                         layout.addView(textView2);
                     }
                 }
@@ -118,5 +139,51 @@ public class EdzesTervElonezetActivity extends EdzesTervBaseActivity<MvvmActivit
 
     private boolean isTablet(Context context) {
         return context.getResources().getBoolean(R.bool.isTablet);
+    }
+
+    private Object kijeloltTervAdat;
+
+    @SuppressLint("RestrictedApi")
+    private View.OnLongClickListener tervAdatokListener = v -> {
+
+        kijeloltTervAdat = v.getTag();
+
+        PopupMenu popupMenu = new PopupMenu(context, v);
+        popupMenu.getMenuInflater().inflate(R.menu.edzesterv_nezoke_edit_menu, popupMenu.getMenu());
+
+        popupMenu.setOnMenuItemClickListener(item -> {
+            onContextItemSelected(item);
+            return true;
+        });
+
+        MenuPopupHelper menuPopupHelper = new MenuPopupHelper(context, (MenuBuilder) popupMenu.getMenu(), v);
+        menuPopupHelper.setForceShowIcon(true);
+        menuPopupHelper.show();
+        return true;
+    };
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.edzesterv_szerk_torol) {
+            adatTorol(kijeloltTervAdat);
+        } else if(item.getItemId() == R.id.edzesterv_szerk_edit) {
+            Toast.makeText(context, "Edit...", Toast.LENGTH_SHORT).show();
+        }
+        return super.onContextItemSelected(item);
+    }
+
+    private void adatTorol(Object kijeloltTervAdat) {
+        if(kijeloltTervAdat == null) {
+            Toast.makeText(context, "Nincs mit törölni", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(kijeloltTervAdat instanceof GyakorlatTerv) {
+            edzesTervViewModel.deleteGyakorlatTerv((GyakorlatTerv) kijeloltTervAdat);
+        } else if(kijeloltTervAdat instanceof Csoport) {
+            edzesTervViewModel.deleteCsoport((Csoport) kijeloltTervAdat);
+        } else if(kijeloltTervAdat instanceof Edzesnap) {
+            edzesTervViewModel.deleteEdzesnap((Edzesnap) kijeloltTervAdat);
+        }
     }
 }
