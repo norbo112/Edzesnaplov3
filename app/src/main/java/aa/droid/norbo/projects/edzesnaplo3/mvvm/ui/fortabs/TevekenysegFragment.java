@@ -34,6 +34,8 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.adatkozlo.AdatKozloIn
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.DateTimeFormatter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.ModelConverter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.naplo.NaploWorker;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.naplo.SorozatUtil;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.SorozatViewModel;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
@@ -53,6 +55,12 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface 
 
     @Inject
     DateTimeFormatter formatter;
+
+    @Inject
+    SorozatUtil sorozatUtil;
+
+    @Inject
+    SorozatViewModel sorozatViewModel;
 
     @SuppressLint("ClickableViewAccessibility")
     @Nullable
@@ -115,6 +123,22 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface 
         this.gyakorlatUI = gyakorlatUI;
         naploWorker.setGyakorlat(modelConverter.fromUI(gyakorlatUI));
         binding.btnSorozatAdd.setEnabled(true);
+
+        if(getResources().getBoolean(R.bool.isTablet)) {
+            sorozatViewModel.getSorozatByGyakorlat(gyakorlatUI.getId()).observe(this, sorozats -> {
+                if(sorozats != null && sorozats.size() > 0) {
+                    binding.korabbanElvegzettSorozatok.setAdapter(sorozatUtil.getSorozatEsNaploAdapter(sorozats));
+                    binding.tvSorozatKorabbiTitle.setText(R.string.korabbi_sorozat_list_title);
+                } else {
+                    binding.tvSorozatKorabbiTitle.setText("Még nem rögzítettél sorozatot evvel a gyakorlattal!");
+                }
+            });
+        }
+    }
+
+    private void korabbiSorozatTitleReset() {
+        if(getResources().getBoolean(R.bool.isTablet))
+            binding.tvSorozatKorabbiTitle.setText(R.string.korabbi_sorozat_list_title);
     }
 
     public class TevekenysegClick {
@@ -148,6 +172,7 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface 
             naploWorker.prepareUjGyakorlat();
 
             gyakorlatValasztastAllit();
+            korabbiSorozatTitleReset();
         }
     }
 

@@ -3,6 +3,7 @@
     <string name="app_name_v4">Edzésnapló</string>
     <string name="menu_mentett_naplok_title">Mentett naplók</string>
     <string name="sorozat_list_title">Elvégzett sorozatok</string>
+    <string name="korabbi_sorozat_list_title">Korábban elvégzett sorozatok</string>
     <string name="welcome_title_belepo">Belépés az Edzésnaplóba</string>
     <string name="welcome_mentett_naplok_title">Mentett naplók</string>
     <string name="welcome_belepo_desc">Üdvözöllek az edzésnapló alkalmazásban!</string>
