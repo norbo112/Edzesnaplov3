@@ -146,6 +146,16 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface 
             binding.tvStopper.setText("00:00");
 
             naploWorker.prepareUjGyakorlat();
+
+            gyakorlatValasztastAllit();
+        }
+    }
+
+    private void gyakorlatValasztastAllit() {
+        for (Fragment fragment : getActivity().getSupportFragmentManager().getFragments()) {
+            if(fragment instanceof MvvmGyakorlatValasztoFragment) {
+                ((MvvmGyakorlatValasztoFragment)fragment).setGyakorlatValasztva(false);
+            }
         }
     }
 

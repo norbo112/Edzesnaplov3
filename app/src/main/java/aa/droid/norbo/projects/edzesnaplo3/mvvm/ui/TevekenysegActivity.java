@@ -15,6 +15,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -23,6 +24,7 @@ import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmActivityTestBinding;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmAlertTevekenysegElhagyasaBinding;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.GyakorlatUI;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.EdzesTerv;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Naplo;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.edzesterv.utils.EdzesTervManageUtil;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.MvvmGyakorlatValasztoFragment;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.TevekenysegFragment;
@@ -114,14 +116,18 @@ public class TevekenysegActivity extends BaseActiviry<MvvmActivityTestBinding> i
         setSupportActionBar(binding.toolbar.customToolbar);
         if(getSupportActionBar() != null) {
             binding.toolbar.naploDetails.setOnClickListener(v -> {
-                naploWorker.prepareUjGyakorlat();
+//                naploWorker.prepareUjGyakorlat(); itt ugye felveszi a aktuális sorozatokat is, de ezt inkább kézzel, mert lehet megszeretnénk nézni az eddigi müvelteket
+                Naplo naplo = naploWorker.getNaplo();
+                String title = "Napló "+formatter.getNaploDatum(naplo.getNaplodatum());
+                title += String.format(Locale.getDefault(), " (%,.0f Kg)", naplo.getSorozats().stream().mapToDouble(s -> s.getSuly() * s.getIsmetles()).sum());
+                title += " (mentés)";
                 new AlertDialog.Builder(this)
-                        .setTitle("Napló "+formatter.getNaploDatum(naploWorker.getNaplo().getNaplodatum())+" (mentés)")
-//                        .setMessage()
-                        .setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, naploWorker.getNaplo().getSorozats()), null)
+//                        .setTitle("Napló "+formatter.getNaploDatum(naploWorker.getNaplo().getNaplodatum())+" (mentés)")
+                        .setTitle(title)
+                        .setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, naplo.getSorozats()), null)
                         .setNeutralButton("ok", (dialog, which) -> dialog.dismiss())
                         .setPositiveButton("mentés", (dialog, which) -> {
-                            if(naploWorker.getNaplo().getSorozats().size() != 0) {
+                            if(naplo.getSorozats().size() != 0) {
                                 naploWorker.saveNaplo();
                                 finish();
                                 Toast.makeText(this, "Napló mentve!", Toast.LENGTH_SHORT).show();

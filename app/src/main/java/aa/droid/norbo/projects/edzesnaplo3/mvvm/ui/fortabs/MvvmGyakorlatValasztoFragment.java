@@ -53,6 +53,7 @@ public class MvvmGyakorlatValasztoFragment extends Fragment implements AdapterVi
     private static final String VALASSZ_IZOMCSOP = "Válassz...";
     private MvvmGyakorlatValasztoLayoutBinding binding;
     private AdatKozloInterface adatKozloInterface;
+    private boolean gyakorlatValasztva;
 
     @Inject
     GyakorlatViewModel gyakorlatViewModel;
@@ -142,8 +143,13 @@ public class MvvmGyakorlatValasztoFragment extends Fragment implements AdapterVi
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.gyakszerk_menu_select :
-                adatKozloInterface.gyakorlatAtado((GyakorlatUI) binding.lvGyakorlat.getAdapter().getItem(kijeloltGyakPoz));
-                Toast.makeText(getContext(), "Gyakorlat kiválasztva", Toast.LENGTH_SHORT).show();
+                if(!gyakorlatValasztva) {
+                    adatKozloInterface.gyakorlatAtado((GyakorlatUI) binding.lvGyakorlat.getAdapter().getItem(kijeloltGyakPoz));
+                    gyakorlatValasztva = true;
+                    Toast.makeText(getContext(), "Gyakorlat kiválasztva", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "Gyakorlat választása az edzés NEW gombbal történik!", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.gyakszerk :
                 createGyakorlatDialog(modelConverter.fromUI((GyakorlatUI)binding.lvGyakorlat.getAdapter().getItem(kijeloltGyakPoz)));
@@ -270,5 +276,9 @@ public class MvvmGyakorlatValasztoFragment extends Fragment implements AdapterVi
     public void tervValasztva(EdzesTerv edzesTerv) {
         binding.tervMegnevezes.setText(edzesTerv.getMegnevezes()+" terv kiválasztva");
         binding.tervMegnevezes.setOnClickListener(v -> manageUtil.viewEdzesTervDialog(edzesTerv));
+    }
+
+    public void setGyakorlatValasztva(boolean gyakorlatValasztva) {
+        this.gyakorlatValasztva = gyakorlatValasztva;
     }
 }
