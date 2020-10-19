@@ -109,7 +109,7 @@ public class EdzesTervKeszitoActivity extends EdzesTervBaseActivity<MvvmActivity
 
             edzesTervViewModel.addEdzesnapForEdzesTerv(new Edzesnap(edzesnap+" pihenőnap"));
             clearItems();
-            Toast.makeText(this, "Pihenőnap r9gzítve", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Pihenőnap rögzítve", Toast.LENGTH_SHORT).show();
         });
 
         if(!isTablet()) {
