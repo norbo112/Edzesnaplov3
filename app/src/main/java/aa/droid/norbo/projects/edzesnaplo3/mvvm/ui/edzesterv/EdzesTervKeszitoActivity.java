@@ -43,6 +43,7 @@ import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
 public class EdzesTervKeszitoActivity extends EdzesTervBaseActivity<MvvmActivityEdzestervKeszitoBinding> {
+    public static final String TERV_SZERKESZTESRE_BETOLTES = "TervSzerkesztesreBetoltes";
     @Inject
     GyakorlatViewModel gyakorlatViewModel;
 
@@ -76,6 +77,8 @@ public class EdzesTervKeszitoActivity extends EdzesTervBaseActivity<MvvmActivity
         initAdapters();
         initIzomcsoportok();
         initEdzesnap();
+
+        initIfIntent();
 
         if(edzesTervViewModel.getEdzesTerv() != null) {
             binding.btnEdzesTervElnevezes.setText(edzesTervViewModel.getEdzesTerv().getMegnevezes());
@@ -183,6 +186,13 @@ public class EdzesTervKeszitoActivity extends EdzesTervBaseActivity<MvvmActivity
                     .setNegativeButton("mégse", (dialog, which) -> dialog.dismiss())
                     .show();
         });
+    }
+
+    private void initIfIntent() {
+        Bundle extras = getIntent().getExtras();
+        if(extras != null && extras.containsKey(TERV_SZERKESZTESRE_BETOLTES)) {
+            edzesTervViewModel.setEdzesTerv((EdzesTerv) extras.getSerializable(TERV_SZERKESZTESRE_BETOLTES));
+        }
     }
 
     private Edzesnap getEdzesnapFromView() {

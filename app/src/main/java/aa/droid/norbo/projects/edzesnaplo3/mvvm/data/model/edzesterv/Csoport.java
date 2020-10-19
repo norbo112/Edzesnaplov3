@@ -1,12 +1,16 @@
 package aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Csoport {
+public class Csoport implements Serializable {
     private String izomcsoport;
     private List<GyakorlatTerv> valasztottGyakorlatok;
+
+    public Csoport() {
+    }
 
     public Csoport(String izomcsoport) {
         this.izomcsoport = izomcsoport;
@@ -15,6 +19,14 @@ public class Csoport {
 
     public void addGyakorlat(GyakorlatTerv gyakorlatTerv) {
         valasztottGyakorlatok.add(gyakorlatTerv);
+    }
+
+    public void setIzomcsoport(String izomcsoport) {
+        this.izomcsoport = izomcsoport;
+    }
+
+    public void setValasztottGyakorlatok(List<GyakorlatTerv> valasztottGyakorlatok) {
+        this.valasztottGyakorlatok = valasztottGyakorlatok;
     }
 
     public List<GyakorlatTerv> getValasztottGyakorlatok() {

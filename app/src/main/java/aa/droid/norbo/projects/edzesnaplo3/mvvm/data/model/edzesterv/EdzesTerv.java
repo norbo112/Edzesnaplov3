@@ -11,6 +11,9 @@ public class EdzesTerv implements Serializable {
     private String megnevezes;
     private List<Edzesnap> edzesnapList;
 
+    public EdzesTerv() {
+    }
+
     public EdzesTerv(String megnevezes) {
         this.megnevezes = megnevezes;
         this.edzesnapList = new ArrayList<>();
@@ -30,6 +33,10 @@ public class EdzesTerv implements Serializable {
 
     public List<Edzesnap> getEdzesnapList() {
         return edzesnapList;
+    }
+
+    public void setEdzesnapList(List<Edzesnap> edzesnapList) {
+        this.edzesnapList = edzesnapList;
     }
 
     public String getMegnevezes() {

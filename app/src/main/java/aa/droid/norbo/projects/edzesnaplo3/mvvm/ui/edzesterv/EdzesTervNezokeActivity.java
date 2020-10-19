@@ -256,5 +256,13 @@ public class EdzesTervNezokeActivity extends EdzesTervBaseActivity<MvvmActivityE
                 }
             });
         }
+
+        public void tervSzerkesztese(EdzesTerv edzesTerv) {
+            Intent intent = new Intent(EdzesTervNezokeActivity.this, EdzesTervKeszito.class);
+            intent.putExtra(EdzesTervKeszitoActivity.TERV_SZERKESZTESRE_BETOLTES, edzesTerv);
+            startActivity(intent);
+            overridePendingTransition(R.anim.move_right_in_activity, R.anim.move_left_out_activity);
+            finish();
+        }
     }
 }

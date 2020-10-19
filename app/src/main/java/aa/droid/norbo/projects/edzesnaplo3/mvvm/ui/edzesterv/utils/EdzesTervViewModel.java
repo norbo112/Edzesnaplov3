@@ -46,6 +46,11 @@ public class EdzesTervViewModel extends ViewModel {
         notifyEdzesTerv();
     }
 
+    public void setEdzesTerv(EdzesTerv edzesTerv) {
+        this.edzesTerv = edzesTerv;
+        getEdzesTervLiveData();
+    }
+
     public boolean addEdzesnapForEdzesTerv(Edzesnap edzesnap) {
         if(edzesTerv.getEdzesnapList().contains(edzesnap)) {
             return false;

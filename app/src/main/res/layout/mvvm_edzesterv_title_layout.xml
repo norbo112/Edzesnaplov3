@@ -60,5 +60,18 @@
             android:src="@drawable/ic_save"
             android:textColor="#fff"
             android:contentDescription="@string/mvvm_edzesterv_title_layout_button_save" />
+
+        <ImageButton
+            android:id="@+id/etSzerkesztes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:layout_weight="3"
+            android:background="@color/edzesHatter"
+            android:contentDescription="@string/mvvm_edzesterv_title_layout_button_edit"
+            android:onClick="@{() -> szerkeszto.tervSzerkesztese(edzesterv)}"
+            android:src="@drawable/ic_edit"
+            android:textColor="#fff" />
     </LinearLayout>
 </layout>

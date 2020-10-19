@@ -1,14 +1,18 @@
 package aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class GyakorlatTerv {
+public class GyakorlatTerv implements Serializable {
     private String megnevezes;
     private String izomcsoportNev;
     private List<Integer> sorozatSzam;
     private List<Integer> ismetlesSzam;
+
+    public GyakorlatTerv() {
+    }
 
     public GyakorlatTerv(String megnevezes, String izomcsoportNev) {
         this.megnevezes = megnevezes;
@@ -20,6 +24,14 @@ public class GyakorlatTerv {
     public GyakorlatTerv(String megnevezes, List<Integer> sorozatSzam, List<Integer> ismetlesSzam) {
         this.megnevezes = megnevezes;
         this.sorozatSzam = sorozatSzam;
+        this.ismetlesSzam = ismetlesSzam;
+    }
+
+    public void setSorozatSzam(List<Integer> sorozatSzam) {
+        this.sorozatSzam = sorozatSzam;
+    }
+
+    public void setIsmetlesSzam(List<Integer> ismetlesSzam) {
         this.ismetlesSzam = ismetlesSzam;
     }
 
