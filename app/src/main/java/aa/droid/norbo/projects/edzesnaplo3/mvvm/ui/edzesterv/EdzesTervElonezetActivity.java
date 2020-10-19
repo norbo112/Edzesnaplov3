@@ -3,6 +3,7 @@ package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.edzesterv;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -21,6 +22,8 @@ import androidx.appcompat.widget.PopupMenu;
 
 import org.w3c.dom.Text;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -62,7 +65,15 @@ public class EdzesTervElonezetActivity extends EdzesTervBaseActivity<MvvmActivit
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        initElonezet(edzesTervViewModel.getEdzesTerv(), binding.tervElonezetLinearLayout, this);
+        edzesTervViewModel.getEdzesTervLiveData().observe(this, edzesTerv -> {
+            binding.tervElonezetLinearLayout.removeAllViews();
+            binding.tervElonezetLinearLayout.invalidate();
+            if(edzesTerv != null) {
+                initElonezet(edzesTerv, binding.tervElonezetLinearLayout, this);
+            } else {
+                addMessageTextView("Nincs megjeleníthető elem", binding.tervElonezetLinearLayout);
+            }
+        });
 
         binding.tervMentesBtn.setOnClickListener(v -> {
             try {
@@ -73,6 +84,9 @@ public class EdzesTervElonezetActivity extends EdzesTervBaseActivity<MvvmActivit
                     }
 
                     runOnUiThread(() -> Toast.makeText(this, "Az edzésterv sikeresen mentve", Toast.LENGTH_SHORT).show());
+                    startActivity(new Intent(this, EdzesTervBelepoActivity.class));
+                    overridePendingTransition(R.anim.move_left_in_activity, R.anim.move_right_out_activity);
+                    finish();
                 });
             } catch (NullPointerException e) {
                 Toast.makeText(this, "Nincs mit menteni", Toast.LENGTH_SHORT).show();
@@ -80,13 +94,32 @@ public class EdzesTervElonezetActivity extends EdzesTervBaseActivity<MvvmActivit
         });
     }
 
+    private void addMessageTextView(String message, LinearLayout tervElonezetLinearLayout) {
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        params.topMargin = 20;
+        params.bottomMargin = 20;
+        params.leftMargin = 10;
+
+        TextView textView = new TextView(this);
+        textView.setLayoutParams(params);
+        textView.setText(message);
+        textView.setBackgroundColor(Color.WHITE);
+        textView.setTextColor(Color.RED);
+        textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+
+        tervElonezetLinearLayout.addView(tervElonezetLinearLayout);
+    }
+
     public void initElonezet(EdzesTerv edzesTerv, LinearLayout layout, Context mContext) {
         this.context = mContext;
-//        EdzesTerv edzesTerv = edzesTervViewModel.getEdzesTerv();
         if(edzesTerv != null) {
             if(!isTablet(mContext)) binding.tervMegnevezes.setText(edzesTerv.getMegnevezes());
 
             List<Edzesnap> edzesnapList = edzesTerv.getEdzesnapList();
+
+            edzesnapList.sort((o1, o2) -> Integer.compare(Integer.parseInt(o1.getEdzesNapLabel().substring(0, 1)),
+                    Integer.parseInt(o2.getEdzesNapLabel().substring(0, 1))));
 
             for (Edzesnap edzesnap: edzesnapList) {
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -102,7 +135,6 @@ public class EdzesTervElonezetActivity extends EdzesTervBaseActivity<MvvmActivit
                 textView.setText(edzesnap.getEdzesNapLabel());
                 textView.setPadding(10,10,10,10);
                 textView.setBackgroundResource(R.drawable.custom_et_gyak_hatter);
-//                binding.tervElonezetLinearLayout.setGravity(Gravity.CENTER);
                 layout.addView(textView);
 
                 for(Csoport csoport: edzesnap.getValasztottCsoport()) {

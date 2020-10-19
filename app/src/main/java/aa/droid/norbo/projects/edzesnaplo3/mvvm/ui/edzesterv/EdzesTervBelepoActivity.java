@@ -41,5 +41,12 @@ public class EdzesTervBelepoActivity extends EdzesTervBaseActivity<MvvmActivityE
 
         if(edzesTervViewModel.getEdzesTerv() != null)
             edzesTervViewModel.clear();
+
+        edzesTervViewModel.getEdzestervek().observe(this, edzesTervWithEdzesnaps -> {
+            if(edzesTervWithEdzesnaps != null && edzesTervWithEdzesnaps.size() > 0) {
+                String info = edzesTervWithEdzesnaps.size() + " db mentett terv az adatbázisban";
+                binding.mvvmEdzestervInfo.setText(info);
+            }
+        });
     }
 }

@@ -42,4 +42,5 @@
     <string name="mvvm_edzesterv_title_layout_terv_label">Edzésterv elnevezés</string>
     <string name="edzesterv_menu_betoltes">Terv betöltése</string>
     <string name="gyakorlat_valaszto_terv_megnevezes_simple">Terv megnevezés</string>
+    <string name="mvvm_edzesterv_belepo_info_label">Információ</string>
 </resources>

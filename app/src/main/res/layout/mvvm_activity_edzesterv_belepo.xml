@@ -73,13 +73,26 @@
                         android:text="Belépés a tervezőbe"
                         android:textColor="#fff" />
 
-                    <Button
-                        android:id="@+id/tervekMegtekintese"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:backgroundTint="@color/edzesHatter"
-                        android:text="Edzéstervek\nmegtekintése"
-                        android:textColor="#fff" />
+
+
+                        <TextView
+                            android:id="@+id/mvvm_edzesterv_info"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/mvvm_edzesterv_belepo_info_label"
+                            android:textAlignment="center"
+                            android:textSize="17sp"
+                            android:paddingTop="10dp"
+                            android:paddingBottom="10dp"
+                            android:layout_marginTop="0dp"/>
+                        <Button
+                            android:id="@+id/tervekMegtekintese"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@color/edzesHatter"
+                            android:text="Edzéstervek\nmegtekintése"
+                            android:textColor="#fff" />
+
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
