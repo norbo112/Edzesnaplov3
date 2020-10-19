@@ -76,7 +76,6 @@ public class EdzesTervViewModel extends ViewModel {
                         for(Csoport cs: edzesnap1.getValasztottCsoport()) {
                             if (cs.equals(edzesnap.getValasztottCsoport().get(0))) {
                                 Set<GyakorlatTerv> gyakorlatTervSet = new LinkedHashSet<>(cs.getValasztottGyakorlatok());
-                                //csak egyedit ad hozzá, tehát nem lesz duplikáció, viszont nem lesz sorrendtartó, úgyhogy még fejleszét alatt
                                 gyakorlatTervSet.addAll(edzesnap.getValasztottCsoport().get(0).getValasztottGyakorlatok());
                                 cs.getValasztottGyakorlatok().clear();
                                 cs.getValasztottGyakorlatok().addAll(gyakorlatTervSet);
