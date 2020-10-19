@@ -1,11 +1,18 @@
 package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.edzesterv.utils;
 
+import android.widget.Toast;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -29,11 +36,13 @@ public class EdzesTervViewModel extends ViewModel {
     }
 
     public void createEdzesTerv(String title) {
-        this.edzesTerv = new EdzesTerv(title);
+        if(edzesTerv == null)
+            this.edzesTerv = new EdzesTerv(title);
     }
 
     public void setEdzesTervTitle(String title) {
-        edzesTerv.setMegnevezes(title);
+        if(edzesTerv == null) edzesTerv = new EdzesTerv(title);
+        else edzesTerv.setMegnevezes(title);
         notifyEdzesTerv();
     }
 
@@ -48,11 +57,32 @@ public class EdzesTervViewModel extends ViewModel {
         return true;
     }
 
+    /**
+     * Edzésnap módosítása, de jelenleg csak egy csoportot lehet vele szerkeszteni, tehát, egyet törlünk, egyet hozzáadunk
+     * a modósított gyakorlatokkal vagy plusz gyakorlattal
+     * @param edzesnap
+     * @return
+     */
     public boolean editEdzesnap(Edzesnap edzesnap) {
+        if(edzesnap.getValasztottCsoport().size() == 0)
+            return false;
+
         if(edzesTerv.getEdzesnapList().contains(edzesnap)) {
             for(Edzesnap edzesnap1: edzesTerv.getEdzesnapList()) {
                 if(edzesnap1.equals(edzesnap)) {
-                    edzesnap1.addCsoport(edzesnap1.getValasztottCsoport());
+                    if(!edzesnap1.getValasztottCsoport().contains(edzesnap.getValasztottCsoport().get(0))) {
+                        edzesnap1.addCsoport(edzesnap.getValasztottCsoport());
+                    } else {
+                        for(Csoport cs: edzesnap1.getValasztottCsoport()) {
+                            if (cs.equals(edzesnap.getValasztottCsoport().get(0))) {
+                                Set<GyakorlatTerv> gyakorlatTervSet = new LinkedHashSet<>(cs.getValasztottGyakorlatok());
+                                //csak egyedit ad hozzá, tehát nem lesz duplikáció, viszont nem lesz sorrendtartó, úgyhogy még fejleszét alatt
+                                gyakorlatTervSet.addAll(edzesnap.getValasztottCsoport().get(0).getValasztottGyakorlatok());
+                                cs.getValasztottGyakorlatok().clear();
+                                cs.getValasztottGyakorlatok().addAll(gyakorlatTervSet);
+                            }
+                        }
+                    }
                     notifyEdzesTerv();
                     return true;
                 }
