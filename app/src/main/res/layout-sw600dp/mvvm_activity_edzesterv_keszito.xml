@@ -305,17 +305,17 @@
                             </LinearLayout>
 
                             <Button
-                                android:id="@+id/btnEdzesnapElonezet"
+                                android:id="@+id/btnEdzesnapModosit"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="10dp"
                                 android:layout_weight="1"
+                                android:textAlignment="center"
                                 android:background="@color/edzesHatter"
-                                android:drawableStart="@drawable/ic_eye"
+                                android:drawableStart="@drawable/ic_edit"
                                 android:drawableTint="#4FBB00"
-                                android:text="edzésnap előnézet"
-                                android:textColor="#fff"
-                                android:visibility="@{istablet ? view.GONE : view.VISIBLE}" />
+                                android:text="edzésnap szerkesztése"
+                                android:textColor="#fff" />
 
                         </LinearLayout>
                     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -32,6 +32,11 @@ public class EdzesTervViewModel extends ViewModel {
         this.edzesTerv = new EdzesTerv(title);
     }
 
+    public void setEdzesTervTitle(String title) {
+        edzesTerv.setMegnevezes(title);
+        notifyEdzesTerv();
+    }
+
     public boolean addEdzesnapForEdzesTerv(Edzesnap edzesnap) {
         if(edzesTerv.getEdzesnapList().contains(edzesnap)) {
             return false;
@@ -41,6 +46,20 @@ public class EdzesTervViewModel extends ViewModel {
         if(mutableLiveData != null)
             mutableLiveData.postValue(edzesTerv);
         return true;
+    }
+
+    public boolean editEdzesnap(Edzesnap edzesnap) {
+        if(edzesTerv.getEdzesnapList().contains(edzesnap)) {
+            for(Edzesnap edzesnap1: edzesTerv.getEdzesnapList()) {
+                if(edzesnap1.equals(edzesnap)) {
+                    edzesnap1.addCsoport(edzesnap1.getValasztottCsoport());
+                    notifyEdzesTerv();
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     public boolean isEdzesnapInEdzesterv(String edzesnapLabel) {
@@ -92,7 +111,8 @@ public class EdzesTervViewModel extends ViewModel {
     }
 
     public void notifyEdzesTerv() {
-        mutableLiveData.postValue(edzesTerv);
+        if(mutableLiveData != null)
+            mutableLiveData.postValue(edzesTerv);
     }
 
     public boolean deleteGyakorlatTerv(GyakorlatTerv gyakorlatTerv) {

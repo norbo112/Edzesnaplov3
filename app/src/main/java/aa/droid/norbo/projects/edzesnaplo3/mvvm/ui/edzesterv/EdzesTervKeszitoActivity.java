@@ -145,31 +145,9 @@ public class EdzesTervKeszitoActivity extends EdzesTervBaseActivity<MvvmActivity
         }
 
         binding.btnEdzesnapFelvetele.setOnClickListener(v -> {
-            if(!isTervGood()) {
-                Toast.makeText(this, "Kérlek add meg az edzésterv címét", Toast.LENGTH_SHORT).show();
-                return;
-            }
+            if (!isEdzesnapGood()) return;
 
-            if(gyakorlatTervs.size() == 0) {
-                Toast.makeText(this, "Nem választottál gyakorlatokat az edzésnaphoz", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            if(!csoportGyakorlatai()) {
-                Toast.makeText(this, "Nem választottál gyakorlatokat az izomcsoportokhoz", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            Edzesnap edzesnap = new Edzesnap(binding.edzesnapSpinner.getSelectedItem().toString());
-            for(String csoport: izomcsoportok) {
-                Csoport tervCsoport = new Csoport(csoport);
-                for(GyakorlatTerv gyakorlatTerv: gyakorlatTervs) {
-                    if(gyakorlatTerv.getIzomcsoportNev().equals(csoport)) {
-                        tervCsoport.addGyakorlat(gyakorlatTerv);
-                    }
-                }
-                edzesnap.addCsoport(tervCsoport);
-            }
+            Edzesnap edzesnap = getEdzesnapFromView();
 
             if (edzesTervViewModel.addEdzesnapForEdzesTerv(edzesnap)) {
                 Toast.makeText(this, "Edzésnap rögzítve", Toast.LENGTH_SHORT).show();
@@ -181,6 +159,16 @@ public class EdzesTervKeszitoActivity extends EdzesTervBaseActivity<MvvmActivity
             }
         });
 
+        binding.btnEdzesnapModosit.setOnClickListener(v -> {
+            if (!isEdzesnapGood()) return;
+
+            Edzesnap edzesnap = getEdzesnapFromView();
+            if(edzesTervViewModel.editEdzesnap(edzesnap)) {
+                Toast.makeText(this, "Edzésnap módosítva", Toast.LENGTH_SHORT).show();
+                clearItems();
+            }
+        });
+
         binding.btnEdzesTervElnevezes.setOnClickListener(v -> {
             EditText textView = new EditText(this);
             new AlertDialog.Builder(this)
@@ -189,11 +177,44 @@ public class EdzesTervKeszitoActivity extends EdzesTervBaseActivity<MvvmActivity
                     .setPositiveButton("ok", (dialog, which) -> {
                         if(!TextUtils.isEmpty(textView.getText().toString())) {
                             binding.btnEdzesTervElnevezes.setText(textView.getText().toString());
+                            edzesTervViewModel.setEdzesTervTitle(textView.getText().toString());
                         }
                     })
                     .setNegativeButton("mégse", (dialog, which) -> dialog.dismiss())
                     .show();
         });
+    }
+
+    private Edzesnap getEdzesnapFromView() {
+        Edzesnap edzesnap = new Edzesnap(binding.edzesnapSpinner.getSelectedItem().toString());
+        for(String csoport: izomcsoportok) {
+            Csoport tervCsoport = new Csoport(csoport);
+            for(GyakorlatTerv gyakorlatTerv: gyakorlatTervs) {
+                if(gyakorlatTerv.getIzomcsoportNev().equals(csoport)) {
+                    tervCsoport.addGyakorlat(gyakorlatTerv);
+                }
+            }
+            edzesnap.addCsoport(tervCsoport);
+        }
+        return edzesnap;
+    }
+
+    private boolean isEdzesnapGood() {
+        if(!isTervGood()) {
+            Toast.makeText(this, "Kérlek add meg az edzésterv címét", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if(gyakorlatTervs.size() == 0) {
+            Toast.makeText(this, "Nem választottál gyakorlatokat az edzésnaphoz", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if(!csoportGyakorlatai()) {
+            Toast.makeText(this, "Nem választottál gyakorlatokat az izomcsoportokhoz", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 
     private boolean csoportGyakorlatai() {

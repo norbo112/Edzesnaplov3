@@ -17,6 +17,10 @@ public class Edzesnap {
         valasztottCsoport.add(csoport);
     }
 
+    public void addCsoport(List<Csoport> csoportList) {
+        valasztottCsoport.addAll(csoportList);
+    }
+
     public List<Csoport> getValasztottCsoport() {
         return valasztottCsoport;
     }

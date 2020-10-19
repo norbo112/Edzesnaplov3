@@ -241,11 +241,25 @@
                             </LinearLayout>
 
                             <Button
+                                android:id="@+id/btnEdzesnapModosit"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="10dp"
+                                android:layout_weight="1"
+                                android:textAlignment="center"
+                                android:background="@color/edzesHatter"
+                                android:drawableStart="@drawable/ic_edit"
+                                android:drawableTint="#4FBB00"
+                                android:text="edzésnap szerkesztése"
+                                android:textColor="#fff" />
+
+                            <Button
                                 android:id="@+id/btnEdzesnapElonezet"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="10dp"
                                 android:layout_weight="1"
+                                android:textAlignment="center"
                                 android:background="@color/edzesHatter"
                                 android:drawableStart="@drawable/ic_eye"
                                 android:drawableTint="#4FBB00"
