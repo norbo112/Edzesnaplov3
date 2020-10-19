@@ -153,14 +153,15 @@ public class EdzesTervViewModel extends ViewModel {
         boolean oke = false;
         for(Edzesnap edzesnap: edzesTerv.getEdzesnapList()) {
             for (Csoport csoport: edzesnap.getValasztottCsoport()) {
-                oke = csoport.getValasztottGyakorlatok().remove(gyakorlatTerv);
-
-                if(csoport.getValasztottGyakorlatok().size() == 0)
-                    edzesnap.getValasztottCsoport().remove(csoport);
+                if (csoport.getValasztottGyakorlatok().remove(gyakorlatTerv)) {
+                    if (csoport.getValasztottGyakorlatok().size() == 0) {
+                        edzesnap.getValasztottCsoport().remove(csoport);
+                        if(edzesnap.getValasztottCsoport().size() == 0)
+                            edzesTerv.getEdzesnapList().remove(edzesnap);
+                    }
+                    break;
+                }
             }
-
-            if(edzesnap.getValasztottCsoport().size() == 0)
-                edzesTerv.getEdzesnapList().remove(edzesnap);
         }
 
         notifyEdzesTerv();
@@ -170,10 +171,13 @@ public class EdzesTervViewModel extends ViewModel {
     public boolean deleteCsoport(Csoport csoport) {
         boolean oke = false;
         for(Edzesnap edzesnap: edzesTerv.getEdzesnapList()) {
-            oke = edzesnap.getValasztottCsoport().remove(csoport);
+            if (edzesnap.getValasztottCsoport().remove(csoport)) {
+                if(edzesnap.getValasztottCsoport().size() == 0)
+                    edzesTerv.getEdzesnapList().remove(edzesnap);
 
-            if(edzesnap.getValasztottCsoport().size() == 0)
-                edzesTerv.getEdzesnapList().remove(edzesnap);
+                break;
+            }
+
         }
 
         notifyEdzesTerv();
