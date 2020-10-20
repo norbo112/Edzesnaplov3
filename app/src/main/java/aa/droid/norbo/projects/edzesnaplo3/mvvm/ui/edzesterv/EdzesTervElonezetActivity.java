@@ -5,27 +5,34 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.view.menu.MenuPopupHelper;
 import androidx.appcompat.widget.PopupMenu;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.inject.Inject;
 
 import aa.droid.norbo.projects.edzesnaplo3.R;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmActivityEdzestervElonezetBinding;
+import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmEdzestervHanyszorhanySzerkesztoBinding;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.Csoport;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.EdzesTerv;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.Edzesnap;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.GyakorlatTerv;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.edzesterv.utils.SorozatAdatUI;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.edzesterv.EdzesTervViewModel;
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -188,9 +195,23 @@ public class EdzesTervElonezetActivity extends EdzesTervBaseActivity<MvvmActivit
         if(item.getItemId() == R.id.edzesterv_szerk_torol) {
             adatTorol(kijeloltTervAdat);
         } else if(item.getItemId() == R.id.edzesterv_szerk_edit) {
-            Toast.makeText(context, "Edit...", Toast.LENGTH_SHORT).show();
+            adatSzerkeszt(kijeloltTervAdat);
         }
         return super.onContextItemSelected(item);
+    }
+
+    private void adatSzerkeszt(Object kijeloltTervAdat) {
+        if(kijeloltTervAdat == null) {
+            Toast.makeText(context, "Sajnos nem jo a kijelölés", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(kijeloltTervAdat instanceof Csoport || kijeloltTervAdat instanceof Edzesnap) {
+            Toast.makeText(context, "Csak gyakorlatot szerkeszétse lehetséges!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        dialogSorozatSzerkeszto((GyakorlatTerv) kijeloltTervAdat);
     }
 
     private void adatTorol(Object kijeloltTervAdat) {
@@ -206,5 +227,36 @@ public class EdzesTervElonezetActivity extends EdzesTervBaseActivity<MvvmActivit
         } else if(kijeloltTervAdat instanceof Edzesnap) {
             edzesTervViewModel.deleteEdzesnap((Edzesnap) kijeloltTervAdat);
         }
+    }
+
+    private void dialogSorozatSzerkeszto(GyakorlatTerv gyakorlatTerv) {
+        String regPattern = "^([1-9][0-9]*,)*[1-9][0-9]*$";
+        MvvmEdzestervHanyszorhanySzerkesztoBinding binding = MvvmEdzestervHanyszorhanySzerkesztoBinding.inflate(LayoutInflater.from(this),
+                null, false);
+        binding.setSorozat(new SorozatAdatUI());
+        binding.sorozatIsm.setInputType(EditorInfo.TYPE_CLASS_PHONE);
+        binding.sorozatSuly.setInputType(EditorInfo.TYPE_CLASS_PHONE);
+        new AlertDialog.Builder(this)
+                .setTitle(gyakorlatTerv.getMegnevezes()+" szerkesztése")
+                .setMessage(gyakorlatTerv.toString()+"\nvesszővel elválasztva a sor. és ismétlések megadása\n Pl 1,2,2 és 15,10,10")
+                .setView(binding.getRoot())
+                .setNegativeButton("mégse", (dialog, which) -> dialog.dismiss())
+                .setPositiveButton("felvétel", (dialog, which) -> {
+                    SorozatAdatUI sorozat = binding.getSorozat();
+                    if(sorozat.getIsmetles() == null || sorozat.getSorozat() == null) {
+                        Toast.makeText(this, "Kérlek töltsd ki az adatokat", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                    } else if(!sorozat.getSorozat().matches(regPattern) || !sorozat.getIsmetles().matches(regPattern)) {
+                        Toast.makeText(this, "sor: 1,2,2 ismétlés: 8,12,12 adat lehetséges", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                    } else {
+                        List<Integer> s = Stream.of(sorozat.getSorozat().split(",")).mapToInt(Integer::parseInt).boxed().collect(Collectors.toList());
+                        List<Integer> ism = Stream.of(sorozat.getIsmetles().split(",")).mapToInt(Integer::parseInt).boxed().collect(Collectors.toList());
+                        gyakorlatTerv.setIsmetlesSzam(ism);
+                        gyakorlatTerv.setSorozatSzam(s);
+                        edzesTervViewModel.notifyEdzesTerv();
+                    }
+                })
+                .show();
     }
 }

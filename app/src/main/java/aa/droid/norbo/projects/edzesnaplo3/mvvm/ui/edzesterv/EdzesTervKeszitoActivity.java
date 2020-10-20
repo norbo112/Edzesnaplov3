@@ -34,6 +34,7 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.EdzesTerv;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.Edzesnap;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.GyakorlatTerv;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Gyakorlat;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.edzesterv.utils.SorozatAdatUI;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.edzesterv.EdzesTervViewModel;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.edzesterv.utils.GyakorlatAdatTextView;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.GyakorlatViewModel;
@@ -508,29 +509,5 @@ public class EdzesTervKeszitoActivity extends EdzesTervBaseActivity<MvvmActivity
         }
 
         return true;
-    }
-
-    public class SorozatAdatUI {
-        String sorozat;
-        String ismetles;
-
-        public SorozatAdatUI() {
-        }
-
-        public String getSorozat() {
-            return sorozat;
-        }
-
-        public void setSorozat(String sorozat) {
-            this.sorozat = sorozat;
-        }
-
-        public String getIsmetles() {
-            return ismetles;
-        }
-
-        public void setIsmetles(String ismetles) {
-            this.ismetles = ismetles;
-        }
     }
 }

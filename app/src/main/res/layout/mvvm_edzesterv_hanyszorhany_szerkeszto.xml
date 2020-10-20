@@ -6,7 +6,7 @@
     <data>
         <variable
             name="sorozat"
-            type="aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.edzesterv.EdzesTervKeszitoActivity.SorozatAdatUI" />
+            type="aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.edzesterv.utils.SorozatAdatUI" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
