@@ -1,4 +1,4 @@
-package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.edzesterv.utils;
+package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.edzesterv;
 
 import android.widget.Toast;
 

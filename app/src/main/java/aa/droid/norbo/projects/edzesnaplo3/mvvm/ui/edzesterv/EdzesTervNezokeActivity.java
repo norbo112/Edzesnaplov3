@@ -2,16 +2,12 @@ package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.edzesterv;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -20,18 +16,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.content.res.ResourcesCompat;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.inject.Inject;
 
 import aa.droid.norbo.projects.edzesnaplo3.R;
-import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmActivityEdzestervElonezetBinding;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmActivityEdzestervNezokeBinding;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmDialogLoadEdzestervLayoutBinding;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmEdzestervTitleDialogLayoutBinding;
@@ -41,13 +33,9 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.Csoport;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.EdzesTerv;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.Edzesnap;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.GyakorlatTerv;
-import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.edzesterv.relations.CsoportWithGyakorlatTerv;
-import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.edzesterv.relations.EdzesTervWithEdzesnap;
-import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.edzesterv.relations.EdzesnapWithCsoport;
-import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.edzesterv.GyakorlatTervEntity;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.service.files.edzesterv.TervFileService;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.edzesterv.utils.EdzesTervKeszito;
-import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.edzesterv.utils.EdzesTervViewModel;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.edzesterv.EdzesTervViewModel;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint

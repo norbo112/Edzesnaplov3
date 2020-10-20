@@ -25,13 +25,12 @@ import javax.inject.Inject;
 import aa.droid.norbo.projects.edzesnaplo3.R;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmDialogLoadEdzestervLayoutBinding;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmEdzestervTitleDialogLayoutBinding;
-import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmEdzestervTitleLayoutBinding;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.TevekenysegEdzestervValasztoDialogItemBinding;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.Csoport;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.EdzesTerv;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.Edzesnap;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.GyakorlatTerv;
-import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.edzesterv.EdzesTervNezokeActivity;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.edzesterv.EdzesTervViewModel;
 import dagger.hilt.android.qualifiers.ActivityContext;
 import dagger.hilt.android.scopes.ActivityScoped;
 
