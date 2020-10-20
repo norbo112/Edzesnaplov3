@@ -47,9 +47,10 @@ public class EdzesTervElonezetActivity extends EdzesTervBaseActivity<MvvmActivit
         super(R.layout.mvvm_activity_edzesterv_elonezet);
     }
 
-    public EdzesTervElonezetActivity(EdzesTervViewModel edzesTervViewModel) {
+    public EdzesTervElonezetActivity(Context context, EdzesTervViewModel edzesTervViewModel) {
         super(R.layout.mvvm_activity_edzesterv_elonezet);
         this.edzesTervViewModel = edzesTervViewModel;
+        this.context = context;
     }
 
     @Override
@@ -231,11 +232,11 @@ public class EdzesTervElonezetActivity extends EdzesTervBaseActivity<MvvmActivit
 
     private void dialogSorozatSzerkeszto(GyakorlatTerv gyakorlatTerv) {
         String regPattern = "^([1-9][0-9]*,)*[1-9][0-9]*$";
-        MvvmEdzestervHanyszorhanySzerkesztoBinding binding = MvvmEdzestervHanyszorhanySzerkesztoBinding.inflate(LayoutInflater.from(this),
+        MvvmEdzestervHanyszorhanySzerkesztoBinding binding = MvvmEdzestervHanyszorhanySzerkesztoBinding.inflate(LayoutInflater.from(context),
                 null, false);
         binding.setSorozat(new SorozatAdatUI());
-        binding.sorozatIsm.setInputType(EditorInfo.TYPE_CLASS_PHONE);
-        binding.sorozatSuly.setInputType(EditorInfo.TYPE_CLASS_PHONE);
+        binding.sorozatIsm.setInputType(EditorInfo.TYPE_CLASS_TEXT);
+        binding.sorozatSuly.setInputType(EditorInfo.TYPE_CLASS_TEXT);
         new AlertDialog.Builder(context)
                 .setTitle(gyakorlatTerv.getMegnevezes()+" szerkesztése")
                 .setMessage("Sorozat csere\nVesszővel elválasztva a sor. és ismétlések megadása\n Pl 1,2,2 és 15,10,10")

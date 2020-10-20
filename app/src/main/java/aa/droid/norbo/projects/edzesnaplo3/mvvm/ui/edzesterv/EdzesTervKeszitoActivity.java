@@ -119,7 +119,7 @@ public class EdzesTervKeszitoActivity extends EdzesTervBaseActivity<MvvmActivity
         }
 
         if(isTablet()) {
-            EdzesTervElonezetActivity elonezetActivity = new EdzesTervElonezetActivity(edzesTervViewModel);
+            EdzesTervElonezetActivity elonezetActivity = new EdzesTervElonezetActivity(this, edzesTervViewModel);
             edzesTervViewModel.getEdzesTervLiveData().observe(this, edzesTerv -> {
                 if(edzesTerv != null) {
                     binding.edzestervElonezetInKeszito.tervElonezetLinearLayout.removeAllViews();
