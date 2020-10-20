@@ -208,7 +208,7 @@ public class EdzesTervElonezetActivity extends EdzesTervBaseActivity<MvvmActivit
         }
 
         if(kijeloltTervAdat instanceof Csoport || kijeloltTervAdat instanceof Edzesnap) {
-            Toast.makeText(context, "Csak gyakorlatot szerkeszétse lehetséges!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Csak gyakorlatot szerkeszése lehetséges!", Toast.LENGTH_SHORT).show();
             return;
         }
 
