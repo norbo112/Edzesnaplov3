@@ -236,18 +236,18 @@ public class EdzesTervElonezetActivity extends EdzesTervBaseActivity<MvvmActivit
         binding.setSorozat(new SorozatAdatUI());
         binding.sorozatIsm.setInputType(EditorInfo.TYPE_CLASS_PHONE);
         binding.sorozatSuly.setInputType(EditorInfo.TYPE_CLASS_PHONE);
-        new AlertDialog.Builder(this)
+        new AlertDialog.Builder(context)
                 .setTitle(gyakorlatTerv.getMegnevezes()+" szerkesztése")
-                .setMessage(gyakorlatTerv.toString()+"\nvesszővel elválasztva a sor. és ismétlések megadása\n Pl 1,2,2 és 15,10,10")
+                .setMessage("Sorozat csere\nVesszővel elválasztva a sor. és ismétlések megadása\n Pl 1,2,2 és 15,10,10")
                 .setView(binding.getRoot())
                 .setNegativeButton("mégse", (dialog, which) -> dialog.dismiss())
                 .setPositiveButton("felvétel", (dialog, which) -> {
                     SorozatAdatUI sorozat = binding.getSorozat();
                     if(sorozat.getIsmetles() == null || sorozat.getSorozat() == null) {
-                        Toast.makeText(this, "Kérlek töltsd ki az adatokat", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Kérlek töltsd ki az adatokat", Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
                     } else if(!sorozat.getSorozat().matches(regPattern) || !sorozat.getIsmetles().matches(regPattern)) {
-                        Toast.makeText(this, "sor: 1,2,2 ismétlés: 8,12,12 adat lehetséges", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "sor: 1,2,2 ismétlés: 8,12,12 adat lehetséges", Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
                     } else {
                         List<Integer> s = Stream.of(sorozat.getSorozat().split(",")).mapToInt(Integer::parseInt).boxed().collect(Collectors.toList());
