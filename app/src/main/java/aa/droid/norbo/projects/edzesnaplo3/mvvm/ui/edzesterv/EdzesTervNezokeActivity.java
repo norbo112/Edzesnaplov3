@@ -16,6 +16,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.appcompat.view.menu.MenuPopupHelper;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.databinding.ViewDataBinding;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -165,7 +169,7 @@ public class EdzesTervNezokeActivity extends EdzesTervBaseActivity<MvvmActivityE
                 titleLayoutBinding.etTitleLabel.setText(terv.getMegnevezes());
                 titleLayoutBinding.setTervId(terv.getTervId());
                 titleLayoutBinding.setEdzesterv(terv);
-                titleLayoutBinding.setSzerkeszto(new TervSzerkeszto());
+                titleLayoutBinding.setSzerkeszto(new TervSzerkesztoAction(titleLayoutBinding)); //próba
                 linearLayout.addView(titleLayoutBinding.getRoot());
             }
 
@@ -215,7 +219,38 @@ public class EdzesTervNezokeActivity extends EdzesTervBaseActivity<MvvmActivityE
         }
     }
 
-    public class TervSzerkeszto {
+    public class TervSzerkesztoAction {
+        private MvvmEdzestervTitleLayoutBinding testBinding;
+
+        public TervSzerkesztoAction(MvvmEdzestervTitleLayoutBinding binding) {
+            this.testBinding = binding;
+        }
+
+        @SuppressLint("RestrictedApi")
+        public void popupMenu(EdzesTerv terv) {
+            PopupMenu popupMenu = new PopupMenu(EdzesTervNezokeActivity.this, testBinding.etBtnMenu);
+            popupMenu.getMenuInflater().inflate(R.menu.edzesterv_nezoke_title_menu, popupMenu.getMenu());
+
+            popupMenu.setOnMenuItemClickListener(item -> {
+                popupMenuItemClick(terv, item);
+                return true;
+            });
+
+            MenuPopupHelper menuPopupHelper = new MenuPopupHelper(EdzesTervNezokeActivity.this, (MenuBuilder) popupMenu.getMenu(), testBinding.etBtnMenu);
+            menuPopupHelper.setForceShowIcon(true);
+            menuPopupHelper.show();
+        }
+
+        private void popupMenuItemClick(EdzesTerv terv, MenuItem item) {
+            if(item.getItemId() == R.id.edzesterv_szerk_torol) {
+                tervTorlese(terv.getTervId());
+            } else if(item.getItemId() == R.id.edzesterv_szerk_edit) {
+                tervSzerkesztese(terv);
+            } else if(item.getItemId() == R.id.edzesterv_title_menu_ment) {
+                tervMentese(terv);
+            }
+        }
+
         public void tervTorlese(int tervId) {
             new AlertDialog.Builder(EdzesTervNezokeActivity.this)
                     .setMessage("Biztosan törölni szeretnéd a tervet?")
