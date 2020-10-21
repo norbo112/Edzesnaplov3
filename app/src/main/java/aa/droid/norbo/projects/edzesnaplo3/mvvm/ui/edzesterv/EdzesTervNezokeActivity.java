@@ -166,7 +166,7 @@ public class EdzesTervNezokeActivity extends EdzesTervBaseActivity<MvvmActivityE
                 linearLayout.addView(titleLayoutBinding.getRoot());
             } else {
                 MvvmEdzestervTitleLayoutBinding titleLayoutBinding = MvvmEdzestervTitleLayoutBinding.inflate(LayoutInflater.from(this), null, false);
-                titleLayoutBinding.etTitleLabel.setText(terv.getMegnevezes());
+                titleLayoutBinding.etBtnMenu.setText(terv.getMegnevezes());
                 titleLayoutBinding.setTervId(terv.getTervId());
                 titleLayoutBinding.setEdzesterv(terv);
                 titleLayoutBinding.setSzerkeszto(new TervSzerkesztoAction(titleLayoutBinding)); //próba
