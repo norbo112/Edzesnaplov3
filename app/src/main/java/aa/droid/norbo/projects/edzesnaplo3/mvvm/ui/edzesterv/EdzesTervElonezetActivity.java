@@ -105,7 +105,7 @@ public class EdzesTervElonezetActivity extends EdzesTervBaseActivity<MvvmActivit
         textView.setTextColor(Color.RED);
         textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 
-        tervElonezetLinearLayout.addView(tervElonezetLinearLayout);
+        tervElonezetLinearLayout.addView(textView);
     }
 
     public void initElonezet(EdzesTerv edzesTerv, LinearLayout layout, Context mContext) {
