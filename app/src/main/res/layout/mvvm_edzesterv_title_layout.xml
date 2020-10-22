@@ -37,54 +37,5 @@
             android:textAllCaps="false"
             android:layout_gravity="center"
             android:textAlignment="center"/>
-
-<!--        <ImageButton-->
-<!--            android:id="@+id/etBtnMenu"-->
-<!--            android:layout_width="50dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="center"-->
-<!--            android:layout_marginStart="2dp"-->
-<!--            android:layout_marginEnd="2dp"-->
-<!--            android:layout_marginTop="4dp"-->
-<!--            android:layout_marginBottom="4dp"-->
-<!--            android:layout_weight="3"-->
-<!--            android:background="@color/edzesHatter"-->
-<!--            android:drawableTint="#4FBB00"-->
-<!--            android:src="@drawable/ic_more_vert_black_24dp"-->
-<!--            android:textColor="#fff"-->
-<!--            android:onClick="@{() -> szerkeszto.popupMenu(edzesterv)}"-->
-<!--            android:contentDescription="@string/mvvm_edzesterv_title_layout_button_del" />-->
-
-<!--        <ImageButton-->
-<!--            android:id="@+id/etMentes"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="center"-->
-<!--            android:layout_marginStart="2dp"-->
-<!--            android:layout_marginEnd="2dp"-->
-<!--            android:layout_marginTop="4dp"-->
-<!--            android:layout_marginBottom="4dp"-->
-<!--            android:layout_weight="3"-->
-<!--            android:background="@color/edzesHatter"-->
-<!--            android:onClick="@{() -> szerkeszto.tervMentese(edzesterv)}"-->
-<!--            android:src="@drawable/ic_save"-->
-<!--            android:textColor="#fff"-->
-<!--            android:contentDescription="@string/mvvm_edzesterv_title_layout_button_save" />-->
-
-<!--        <ImageButton-->
-<!--            android:id="@+id/etSzerkesztes"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="center"-->
-<!--            android:layout_marginStart="2dp"-->
-<!--            android:layout_marginEnd="2dp"-->
-<!--            android:layout_marginTop="4dp"-->
-<!--            android:layout_marginBottom="4dp"-->
-<!--            android:layout_weight="3"-->
-<!--            android:background="@color/edzesHatter"-->
-<!--            android:contentDescription="@string/mvvm_edzesterv_title_layout_button_edit"-->
-<!--            android:onClick="@{() -> szerkeszto.tervSzerkesztese(edzesterv)}"-->
-<!--            android:src="@drawable/ic_edit"-->
-<!--            android:textColor="#fff" />-->
     </LinearLayout>
 </layout>
