@@ -3,6 +3,7 @@
     <string name="app_name_v4">Edzésnapló</string>
     <string name="menu_mentett_naplok_title">Mentett naplók</string>
     <string name="sorozat_list_title">Elvégzett sorozatok</string>
+    <string name="korabbi_sorozat_list_title">Korábban elvégzett sorozatok</string>
     <string name="welcome_title_belepo">Belépés az Edzésnaplóba</string>
     <string name="welcome_mentett_naplok_title">Mentett naplók</string>
     <string name="welcome_belepo_desc">Üdvözöllek az edzésnapló alkalmazásban!</string>
@@ -30,4 +31,17 @@
     <string name="mvvm_tevekenyseg_sorozat_plusz">add</string>
     <string name="mvvm_alert_dialog_img_desc">Edzés - tevékenyság elhagyása</string>
     <string name="mvvm_tevekenyseg_alert_backpressed">Ha visszalépsz az edzés jelenlegi állása törlődik, biztosan akarod?</string>
+    <string name="mvvm_edzesterv_keszito_warning_backpressed">Visszalépés az edzésterv mentése nélkül, a terv elveszik?</string>
+    <string name="mvvm_belepo_logo_desc">Logo1</string>
+    <string name="mvvm_edzesterv_belepo_title">Edzésterv tervező</string>
+    <string name="mvm_edzesterv_belepo_tervezo_open_label">Belépés a tervezőbe</string>
+    <string name="mvm_edzesterv_belepo_terv_label">Edzéstervek\nmegtekintése</string>
+    <string name="mvvm_edzesterv_title_layout_button_options">Adott edzésterv további opciók</string>
+    <string name="mvvm_edzesterv_title_layout_button_del">Adott edzésterv törlése</string>
+    <string name="mvvm_edzesterv_title_layout_button_save">Adott edzésterv mentése</string>
+    <string name="mvvm_edzesterv_title_layout_button_edit">Adott edzésterv szerkesztése</string>
+    <string name="mvvm_edzesterv_title_layout_terv_label">Edzésterv elnevezés</string>
+    <string name="edzesterv_menu_betoltes">Terv betöltése</string>
+    <string name="gyakorlat_valaszto_terv_megnevezes_simple">Terv megnevezés</string>
+    <string name="mvvm_edzesterv_belepo_info_label">Információ</string>
 </resources>

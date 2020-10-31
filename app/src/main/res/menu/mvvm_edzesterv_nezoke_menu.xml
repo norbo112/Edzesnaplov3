@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/edzesterv_menu_betoltes"
+        android:icon="@drawable/ic_folder"
+        android:title="@string/edzesterv_menu_betoltes"
+        app:showAsAction="always|withText" />
+</menu>

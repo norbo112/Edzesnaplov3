@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="szerkeszto"
+            type="aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.edzesterv.EdzesTervNezokeActivity.TervSzerkesztoAction" />
+        <variable
+            name="tervId"
+            type="Integer" />
+        <variable
+            name="edzesterv"
+            type="aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.EdzesTerv" />
+    </data>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="10dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:background="@color/edzesHatter">
+        <Button
+            android:id="@+id/etBtnMenu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/mvvm_edzesterv_title_layout_terv_label"
+            android:textSize="21sp"
+            android:textStyle="bold"
+            android:textColor="#fff"
+            android:background="@color/edzesHatter"
+            android:drawableEnd="@drawable/ic_more_vert_black_24dp"
+            android:onClick="@{() -> szerkeszto.popupMenu(edzesterv)}"
+            android:textAllCaps="false"
+            android:layout_gravity="center"
+            android:textAlignment="center"/>
+    </LinearLayout>
+</layout>

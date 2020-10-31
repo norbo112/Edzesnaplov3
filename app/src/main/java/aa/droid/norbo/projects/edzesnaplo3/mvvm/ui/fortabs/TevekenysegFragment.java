@@ -3,22 +3,17 @@ package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.LoginFilter;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.databinding.Bindable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
@@ -34,6 +29,8 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.adatkozlo.AdatKozloIn
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.DateTimeFormatter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.ModelConverter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.naplo.NaploWorker;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.naplo.SorozatUtil;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.SorozatViewModel;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
@@ -53,6 +50,12 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface 
 
     @Inject
     DateTimeFormatter formatter;
+
+    @Inject
+    SorozatUtil sorozatUtil;
+
+    @Inject
+    SorozatViewModel sorozatViewModel;
 
     @SuppressLint("ClickableViewAccessibility")
     @Nullable
@@ -115,6 +118,24 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface 
         this.gyakorlatUI = gyakorlatUI;
         naploWorker.setGyakorlat(modelConverter.fromUI(gyakorlatUI));
         binding.btnSorozatAdd.setEnabled(true);
+
+        if(getResources().getBoolean(R.bool.isTablet)) {
+            sorozatViewModel.getSorozatByGyakorlat(gyakorlatUI.getId()).observe(this, sorozats -> {
+                if(sorozats != null && sorozats.size() > 0) {
+                    binding.korabbanElvegzettSorozatok.setAdapter(sorozatUtil.getSorozatEsNaploAdapter(sorozats));
+                    binding.tvSorozatKorabbiTitle.setText(R.string.korabbi_sorozat_list_title);
+                } else {
+                    binding.tvSorozatKorabbiTitle.setText("Még nem rögzítettél sorozatot evvel a gyakorlattal!");
+                }
+            });
+        }
+    }
+
+    private void korabbiSorozatReset() {
+        if(getResources().getBoolean(R.bool.isTablet)) {
+            binding.tvSorozatKorabbiTitle.setText(R.string.korabbi_sorozat_list_title);
+            ((ArrayAdapter)binding.korabbanElvegzettSorozatok.getAdapter()).clear();
+        }
     }
 
     public class TevekenysegClick {
@@ -146,6 +167,17 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface 
             binding.tvStopper.setText("00:00");
 
             naploWorker.prepareUjGyakorlat();
+
+            gyakorlatValasztastAllit();
+            korabbiSorozatReset();
+        }
+    }
+
+    private void gyakorlatValasztastAllit() {
+        for (Fragment fragment : getActivity().getSupportFragmentManager().getFragments()) {
+            if(fragment instanceof MvvmGyakorlatValasztoFragment) {
+                ((MvvmGyakorlatValasztoFragment)fragment).setGyakorlatValasztva(false);
+            }
         }
     }
 

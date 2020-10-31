@@ -11,5 +11,28 @@
         <item>Alkar</item>
         <item>Has</item>
         <item>Csuklya</item>
+        <item>Vádli</item>
+    </string-array>
+    <string-array name="csoportokForTervezo">
+        <item>Mell</item>
+        <item>Hát</item>
+        <item>Láb</item>
+        <item>Váll</item>
+        <item>Bicepsz</item>
+        <item>Tricepsz</item>
+        <item>Alkar</item>
+        <item>Has</item>
+        <item>Csuklya</item>
+        <item>Vádli</item>
+    </string-array>
+
+    <string-array name="edzesnapok">
+        <item>1.nap</item>
+        <item>2.nap</item>
+        <item>3.nap</item>
+        <item>4.nap</item>
+        <item>5.nap</item>
+        <item>6.nap</item>
+        <item>7.nap</item>
     </string-array>
 </resources>

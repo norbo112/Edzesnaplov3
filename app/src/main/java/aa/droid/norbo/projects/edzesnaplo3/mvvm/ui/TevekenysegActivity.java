@@ -1,58 +1,45 @@
 package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui;
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
 import aa.droid.norbo.projects.edzesnaplo3.R;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmActivityTestBinding;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmAlertTevekenysegElhagyasaBinding;
-import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmKorabbiSorozatItemBinding;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.GyakorlatUI;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.EdzesTerv;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Naplo;
-import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Sorozat;
-import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.utils.AdatFeltoltes;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.edzesterv.utils.EdzesTervManageUtil;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.MvvmGyakorlatValasztoFragment;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.TevekenysegFragment;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.ViewPagerAdapter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.adatkozlo.AdatKozloInterface;
-import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.rcviews.KorabbiSorozatRcViewAdapter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.DateTimeFormatter;
-import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.NaploListFactory;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.naplo.NaploWorker;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.naplo.SorozatUtil;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.SorozatViewModel;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class TevekenysegActivity extends BaseActiviry<MvvmActivityTestBinding> implements AdatKozloInterface {
+public class TevekenysegActivity extends BaseActiviry<MvvmActivityTestBinding> implements AdatKozloInterface, EdzesTervManageUtil.TervValasztoInterface {
     private static final String TAG = "TestActivity";
-    private Integer gyakorlatId;
+    private GyakorlatUI gyakorlatUI;
 
     @Inject
     NaploWorker naploWorker;
@@ -63,6 +50,15 @@ public class TevekenysegActivity extends BaseActiviry<MvvmActivityTestBinding> i
     @Inject
     DateTimeFormatter formatter;
 
+    @Inject
+    EdzesTervManageUtil edzesTervManageUtil;
+
+    @Inject
+    SorozatUtil sorozatUtil;
+
+    @Inject
+    SharedPreferences sharedPreferences;
+
     public TevekenysegActivity() {
         super(R.layout.mvvm_activity_test);
     }
@@ -70,6 +66,8 @@ public class TevekenysegActivity extends BaseActiviry<MvvmActivityTestBinding> i
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        checkSharedPrefForEdzesTerv();
 
         if (! getResources().getBoolean(R.bool.isTablet)) {
             ViewPagerAdapter myViewPagerAdapter = new ViewPagerAdapter(this, getSupportFragmentManager());
@@ -92,6 +90,14 @@ public class TevekenysegActivity extends BaseActiviry<MvvmActivityTestBinding> i
         });
     }
 
+    private void checkSharedPrefForEdzesTerv() {
+        String string = sharedPreferences.getString(VALASZTOTT_TERV_MEGNEVEZES, null);
+        if(string != null) {
+            edzesTervManageUtil.getEdzesTervById(this, sharedPreferences.getInt(VALASZTOTT_TERV_ID, 0))
+                    .observe(this, this::valasztottTervFragmentErtesites);
+        }
+    }
+
     @Override
     public void onBackPressed() {
         MvvmAlertTevekenysegElhagyasaBinding viewBinding = MvvmAlertTevekenysegElhagyasaBinding.inflate(LayoutInflater.from(this), null, false);
@@ -110,14 +116,18 @@ public class TevekenysegActivity extends BaseActiviry<MvvmActivityTestBinding> i
         setSupportActionBar(binding.toolbar.customToolbar);
         if(getSupportActionBar() != null) {
             binding.toolbar.naploDetails.setOnClickListener(v -> {
-                naploWorker.prepareUjGyakorlat();
+//                naploWorker.prepareUjGyakorlat(); itt ugye felveszi a aktuális sorozatokat is, de ezt inkább kézzel, mert lehet megszeretnénk nézni az eddigi müvelteket
+                Naplo naplo = naploWorker.getNaplo();
+                String title = "Napló "+formatter.getNaploDatum(naplo.getNaplodatum());
+                title += String.format(Locale.getDefault(), " (%,.0f Kg)", naplo.getSorozats().stream().mapToDouble(s -> s.getSuly() * s.getIsmetles()).sum());
+                title += " (mentés)";
                 new AlertDialog.Builder(this)
-                        .setTitle("Napló "+formatter.getNaploDatum(naploWorker.getNaplo().getNaplodatum())+" (mentés)")
-//                        .setMessage()
-                        .setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, naploWorker.getNaplo().getSorozats()), null)
+//                        .setTitle("Napló "+formatter.getNaploDatum(naploWorker.getNaplo().getNaplodatum())+" (mentés)")
+                        .setTitle(title)
+                        .setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, naplo.getSorozats()), null)
                         .setNeutralButton("ok", (dialog, which) -> dialog.dismiss())
                         .setPositiveButton("mentés", (dialog, which) -> {
-                            if(naploWorker.getNaplo().getSorozats().size() != 0) {
+                            if(naplo.getSorozats().size() != 0) {
                                 naploWorker.saveNaplo();
                                 finish();
                                 Toast.makeText(this, "Napló mentve!", Toast.LENGTH_SHORT).show();
@@ -138,9 +148,10 @@ public class TevekenysegActivity extends BaseActiviry<MvvmActivityTestBinding> i
         for (Fragment fragment: fragments) {
             if(fragment instanceof TevekenysegFragment) {
                 ((TevekenysegFragment)fragment).gyakorlatAtado(gyakorlatUI);
-                gyakorlatId = gyakorlatUI.getId();
             }
         }
+
+        this.gyakorlatUI = gyakorlatUI;
 
         if (!getResources().getBoolean(R.bool.isTablet)) {
             binding.viewPager.setCurrentItem(1, true);
@@ -152,90 +163,32 @@ public class TevekenysegActivity extends BaseActiviry<MvvmActivityTestBinding> i
         if(item.getItemId() == R.id.tevekenyseg_naplo_view) {
             Toast.makeText(this, "Naplók megtekintése TV", Toast.LENGTH_SHORT).show();
         } else if (item.getItemId() == R.id.tevekenyseg_gyakorlat_view) {
-            korabbiSorozatokMegtekintese();
+            sorozatUtil.sorozatNezokeDialog(this, gyakorlatUI);
+        } else if(item.getItemId() == R.id.tevekenyseg_edzesterv_valaszto) {
+            edzesTervManageUtil.makeValasztoDialog(this, this, this);
         }
         return super.onContextItemSelected(item);
     }
 
-    private void korabbiSorozatokMegtekintese() {
-        if(gyakorlatId == null) {
-            Toast.makeText(this, "Kérlek válassz egy gyakorlatot a megtekintéshez!", Toast.LENGTH_SHORT).show();
-            return;
+    @Override
+    public void tervValasztva(EdzesTerv edzesTerv) {
+        SharedPreferences.Editor edit = sharedPreferences.edit();
+        edit.putInt(VALASZTOTT_TERV_ID, edzesTerv.getTervId());
+        edit.putString(VALASZTOTT_TERV_MEGNEVEZES, edzesTerv.getMegnevezes());
+        if (edit.commit()) {
+            valasztottTervFragmentErtesites(edzesTerv);
+            Toast.makeText(this, "Terv kiválasztva: "+edzesTerv.getMegnevezes(), Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Nem sikerült a kiválasztás", Toast.LENGTH_SHORT).show();
         }
 
-        sorozatViewModel.getSorozatByGyakorlat(gyakorlatId).observe(this, sorozats -> {
-            if(sorozats != null && sorozats.size() > 0) {
-                ArrayAdapter<NaploEsSorozat> listAdapter = new ArrayAdapter<NaploEsSorozat>(this, R.layout.mvvm_korabbi_sorozat_item, makeNaploEsSorozat(sorozats)) {
-                    MvvmKorabbiSorozatItemBinding itemBinding;
-                    @NonNull
-                    @Override
-                    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-                        if(convertView == null) {
-                            convertView = LayoutInflater.from(TevekenysegActivity.this).inflate(R.layout.mvvm_korabbi_sorozat_item, parent, false);
-                            itemBinding = DataBindingUtil.bind(convertView);
-                            convertView.setTag(itemBinding);
-                        } else {
-                            itemBinding = (MvvmKorabbiSorozatItemBinding) convertView.getTag();
-                        }
+    }
 
-                        NaploEsSorozat item = getItem(position);
-                        itemBinding.korabbiSorozatDatumLabel.setText(formatter.getNaploDatum(item.naplodatum)+" "+getSorozatOsszSuly(item.sorozats));
-                        itemBinding.korabbiSorozatLista.setAdapter(new KorabbiSorozatRcViewAdapter(item.sorozats, formatter));
-                        itemBinding.korabbiSorozatLista.setLayoutManager(new LinearLayoutManager(TevekenysegActivity.this, RecyclerView.HORIZONTAL, false));
-                        return itemBinding.getRoot();
-                    }
-                };
-
-                new AlertDialog.Builder(this)
-                        .setTitle("Sorozatok")
-                        .setAdapter(listAdapter, null)
-                        .setPositiveButton("ok", (dialog, which) -> dialog.dismiss())
-                        .show();
-            } else {
-                Toast.makeText(this, "Nincs rögzítve még sorozat evvel a gyakorlattal", Toast.LENGTH_SHORT).show();
+    public void valasztottTervFragmentErtesites(EdzesTerv edzesTerv) {
+        for (Fragment fragment: getSupportFragmentManager().getFragments()) {
+            if(fragment instanceof EdzesTervManageUtil.TervValasztoInterface) {
+                ((EdzesTervManageUtil.TervValasztoInterface)fragment).tervValasztva(edzesTerv);
             }
-        });
-    }
-
-    private List<NaploEsSorozat> makeNaploEsSorozat(List<Sorozat> sorozats) {
-        List<NaploEsSorozat> list = new ArrayList<>();
-        Set<Long> naploDatumok = sorozats.stream().map(Sorozat::getNaplodatum).collect(Collectors.toSet());
-        naploDatumok.forEach(aLong -> {
-            NaploEsSorozat naploEsSorozat = new NaploEsSorozat(aLong);
-            List<Sorozat> sorozats1 = new ArrayList<>();
-            sorozats.forEach(sorozat -> {
-                if(aLong == (sorozat.getNaplodatum()))
-                    sorozats1.add(sorozat);
-            });
-            naploEsSorozat.setSorozats(sorozats1);
-            list.add(naploEsSorozat);
-        });
-        list.sort((o1, o2) -> Long.compare(o2.naplodatum, o1.naplodatum));
-        return list;
-    }
-
-    private String getSorozatOsszSuly(List<Sorozat> sorozats) {
-        return String.format(Locale.getDefault(), "%,d Kg", sorozats.stream().mapToInt(sor -> sor.getSuly() * sor.getIsmetles()).sum());
-    }
-
-    public class NaploEsSorozat {
-        private long naplodatum;
-        private List<Sorozat> sorozats;
-
-        public NaploEsSorozat(long naplodatum) {
-            this.naplodatum = naplodatum;
-        }
-
-        public void setSorozats(List<Sorozat> sorozats) {
-            this.sorozats = sorozats;
-        }
-
-        public List<Sorozat> getSorozats() {
-            return sorozats;
-        }
-
-        public long getNaplodatum() {
-            return naplodatum;
         }
     }
 }

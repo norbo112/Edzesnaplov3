@@ -12,10 +12,10 @@
         android:background="#0089C8">
 
         <LinearLayout
+            android:id="@+id/linearLayout9"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -23,7 +23,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:orientation="vertical">
 
                 <TextView
@@ -34,6 +33,16 @@
                     android:textAlignment="center"
                     android:textSize="21sp"
                     android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/terv_megnevezes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:text="@string/gyakorlat_valaszto_terv_megnevezes_simple"
+                    android:textAlignment="center"
+                    android:textStyle="italic" />
 
                 <LinearLayout
                     android:id="@+id/searcglayout"
@@ -57,24 +66,30 @@
                         android:spinnerMode="dialog" />
                 </LinearLayout>
             </LinearLayout>
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:contentPadding="10dp"
-                app:cardCornerRadius="15dp"
-                app:cardBackgroundColor="#fff"
-                android:layout_marginTop="0dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp">
+        </LinearLayout>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="5dp"
+            app:cardBackgroundColor="#fff"
+            app:cardCornerRadius="15dp"
+            app:contentPadding="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout9">
+
             <ListView
                 android:id="@+id/lvGyakorlat"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:choiceMode="singleChoice"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
-            </androidx.cardview.widget.CardView>
-        </LinearLayout>
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        </androidx.cardview.widget.CardView>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabone"
@@ -82,7 +97,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_add_circle"
             android:backgroundTint="#0089C8"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="13dp"
             android:layout_marginEnd="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

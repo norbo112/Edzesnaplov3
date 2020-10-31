@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/edzesterv_szerk_torol"
+        android:icon="@drawable/ic_delete"
+        android:title="Töröl"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/edzesterv_szerk_edit"
+        android:icon="@drawable/ic_edit"
+        android:title="Szerkeszt"
+        app:showAsAction="never" />
+</menu>

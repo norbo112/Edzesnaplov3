@@ -9,6 +9,8 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Gyakorlat;
 public interface GyakorlatRepository {
     LiveData<List<Gyakorlat>> getAll();
 
+    LiveData<List<Gyakorlat>> getByCsoport(List<String> izomcsoportok);
+
     void delete(Gyakorlat gyakorlat);
 
     void insert(Gyakorlat gyakorlat);

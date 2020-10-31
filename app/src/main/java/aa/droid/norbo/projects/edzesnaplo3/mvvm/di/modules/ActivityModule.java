@@ -1,5 +1,8 @@
 package aa.droid.norbo.projects.edzesnaplo3.mvvm.di.modules;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import javax.inject.Singleton;
 
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.api.GyakorlatRepository;
@@ -12,10 +15,12 @@ import dagger.Module;
 import dagger.Provides;
 import dagger.hilt.InstallIn;
 import dagger.hilt.android.components.ApplicationComponent;
+import dagger.hilt.android.qualifiers.ApplicationContext;
 
 @Module
 @InstallIn(ApplicationComponent.class)
 public class ActivityModule {
+    private static final String PREF_NAME = "beallitasok";
 
     @Provides
     @Singleton
@@ -39,5 +44,11 @@ public class ActivityModule {
     @Singleton
     DateTimeFormatter dateTimeFormatter() {
         return new DateTimeFormatter();
+    }
+
+    @Provides
+    @Singleton
+    SharedPreferences provideSharedPreferences(@ApplicationContext Context context) {
+        return context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
     }
 }

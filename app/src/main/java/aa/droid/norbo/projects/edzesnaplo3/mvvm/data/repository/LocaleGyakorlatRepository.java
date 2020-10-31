@@ -42,4 +42,9 @@ public class LocaleGyakorlatRepository implements GyakorlatRepository {
     public void update(Gyakorlat gyakorlat) {
         executorService.execute(() -> database.gyakorlatDao().updateGyakorlat(gyakorlat));
     }
+
+    @Override
+    public LiveData<List<Gyakorlat>> getByCsoport(List<String> izomcsoportok) {
+        return database.gyakorlatDao().getByIzomcsoport(izomcsoportok);
+    }
 }

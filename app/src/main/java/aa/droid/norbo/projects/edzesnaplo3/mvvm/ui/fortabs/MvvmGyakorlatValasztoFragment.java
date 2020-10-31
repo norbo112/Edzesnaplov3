@@ -25,7 +25,6 @@ import androidx.appcompat.view.menu.MenuPopupHelper;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,27 +36,36 @@ import aa.droid.norbo.projects.edzesnaplo3.R;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmGyakorlatValasztoLayoutBinding;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmGyakorlatdialogBinding;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.GyakorlatUI;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.edzesterv.EdzesTerv;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Gyakorlat;
-import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.utils.AdatFeltoltes;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.VideoActivity;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.edzesterv.utils.EdzesTervManageUtil;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.adatkozlo.AdatKozloInterface;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.listadapters.GyakorlatItemAdapter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.ModelConverter;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.naplo.SorozatUtil;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.GyakorlatViewModel;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class MvvmGyakorlatValasztoFragment extends Fragment implements AdapterView.OnItemClickListener {
+public class MvvmGyakorlatValasztoFragment extends Fragment implements AdapterView.OnItemClickListener, EdzesTervManageUtil.TervValasztoInterface {
     private static final String TAG = "TestActivity";
     private static final String VALASSZ_IZOMCSOP = "Válassz...";
     private MvvmGyakorlatValasztoLayoutBinding binding;
     private AdatKozloInterface adatKozloInterface;
+    private boolean gyakorlatValasztva;
 
     @Inject
     GyakorlatViewModel gyakorlatViewModel;
 
     @Inject
     ModelConverter modelConverter;
+
+    @Inject
+    SorozatUtil sorozatUtil;
+
+    @Inject
+    EdzesTervManageUtil manageUtil;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -135,14 +143,22 @@ public class MvvmGyakorlatValasztoFragment extends Fragment implements AdapterVi
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.gyakszerk_menu_select :
-                adatKozloInterface.gyakorlatAtado((GyakorlatUI) binding.lvGyakorlat.getAdapter().getItem(kijeloltGyakPoz));
-                Toast.makeText(getContext(), "Gyakorlat kiválasztva", Toast.LENGTH_SHORT).show();
+                if(!gyakorlatValasztva) {
+                    adatKozloInterface.gyakorlatAtado((GyakorlatUI) binding.lvGyakorlat.getAdapter().getItem(kijeloltGyakPoz));
+                    gyakorlatValasztva = true;
+                    Toast.makeText(getContext(), "Gyakorlat kiválasztva", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "Gyakorlat választása az edzés NEW gombbal történik!", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.gyakszerk :
                 createGyakorlatDialog(modelConverter.fromUI((GyakorlatUI)binding.lvGyakorlat.getAdapter().getItem(kijeloltGyakPoz)));
                 break;
             case R.id.gyaktorol :
                 showAlertGyakTorles(modelConverter.fromUI((GyakorlatUI)binding.lvGyakorlat.getAdapter().getItem(kijeloltGyakPoz)));
+                break;
+            case R.id.gyakszerk_menu_korabbisorozat :
+                sorozatUtil.sorozatNezokeDialog(this, (GyakorlatUI) binding.lvGyakorlat.getAdapter().getItem(kijeloltGyakPoz));
                 break;
             case R.id.gyakszerk_menu_video :
                 Gyakorlat gyakorlat = modelConverter.fromUI((GyakorlatUI) binding.lvGyakorlat.getAdapter().getItem(kijeloltGyakPoz));
@@ -253,5 +269,16 @@ public class MvvmGyakorlatValasztoFragment extends Fragment implements AdapterVi
 
             }
         });
+    }
+
+    @SuppressLint("SetTextI18n")
+    @Override
+    public void tervValasztva(EdzesTerv edzesTerv) {
+        binding.tervMegnevezes.setText(edzesTerv.getMegnevezes()+" terv kiválasztva");
+        binding.tervMegnevezes.setOnClickListener(v -> manageUtil.viewEdzesTervDialog(edzesTerv));
+    }
+
+    public void setGyakorlatValasztva(boolean gyakorlatValasztva) {
+        this.gyakorlatValasztva = gyakorlatValasztva;
     }
 }
