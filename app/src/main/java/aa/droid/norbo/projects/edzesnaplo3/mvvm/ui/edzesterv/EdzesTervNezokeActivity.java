@@ -185,7 +185,6 @@ public class EdzesTervNezokeActivity extends EdzesTervBaseActivity<MvvmActivityE
                 textView.setText(edzesnap.getEdzesNapLabel());
                 textView.setPadding(10, 10, 10, 10);
                 textView.setBackgroundResource(R.drawable.custom_et_gyak_hatter);
-//                binding.tervElonezetLinearLayout.setGravity(Gravity.CENTER);
                 linearLayout.addView(textView);
 
                 for (Csoport csoport : edzesnap.getValasztottCsoport()) {
