@@ -148,7 +148,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:backgroundTint="@color/edzesHatter"
-                            android:drawableStart="@drawable/ic_edzesterv1"
+                            android:drawableStart="@drawable/ic_gyakorlatok_kis_logo"
                             android:drawableTint="#00B6FF"
                             android:text="@string/mvvm_gyakorlatok_btn_label"
                             android:textColor="#fff" />
