@@ -89,8 +89,6 @@ public class MvvmGyakorlatValasztoFragment extends Fragment implements AdapterVi
             }
         });
 
-        binding.fabone.setOnClickListener(v -> createGyakorlatDialog(null));
-
         return binding.getRoot();
     }
 
@@ -151,12 +149,6 @@ public class MvvmGyakorlatValasztoFragment extends Fragment implements AdapterVi
                     Toast.makeText(getContext(), "Gyakorlat választása az edzés NEW gombbal történik!", Toast.LENGTH_SHORT).show();
                 }
                 break;
-            case R.id.gyakszerk :
-                createGyakorlatDialog(modelConverter.fromUI((GyakorlatUI)binding.lvGyakorlat.getAdapter().getItem(kijeloltGyakPoz)));
-                break;
-            case R.id.gyaktorol :
-                showAlertGyakTorles(modelConverter.fromUI((GyakorlatUI)binding.lvGyakorlat.getAdapter().getItem(kijeloltGyakPoz)));
-                break;
             case R.id.gyakszerk_menu_korabbisorozat :
                 sorozatUtil.sorozatNezokeDialog(this, (GyakorlatUI) binding.lvGyakorlat.getAdapter().getItem(kijeloltGyakPoz));
                 break;
@@ -171,78 +163,6 @@ public class MvvmGyakorlatValasztoFragment extends Fragment implements AdapterVi
                 }
         }
         return super.onContextItemSelected(item);
-    }
-
-    private void showAlertGyakTorles(Gyakorlat gyakorlat) {
-        new AlertDialog.Builder(getContext())
-                .setMessage("Biztos törölni akarod?")
-                .setTitle(gyakorlat.getMegnevezes()+" törlése")
-                .setPositiveButton("Igen", (dialog, which) -> {
-                    gyakorlatViewModel.delete(gyakorlat);
-                    Toast.makeText(getContext(), gyakorlat.getMegnevezes()+" törlésre került", Toast.LENGTH_SHORT).show();
-                })
-                .setNegativeButton("Nem", (dialog, which) -> {
-                })
-                .create()
-                .show();
-    }
-
-    private void createGyakorlatDialog(Gyakorlat gyakorlat) {
-        MvvmGyakorlatdialogBinding gyakBinding = DataBindingUtil.inflate(
-                getLayoutInflater(), R.layout.mvvm_gyakorlatdialog, null, false);
-        String title = (gyakorlat != null) ? gyakorlat.getMegnevezes()+" szerkesztése" : "Új gyakorlat felvétele";
-        String[] izomccsoportResource = getResources().getStringArray(R.array.izomcsoportok);
-        if(gyakorlat != null) {
-            int szerkeszIndex = 0;
-            for (int i=0; i<izomccsoportResource.length; i++) {
-                if(izomccsoportResource[i].equals(gyakorlat.getCsoport())) {
-                    szerkeszIndex = i;
-                    break;
-                }
-            }
-            gyakBinding.etGyakDialogCsoport.setSelection(szerkeszIndex);
-            gyakBinding.setGyakorlat(modelConverter.fromEntity(gyakorlat));
-        } else {
-            gyakBinding.setGyakorlat(new GyakorlatUI());
-        }
-
-        new AlertDialog.Builder(getContext())
-                .setTitle(title)
-                .setView(gyakBinding.getRoot())
-                .setPositiveButton("OK", (dialog, which) -> {
-                    String valasztottCsoport = gyakBinding.etGyakDialogCsoport.getSelectedItem().toString();
-
-                    if(TextUtils.isEmpty(gyakBinding.etGyakDialogNev.getText().toString()) ||
-                            valasztottCsoport.equals("Kérlek, válassz...")) {
-                        Toast.makeText(getContext(), "Izomcsoport, megnevezés kötelező megadni", Toast.LENGTH_LONG).show();
-                        return;
-                    }
-
-                    GyakorlatUI gyakorlat1 = gyakBinding.getGyakorlat();
-
-                    setGyakorlatAdat(gyakBinding, gyakorlat1);
-
-                    if(gyakorlat == null) {
-                        gyakorlat1.setCsoport(valasztottCsoport);
-                        gyakorlatViewModel.insert(modelConverter.fromUI(gyakorlat1));
-                        Toast.makeText(getContext(), "Gyakorlat felvéve a listára", Toast.LENGTH_SHORT).show();
-                    } else {
-                        gyakorlatViewModel.update(modelConverter.fromUI(gyakorlat1));
-                        Toast.makeText(getContext(), "Gyakorlat szerkesztve", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .setNegativeButton("Mégse", (dialog, which) -> dialog.dismiss()).create().show();
-    }
-
-    private void setGyakorlatAdat(MvvmGyakorlatdialogBinding gyakBinding, GyakorlatUI gyakorlat1) {
-        if(TextUtils.isEmpty(gyakBinding.etGyakDialogLeiras.getText().toString()))
-            gyakorlat1.setLeiras("");
-
-        if(TextUtils.isEmpty(gyakBinding.etGyakDialogVideolink.getText().toString()))
-            gyakorlat1.setVideolink("");
-
-        if(TextUtils.isEmpty(gyakBinding.etGyakDialogVideoStartPoz.getText().toString()))
-            gyakorlat1.setVideostartpoz("0");
     }
 
     private void initIzomcsoportSpinner(List<Gyakorlat> gyakorlats, Spinner spinner) {

@@ -90,16 +90,5 @@
                 android:choiceMode="singleChoice"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
         </androidx.cardview.widget.CardView>
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fabone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_add_circle"
-            android:backgroundTint="#0089C8"
-            android:layout_marginBottom="13dp"
-            android:layout_marginEnd="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -12,4 +12,11 @@
         android:icon="@drawable/ic_directions_walk_black_24dp"
         android:title="Korábbi sorozatok"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/gyakszerk_menu_video"
+        android:icon="@drawable/ic_ondemand_video"
+        android:iconTint="#FBC02D"
+        android:orderInCategory="103"
+        android:title="Video"
+        app:showAsAction="never" />
 </menu>
