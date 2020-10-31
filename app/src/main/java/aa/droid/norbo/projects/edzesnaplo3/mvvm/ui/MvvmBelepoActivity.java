@@ -94,6 +94,11 @@ public class MvvmBelepoActivity extends BaseActiviry<MvvmActivityBelepoBinding> 
             startActivity(new Intent(this, EdzesTervBelepoActivity.class));
             overridePendingTransition(R.anim.move_right_in_activity, R.anim.move_left_out_activity);
         });
+
+        binding.btnGyakorlatok.setOnClickListener(v -> {
+            startActivity(new Intent(this, MvvmGyakorlatokActivity.class));
+            overridePendingTransition(R.anim.move_right_in_activity, R.anim.move_left_out_activity);
+        });
     }
 
     @Override

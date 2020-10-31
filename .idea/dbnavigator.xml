@@ -27,10 +27,10 @@
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="e6b19e2b-0bcd-4096-89b1-d9a4df557ba0">
-      <console name="Edzésnapló" type="STANDARD" schema="main" session="Main"><![CDATA[select
+      <console name="Edzésnapló" type="STANDARD" schema="main" session="Main">select
     *
 from
-    sorozattabla where gyakorlatid = 1 and suly = 40 and ismetles = 15  ;]]></console>
+    sorozattabla where gyakorlatid = 1 and suly = 40 and ismetles = 15  ;</console>
     </connection>
     <connection id="cfaf11ab-43d6-4cfa-a5c9-07c3359db861">
       <console name="EdzésnaplóTapanyag" type="STANDARD" schema="main" session="Main" />
@@ -39,10 +39,10 @@ from
       <console name="Edzésnapló v4" type="STANDARD" schema="main" session="Main" />
     </connection>
     <connection id="c04e3ea8-b1da-4da8-bfb8-c7f42166aa05">
-      <console name="edzesterv" type="STANDARD" schema="main" session="Main" />
+      <console name="edzesterv" type="STANDARD" schema="" session="Main" />
     </connection>
     <connection id="c57bd236-2a6d-4ab2-a2d2-08a47b0e554a">
-      <console name="edzesterv_from_telo" type="STANDARD" schema="main" session="Main" />
+      <console name="edzesterv_from_telo" type="STANDARD" schema="" session="Main" />
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">

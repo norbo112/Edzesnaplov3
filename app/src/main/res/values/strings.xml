@@ -6,16 +6,20 @@
     <string name="korabbi_sorozat_list_title">Korábban elvégzett sorozatok</string>
     <string name="welcome_title_belepo">Belépés az Edzésnaplóba</string>
     <string name="welcome_mentett_naplok_title">Mentett naplók</string>
+    <string name="welcome_gyakorlatok_title">Gyakorlatok</string>
     <string name="welcome_belepo_desc">Üdvözöllek az edzésnapló alkalmazásban!</string>
     <string name="welcome_mentett_naplok_desc">Eddigi mentett naplók megtekintése</string>
+    <string name="welcome_gyakorlatok_desc">Gyakorlatok megtekintése és szerkesztése</string>
     <string name="welcomeimage">WelcomeImage</string>
     <string name="mvvm_belepes_btn_label">Edzés megkezdése</string>
     <string name="mvvm_naplok_btn_label">Mentett naplók</string>
     <string name="mvvm_tervek_btn_label">Edzéstervek</string>
+    <string name="mvvm_gyakorlatok_btn_label">Gyakorlatok</string>
     <string name="mvvm_belepo_info_label">Napló részletek</string>
     <string name="mvvm_permissions_warning">A médiatartalmak elérését mindenképpen elkell fogadnod, különben nem tudod használni az alkalmazást!</string>
     <string name="mvvm_edzes_nezet_gyakorlat_label">Válassz egy gyakorlatot</string>
     <string name="mvvm_mentett_naplok_warning_label">Nincsenek mentve naplók</string>
+    <string name="mvvm_gyakorlatok_warning_label">Nincsenek gyakorlatok rögzítve</string>
     <string name="mvvm_saved_tablet_info">Kérlek válassz egy naplót a részletekért!</string>
     <string name="mvvm_tevekenyseg_sorozat_add_label">Sorozat hozzáadása</string>
     <string name="mvvm_tevekenyseg_sorozat_stopper_0">00:00</string>
@@ -44,4 +48,5 @@
     <string name="edzesterv_menu_betoltes">Terv betöltése</string>
     <string name="gyakorlat_valaszto_terv_megnevezes_simple">Terv megnevezés</string>
     <string name="mvvm_edzesterv_belepo_info_label">Információ</string>
+    <string name="mvvm_gyakorlatok_activity_menu_title">Gyakorlatok</string>
 </resources>
