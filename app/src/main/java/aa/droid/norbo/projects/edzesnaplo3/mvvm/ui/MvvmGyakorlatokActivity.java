@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -19,6 +20,7 @@ import androidx.appcompat.widget.SearchView;
 import androidx.databinding.DataBindingUtil;
 
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.inject.Inject;
 
@@ -50,15 +52,13 @@ public class MvvmGyakorlatokActivity extends BaseActiviry<MvvmGyakorlatActivityB
 
         gyakorlatViewModel.getGyakorlatList().observe(this, gyakorlats -> {
             if(gyakorlats != null && gyakorlats.size() > 0) {
-                binding.gyakorlatokkWarningLabel.setVisibility(View.GONE);
-                binding.gyakorlatokLista.setVisibility(View.VISIBLE);
                 binding.gyakorlatokLista.setAdapter(
                         new GyakorlatItemAdapter(gyakorlats.stream().map(gy -> modelConverter.fromEntity(gy)).collect(Collectors.toList()), MvvmGyakorlatokActivity.this));
                 binding.gyakorlatokLista.setOnItemClickListener(this);
                 binding.gyakorlatokLista.setNestedScrollingEnabled(true);
             } else {
-                binding.gyakorlatokkWarningLabel.setVisibility(View.VISIBLE);
-                binding.gyakorlatokLista.setVisibility(View.GONE);
+                binding.gyakorlatokLista.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,
+                        Stream.of("Nincsenek gyakorlatok rögzítve...", "Kérlek vegyél fel párat a hozzáadás gombbal").collect(Collectors.toList())));
             }
         });
 
