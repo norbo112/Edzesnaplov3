@@ -57,7 +57,7 @@ public class NaploListFactory {
      * @return
      */
     public ArrayAdapter<NaploWithSorozat> getListAdapter(List<NaploWithSorozat> naplos) {
-        ArrayAdapter<NaploWithSorozat> listAdapter = new ArrayAdapter<NaploWithSorozat>(context, R.layout.mvvm_mentett_naplo_item_with_delbutton, naplos) {
+        return new ArrayAdapter<NaploWithSorozat>(context, R.layout.mvvm_mentett_naplo_item_with_delbutton, naplos) {
             MvvmMentettNaploItemWithDelbuttonBinding itemBinding;
             @NonNull
             @Override
@@ -93,8 +93,6 @@ public class NaploListFactory {
                 return itemBinding.getRoot();
             }
         };
-
-        return listAdapter;
     }
 
     public String getIzomcsoportLista(NaploWithSorozat naploWithSorozats) {
