@@ -57,7 +57,6 @@ public class NaploListFactory {
      * @return
      */
     public ArrayAdapter<NaploWithSorozat> getListAdapter(List<NaploWithSorozat> naplos) {
-//    public ArrayAdapter<Naplo> getListAdapter(List<Naplo> naplos) {
         ArrayAdapter<NaploWithSorozat> listAdapter = new ArrayAdapter<NaploWithSorozat>(context, R.layout.mvvm_mentett_naplo_item_with_delbutton, naplos) {
             MvvmMentettNaploItemWithDelbuttonBinding itemBinding;
             @NonNull
