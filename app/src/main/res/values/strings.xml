@@ -50,4 +50,5 @@
     <string name="mvvm_edzesterv_belepo_info_label">Információ</string>
     <string name="mvvm_gyakorlatok_activity_menu_title">Gyakorlatok</string>
     <string name="mvvm_gyakorlatok_menu_search_label">Keresés</string>
+    <string name="mvvm_gyakorlat_valaszto_tablet_fragment_video_warning_label">Nincs videólink megadva, vagy nem válaszottál gyakorlatot</string>
 </resources>

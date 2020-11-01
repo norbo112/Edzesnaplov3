@@ -3,6 +3,7 @@ package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -15,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.SearchView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -25,6 +27,11 @@ import androidx.appcompat.view.menu.MenuPopupHelper;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,17 +50,22 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.edzesterv.utils.EdzesTervMana
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.adatkozlo.AdatKozloInterface;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.listadapters.GyakorlatItemAdapter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.ModelConverter;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.VideoUtils;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.naplo.SorozatUtil;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.GyakorlatViewModel;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class MvvmGyakorlatValasztoFragment extends Fragment implements AdapterView.OnItemClickListener, EdzesTervManageUtil.TervValasztoInterface {
+public class MvvmGyakorlatValasztoFragment extends Fragment implements AdapterView.OnItemClickListener,
+        EdzesTervManageUtil.TervValasztoInterface, YouTubePlayer.OnInitializedListener {
     private static final String TAG = "TestActivity";
     private static final String VALASSZ_IZOMCSOP = "Válassz...";
     private MvvmGyakorlatValasztoLayoutBinding binding;
     private AdatKozloInterface adatKozloInterface;
     private boolean gyakorlatValasztva;
+
+    private YouTubePlayer youTubePlayer;
+    private YouTubePlayerSupportFragment youtubePlayerFragment;
 
     @Inject
     GyakorlatViewModel gyakorlatViewModel;
@@ -66,6 +78,7 @@ public class MvvmGyakorlatValasztoFragment extends Fragment implements AdapterVi
 
     @Inject
     EdzesTervManageUtil manageUtil;
+
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -88,6 +101,13 @@ public class MvvmGyakorlatValasztoFragment extends Fragment implements AdapterVi
                 initSearch(binding.gyakSearchView);
             }
         });
+
+        if (isTablet()) {
+            youtubePlayerFragment = YouTubePlayerSupportFragment.newInstance();
+            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+            transaction.add(R.id.ytView, youtubePlayerFragment).commit();
+            youtubePlayerFragment.initialize(VideoUtils.YT_API_KEY, this);
+        }
 
         return binding.getRoot();
     }
@@ -139,21 +159,26 @@ public class MvvmGyakorlatValasztoFragment extends Fragment implements AdapterVi
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
+        GyakorlatUI valasztottGyakorlat = (GyakorlatUI) binding.lvGyakorlat.getAdapter().getItem(kijeloltGyakPoz);
         switch (item.getItemId()) {
             case R.id.gyakszerk_menu_select :
                 if(!gyakorlatValasztva) {
-                    adatKozloInterface.gyakorlatAtado((GyakorlatUI) binding.lvGyakorlat.getAdapter().getItem(kijeloltGyakPoz));
+                    adatKozloInterface.gyakorlatAtado(valasztottGyakorlat);
                     gyakorlatValasztva = true;
+
+                    if (isTablet() && youtubePlayerFragment != null && youTubePlayer != null) {
+                        startVideo(valasztottGyakorlat);
+                    }
                     Toast.makeText(getContext(), "Gyakorlat kiválasztva", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getContext(), "Gyakorlat választása az edzés NEW gombbal történik!", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.gyakszerk_menu_korabbisorozat :
-                sorozatUtil.sorozatNezokeDialog(this, (GyakorlatUI) binding.lvGyakorlat.getAdapter().getItem(kijeloltGyakPoz));
+                sorozatUtil.sorozatNezokeDialog(this, valasztottGyakorlat);
                 break;
             case R.id.gyakszerk_menu_video :
-                Gyakorlat gyakorlat = modelConverter.fromUI((GyakorlatUI) binding.lvGyakorlat.getAdapter().getItem(kijeloltGyakPoz));
+                Gyakorlat gyakorlat = modelConverter.fromUI(valasztottGyakorlat);
                 if(gyakorlat != null && gyakorlat.getVideolink().length() > 0) {
                     Intent videointent = new Intent(getContext(), VideoActivity.class);
                     videointent.putExtra(VideoActivity.EXTRA_GYAKORLAT, gyakorlat);
@@ -200,5 +225,34 @@ public class MvvmGyakorlatValasztoFragment extends Fragment implements AdapterVi
 
     public void setGyakorlatValasztva(boolean gyakorlatValasztva) {
         this.gyakorlatValasztva = gyakorlatValasztva;
+    }
+
+    private boolean isTablet() {
+        return getResources().getBoolean(R.bool.isTablet);
+    }
+
+    @Override
+    public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+        if(!b) {
+            this.youTubePlayer = youTubePlayer;
+            GyakorlatUI gyakorlatUI = (GyakorlatUI) binding.lvGyakorlat.getAdapter().getItem(kijeloltGyakPoz);
+            startVideo(gyakorlatUI);
+        }
+    }
+
+    public void startVideo(GyakorlatUI gyakorlatUI) {
+        if(gyakorlatUI.getVideolink() != null && gyakorlatUI.getVideolink().length() > 2) {
+            youTubePlayer.cueVideo(gyakorlatUI.getVideolink(), Integer.parseInt(gyakorlatUI.getVideostartpoz()) * 1000);
+            binding.ytView.setVisibility(View.VISIBLE);
+            binding.videoWarningText.setVisibility(View.GONE);
+        } else {
+            binding.videoWarningText.setVisibility(View.VISIBLE);
+            binding.ytView.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+        Log.i(TAG, "onInitializationFailure: Failed youtube initialize: "+youTubeInitializationResult.toString());
     }
 }

@@ -16,10 +16,10 @@ import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 import aa.droid.norbo.projects.edzesnaplo3.R;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmVideoActivityBinding;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Gyakorlat;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.VideoUtils;
 
 public class VideoActivity extends BaseActiviry<MvvmVideoActivityBinding> implements YouTubePlayer.OnInitializedListener {
     public static final String EXTRA_GYAKORLAT = "aa.droid.norbo.projects.edzesnaplov3.EXTRA_GYAKORLAT";
-    private static final String YT_API_KEY = "AIzaSyDzSqMr9tFI2MvQ_b7BMCQE8Xrw3DWvtOw";
     private Gyakorlat gyakorlat;
 
     private YouTubePlayerSupportFragment youTubePlayerFragment;
@@ -44,7 +44,7 @@ public class VideoActivity extends BaseActiviry<MvvmVideoActivityBinding> implem
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.ytView, youTubePlayerFragment).commit();
 
-        youTubePlayerFragment.initialize(YT_API_KEY, this);
+        youTubePlayerFragment.initialize(VideoUtils.YT_API_KEY, this);
     }
 
     @Override
