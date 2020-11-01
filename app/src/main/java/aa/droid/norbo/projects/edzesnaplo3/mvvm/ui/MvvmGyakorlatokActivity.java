@@ -19,6 +19,8 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.SearchView;
 import androidx.databinding.DataBindingUtil;
 
+import com.google.android.material.appbar.AppBarLayout;
+
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -70,7 +72,7 @@ public class MvvmGyakorlatokActivity extends BaseActiviry<MvvmGyakorlatActivityB
         setSupportActionBar(binding.toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setLogo(R.drawable.ic_gyakorlatok_kis_logo);
-            getSupportActionBar().setTitle(R.string.mvvm_gyakorlatok_activity_menu_title);
+            getSupportActionBar().setTitle(R.string.welcome_gyakorlatok_title);
         }
     }
 
