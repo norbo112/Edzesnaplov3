@@ -11,25 +11,20 @@
         android:layout_height="match_parent"
         android:background="#0089C8">
 
-        <LinearLayout
-            android:id="@+id/linearLayout9"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
             <LinearLayout
+                android:id="@+id/optionsLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
                     android:id="@+id/textView16"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Gyakorlatok"
+                    android:text="@string/mvvm_gyakvalaszto_layout_title"
                     android:textAlignment="center"
                     android:textSize="21sp"
                     android:textStyle="bold" />
@@ -66,7 +61,6 @@
                         android:spinnerMode="dialog" />
                 </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -81,7 +75,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout9">
+            app:layout_constraintTop_toBottomOf="@+id/optionsLayout">
 
             <ListView
                 android:id="@+id/lvGyakorlat"

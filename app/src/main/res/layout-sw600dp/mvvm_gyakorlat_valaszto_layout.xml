@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -12,25 +11,20 @@
         android:background="#0089C8"
         android:id="@+id/constraintLayout">
 
-        <LinearLayout
-            android:id="@+id/optionsLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
             <LinearLayout
+                android:id="@+id/optionsLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
                     android:id="@+id/textView16"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Gyakorlatok"
+                    android:text="@string/mvvm_gyakvalaszto_layout_title"
                     android:textAlignment="center"
                     android:textSize="21sp"
                     android:textStyle="bold" />
@@ -67,7 +61,6 @@
                         android:spinnerMode="dialog" />
                 </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/gyak_card_view"
