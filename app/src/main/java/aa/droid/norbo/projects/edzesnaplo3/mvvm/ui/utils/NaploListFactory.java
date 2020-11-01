@@ -21,18 +21,17 @@ import javax.inject.Inject;
 
 import aa.droid.norbo.projects.edzesnaplo3.R;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmMentettNaploItemWithDelbuttonBinding;
-import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.toolmodels.NaploWithSorozat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.SorozatWithGyakorlat;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.toolmodels.NaploWithSorozat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Gyakorlat;
-import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Sorozat;
 import dagger.hilt.android.qualifiers.ActivityContext;
 import dagger.hilt.android.scopes.ActivityScoped;
 
 @ActivityScoped
 public class NaploListFactory {
     private static final String TAG = "DialogFactory";
-    private Context context;
-    private DateTimeFormatter timeFormatter;
+    private final Context context;
+    private final DateTimeFormatter timeFormatter;
     private NaploTorlesInterface naploTorlesInterface;
 
     @Inject
@@ -53,8 +52,8 @@ public class NaploListFactory {
 
     /**
      * Esetlegesen felhasználom ezt egy activitiben, melyben a naplók lesznek megjelenítve...
-     * @param naplos
-     * @return
+     * @param naplos adatbázisból kinyert adatok
+     * @return ListAdapter
      */
     public ArrayAdapter<NaploWithSorozat> getListAdapter(List<NaploWithSorozat> naplos) {
         return new ArrayAdapter<NaploWithSorozat>(context, R.layout.mvvm_mentett_naplo_item_with_delbutton, naplos) {
