@@ -1,5 +1,7 @@
 package aa.droid.norbo.projects.edzesnaplo3.mvvm.data.api;
 
+import android.database.Cursor;
+
 import androidx.lifecycle.LiveData;
 
 import java.util.List;
@@ -21,5 +23,7 @@ public interface NaploRepository {
     LiveData<NaploWithOnlySorozats> getNaploWithOnlySorozat(long naplodatum);
 
     NaploWithOnlySorozats getSyncNaploWithOnlySorozats(long naplodatum);
+
+    Cursor getNaploList();
 
 }

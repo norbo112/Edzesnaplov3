@@ -3,6 +3,7 @@ package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -15,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.SearchView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -25,6 +27,11 @@ import androidx.appcompat.view.menu.MenuPopupHelper;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,17 +50,22 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.edzesterv.utils.EdzesTervMana
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.adatkozlo.AdatKozloInterface;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.listadapters.GyakorlatItemAdapter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.ModelConverter;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.VideoUtils;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.naplo.SorozatUtil;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.GyakorlatViewModel;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class MvvmGyakorlatValasztoFragment extends Fragment implements AdapterView.OnItemClickListener, EdzesTervManageUtil.TervValasztoInterface {
+public class MvvmGyakorlatValasztoFragment extends Fragment implements AdapterView.OnItemClickListener,
+        EdzesTervManageUtil.TervValasztoInterface, YouTubePlayer.OnInitializedListener {
     private static final String TAG = "TestActivity";
     private static final String VALASSZ_IZOMCSOP = "Válassz...";
     private MvvmGyakorlatValasztoLayoutBinding binding;
     private AdatKozloInterface adatKozloInterface;
     private boolean gyakorlatValasztva;
+
+    private YouTubePlayer youTubePlayer;
+    private YouTubePlayerSupportFragment youtubePlayerFragment;
 
     @Inject
     GyakorlatViewModel gyakorlatViewModel;
@@ -66,6 +78,7 @@ public class MvvmGyakorlatValasztoFragment extends Fragment implements AdapterVi
 
     @Inject
     EdzesTervManageUtil manageUtil;
+
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -89,7 +102,12 @@ public class MvvmGyakorlatValasztoFragment extends Fragment implements AdapterVi
             }
         });
 
-        binding.fabone.setOnClickListener(v -> createGyakorlatDialog(null));
+        if (isTablet()) {
+            youtubePlayerFragment = YouTubePlayerSupportFragment.newInstance();
+            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+            transaction.add(R.id.ytView, youtubePlayerFragment).commit();
+            youtubePlayerFragment.initialize(VideoUtils.YT_API_KEY, this);
+        }
 
         return binding.getRoot();
     }
@@ -141,27 +159,26 @@ public class MvvmGyakorlatValasztoFragment extends Fragment implements AdapterVi
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
+        GyakorlatUI valasztottGyakorlat = (GyakorlatUI) binding.lvGyakorlat.getAdapter().getItem(kijeloltGyakPoz);
         switch (item.getItemId()) {
             case R.id.gyakszerk_menu_select :
                 if(!gyakorlatValasztva) {
-                    adatKozloInterface.gyakorlatAtado((GyakorlatUI) binding.lvGyakorlat.getAdapter().getItem(kijeloltGyakPoz));
+                    adatKozloInterface.gyakorlatAtado(valasztottGyakorlat);
                     gyakorlatValasztva = true;
+
+                    if (isTablet() && youtubePlayerFragment != null && youTubePlayer != null) {
+                        startVideo(valasztottGyakorlat);
+                    }
                     Toast.makeText(getContext(), "Gyakorlat kiválasztva", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getContext(), "Gyakorlat választása az edzés NEW gombbal történik!", Toast.LENGTH_SHORT).show();
                 }
                 break;
-            case R.id.gyakszerk :
-                createGyakorlatDialog(modelConverter.fromUI((GyakorlatUI)binding.lvGyakorlat.getAdapter().getItem(kijeloltGyakPoz)));
-                break;
-            case R.id.gyaktorol :
-                showAlertGyakTorles(modelConverter.fromUI((GyakorlatUI)binding.lvGyakorlat.getAdapter().getItem(kijeloltGyakPoz)));
-                break;
             case R.id.gyakszerk_menu_korabbisorozat :
-                sorozatUtil.sorozatNezokeDialog(this, (GyakorlatUI) binding.lvGyakorlat.getAdapter().getItem(kijeloltGyakPoz));
+                sorozatUtil.sorozatNezokeDialog(this, valasztottGyakorlat);
                 break;
             case R.id.gyakszerk_menu_video :
-                Gyakorlat gyakorlat = modelConverter.fromUI((GyakorlatUI) binding.lvGyakorlat.getAdapter().getItem(kijeloltGyakPoz));
+                Gyakorlat gyakorlat = modelConverter.fromUI(valasztottGyakorlat);
                 if(gyakorlat != null && gyakorlat.getVideolink().length() > 0) {
                     Intent videointent = new Intent(getContext(), VideoActivity.class);
                     videointent.putExtra(VideoActivity.EXTRA_GYAKORLAT, gyakorlat);
@@ -171,78 +188,6 @@ public class MvvmGyakorlatValasztoFragment extends Fragment implements AdapterVi
                 }
         }
         return super.onContextItemSelected(item);
-    }
-
-    private void showAlertGyakTorles(Gyakorlat gyakorlat) {
-        new AlertDialog.Builder(getContext())
-                .setMessage("Biztos törölni akarod?")
-                .setTitle(gyakorlat.getMegnevezes()+" törlése")
-                .setPositiveButton("Igen", (dialog, which) -> {
-                    gyakorlatViewModel.delete(gyakorlat);
-                    Toast.makeText(getContext(), gyakorlat.getMegnevezes()+" törlésre került", Toast.LENGTH_SHORT).show();
-                })
-                .setNegativeButton("Nem", (dialog, which) -> {
-                })
-                .create()
-                .show();
-    }
-
-    private void createGyakorlatDialog(Gyakorlat gyakorlat) {
-        MvvmGyakorlatdialogBinding gyakBinding = DataBindingUtil.inflate(
-                getLayoutInflater(), R.layout.mvvm_gyakorlatdialog, null, false);
-        String title = (gyakorlat != null) ? gyakorlat.getMegnevezes()+" szerkesztése" : "Új gyakorlat felvétele";
-        String[] izomccsoportResource = getResources().getStringArray(R.array.izomcsoportok);
-        if(gyakorlat != null) {
-            int szerkeszIndex = 0;
-            for (int i=0; i<izomccsoportResource.length; i++) {
-                if(izomccsoportResource[i].equals(gyakorlat.getCsoport())) {
-                    szerkeszIndex = i;
-                    break;
-                }
-            }
-            gyakBinding.etGyakDialogCsoport.setSelection(szerkeszIndex);
-            gyakBinding.setGyakorlat(modelConverter.fromEntity(gyakorlat));
-        } else {
-            gyakBinding.setGyakorlat(new GyakorlatUI());
-        }
-
-        new AlertDialog.Builder(getContext())
-                .setTitle(title)
-                .setView(gyakBinding.getRoot())
-                .setPositiveButton("OK", (dialog, which) -> {
-                    String valasztottCsoport = gyakBinding.etGyakDialogCsoport.getSelectedItem().toString();
-
-                    if(TextUtils.isEmpty(gyakBinding.etGyakDialogNev.getText().toString()) ||
-                            valasztottCsoport.equals("Kérlek, válassz...")) {
-                        Toast.makeText(getContext(), "Izomcsoport, megnevezés kötelező megadni", Toast.LENGTH_LONG).show();
-                        return;
-                    }
-
-                    GyakorlatUI gyakorlat1 = gyakBinding.getGyakorlat();
-
-                    setGyakorlatAdat(gyakBinding, gyakorlat1);
-
-                    if(gyakorlat == null) {
-                        gyakorlat1.setCsoport(valasztottCsoport);
-                        gyakorlatViewModel.insert(modelConverter.fromUI(gyakorlat1));
-                        Toast.makeText(getContext(), "Gyakorlat felvéve a listára", Toast.LENGTH_SHORT).show();
-                    } else {
-                        gyakorlatViewModel.update(modelConverter.fromUI(gyakorlat1));
-                        Toast.makeText(getContext(), "Gyakorlat szerkesztve", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .setNegativeButton("Mégse", (dialog, which) -> dialog.dismiss()).create().show();
-    }
-
-    private void setGyakorlatAdat(MvvmGyakorlatdialogBinding gyakBinding, GyakorlatUI gyakorlat1) {
-        if(TextUtils.isEmpty(gyakBinding.etGyakDialogLeiras.getText().toString()))
-            gyakorlat1.setLeiras("");
-
-        if(TextUtils.isEmpty(gyakBinding.etGyakDialogVideolink.getText().toString()))
-            gyakorlat1.setVideolink("");
-
-        if(TextUtils.isEmpty(gyakBinding.etGyakDialogVideoStartPoz.getText().toString()))
-            gyakorlat1.setVideostartpoz("0");
     }
 
     private void initIzomcsoportSpinner(List<Gyakorlat> gyakorlats, Spinner spinner) {
@@ -280,5 +225,34 @@ public class MvvmGyakorlatValasztoFragment extends Fragment implements AdapterVi
 
     public void setGyakorlatValasztva(boolean gyakorlatValasztva) {
         this.gyakorlatValasztva = gyakorlatValasztva;
+    }
+
+    private boolean isTablet() {
+        return getResources().getBoolean(R.bool.isTablet);
+    }
+
+    @Override
+    public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+        if(!b) {
+            this.youTubePlayer = youTubePlayer;
+            GyakorlatUI gyakorlatUI = (GyakorlatUI) binding.lvGyakorlat.getAdapter().getItem(kijeloltGyakPoz);
+            startVideo(gyakorlatUI);
+        }
+    }
+
+    public void startVideo(GyakorlatUI gyakorlatUI) {
+        if(gyakorlatUI.getVideolink() != null && gyakorlatUI.getVideolink().length() > 2) {
+            youTubePlayer.cueVideo(gyakorlatUI.getVideolink(), Integer.parseInt(gyakorlatUI.getVideostartpoz()) * 1000);
+            binding.ytView.setVisibility(View.VISIBLE);
+            binding.videoWarningText.setVisibility(View.GONE);
+        } else {
+            binding.videoWarningText.setVisibility(View.VISIBLE);
+            binding.ytView.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+        Log.i(TAG, "onInitializationFailure: Failed youtube initialize: "+youTubeInitializationResult.toString());
     }
 }

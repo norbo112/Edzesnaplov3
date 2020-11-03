@@ -141,6 +141,17 @@
                             android:drawableTint="#00B6FF"
                             android:text="@string/mvvm_tervek_btn_label"
                             android:textColor="#fff" />
+
+                        <Button
+                            android:id="@+id/btnGyakorlatok"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:backgroundTint="@color/edzesHatter"
+                            android:drawableStart="@drawable/ic_gyakorlatok_kis_logo"
+                            android:drawableTint="#00B6FF"
+                            android:text="@string/mvvm_gyakorlatok_btn_label"
+                            android:textColor="#fff" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
             </LinearLayout>

@@ -134,7 +134,9 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface 
     private void korabbiSorozatReset() {
         if(getResources().getBoolean(R.bool.isTablet)) {
             binding.tvSorozatKorabbiTitle.setText(R.string.korabbi_sorozat_list_title);
-            ((ArrayAdapter)binding.korabbanElvegzettSorozatok.getAdapter()).clear();
+            ArrayAdapter adapter = (ArrayAdapter) binding.korabbanElvegzettSorozatok.getAdapter();
+            if(adapter != null)
+                adapter.clear();
         }
     }
 

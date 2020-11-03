@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#0089C8">
+        android:background="#0089C8"
+        android:id="@+id/constraintLayout">
 
             <LinearLayout
                 android:id="@+id/optionsLayout"
@@ -63,16 +63,17 @@
             </LinearLayout>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/gyak_card_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginStart="5dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="8dp"
             android:layout_marginEnd="5dp"
+            android:layout_marginBottom="10dp"
             app:cardBackgroundColor="#fff"
             app:cardCornerRadius="15dp"
             app:contentPadding="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/video_card_view"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/optionsLayout">
@@ -83,6 +84,34 @@
                 android:layout_height="match_parent"
                 android:choiceMode="singleChoice"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/video_card_view"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            app:cardBackgroundColor="#000"
+            app:cardCornerRadius="15dp"
+            app:contentPadding="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/holo_red_light"
+                android:textAlignment="center"
+                android:layout_gravity="center"
+                android:textSize="18sp"
+                android:id="@+id/video_warning_text"
+                android:text="@string/mvvm_gyakorlat_valaszto_tablet_fragment_video_warning_label"/>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/ytView"/>
         </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
