@@ -1,5 +1,7 @@
 package aa.droid.norbo.projects.edzesnaplo3.mvvm.data.repository;
 
+import android.database.Cursor;
+
 import androidx.lifecycle.LiveData;
 
 import java.util.List;
@@ -58,5 +60,10 @@ public class LocalNaploRepository implements NaploRepository {
     @Override
     public NaploWithOnlySorozats getSyncNaploWithOnlySorozats(long naplodatum) {
         return database.naploDao().getSyncNaploWithOnlySorozats(naplodatum);
+    }
+
+    @Override
+    public Cursor getNaploList() {
+        return database.naploDao().selectAll();
     }
 }

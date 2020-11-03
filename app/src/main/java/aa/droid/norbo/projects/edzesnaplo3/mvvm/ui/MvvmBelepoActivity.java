@@ -5,7 +5,9 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -22,10 +24,12 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.edzesterv.EdzesTervBelepoActi
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.NaploListFactory;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.NaploViewModel;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.SorozatViewModel;
+import aa.droid.norbo.projects.edzesnaplo3.providers.NaploContentProviderWithHilt;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
 public class MvvmBelepoActivity extends BaseActiviry<MvvmActivityBelepoBinding> {
+    private static final String TAG = "MvvmBelepoActivity";
     public static final String AUDIO_RECORD_IS = "aa.droid.norbo.projects.edzesnaplo3.AUDIO_RECORD_IS";
     private static final int MY_PERMISSION = 200;
     private static final String[] MANI_PERMS = new String[] {
@@ -99,6 +103,13 @@ public class MvvmBelepoActivity extends BaseActiviry<MvvmActivityBelepoBinding> 
             startActivity(new Intent(this, MvvmGyakorlatokActivity.class));
             overridePendingTransition(R.anim.move_right_in_activity, R.anim.move_left_out_activity);
         });
+
+        //test for naplo content provider
+//        Cursor naplolist = getContentResolver().query(NaploContentProviderWithHilt.GET_NAPLO, null, null, null, null);
+//        if(naplolist != null) {
+//            Log.i(TAG, "onCreate: naplolist count: " + naplolist.getCount());
+//            naplolist.close();
+//        }
     }
 
     @Override
