@@ -34,4 +34,7 @@ public interface GyakorlatDao {
 
     @Query("SELECT * FROM gyakorlattabla WHERE csoport IN (:izomcsoportok)")
     LiveData<List<Gyakorlat>> getByIzomcsoport(List<String> izomcsoportok);
+
+    @Query("SELECT * FROM gyakorlattabla ORDER BY megnevezes")
+    List<Gyakorlat> getGyakorlatList();
 }
