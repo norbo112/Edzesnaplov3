@@ -19,7 +19,13 @@
             android:name=".providers.NaploContentProviderWithHilt"
             android:exported="true" />
         <activity android:name=".mvvm.ui.MvvmGyakorlatokActivity"
-            android:parentActivityName=".mvvm.ui.MvvmBelepoActivity"/>
+            android:parentActivityName=".mvvm.ui.MvvmBelepoActivity">
+            <intent-filter android:label="Videó mentése">
+                <action android:name="android.intent.action.SEND"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="text/*"/>
+            </intent-filter>
+        </activity>
         <activity
             android:name=".mvvm.ui.edzesterv.EdzesTervBelepoActivity"
             android:parentActivityName=".mvvm.ui.MvvmBelepoActivity" />
