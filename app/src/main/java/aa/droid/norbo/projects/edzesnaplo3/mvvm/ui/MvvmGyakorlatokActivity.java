@@ -102,6 +102,7 @@ public class MvvmGyakorlatokActivity extends BaseActiviry<MvvmGyakorlatActivityB
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setView(binding.getRoot());
             alertDialog = builder.create();
+            alertDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
             String link = aLink.substring(aLink.lastIndexOf('/') + 1);
             binding.gyakorlatVideoLink.setText(link);
