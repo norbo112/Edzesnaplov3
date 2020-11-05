@@ -54,12 +54,32 @@
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
                     android:textAlignment="center"
+                    android:background="@color/edzesTervCsoportItemBg"
                     android:text="@string/mvvm_gyakorlat_video_link_shared_gyak_label"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="5dp"
+                    android:background="@color/edzesTervCsoportItemBg">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="16sp"
+                        android:text="@string/mvvm_gyakorlat_video_link_shared_csopszuro_label"/>
+                    <Spinner
+                        android:id="@+id/spinIzomcsop"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"/>
+                </LinearLayout>
                 <Spinner
                     android:id="@+id/gyak_spinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="5dp"/>
+                    android:padding="5dp"
+                    android:background="@color/edzesTervCsoportItemBg"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"

@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Filter;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,6 +23,7 @@ import androidx.databinding.DataBindingUtil;
 
 import com.google.android.material.appbar.AppBarLayout;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -84,13 +86,13 @@ public class MvvmGyakorlatokActivity extends BaseActiviry<MvvmGyakorlatActivityB
         Log.i(TAG, "sharedVideoLink: brnnr vagyok");
         gyakorlatViewModel.getGyakorlatForVideoLinkEdit().whenComplete((gyakorlats, throwable) -> {
             Log.i(TAG, "sharedVideoLink: whenComplete");
-            if(throwable != null) {
+            if (throwable != null) {
                 runOnUiThread(() -> Toast.makeText(MvvmGyakorlatokActivity.this, "Hiba lépett fel", Toast.LENGTH_SHORT).show());
                 Log.e(TAG, "sharedVideoLink: gyakorlat betöltés hiba", throwable);
                 return;
             }
 
-            runOnUiThread(() -> createVideoSaveDialog(aLink, gyakorlats.stream().map(gy->modelConverter.fromEntity(gy)).collect(Collectors.toList())));
+            runOnUiThread(() -> createVideoSaveDialog(aLink, gyakorlats.stream().map(gy -> modelConverter.fromEntity(gy)).collect(Collectors.toList())));
         });
     }
 
@@ -107,9 +109,34 @@ public class MvvmGyakorlatokActivity extends BaseActiviry<MvvmGyakorlatActivityB
             String link = aLink.substring(aLink.lastIndexOf('/') + 1);
             binding.gyakorlatVideoLink.setText(link);
 
-            ArrayAdapter<GyakorlatUI> adapter = new ArrayAdapter<>(MvvmGyakorlatokActivity.this, android.R.layout.simple_list_item_1, gyakorlatUIS);
-            adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+//            ArrayAdapter<GyakorlatUI> adapter = new ArrayAdapter<>(MvvmGyakorlatokActivity.this, android.R.layout.simple_list_item_1, gyakorlatUIS);
+            GyakorlatItemAdapter adapter = new GyakorlatItemAdapter(gyakorlatUIS, this);
             binding.gyakSpinner.setAdapter(adapter);
+
+            List<String> izomcsoportok = new ArrayList<>();
+            izomcsoportok.add("Válassz...");
+            izomcsoportok.addAll(gyakorlatUIS.stream().map(gyakorlatUI -> gyakorlatUI.getCsoport()).distinct().collect(Collectors.toList()));
+            ArrayAdapter<String> izomcsoportokAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, izomcsoportok);
+            izomcsoportokAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+            binding.spinIzomcsop.setAdapter(izomcsoportokAdapter);
+            binding.spinIzomcsop.setOnItemSelectedListener(
+                    new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            Filter filter = ((GyakorlatItemAdapter) binding.gyakSpinner.getAdapter()).getFilter();
+                            if (filter != null) {
+                                String constraint = parent.getAdapter().getItem(position).toString();
+                                if(constraint.equals("Válassz...")) constraint = "";
+                                filter.filter(constraint);
+                            }
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    }
+            );
 
             binding.gyakorlatVideoBtnMentesMegse.setOnClickListener(v -> finish());
             binding.gyakorlatVideoBtnMentes.setOnClickListener(v -> {
