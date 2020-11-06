@@ -38,20 +38,24 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.GyakorlatUI;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Gyakorlat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.listadapters.GyakorlatItemAdapter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.ModelConverter;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.VideoUtils;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.VideoUtilsInterface;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.GyakorlatViewModel;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class MvvmGyakorlatokActivity extends BaseActiviry<MvvmGyakorlatActivityBinding> implements AdapterView.OnItemClickListener {
+public class MvvmGyakorlatokActivity extends BaseActiviry<MvvmGyakorlatActivityBinding>
+        implements AdapterView.OnItemClickListener, VideoUtilsInterface {
     private static final String TAG = "MvvmGyakorlatokActivity";
-
-    private AlertDialog alertDialog;
 
     @Inject
     GyakorlatViewModel gyakorlatViewModel;
 
     @Inject
     ModelConverter modelConverter;
+
+    @Inject
+    VideoUtils videoUtils;
 
     public MvvmGyakorlatokActivity() {
         super(R.layout.mvvm_gyakorlat_activity);
@@ -92,82 +96,13 @@ public class MvvmGyakorlatokActivity extends BaseActiviry<MvvmGyakorlatActivityB
                 return;
             }
 
-            runOnUiThread(() -> createVideoSaveDialog(aLink, gyakorlats.stream().map(gy -> modelConverter.fromEntity(gy)).collect(Collectors.toList())));
+            runOnUiThread(() -> videoUtils.createVideoSaveDialog(aLink, gyakorlats.stream().map(gy -> modelConverter.fromEntity(gy)).collect(Collectors.toList()), this));
         });
     }
 
-    private void createVideoSaveDialog(String aLink, List<GyakorlatUI> gyakorlatUIS) {
-        if (gyakorlatUIS != null && gyakorlatUIS.size() > 0) {
-            Log.i(TAG, "createVideoSaveDialog: gyakotlaz nem null");
-            MvvmGyakorlatVideoLinkSharedBinding binding = MvvmGyakorlatVideoLinkSharedBinding.inflate(getLayoutInflater());
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setView(binding.getRoot());
-            alertDialog = builder.create();
-            alertDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-
-            String link = aLink.substring(aLink.lastIndexOf('/') + 1);
-            binding.gyakorlatVideoLink.setText(link);
-
-//            ArrayAdapter<GyakorlatUI> adapter = new ArrayAdapter<>(MvvmGyakorlatokActivity.this, android.R.layout.simple_list_item_1, gyakorlatUIS);
-            GyakorlatItemAdapter adapter = new GyakorlatItemAdapter(gyakorlatUIS, this);
-            binding.gyakSpinner.setAdapter(adapter);
-
-            List<String> izomcsoportok = new ArrayList<>();
-            izomcsoportok.add("Válassz...");
-            izomcsoportok.addAll(gyakorlatUIS.stream().map(gyakorlatUI -> gyakorlatUI.getCsoport()).distinct().collect(Collectors.toList()));
-            ArrayAdapter<String> izomcsoportokAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, izomcsoportok);
-            izomcsoportokAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-            binding.spinIzomcsop.setAdapter(izomcsoportokAdapter);
-            binding.spinIzomcsop.setOnItemSelectedListener(
-                    new AdapterView.OnItemSelectedListener() {
-                        @Override
-                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                            Filter filter = ((GyakorlatItemAdapter) binding.gyakSpinner.getAdapter()).getFilter();
-                            if (filter != null) {
-                                String constraint = parent.getAdapter().getItem(position).toString();
-                                if(constraint.equals("Válassz...")) constraint = "";
-                                filter.filter(constraint);
-                            }
-                        }
-
-                        @Override
-                        public void onNothingSelected(AdapterView<?> parent) {
-
-                        }
-                    }
-            );
-
-            binding.gyakorlatVideoBtnMentesMegse.setOnClickListener(v -> finish());
-            binding.gyakorlatVideoBtnMentes.setOnClickListener(v -> {
-                GyakorlatUI gyakorlatUI = (GyakorlatUI) binding.gyakSpinner.getSelectedItem();
-                if (gyakorlatUI.getVideolink() != null && gyakorlatUI.getVideolink().length() > 1) {
-                    Toast.makeText(MvvmGyakorlatokActivity.this, "Ehhez a gyakorlathoz már van mentve videó link!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (!TextUtils.isEmpty(binding.gyakorlatVideoLink.getText().toString()) && binding.gyakorlatVideoLink.getText().toString().length() > 5) {
-                    gyakorlatUI.setVideolink(binding.gyakorlatVideoLink.getText().toString());
-                } else {
-                    Toast.makeText(MvvmGyakorlatokActivity.this, "Videó azonosító hiányzik", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (!TextUtils.isEmpty(binding.gyakorlatVideoLinkPoz.getText().toString())) {
-                    gyakorlatUI.setVideostartpoz(binding.gyakorlatVideoLinkPoz.getText().toString());
-                } else {
-                    gyakorlatUI.setVideostartpoz("0");
-                }
-
-                gyakorlatViewModel.update(modelConverter.fromUI(gyakorlatUI));
-                Toast.makeText(MvvmGyakorlatokActivity.this, "Gyakorlat videó rögzítve!", Toast.LENGTH_SHORT).show();
-                alertDialog.dismiss();
-            });
-
-            alertDialog.show();
-        } else {
-            Toast.makeText(MvvmGyakorlatokActivity.this, "Nincs gyakorlat rögzítve amihez hozzálehetne adni a videót", Toast.LENGTH_SHORT).show();
-        }
+    @Override
+    public void finishActivity() {
+        finish();
     }
 
     @Override
