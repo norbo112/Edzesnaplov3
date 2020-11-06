@@ -54,14 +54,12 @@
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
                     android:textAlignment="center"
-                    android:background="@color/edzesTervCsoportItemBg"
                     android:text="@string/mvvm_gyakorlat_video_link_shared_gyak_label"/>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="5dp"
-                    android:background="@color/edzesTervCsoportItemBg">
+                    android:padding="5dp">
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -78,8 +76,7 @@
                     android:id="@+id/gyak_spinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:background="@color/edzesTervCsoportItemBg"/>
+                    android:padding="5dp"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
