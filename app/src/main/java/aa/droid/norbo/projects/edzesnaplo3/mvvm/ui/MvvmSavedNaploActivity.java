@@ -37,6 +37,7 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.rcviews.NaploDetailsRcViewAda
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.DateTimeFormatter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.ModelConverter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.NaploListFactory;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.WidgetUtil;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.NaploViewModel;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.SorozatViewModel;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.v3.NaploAll;
@@ -71,6 +72,9 @@ public class MvvmSavedNaploActivity extends BaseActiviry<MvvmActivityMentettNapl
 
     @Inject
     ModelConverter modelConverter;
+
+    @Inject
+    WidgetUtil widgetUtil;
 
     public MvvmSavedNaploActivity() {
         super(R.layout.mvvm_activity_mentett_naplok);
@@ -218,6 +222,7 @@ public class MvvmSavedNaploActivity extends BaseActiviry<MvvmActivityMentettNapl
                 if(naplo != null) {
                     naploViewModel.insert(modelConverter.getNewNaplo(naplo.naplo));
                     sorozatViewModel.insertAll(naplo.sorozats.stream().map(sorozat -> modelConverter.getNewSorozat(sorozat)).collect(Collectors.toList()));
+                    widgetUtil.updateWidget();
                     toast("Napló betöltve!");
                 }
             });

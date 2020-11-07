@@ -20,6 +20,7 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.api.SorozatRepository;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Gyakorlat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Naplo;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Sorozat;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.WidgetUtil;
 import aa.droid.norbo.projects.edzesnaplo3.widgets.NaploCntAppWidget;
 import dagger.hilt.android.qualifiers.ActivityContext;
 import dagger.hilt.android.scopes.ActivityScoped;
@@ -35,9 +36,11 @@ public class NaploWorker {
     private MutableLiveData<Integer> gyakorlatSzam;
     private NaploRepository naploRepository;
     private SorozatRepository sorozatRepository;
+    private WidgetUtil widgetUtil;
 
     @Inject
-    public NaploWorker(NaploRepository naploRepository, SorozatRepository sorozatRepository, @ActivityContext Context context) {
+    public NaploWorker(NaploRepository naploRepository, SorozatRepository sorozatRepository, @ActivityContext Context context,
+                       WidgetUtil widgetUtil) {
         this.naploRepository = naploRepository;
         this.sorozatRepository = sorozatRepository;
         this.naplo = new Naplo(System.currentTimeMillis(), "TestÜzem");
@@ -45,6 +48,7 @@ public class NaploWorker {
         this.liveSorozatLista = new MutableLiveData<>();
         this.gyakorlatSzam = new MutableLiveData<>();
         this.context = context;
+        this.widgetUtil = widgetUtil;
     }
 
     public void addSorozat(int suly, int ism) {
@@ -73,12 +77,7 @@ public class NaploWorker {
         naploRepository.insert(naplo);
         sorozatRepository.insert(naplo.getSorozats());
 
-        Intent intent = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-        ComponentName thisWidget = new ComponentName(context, NaploCntAppWidget.class);
-        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
-        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
-        context.sendBroadcast(intent);
+        widgetUtil.updateWidget();
     }
 
     public LiveData<List<Sorozat>> getLiveSorozatLista() {
