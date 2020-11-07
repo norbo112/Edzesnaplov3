@@ -36,7 +36,7 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.service.files.MyFileService;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.rcviews.NaploDetailsRcViewAdapterFactory;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.DateTimeFormatter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.ModelConverter;
-import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.NaploListFactory;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.NaploListUtil;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.WidgetUtil;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.NaploViewModel;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.SorozatViewModel;
@@ -44,7 +44,7 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.v3.NaploAll;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class MvvmSavedNaploActivity extends BaseActiviry<MvvmActivityMentettNaplokBinding> implements NaploListFactory.NaploTorlesInterface {
+public class MvvmSavedNaploActivity extends BaseActiviry<MvvmActivityMentettNaplokBinding> implements NaploListUtil.NaploTorlesInterface {
     private static final String TAG = "MvvmSavedNaploActivity";
     private static final int FILE_LOAD_RCODE = 10001;
     private static final int FILE_V3_LOAD = 2001;
@@ -59,7 +59,7 @@ public class MvvmSavedNaploActivity extends BaseActiviry<MvvmActivityMentettNapl
     SorozatViewModel sorozatViewModel;
 
     @Inject
-    NaploListFactory naploListFactory;
+    NaploListUtil naploListUtil;
 
     @Inject
     DateTimeFormatter dateTimeFormatter;
@@ -101,7 +101,7 @@ public class MvvmSavedNaploActivity extends BaseActiviry<MvvmActivityMentettNapl
             if(naplos != null && naplos.size() > 0) {
                 binding.mentettNaplokWarningLabel.setVisibility(View.GONE);
                 binding.mentettNaplokLista.setVisibility(View.VISIBLE);
-                binding.mentettNaplokLista.setAdapter(naploListFactory.getListAdapter(naplos));
+                binding.mentettNaplokLista.setAdapter(naploListUtil.getListAdapter(naplos));
                 binding.mentettNaploDbOsszsuly.setText(String.format(Locale.getDefault(), "[%,d] db mentve, %,d Kg megmozgatott súly",
                         naplos.size(), naplos.stream().mapToInt(np -> getSorozatOsszSuly(np.sorozats)).sum()));
                 binding.mentettNaplokLista.setOnItemClickListener((parent, view, position, id) -> {

@@ -28,14 +28,14 @@ import dagger.hilt.android.qualifiers.ActivityContext;
 import dagger.hilt.android.scopes.ActivityScoped;
 
 @ActivityScoped
-public class NaploListFactory {
+public class NaploListUtil {
     private static final String TAG = "DialogFactory";
     private final Context context;
     private final DateTimeFormatter timeFormatter;
     private NaploTorlesInterface naploTorlesInterface;
 
     @Inject
-    public NaploListFactory(@ActivityContext Context context, DateTimeFormatter timeFormatter) {
+    public NaploListUtil(@ActivityContext Context context, DateTimeFormatter timeFormatter) {
         this.context = context;
         this.timeFormatter = timeFormatter;
         try {

@@ -31,6 +31,7 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.TevekenysegFragment;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.ViewPagerAdapter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.adatkozlo.AdatKozloInterface;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.DateTimeFormatter;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.NaploListUtil;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.naplo.NaploWorker;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.naplo.SorozatUtil;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.SorozatViewModel;
@@ -43,6 +44,9 @@ public class TevekenysegActivity extends BaseActiviry<MvvmActivityTestBinding> i
 
     @Inject
     NaploWorker naploWorker;
+
+    @Inject
+    NaploListUtil naploListUtil;
 
     @Inject
     SorozatViewModel sorozatViewModel;
@@ -161,6 +165,7 @@ public class TevekenysegActivity extends BaseActiviry<MvvmActivityTestBinding> i
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.tevekenyseg_naplo_view) {
+            //TODO napló listázása dialogba, izomcsoportok és gyakorlatok, ui mint a mentett naplók rcviewban
             Toast.makeText(this, "Naplók megtekintése TV", Toast.LENGTH_SHORT).show();
         } else if (item.getItemId() == R.id.tevekenyseg_gyakorlat_view) {
             sorozatUtil.sorozatNezokeDialog(this, gyakorlatUI);

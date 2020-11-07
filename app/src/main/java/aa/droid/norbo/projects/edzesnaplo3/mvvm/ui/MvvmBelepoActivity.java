@@ -5,19 +5,12 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.core.app.ActivityCompat;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -25,10 +18,9 @@ import aa.droid.norbo.projects.edzesnaplo3.R;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmActivityBelepoBinding;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.utils.AdatFeltoltes;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.edzesterv.EdzesTervBelepoActivity;
-import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.NaploListFactory;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.NaploListUtil;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.NaploViewModel;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.SorozatViewModel;
-import aa.droid.norbo.projects.edzesnaplo3.providers.NaploContentProviderWithHilt;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
@@ -48,7 +40,7 @@ public class MvvmBelepoActivity extends BaseActiviry<MvvmActivityBelepoBinding> 
     NaploViewModel naploViewModel;
 
     @Inject
-    NaploListFactory naploListFactory;
+    NaploListUtil naploListUtil;
 
     @Inject
     SorozatViewModel sorozatViewModel;
