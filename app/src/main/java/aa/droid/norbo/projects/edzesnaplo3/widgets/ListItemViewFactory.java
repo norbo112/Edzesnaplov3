@@ -7,24 +7,28 @@ import android.database.Cursor;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import aa.droid.norbo.projects.edzesnaplo3.R;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.DateTimeFormatter;
+import aa.droid.norbo.projects.edzesnaplo3.providers.NaploContentProviderWithHilt;
 
 public class ListItemViewFactory implements RemoteViewsService.RemoteViewsFactory {
     private List<NaploGyakOsszsuly> naploGyakOsszsulyList;
     private Context context;
     private int appWidgetId;
-    private DateTimeFormatter dateTimeFormatter;
+    private SimpleDateFormat simpleDateFormat;
 
     public ListItemViewFactory(Context context, Intent intent) {
         this.context = context;
         this.appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
-        this.dateTimeFormatter = new DateTimeFormatter();
+        this.simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
     }
 
     @Override
@@ -49,17 +53,12 @@ public class ListItemViewFactory implements RemoteViewsService.RemoteViewsFactor
 
     @Override
     public RemoteViews getViewAt(int position) {
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.list_item);
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_list_item);
         NaploGyakOsszsuly naploGyakOsszsuly = naploGyakOsszsulyList.get(position);
-        int osszsuly = 0;
-        for (int i = 0; i < naploGyakOsszsuly.getGyakorlatOsszsulys().size(); i++) {
-            osszsuly += naploGyakOsszsuly.getGyakorlatOsszsulys().get(i);
-        }
 
-        Set<String> izomcsoportok = new HashSet<>(naploGyakOsszsuly.getIzomcsoportok());
-        views.setTextViewText(R.id.tvNaploDatum, DateTimeFormatter.getDate(naploGyakOsszsuly.getNaplodatum()));
-        views.setTextViewText(R.id.tvIzomcsoportok, izomcsoportok.toString());
-        views.setTextViewText(R.id.tvGyakOssz, osszsuly+" Kg");
+        views.setTextViewText(R.id.tvNaploDatum, simpleDateFormat.format(new Date(naploGyakOsszsuly.getNaplodatum())));
+        views.setTextViewText(R.id.tvGyakOssz,
+                String.format(Locale.getDefault(), "%,d Kg", naploGyakOsszsuly.getGyakorlatOsszsulys()));
 
         Intent fillInIntent = new Intent();
         fillInIntent.putExtra("naploadatok", naploGyakOsszsuly);
@@ -89,42 +88,17 @@ public class ListItemViewFactory implements RemoteViewsService.RemoteViewsFactor
     }
 
     private List<NaploGyakOsszsuly> getNaploGyakOsszsuly(Context context) {
-        System.out.println("Naplo getnaplo");
-        Cursor naplocursor = context.getContentResolver().query(NaploCntAppWidget.NAPLO_URI, null, null,
-                null, null);
         List<NaploGyakOsszsuly> naploGyakOsszsulies = new ArrayList<>();
 
-//        if(naplocursor == null) return naploGyakOsszsulies;
-
-        List<String> naploLista = getNaploList(naplocursor);
-        naplocursor.close();
-        List<String> gyakorlats;
-        List<String> izomcsoportok;
-        List<Integer> osszsuly;
-
-        for (String naplo: naploLista) {
-            gyakorlats = new ArrayList<>();
-            osszsuly = new ArrayList<>();
-            izomcsoportok = new ArrayList<>();
-            Cursor c = context.getContentResolver().query(NaploCntAppWidget.GYAK_OSSZSULY_URI, null, naplo, null,null);
-            if(c != null) {
-                while (c.moveToNext()) {
-                    izomcsoportok.add(c.getString(0));
-                    osszsuly.add(c.getInt(2));
-                    gyakorlats.add(c.getString(1));
-                }
-                naploGyakOsszsulies.add(new NaploGyakOsszsuly(naplo,izomcsoportok, gyakorlats, osszsuly));
-                c.close();
+        Cursor c = context.getContentResolver().query(NaploContentProviderWithHilt.GET_NAPLO_GYAK_ES_OSSZSULY, null, null, null, null);
+        if (c != null) {
+            while (c.moveToNext()) {
+                naploGyakOsszsulies.add(new NaploGyakOsszsuly(
+                        Long.parseLong(c.getString(1)),
+                        Integer.parseInt(c.getString(0))));
             }
+            c.close();
         }
         return naploGyakOsszsulies;
-    }
-
-    private List<String> getNaploList(Cursor cursor) {
-        List<String> naploList = new ArrayList<>();
-        while (cursor.moveToNext()) {
-            naploList.add(cursor.getString(1));
-        }
-        return naploList;
     }
 }

@@ -7,35 +7,20 @@ import java.util.Date;
 import java.util.List;
 
 public class NaploGyakOsszsuly implements Serializable {
-    private String naplodatum;
-    private List<String> gyakorlats;
-    private List<String> izomcsoportok;
-    private List<Integer> gyakorlatOsszsulys;
-    private final String[] honapok = new String[] {
-            "Jan", "Feb","Mar","Apr","Maj","Jun","Jul","Aug","Sep","Okt","Nov","Dec"
-    };
+    private Long naplodatum;
+    private Integer gyakorlatOsszsulys;
 
-    public NaploGyakOsszsuly(String naplo,List<String> izomcsoportok, List<String> gyakorlats, List<Integer> gyakorlatOsszsulys) {
-        this.naplodatum = naplo;
-        this.gyakorlats = gyakorlats;
+    public NaploGyakOsszsuly(Long naplodatum, Integer gyakorlatOsszsulys) {
+        this.naplodatum = naplodatum;
         this.gyakorlatOsszsulys = gyakorlatOsszsulys;
-        this.izomcsoportok = izomcsoportok;
     }
 
-    public String getNaplodatum() {
+    public Long getNaplodatum() {
         return naplodatum;
     }
 
-    public List<String> getGyakorlats() {
-        return gyakorlats;
-    }
-
-    public List<Integer> getGyakorlatOsszsulys() {
+    public Integer getGyakorlatOsszsulys() {
         return gyakorlatOsszsulys;
-    }
-
-    public List<String> getIzomcsoportok() {
-        return izomcsoportok;
     }
 
     @NonNull

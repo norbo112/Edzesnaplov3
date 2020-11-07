@@ -66,4 +66,9 @@ public class LocalNaploRepository implements NaploRepository {
     public Cursor getNaploList() {
         return database.naploDao().selectAll();
     }
+
+    @Override
+    public Cursor getNaploOsszSulyBy() {
+        return database.naploDao().selectOsszsulyByNaploDatum();
+    }
 }

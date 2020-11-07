@@ -26,4 +26,6 @@ public interface NaploRepository {
 
     Cursor getNaploList();
 
+    Cursor getNaploOsszSulyBy();
+
 }

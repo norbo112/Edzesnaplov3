@@ -15,6 +15,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.core.app.ActivityCompat;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import javax.inject.Inject;
 
 import aa.droid.norbo.projects.edzesnaplo3.R;
@@ -108,6 +112,16 @@ public class MvvmBelepoActivity extends BaseActiviry<MvvmActivityBelepoBinding> 
 //        Cursor naplolist = getContentResolver().query(NaploContentProviderWithHilt.GET_NAPLO, null, null, null, null);
 //        if(naplolist != null) {
 //            Log.i(TAG, "onCreate: naplolist count: " + naplolist.getCount());
+//            naplolist.close();
+//        }
+
+//        Cursor naplolist = getContentResolver().query(NaploContentProviderWithHilt.GET_NAPLO_GYAK_ES_OSSZSULY, null, null, null, null);
+//        if(naplolist != null) {
+//            @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.forLanguageTag("Hu-hu"));
+//            while (naplolist.moveToNext()) {
+//                Log.i(TAG, "Naplo Cursor: "
+//                        + simpleDateFormat.format(new Date(Long.parseLong(naplolist.getString(1))))+" "+naplolist.getString(0)+" Kg");
+//            }
 //            naplolist.close();
 //        }
     }
