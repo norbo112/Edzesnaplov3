@@ -101,7 +101,7 @@ public class MvvmSavedNaploActivity extends BaseActiviry<MvvmActivityMentettNapl
             if(naplos != null && naplos.size() > 0) {
                 binding.mentettNaplokWarningLabel.setVisibility(View.GONE);
                 binding.mentettNaplokLista.setVisibility(View.VISIBLE);
-                binding.mentettNaplokLista.setAdapter(naploListUtil.getListAdapter(naplos));
+                binding.mentettNaplokLista.setAdapter(naploListUtil.getListAdapter(naplos, false));
                 binding.mentettNaploDbOsszsuly.setText(String.format(Locale.getDefault(), "[%,d] db mentve, %,d Kg megmozgatott súly",
                         naplos.size(), naplos.stream().mapToInt(np -> getSorozatOsszSuly(np.sorozats)).sum()));
                 binding.mentettNaplokLista.setOnItemClickListener((parent, view, position, id) -> {
@@ -238,6 +238,7 @@ public class MvvmSavedNaploActivity extends BaseActiviry<MvvmActivityMentettNapl
                 .setPositiveButton("ok", (dialog, which) -> {
                     naploViewModel.deleteNaplo(naplodatum);
                     sorozatViewModel.deleteSorozat(naplodatum);
+                    widgetUtil.updateWidget();
                     Toast.makeText(this, "Sikeresen törölve a napló!", Toast.LENGTH_SHORT).show();
                 })
                 .setNegativeButton("mégse", (dialog, which) -> dialog.dismiss())

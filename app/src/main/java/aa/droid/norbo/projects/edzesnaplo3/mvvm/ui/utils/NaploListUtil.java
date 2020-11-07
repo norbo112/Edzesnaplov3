@@ -1,6 +1,8 @@
 package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,9 +55,10 @@ public class NaploListUtil {
     /**
      * Esetlegesen felhasználom ezt egy activitiben, melyben a naplók lesznek megjelenítve...
      * @param naplos adatbázisból kinyert adatok
+     * @param withDialog ha dialogusban jelenítem meg a naplokat, nem kellenek gombok
      * @return ListAdapter
      */
-    public ArrayAdapter<NaploWithSorozat> getListAdapter(List<NaploWithSorozat> naplos) {
+    public ArrayAdapter<NaploWithSorozat> getListAdapter(List<NaploWithSorozat> naplos, boolean withDialog) {
         return new ArrayAdapter<NaploWithSorozat>(context, R.layout.mvvm_mentett_naplo_item_with_delbutton, naplos) {
             MvvmMentettNaploItemWithDelbuttonBinding itemBinding;
             @NonNull
@@ -72,26 +75,51 @@ public class NaploListUtil {
                 NaploWithSorozat naploWithSorozat = getItem(position);
                 long naplodatum = Long.parseLong(naploWithSorozat.daonaplo.getNaplodatum());
                 itemBinding.mvvmMentettNaploWithDelLabel.setText(timeFormatter.getNaploDatum(naplodatum));
-                itemBinding.mvvmMentettNaploIzomcsoportlista.setText(getIzomcsoportLista(naploWithSorozat));
+                if(!withDialog)
+                    itemBinding.mvvmMentettNaploIzomcsoportlista.setText(getIzomcsoportLista(naploWithSorozat));
+                else
+                    itemBinding.mvvmMentettNaploIzomcsoportlista.setText(getGyakorlatLista(naploWithSorozat));
                 itemBinding.naploOsszSuly.setText(String.format(Locale.getDefault(), "%,d Kg", getNaploOsszSuly(naploWithSorozat)));
-                itemBinding.imBtnNaploTorol.setOnClickListener(v -> {
-                    if(naploTorlesInterface != null) {
-                        naploTorlesInterface.naplotTorol(naplodatum);
-                    } else {
-                        Toast.makeText(context, "Napló törlése nem lehetséges!", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                if(!withDialog) {
+                    itemBinding.imBtnNaploTorol.setOnClickListener(v -> {
+                        if (naploTorlesInterface != null) {
+                            naploTorlesInterface.naplotTorol(naplodatum);
+                        } else {
+                            Toast.makeText(context, "Napló törlése nem lehetséges!", Toast.LENGTH_SHORT).show();
+                        }
+                    });
 
-                itemBinding.imBtnNaploMent.setOnClickListener(v -> {
-                    if(naploTorlesInterface != null) {
-                        naploTorlesInterface.naplotMent(naplodatum);
-                    } else {
-                        Toast.makeText(context, "Nem lehetséges a napló mentése!", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                    itemBinding.imBtnNaploMent.setOnClickListener(v -> {
+                        if (naploTorlesInterface != null) {
+                            naploTorlesInterface.naplotMent(naplodatum);
+                        } else {
+                            Toast.makeText(context, "Nem lehetséges a napló mentése!", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else {
+                    itemBinding.imBtnNaploMent.setVisibility(View.GONE);
+                    itemBinding.imBtnNaploTorol.setVisibility(View.GONE);
+                    itemBinding.naploOsszSuly.setVisibility(View.GONE);
+                }
+
+                if(withDialog) {
+                    if (position % 2 == 0)
+                        itemBinding.rootView.setBackgroundColor(Color.LTGRAY);
+                    else
+                        itemBinding.rootView.setBackgroundColor(Color.WHITE);
+                }
+
                 return itemBinding.getRoot();
             }
         };
+    }
+
+    public AlertDialog getNaploListDialog(List<NaploWithSorozat> naplos) {
+        return new AlertDialog.Builder(context)
+                .setTitle("Korábbi naplók")
+                .setAdapter(getListAdapter(naplos, true), null)
+                .setPositiveButton("ok", (dialog, which) -> dialog.dismiss())
+                .create();
     }
 
     public String getIzomcsoportLista(NaploWithSorozat naploWithSorozats) {
@@ -115,5 +143,15 @@ public class NaploListUtil {
             ossz += sorozat.sorozat.getSuly() * sorozat.sorozat.getIsmetles();
         }
         return ossz;
+    }
+
+    private String getGyakorlatLista(NaploWithSorozat naploWithSorozat) {
+        Set<String> gyakorlatok = new LinkedHashSet<>();
+        for (SorozatWithGyakorlat sorozat: naploWithSorozat.sorozats)
+            gyakorlatok.add(sorozat.gyakorlat.getMegnevezes());
+
+        StringBuilder sb = new StringBuilder();
+        gyakorlatok.forEach(csoport -> sb.append(csoport).append(", "));
+        return gyakorlatok.size() > 0 ? sb.toString().substring(0, sb.toString().lastIndexOf(',')) : "";
     }
 }

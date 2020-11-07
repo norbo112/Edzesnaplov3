@@ -9,10 +9,11 @@
 
     <aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.CheckableLinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:orientation="horizontal"
-        android:background="@drawable/customselect">
+        android:background="@drawable/customselect"
+        android:id="@+id/root_view">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

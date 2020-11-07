@@ -57,4 +57,5 @@
     <string name="mvvm_gyakorlat_video_link_shared_link_poz_hint">Pozició, ha van ilyen (alap=0)</string>
     <string name="mvvm_gyakorlat_video_link_shared_gyak_label">Melyik gyakorlathoz mented?</string>
     <string name="mvvm_gyakorlat_video_link_shared_csopszuro_label">Izomcsoport szűrő:</string>
+    <string name="loading_layout_label">Betöltés...</string>
 </resources>
