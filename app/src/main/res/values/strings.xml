@@ -52,4 +52,9 @@
     <string name="mvvm_gyakorlatok_menu_search_label">Keresés</string>
     <string name="mvvm_gyakorlat_valaszto_tablet_fragment_video_warning_label">Nincs videólink megadva, vagy nem válaszottál gyakorlatot</string>
     <string name="mvvm_gyakvalaszto_layout_title">Gyakorlatok</string>
+    <string name="mvvm_gyakorlat_video_link_shared_title">Video link mentése</string>
+    <string name="mvvm_gyakorlat_video_link_shared_link_hint">videó link ide kerül...</string>
+    <string name="mvvm_gyakorlat_video_link_shared_link_poz_hint">Pozició, ha van ilyen (alap=0)</string>
+    <string name="mvvm_gyakorlat_video_link_shared_gyak_label">Melyik gyakorlathoz mented?</string>
+    <string name="mvvm_gyakorlat_video_link_shared_csopszuro_label">Izomcsoport szűrő:</string>
 </resources>

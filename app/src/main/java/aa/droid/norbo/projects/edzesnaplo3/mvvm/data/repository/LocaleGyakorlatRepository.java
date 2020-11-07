@@ -3,6 +3,7 @@ package aa.droid.norbo.projects.edzesnaplo3.mvvm.data.repository;
 import androidx.lifecycle.LiveData;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 
 import javax.inject.Inject;
@@ -46,5 +47,10 @@ public class LocaleGyakorlatRepository implements GyakorlatRepository {
     @Override
     public LiveData<List<Gyakorlat>> getByCsoport(List<String> izomcsoportok) {
         return database.gyakorlatDao().getByIzomcsoport(izomcsoportok);
+    }
+
+    @Override
+    public CompletableFuture<List<Gyakorlat>> getGyakorlatList() {
+        return CompletableFuture.supplyAsync(() -> database.gyakorlatDao().getGyakorlatList(), executorService);
     }
 }

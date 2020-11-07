@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import aa.droid.norbo.projects.edzesnaplo3.R;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.MvvmBelepoActivity;
+import aa.droid.norbo.projects.edzesnaplo3.providers.NaploContentProviderWithHilt;
 
 /**
  * Implementation of App Widget functionality.
@@ -26,7 +27,7 @@ public class NaploCntAppWidget extends AppWidgetProvider {
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
 
-        Cursor listnaplo = context.getContentResolver().query(NAPLO_URI, null, null,
+        Cursor listnaplo = context.getContentResolver().query(NaploContentProviderWithHilt.GET_NAPLO, null, null,
                 null, null);
 
         //teszt

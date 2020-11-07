@@ -29,6 +29,8 @@ public class GyakorlatItemAdapter extends BaseAdapter implements Filterable {
         this.gyakorlats = gyakorlats;
         this.gyakorlatsFull = gyakorlats;
         this.context = context;
+
+        this.gyakorlatsFull.sort((o1, o2) -> o1.getMegnevezes().compareTo(o2.getMegnevezes()));
     }
 
     @Override

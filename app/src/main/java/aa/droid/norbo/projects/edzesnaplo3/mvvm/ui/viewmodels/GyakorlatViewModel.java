@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -38,5 +39,9 @@ public class GyakorlatViewModel extends ViewModel {
 
     public LiveData<List<Gyakorlat>> getGyakorlatByCsoport(List<String> csoportok) {
         return gyakorlatRepository.getByCsoport(csoportok);
+    }
+
+    public CompletableFuture<List<Gyakorlat>> getGyakorlatForVideoLinkEdit() {
+        return gyakorlatRepository.getGyakorlatList();
     }
 }

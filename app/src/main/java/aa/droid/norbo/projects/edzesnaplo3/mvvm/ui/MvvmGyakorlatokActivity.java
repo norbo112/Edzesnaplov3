@@ -4,11 +4,13 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Filter;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,6 +23,8 @@ import androidx.databinding.DataBindingUtil;
 
 import com.google.android.material.appbar.AppBarLayout;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -28,21 +32,30 @@ import javax.inject.Inject;
 
 import aa.droid.norbo.projects.edzesnaplo3.R;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmGyakorlatActivityBinding;
+import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmGyakorlatVideoLinkSharedBinding;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmGyakorlatdialogBinding;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.GyakorlatUI;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Gyakorlat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.listadapters.GyakorlatItemAdapter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.ModelConverter;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.VideoUtils;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.VideoUtilsInterface;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.GyakorlatViewModel;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class MvvmGyakorlatokActivity extends BaseActiviry<MvvmGyakorlatActivityBinding> implements AdapterView.OnItemClickListener {
+public class MvvmGyakorlatokActivity extends BaseActiviry<MvvmGyakorlatActivityBinding>
+        implements AdapterView.OnItemClickListener, VideoUtilsInterface {
+    private static final String TAG = "MvvmGyakorlatokActivity";
+
     @Inject
     GyakorlatViewModel gyakorlatViewModel;
 
     @Inject
     ModelConverter modelConverter;
+
+    @Inject
+    VideoUtils videoUtils;
 
     public MvvmGyakorlatokActivity() {
         super(R.layout.mvvm_gyakorlat_activity);
@@ -52,8 +65,12 @@ public class MvvmGyakorlatokActivity extends BaseActiviry<MvvmGyakorlatActivityB
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if (getIntent() != null && getIntent().getStringExtra(Intent.EXTRA_TEXT) != null) {
+            sharedVideoLink(getIntent().getStringExtra(Intent.EXTRA_TEXT));
+        }
+
         gyakorlatViewModel.getGyakorlatList().observe(this, gyakorlats -> {
-            if(gyakorlats != null && gyakorlats.size() > 0) {
+            if (gyakorlats != null && gyakorlats.size() > 0) {
                 binding.gyakorlatokLista.setAdapter(
                         new GyakorlatItemAdapter(gyakorlats.stream().map(gy -> modelConverter.fromEntity(gy)).collect(Collectors.toList()), MvvmGyakorlatokActivity.this));
                 binding.gyakorlatokLista.setOnItemClickListener(this);
@@ -65,6 +82,27 @@ public class MvvmGyakorlatokActivity extends BaseActiviry<MvvmGyakorlatActivityB
         });
 
         binding.fab.setOnClickListener(v -> createGyakorlatDialog(null));
+
+
+    }
+
+    private void sharedVideoLink(String aLink) {
+        Log.i(TAG, "sharedVideoLink: brnnr vagyok");
+        gyakorlatViewModel.getGyakorlatForVideoLinkEdit().whenComplete((gyakorlats, throwable) -> {
+            Log.i(TAG, "sharedVideoLink: whenComplete");
+            if (throwable != null) {
+                runOnUiThread(() -> Toast.makeText(MvvmGyakorlatokActivity.this, "Hiba lépett fel", Toast.LENGTH_SHORT).show());
+                Log.e(TAG, "sharedVideoLink: gyakorlat betöltés hiba", throwable);
+                return;
+            }
+
+            runOnUiThread(() -> videoUtils.createVideoSaveDialog(aLink, gyakorlats.stream().map(gy -> modelConverter.fromEntity(gy)).collect(Collectors.toList()), this));
+        });
+    }
+
+    @Override
+    public void finishActivity() {
+        finish();
     }
 
     @Override
@@ -121,15 +159,15 @@ public class MvvmGyakorlatokActivity extends BaseActiviry<MvvmGyakorlatActivityB
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.gyakszerk :
-                createGyakorlatDialog(modelConverter.fromUI((GyakorlatUI)binding.gyakorlatokLista.getAdapter().getItem(kijeloltGyakPoz)));
+            case R.id.gyakszerk:
+                createGyakorlatDialog(modelConverter.fromUI((GyakorlatUI) binding.gyakorlatokLista.getAdapter().getItem(kijeloltGyakPoz)));
                 break;
-            case R.id.gyaktorol :
-                showAlertGyakTorles(modelConverter.fromUI((GyakorlatUI)binding.gyakorlatokLista.getAdapter().getItem(kijeloltGyakPoz)));
+            case R.id.gyaktorol:
+                showAlertGyakTorles(modelConverter.fromUI((GyakorlatUI) binding.gyakorlatokLista.getAdapter().getItem(kijeloltGyakPoz)));
                 break;
-            case R.id.gyakszerk_menu_video :
+            case R.id.gyakszerk_menu_video:
                 Gyakorlat gyakorlat = modelConverter.fromUI((GyakorlatUI) binding.gyakorlatokLista.getAdapter().getItem(kijeloltGyakPoz));
-                if(gyakorlat != null && gyakorlat.getVideolink().length() > 0) {
+                if (gyakorlat != null && gyakorlat.getVideolink().length() > 0) {
                     Intent videointent = new Intent(this, VideoActivity.class);
                     videointent.putExtra(VideoActivity.EXTRA_GYAKORLAT, gyakorlat);
                     startActivity(videointent);
@@ -143,10 +181,10 @@ public class MvvmGyakorlatokActivity extends BaseActiviry<MvvmGyakorlatActivityB
     private void showAlertGyakTorles(Gyakorlat gyakorlat) {
         new AlertDialog.Builder(this)
                 .setMessage("Biztos törölni akarod?")
-                .setTitle(gyakorlat.getMegnevezes()+" törlése")
+                .setTitle(gyakorlat.getMegnevezes() + " törlése")
                 .setPositiveButton("Igen", (dialog, which) -> {
                     gyakorlatViewModel.delete(gyakorlat);
-                    Toast.makeText(this, gyakorlat.getMegnevezes()+" törlésre került", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, gyakorlat.getMegnevezes() + " törlésre került", Toast.LENGTH_SHORT).show();
                 })
                 .setNegativeButton("Nem", (dialog, which) -> {
                 })
@@ -157,12 +195,12 @@ public class MvvmGyakorlatokActivity extends BaseActiviry<MvvmGyakorlatActivityB
     private void createGyakorlatDialog(Gyakorlat gyakorlat) {
         MvvmGyakorlatdialogBinding gyakBinding = DataBindingUtil.inflate(
                 getLayoutInflater(), R.layout.mvvm_gyakorlatdialog, null, false);
-        String title = (gyakorlat != null) ? gyakorlat.getMegnevezes()+" szerkesztése" : "Új gyakorlat felvétele";
+        String title = (gyakorlat != null) ? gyakorlat.getMegnevezes() + " szerkesztése" : "Új gyakorlat felvétele";
         String[] izomccsoportResource = getResources().getStringArray(R.array.izomcsoportok);
-        if(gyakorlat != null) {
+        if (gyakorlat != null) {
             int szerkeszIndex = 0;
-            for (int i=0; i<izomccsoportResource.length; i++) {
-                if(izomccsoportResource[i].equals(gyakorlat.getCsoport())) {
+            for (int i = 0; i < izomccsoportResource.length; i++) {
+                if (izomccsoportResource[i].equals(gyakorlat.getCsoport())) {
                     szerkeszIndex = i;
                     break;
                 }
@@ -179,7 +217,7 @@ public class MvvmGyakorlatokActivity extends BaseActiviry<MvvmGyakorlatActivityB
                 .setPositiveButton("OK", (dialog, which) -> {
                     String valasztottCsoport = gyakBinding.etGyakDialogCsoport.getSelectedItem().toString();
 
-                    if(TextUtils.isEmpty(gyakBinding.etGyakDialogNev.getText().toString()) ||
+                    if (TextUtils.isEmpty(gyakBinding.etGyakDialogNev.getText().toString()) ||
                             valasztottCsoport.equals("Kérlek, válassz...")) {
                         Toast.makeText(this, "Izomcsoport, megnevezés kötelező megadni", Toast.LENGTH_LONG).show();
                         return;
@@ -189,7 +227,7 @@ public class MvvmGyakorlatokActivity extends BaseActiviry<MvvmGyakorlatActivityB
 
                     setGyakorlatAdat(gyakBinding, gyakorlat1);
 
-                    if(gyakorlat == null) {
+                    if (gyakorlat == null) {
                         gyakorlat1.setCsoport(valasztottCsoport);
                         gyakorlatViewModel.insert(modelConverter.fromUI(gyakorlat1));
                         Toast.makeText(this, "Gyakorlat felvéve a listára", Toast.LENGTH_SHORT).show();
@@ -202,13 +240,13 @@ public class MvvmGyakorlatokActivity extends BaseActiviry<MvvmGyakorlatActivityB
     }
 
     private void setGyakorlatAdat(MvvmGyakorlatdialogBinding gyakBinding, GyakorlatUI gyakorlat1) {
-        if(TextUtils.isEmpty(gyakBinding.etGyakDialogLeiras.getText().toString()))
+        if (TextUtils.isEmpty(gyakBinding.etGyakDialogLeiras.getText().toString()))
             gyakorlat1.setLeiras("");
 
-        if(TextUtils.isEmpty(gyakBinding.etGyakDialogVideolink.getText().toString()))
+        if (TextUtils.isEmpty(gyakBinding.etGyakDialogVideolink.getText().toString()))
             gyakorlat1.setVideolink("");
 
-        if(TextUtils.isEmpty(gyakBinding.etGyakDialogVideoStartPoz.getText().toString()))
+        if (TextUtils.isEmpty(gyakBinding.etGyakDialogVideoStartPoz.getText().toString()))
             gyakorlat1.setVideostartpoz("0");
     }
 }
