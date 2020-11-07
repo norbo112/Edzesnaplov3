@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,7 +17,9 @@ import dagger.hilt.android.EntryPointAccessors;
 import dagger.hilt.android.components.ApplicationComponent;
 
 public class NaploContentProviderWithHilt extends ContentProvider {
+    private static final String TAG = "ContentProviderem";
     public static final Uri GET_NAPLO = Uri.parse("content://aa.dorid.norbo.projects.edzesnaplo3.providers/naplo");
+    public static final Uri GET_NAPLO_GYAK_ES_OSSZSULY = Uri.parse("content://aa.dorid.norbo.projects.edzesnaplo3.providers/naplogyakosszsuly");
 
     @EntryPoint
     @InstallIn(ApplicationComponent.class)
@@ -38,6 +41,8 @@ public class NaploContentProviderWithHilt extends ContentProvider {
         NaploRepository naploRepository = entryPoint.naploRepository();
         if(uri.equals(GET_NAPLO)) {
             return naploRepository.getNaploList();
+        } else if(uri.equals(GET_NAPLO_GYAK_ES_OSSZSULY)) {
+            Log.i(TAG, "query: naplo gyak es osszsuly");
         }
         return null;
     }
