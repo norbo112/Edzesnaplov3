@@ -43,6 +43,7 @@ public class NaploContentProviderWithHilt extends ContentProvider {
             return naploRepository.getNaploList();
         } else if(uri.equals(GET_NAPLO_GYAK_ES_OSSZSULY)) {
             Log.i(TAG, "query: naplo gyak es osszsuly");
+            return naploRepository.getNaploOsszSulyBy();
         }
         return null;
     }

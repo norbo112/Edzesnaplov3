@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
@@ -19,11 +20,7 @@ import aa.droid.norbo.projects.edzesnaplo3.providers.NaploContentProviderWithHil
  * Implementation of App Widget functionality.
  */
 public class NaploCntAppWidget extends AppWidgetProvider {
-    public static final Uri NAPLO_URI = Uri.parse("content://aa.dorid.norbo.projects.edzesnaplo3.contentprovider/naplo");
-    public static final Uri GYAK_OSSZSULY_URI = Uri.parse("content://aa.dorid.norbo.projects.edzesnaplo3.contentprovider/gyakosszsuly");
-
-    public static final String ACTION_RESZLETEZO = "reszletezo";
-
+    private static final String TAG = "NaploCntAppWidget";
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
 
@@ -44,12 +41,12 @@ public class NaploCntAppWidget extends AppWidgetProvider {
         PendingIntent titlePendingIntent = PendingIntent.getActivity(context, 0, titleIntent, 0);
         views.setOnClickPendingIntent(R.id.naplo_cnt_text, titlePendingIntent);
 
-        Intent toastIntent = new Intent(context, NaploCntAppWidget.class);
-        toastIntent.setAction(ACTION_RESZLETEZO);
-        toastIntent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
-        PendingIntent pendingIntentToast = PendingIntent.getBroadcast(context, 0, toastIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
-        views.setPendingIntentTemplate(R.id.listView, pendingIntentToast);
+//        Intent toastIntent = new Intent(context, NaploCntAppWidget.class);
+//        toastIntent.setAction(ACTION_RESZLETEZO);
+//        toastIntent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
+//        PendingIntent pendingIntentToast = PendingIntent.getBroadcast(context, 0, toastIntent,
+//                PendingIntent.FLAG_UPDATE_CURRENT);
+//        views.setPendingIntentTemplate(R.id.listView, pendingIntentToast);
 
         if(listnaplo != null) listnaplo.close();
 
@@ -68,13 +65,6 @@ public class NaploCntAppWidget extends AppWidgetProvider {
             for (int appwidgetid: appWidgetManager.getAppWidgetIds(cn)) {
                 updateAppWidget(context, appWidgetManager, appwidgetid);
             }
-        } else if(action.equals(ACTION_RESZLETEZO)) {
-            NaploGyakOsszsuly naploGyakOsszsuly = (NaploGyakOsszsuly) intent.getSerializableExtra("naploadatok");
-            String msg = "Elvégzett gyakorlatok: \n";
-            for (int i = 0; i < naploGyakOsszsuly.getGyakorlats().size(); i++) {
-                msg += naploGyakOsszsuly.getGyakorlats().get(i)+"\n";
-            }
-            Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
         }
         super.onReceive(context, intent);
     }

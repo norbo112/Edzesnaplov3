@@ -2,21 +2,28 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/ujgyak"
+        android:icon="@drawable/ic_add"
+        android:orderInCategory="101"
+        android:title="Új"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/gyakszerk"
         android:icon="@drawable/ic_edit"
-        android:orderInCategory="101"
+        android:orderInCategory="102"
         android:title="Szerkesztés"
         app:showAsAction="never" />
     <item
         android:id="@+id/gyaktorol"
         android:icon="@drawable/ic_delete"
-        android:orderInCategory="102"
+        android:orderInCategory="103"
         android:title="Törlés"
         app:showAsAction="never" />
     <item
         android:id="@+id/gyakszerk_menu_video"
         android:icon="@drawable/ic_ondemand_video"
-        android:orderInCategory="103"
+        android:orderInCategory="104"
         android:title="Video"
         app:showAsAction="never" />
 </menu>

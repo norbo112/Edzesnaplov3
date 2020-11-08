@@ -39,6 +39,9 @@ public interface NaploDao {
     @Query("SELECT * FROM naplo ORDER BY naplodatum")
     Cursor selectAll();
 
+    @Query("select sum(ismetles * suly) as ossz, naplodatum from sorozattabla group by naplodatum")
+    Cursor selectOsszsulyByNaploDatum();
+
     @Query("DELETE FROM naplo")
     void deleteAll();
 

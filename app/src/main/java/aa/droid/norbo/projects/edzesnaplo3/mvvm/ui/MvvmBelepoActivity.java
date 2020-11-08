@@ -5,10 +5,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -21,10 +18,9 @@ import aa.droid.norbo.projects.edzesnaplo3.R;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmActivityBelepoBinding;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.utils.AdatFeltoltes;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.edzesterv.EdzesTervBelepoActivity;
-import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.NaploListFactory;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.NaploListUtil;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.NaploViewModel;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.SorozatViewModel;
-import aa.droid.norbo.projects.edzesnaplo3.providers.NaploContentProviderWithHilt;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
@@ -44,7 +40,7 @@ public class MvvmBelepoActivity extends BaseActiviry<MvvmActivityBelepoBinding> 
     NaploViewModel naploViewModel;
 
     @Inject
-    NaploListFactory naploListFactory;
+    NaploListUtil naploListUtil;
 
     @Inject
     SorozatViewModel sorozatViewModel;
@@ -108,6 +104,16 @@ public class MvvmBelepoActivity extends BaseActiviry<MvvmActivityBelepoBinding> 
 //        Cursor naplolist = getContentResolver().query(NaploContentProviderWithHilt.GET_NAPLO, null, null, null, null);
 //        if(naplolist != null) {
 //            Log.i(TAG, "onCreate: naplolist count: " + naplolist.getCount());
+//            naplolist.close();
+//        }
+
+//        Cursor naplolist = getContentResolver().query(NaploContentProviderWithHilt.GET_NAPLO_GYAK_ES_OSSZSULY, null, null, null, null);
+//        if(naplolist != null) {
+//            @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.forLanguageTag("Hu-hu"));
+//            while (naplolist.moveToNext()) {
+//                Log.i(TAG, "Naplo Cursor: "
+//                        + simpleDateFormat.format(new Date(Long.parseLong(naplolist.getString(1))))+" "+naplolist.getString(0)+" Kg");
+//            }
 //            naplolist.close();
 //        }
     }

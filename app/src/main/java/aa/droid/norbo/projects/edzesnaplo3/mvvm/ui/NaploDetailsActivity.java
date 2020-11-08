@@ -29,13 +29,13 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.SorozatWithGyakorlat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.service.files.MyFileService;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.rcviews.NaploDetailsRcViewAdapterFactory;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.DateTimeFormatter;
-import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.NaploListFactory;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.NaploListUtil;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.NaploViewModel;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.SorozatViewModel;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class NaploDetailsActivity extends BaseActiviry<MvvmNaploDetailsActivityBinding> implements NaploListFactory.NaploTorlesInterface {
+public class NaploDetailsActivity extends BaseActiviry<MvvmNaploDetailsActivityBinding> implements NaploListUtil.NaploTorlesInterface {
     private static final String TAG = "NaploDetailsActivity";
     public static final String EXTRA_NAPLO_DATUM = "aa.droid.norbo.projects.edzesnaplo3.v4.EXTRA_NAPLO_DATUM";
     public static final String EXTRA_NAPLO_LABEL = "aa.droid.norbo.projects.edzesnaplo3.v4.EXTRA_NAPLO_LABEL";

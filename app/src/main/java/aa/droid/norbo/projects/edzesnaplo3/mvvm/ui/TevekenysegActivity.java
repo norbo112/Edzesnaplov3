@@ -30,9 +30,12 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.MvvmGyakorlatValaszto
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.TevekenysegFragment;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.ViewPagerAdapter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.adatkozlo.AdatKozloInterface;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.AlertDialogUtil;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.DateTimeFormatter;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.NaploListUtil;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.naplo.NaploWorker;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.naplo.SorozatUtil;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.NaploViewModel;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.SorozatViewModel;
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -43,6 +46,12 @@ public class TevekenysegActivity extends BaseActiviry<MvvmActivityTestBinding> i
 
     @Inject
     NaploWorker naploWorker;
+
+    @Inject
+    NaploListUtil naploListUtil;
+
+    @Inject
+    AlertDialogUtil alertDialogUtil;
 
     @Inject
     SorozatViewModel sorozatViewModel;
@@ -58,6 +67,9 @@ public class TevekenysegActivity extends BaseActiviry<MvvmActivityTestBinding> i
 
     @Inject
     SharedPreferences sharedPreferences;
+
+    @Inject
+    NaploViewModel naploViewModel;
 
     public TevekenysegActivity() {
         super(R.layout.mvvm_activity_test);
@@ -161,7 +173,16 @@ public class TevekenysegActivity extends BaseActiviry<MvvmActivityTestBinding> i
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.tevekenyseg_naplo_view) {
-            Toast.makeText(this, "Naplók megtekintése TV", Toast.LENGTH_SHORT).show();
+            AlertDialog dialog = alertDialogUtil.laodingDialog(this);
+            dialog.show();
+            naploViewModel.getNaploWithSorozat().observe(this, naploWithSorozats -> {
+                if(naploWithSorozats != null && naploWithSorozats.size() > 0) {
+                    naploListUtil.getNaploListDialog(naploWithSorozats).show();
+                    dialog.dismiss();
+                } else {
+                    Toast.makeText(this, "Nincsenek mentett naplók", Toast.LENGTH_SHORT).show();
+                }
+            });
         } else if (item.getItemId() == R.id.tevekenyseg_gyakorlat_view) {
             sorozatUtil.sorozatNezokeDialog(this, gyakorlatUI);
         } else if(item.getItemId() == R.id.tevekenyseg_edzesterv_valaszto) {
