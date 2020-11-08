@@ -81,7 +81,7 @@ public class MvvmGyakorlatReportActivity extends BaseActiviry<GyakorlatReportAct
         ismChart.getDescription().setEnabled(false);
         ismChart.setDrawGridBackground(false);
         ismChart.getAxisRight().setEnabled(false);
-
+        ismChart.setOnChartValueSelectedListener(this);
         ismChart.getAxisLeft().setTextColor(Color.WHITE);
 
         XAxis xAxis = ismChart.getXAxis();
@@ -102,6 +102,7 @@ public class MvvmGyakorlatReportActivity extends BaseActiviry<GyakorlatReportAct
         sulyChart.setDrawGridBackground(false);
         sulyChart.getAxisRight().setEnabled(false);
         sulyChart.getAxisLeft().setTextColor(Color.WHITE);
+        sulyChart.setOnChartValueSelectedListener(this);
 
         XAxis xAxis = sulyChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE);
