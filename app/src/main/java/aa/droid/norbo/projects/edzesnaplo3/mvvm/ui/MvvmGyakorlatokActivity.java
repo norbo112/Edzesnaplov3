@@ -19,9 +19,11 @@ import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.view.menu.MenuPopupHelper;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
 
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +47,7 @@ import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
 public class MvvmGyakorlatokActivity extends BaseActiviry<MvvmGyakorlatActivityBinding>
-        implements AdapterView.OnItemClickListener, VideoUtilsInterface {
+        implements VideoUtilsInterface, AdapterView.OnItemClickListener, BottomNavigationView.OnNavigationItemSelectedListener {
     private static final String TAG = "MvvmGyakorlatokActivity";
 
     @Inject
@@ -73,6 +75,7 @@ public class MvvmGyakorlatokActivity extends BaseActiviry<MvvmGyakorlatActivityB
             if (gyakorlats != null && gyakorlats.size() > 0) {
                 binding.gyakorlatokLista.setAdapter(
                         new GyakorlatItemAdapter(gyakorlats.stream().map(gy -> modelConverter.fromEntity(gy)).collect(Collectors.toList()), MvvmGyakorlatokActivity.this));
+//                binding.gyakorlatokLista.setOnItemClickListener(this);
                 binding.gyakorlatokLista.setOnItemClickListener(this);
                 binding.gyakorlatokLista.setNestedScrollingEnabled(true);
             } else {
@@ -81,9 +84,7 @@ public class MvvmGyakorlatokActivity extends BaseActiviry<MvvmGyakorlatActivityB
             }
         });
 
-        binding.fab.setOnClickListener(v -> createGyakorlatDialog(null));
-
-
+        binding.bottomNavigation.setOnNavigationItemSelectedListener(this);
     }
 
     private void sharedVideoLink(String aLink) {
@@ -98,6 +99,13 @@ public class MvvmGyakorlatokActivity extends BaseActiviry<MvvmGyakorlatActivityB
 
             runOnUiThread(() -> videoUtils.createVideoSaveDialog(aLink, gyakorlats.stream().map(gy -> modelConverter.fromEntity(gy)).collect(Collectors.toList()), this));
         });
+    }
+
+    int kijelotGyakPoz = -1;
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        kijelotGyakPoz = position;
     }
 
     @Override
@@ -134,48 +142,6 @@ public class MvvmGyakorlatokActivity extends BaseActiviry<MvvmGyakorlatActivityB
             }
         });
         return super.onCreateOptionsMenu(menu);
-    }
-
-    int kijeloltGyakPoz;
-
-    @SuppressLint("RestrictedApi")
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        kijeloltGyakPoz = position;
-
-        PopupMenu popupMenu = new PopupMenu(this, view);
-        popupMenu.getMenuInflater().inflate(R.menu.gyak_activity_szerkeszto_menu, popupMenu.getMenu());
-
-        popupMenu.setOnMenuItemClickListener(item -> {
-            onContextItemSelected(item);
-            return true;
-        });
-
-        MenuPopupHelper menuPopupHelper = new MenuPopupHelper(this, (MenuBuilder) popupMenu.getMenu(), view);
-        menuPopupHelper.setForceShowIcon(true);
-        menuPopupHelper.show();
-    }
-
-    @Override
-    public boolean onContextItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.gyakszerk:
-                createGyakorlatDialog(modelConverter.fromUI((GyakorlatUI) binding.gyakorlatokLista.getAdapter().getItem(kijeloltGyakPoz)));
-                break;
-            case R.id.gyaktorol:
-                showAlertGyakTorles(modelConverter.fromUI((GyakorlatUI) binding.gyakorlatokLista.getAdapter().getItem(kijeloltGyakPoz)));
-                break;
-            case R.id.gyakszerk_menu_video:
-                Gyakorlat gyakorlat = modelConverter.fromUI((GyakorlatUI) binding.gyakorlatokLista.getAdapter().getItem(kijeloltGyakPoz));
-                if (gyakorlat != null && gyakorlat.getVideolink().length() > 0) {
-                    Intent videointent = new Intent(this, VideoActivity.class);
-                    videointent.putExtra(VideoActivity.EXTRA_GYAKORLAT, gyakorlat);
-                    startActivity(videointent);
-                } else {
-                    Toast.makeText(this, "Nincs video!", Toast.LENGTH_SHORT).show();
-                }
-        }
-        return super.onContextItemSelected(item);
     }
 
     private void showAlertGyakTorles(Gyakorlat gyakorlat) {
@@ -248,5 +214,42 @@ public class MvvmGyakorlatokActivity extends BaseActiviry<MvvmGyakorlatActivityB
 
         if (TextUtils.isEmpty(gyakBinding.etGyakDialogVideoStartPoz.getText().toString()))
             gyakorlat1.setVideostartpoz("0");
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        if(kijelotGyakPoz == -1) {
+            Toast.makeText(this, "Kérlek válassz egy gyakorlatot!", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        switch (item.getItemId()) {
+            case R.id.ujgyak :
+                createGyakorlatDialog(null);
+                break;
+            case R.id.gyakszerk:
+                createGyakorlatDialog(modelConverter.fromUI(
+                        (GyakorlatUI) binding.gyakorlatokLista.getAdapter().getItem(kijelotGyakPoz)
+                ));
+                break;
+            case R.id.gyaktorol:
+                showAlertGyakTorles(modelConverter.fromUI(
+                        (GyakorlatUI) binding.gyakorlatokLista.getAdapter().getItem(kijelotGyakPoz)
+                ));
+                break;
+            case R.id.gyakszerk_menu_video:
+                Gyakorlat gyakorlat = modelConverter.fromUI(
+                        (GyakorlatUI) binding.gyakorlatokLista.getAdapter().getItem(kijelotGyakPoz)
+                );
+                if (gyakorlat != null && gyakorlat.getVideolink().length() > 0) {
+                    Intent videointent = new Intent(this, VideoActivity.class);
+                    videointent.putExtra(VideoActivity.EXTRA_GYAKORLAT, gyakorlat);
+                    startActivity(videointent);
+                } else {
+                    Toast.makeText(this, "Nincs video!", Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
+        return true;
     }
 }

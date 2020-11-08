@@ -58,4 +58,7 @@
     <string name="mvvm_gyakorlat_video_link_shared_gyak_label">Melyik gyakorlathoz mented?</string>
     <string name="mvvm_gyakorlat_video_link_shared_csopszuro_label">Izomcsoport szűrő:</string>
     <string name="loading_layout_label">Betöltés...</string>
+    <string name="gyakorlat_search_menu_szerkeszt">Szerkesztés</string>
+    <string name="gyakorlat_search_menu_torles">Törlés</string>
+    <string name="gyakorlat_search_menu_video">Video</string>
 </resources>

@@ -10,14 +10,17 @@
             type="aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.GyakorlatUI" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.CheckableLinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/customselect"
+        android:id="@+id/root_view"
         android:padding="10dp">
 
         <TextView
             android:id="@+id/gyak_neve"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@{gyakorlat.megnevezes}"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -26,7 +29,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@{gyakorlat.csoport}"
             android:textStyle="italic"
@@ -34,5 +37,5 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/gyak_neve" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.CheckableLinearLayout>
 </layout>
