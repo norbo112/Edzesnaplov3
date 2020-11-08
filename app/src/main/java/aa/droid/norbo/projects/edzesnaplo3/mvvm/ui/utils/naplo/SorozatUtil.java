@@ -1,5 +1,7 @@
 package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.naplo;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +28,7 @@ import javax.inject.Inject;
 import aa.droid.norbo.projects.edzesnaplo3.R;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmKorabbiSorozatItemBinding;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.GyakorlatUI;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.toolmodels.OsszSorozat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Sorozat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.rcviews.KorabbiSorozatRcViewAdapter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.DateTimeFormatter;
@@ -47,13 +50,13 @@ public class SorozatUtil {
     }
 
     public void sorozatNezokeDialog(LifecycleOwner owner, GyakorlatUI gyakorlatUI) {
-        if(gyakorlatUI == null) {
+        if (gyakorlatUI == null) {
             Toast.makeText(context, "Kérlek válassz egy gyakorlatot a megtekintéshez!", Toast.LENGTH_SHORT).show();
             return;
         }
 
         sorozatViewModel.getSorozatByGyakorlat(gyakorlatUI.getId()).observe(owner, sorozats -> {
-            if(sorozats != null && sorozats.size() > 0) {
+            if (sorozats != null && sorozats.size() > 0) {
                 new AlertDialog.Builder(context)
                         .setTitle(gyakorlatUI.getMegnevezes())
                         .setAdapter(getSorozatEsNaploAdapter(sorozats), null)
@@ -63,6 +66,13 @@ public class SorozatUtil {
                 Toast.makeText(context, "Nincs rögzítve még sorozat evvel a gyakorlattal", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void osszSorozatNezoke(Activity activity, OsszSorozat osszSorozat) {
+        new AlertDialog.Builder(context)
+                .setView(getOsszSorozatView(activity, osszSorozat))
+                .setPositiveButton("ok", (dialog, which) -> dialog.dismiss())
+                .show();
     }
 
     public ArrayAdapter<NaploEsSorozat> getSorozatEsNaploAdapter(List<Sorozat> sorozats) {
@@ -93,6 +103,15 @@ public class SorozatUtil {
         };
     }
 
+    @SuppressLint("SetTextI18n")
+    public View getOsszSorozatView(Activity activity, OsszSorozat osszSorozat) {
+        MvvmKorabbiSorozatItemBinding binding = MvvmKorabbiSorozatItemBinding.inflate(activity.getLayoutInflater());
+
+        binding.korabbiSorozatDatumLabel.setText(formatter.getNaploDatum(osszSorozat.getNaplodatum()));
+        binding.korabbiSorozatLista.setText("Össz ismétlés= "+osszSorozat.getOsszism()+" X\nÖssz súly= "+osszSorozat.getOsszsuly()+" Kg");
+        return binding.getRoot();
+    }
+
     private List<NaploEsSorozat> makeNaploEsSorozat(List<Sorozat> sorozats) {
         List<NaploEsSorozat> list = new ArrayList<>();
         Set<Long> naploDatumok = sorozats.stream().map(Sorozat::getNaplodatum).collect(Collectors.toSet());
@@ -100,7 +119,7 @@ public class SorozatUtil {
             NaploEsSorozat naploEsSorozat = new NaploEsSorozat(aLong);
             List<Sorozat> sorozats1 = new ArrayList<>();
             sorozats.forEach(sorozat -> {
-                if(aLong == (sorozat.getNaplodatum()))
+                if (aLong == (sorozat.getNaplodatum()))
                     sorozats1.add(sorozat);
             });
             naploEsSorozat.setSorozats(sorozats1);

@@ -26,4 +26,11 @@
         android:orderInCategory="104"
         android:title="Video"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/gyakdiagram"
+        android:icon="@drawable/ic_chart"
+        android:orderInCategory="105"
+        android:title="Diagram"
+        app:showAsAction="never" />
 </menu>

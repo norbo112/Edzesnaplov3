@@ -249,6 +249,13 @@ public class MvvmGyakorlatokActivity extends BaseActiviry<MvvmGyakorlatActivityB
                     Toast.makeText(this, "Nincs video!", Toast.LENGTH_SHORT).show();
                 }
                 break;
+            case R.id.gyakdiagram :
+                Intent intent = new Intent(this, MvvmGyakorlatReportActivity.class);
+                intent.putExtra(MvvmGyakorlatReportActivity.EXTRA_GYAK,
+                        modelConverter.fromUI((GyakorlatUI) binding.gyakorlatokLista.getAdapter().getItem(kijelotGyakPoz)));
+                startActivity(intent);
+                overridePendingTransition(R.anim.move_right_in_activity, R.anim.move_left_out_activity);
+                break;
         }
         return true;
     }
