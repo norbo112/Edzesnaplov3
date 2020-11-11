@@ -218,26 +218,33 @@ public class MvvmGyakorlatokActivity extends BaseActiviry<MvvmGyakorlatActivityB
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        if(kijelotGyakPoz == -1) {
-            Toast.makeText(this, "Kérlek válassz egy gyakorlatot!", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
         switch (item.getItemId()) {
             case R.id.ujgyak :
                 createGyakorlatDialog(null);
                 break;
             case R.id.gyakszerk:
+                if(kijelotGyakPoz == -1) {
+                    Toast.makeText(this, "Kérlek válassz egy gyakorlatot!", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
                 createGyakorlatDialog(modelConverter.fromUI(
                         (GyakorlatUI) binding.gyakorlatokLista.getAdapter().getItem(kijelotGyakPoz)
                 ));
                 break;
             case R.id.gyaktorol:
+                if(kijelotGyakPoz == -1) {
+                    Toast.makeText(this, "Kérlek válassz egy gyakorlatot!", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
                 showAlertGyakTorles(modelConverter.fromUI(
                         (GyakorlatUI) binding.gyakorlatokLista.getAdapter().getItem(kijelotGyakPoz)
                 ));
                 break;
             case R.id.gyakszerk_menu_video:
+                if(kijelotGyakPoz == -1) {
+                    Toast.makeText(this, "Kérlek válassz egy gyakorlatot!", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
                 Gyakorlat gyakorlat = modelConverter.fromUI(
                         (GyakorlatUI) binding.gyakorlatokLista.getAdapter().getItem(kijelotGyakPoz)
                 );
@@ -250,6 +257,10 @@ public class MvvmGyakorlatokActivity extends BaseActiviry<MvvmGyakorlatActivityB
                 }
                 break;
             case R.id.gyakdiagram :
+                if(kijelotGyakPoz == -1) {
+                    Toast.makeText(this, "Kérlek válassz egy gyakorlatot!", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
                 Intent intent = new Intent(this, MvvmGyakorlatReportActivity.class);
                 intent.putExtra(MvvmGyakorlatReportActivity.EXTRA_GYAK,
                         modelConverter.fromUI((GyakorlatUI) binding.gyakorlatokLista.getAdapter().getItem(kijelotGyakPoz)));

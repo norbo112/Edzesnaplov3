@@ -38,13 +38,13 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Összes ismétlés"
+                    android:text="Összes súly és ismétlés"
                     android:textAlignment="center"
                     android:textColor="@android:color/white"
                     android:textSize="18sp" />
 
                 <com.github.mikephil.charting.charts.LineChart
-                    android:id="@+id/ism_chart"
+                    android:id="@+id/osszsulyesism_chart"
                     android:layout_width="match_parent"
                     android:layout_height="200dp" />
 
@@ -52,15 +52,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:text="Megmozgatott súly"
+                    android:text="Eltelt idő"
                     android:textAlignment="center"
                     android:textColor="@android:color/white"
                     android:textSize="18sp" />
 
                 <com.github.mikephil.charting.charts.LineChart
-                    android:id="@+id/suly_chart"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp" />
+                    android:layout_height="200dp"
+                    android:id="@+id/eltelt_ido_chart"/>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>

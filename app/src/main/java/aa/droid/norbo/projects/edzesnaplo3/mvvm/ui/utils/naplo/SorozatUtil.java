@@ -42,6 +42,10 @@ public class SorozatUtil {
     private DateTimeFormatter formatter;
     private SorozatViewModel sorozatViewModel;
 
+    public interface SorozatUtilReportInterface {
+        void viewNaploFromReport(String naplodatum);
+    }
+
     @Inject
     public SorozatUtil(@ActivityContext Context context, DateTimeFormatter formatter, SorozatViewModel sorozatViewModel) {
         this.context = context;
@@ -68,10 +72,11 @@ public class SorozatUtil {
         });
     }
 
-    public void osszSorozatNezoke(Activity activity, OsszSorozat osszSorozat) {
+    public void osszSorozatNezoke(Activity activity, OsszSorozat osszSorozat, String naplodatum, SorozatUtilReportInterface reportInterface) {
         new AlertDialog.Builder(context)
                 .setView(getOsszSorozatView(activity, osszSorozat))
                 .setPositiveButton("ok", (dialog, which) -> dialog.dismiss())
+                .setNeutralButton("naplót megnéz", (dialog, which) -> reportInterface.viewNaploFromReport(naplodatum))
                 .show();
     }
 

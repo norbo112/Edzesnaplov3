@@ -1,5 +1,6 @@
 package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
 import java.text.SimpleDateFormat;
@@ -37,7 +39,7 @@ import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
 public class MvvmGyakorlatReportActivity extends BaseActiviry<GyakorlatReportActivityLayoutBinding>
-    implements OnChartValueSelectedListener {
+    implements OnChartValueSelectedListener, SorozatUtil.SorozatUtilReportInterface {
     public static final String EXTRA_GYAK = "aa.droid.norbo.projects.edzesnaplo3.mvvm.EXTRA_GYAK";
 
     private SimpleDateFormat format = new SimpleDateFormat("MM-dd", Locale.getDefault());
@@ -69,35 +71,19 @@ public class MvvmGyakorlatReportActivity extends BaseActiviry<GyakorlatReportAct
 
         sorozatViewModel.getOsszSorozatByGyakorlat(gyakorlatUI.getId()).observe(this, osszSorozats -> {
             if(osszSorozats != null && osszSorozats.size() > 0) {
-                initSorozatLineChart(binding.ismChart, osszSorozats);
-                initSorozatOsszsulyLineChart(binding.sulyChart, osszSorozats);
+                initOsszsulyEsIsmetlesChart(binding.osszsulyesismChart, osszSorozats);
+                initElteltIdoChart(binding.elteltIdoChart, osszSorozats);
             } else {
                 Toast.makeText(this, "Sajnos ehhez a gyakorlathoz nincs sorozat rögzítve", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void initSorozatLineChart(LineChart ismChart, List<OsszSorozat> sorozats) {
-        ismChart.getDescription().setEnabled(false);
-        ismChart.setDrawGridBackground(false);
-        ismChart.getAxisRight().setEnabled(false);
-        ismChart.setOnChartValueSelectedListener(this);
-        ismChart.getAxisLeft().setTextColor(Color.WHITE);
-
-        XAxis xAxis = ismChart.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE);
-        xAxis.setEnabled(true);
-        xAxis.setTextColor(Color.WHITE);
-        xAxis.setValueFormatter(getDateValueFormatter(sorozats));
-        xAxis.setGranularity(1f);
-        xAxis.setGranularityEnabled(true);
-
-        setIsmChartData(ismChart, sorozats);
-        ismChart.animateX(1500);
-        ismChart.getLegend().setEnabled(false);
+    private void initElteltIdoChart(LineChart elteltIdoChart, List<OsszSorozat> osszSorozats) {
+        //TODO majd itten inicializálom az eltelt idő pont diagramot
     }
 
-    private void initSorozatOsszsulyLineChart(LineChart sulyChart, List<OsszSorozat> sorozats) {
+    private void initOsszsulyEsIsmetlesChart(LineChart sulyChart, List<OsszSorozat> sorozats) {
         sulyChart.getDescription().setEnabled(false);
         sulyChart.setDrawGridBackground(false);
         sulyChart.getAxisRight().setEnabled(false);
@@ -112,31 +98,21 @@ public class MvvmGyakorlatReportActivity extends BaseActiviry<GyakorlatReportAct
         xAxis.setGranularity(1f);
         xAxis.setGranularityEnabled(true);
 
-        setSulyChartData(sulyChart, sorozats);
+        setSulyEsIsmetlesData(sulyChart, sorozats);
 
         sulyChart.animateX(1500);
         sulyChart.getLegend().setEnabled(false);
     }
 
-    private void setSulyChartData(LineChart sulyChart, List<OsszSorozat> sorozats) {
+    private void setSulyEsIsmetlesData(LineChart sulyChart, List<OsszSorozat> sorozats) {
         ArrayList<Entry> entries = getOsszSulyEntries(sorozats);
+        ArrayList<Entry> entriesIsm = getIsmetlesEntries(sorozats);
 
-        LineDataSet set;
+        ArrayList<ILineDataSet> sets = new ArrayList<>();
+        sets.add(getLineDataSet(sulyChart, entries, "Össz súly", Color.RED));
+        sets.add(getLineDataSet(sulyChart, entriesIsm, "Ismétlés", Color.GREEN));
 
-        set = getLineDataSet(sulyChart, entries, "Össz súly");
-
-        LineData data = new LineData(set);
-        sulyChart.setData(data);
-    }
-
-    private void setIsmChartData(LineChart sulyChart, List<OsszSorozat> sorozats) {
-        ArrayList<Entry> entries = getIsmetlesEntries(sorozats);
-
-        LineDataSet set;
-
-        set = getLineDataSet(sulyChart, entries, "Ismétlések");
-
-        LineData data = new LineData(set);
+        LineData data = new LineData(sets);
         sulyChart.setData(data);
     }
 
@@ -146,7 +122,7 @@ public class MvvmGyakorlatReportActivity extends BaseActiviry<GyakorlatReportAct
         );
     }
 
-    private LineDataSet getLineDataSet(LineChart lineChart, ArrayList<Entry> entries, String label) {
+    private LineDataSet getLineDataSet(LineChart lineChart, ArrayList<Entry> entries, String label, int color) {
         LineDataSet set;
         if (lineChart.getData() != null &&
                 lineChart.getData().getDataSetCount() > 0) {
@@ -160,7 +136,7 @@ public class MvvmGyakorlatReportActivity extends BaseActiviry<GyakorlatReportAct
             set.setDrawIcons(false);
             set.enableDashedLine(10f, 5f, 0f);
             set.setColor(Color.WHITE);
-            set.setCircleColor(Color.GREEN);
+            set.setCircleColor(color);
             set.setLineWidth(1f);
             set.setCircleRadius(3f);
             set.setCircleHoleRadius(3f);
@@ -192,6 +168,14 @@ public class MvvmGyakorlatReportActivity extends BaseActiviry<GyakorlatReportAct
     }
 
     @Override
+    public void viewNaploFromReport(String naplodatum) {
+        Intent intent = new Intent(this, NaploDetailsActivity.class);
+        intent.putExtra(NaploDetailsActivity.EXTRA_NAPLO_DATUM, naplodatum);
+        startActivity(intent);
+        overridePendingTransition(R.anim.move_right_in_activity, R.anim.move_left_out_activity);
+    }
+
+    @Override
     public void setupCustomActionBar() {
         setSupportActionBar(binding.toolbar);
         if (getSupportActionBar() != null) {
@@ -202,7 +186,8 @@ public class MvvmGyakorlatReportActivity extends BaseActiviry<GyakorlatReportAct
 
     @Override
     public void onValueSelected(Entry e, Highlight h) {
-        sorozatUtil.osszSorozatNezoke(this, (OsszSorozat) e.getData());
+        sorozatUtil.osszSorozatNezoke(this, (OsszSorozat) e.getData(),
+                Long.toString(((OsszSorozat)e.getData()).getNaplodatum()), this);
     }
 
     @Override
