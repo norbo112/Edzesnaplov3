@@ -96,4 +96,8 @@ public class DateTimeFormatter {
     public String getNaploDatum(long timestamp) {
         return naplodateformatter.format(new Date(timestamp));
     }
+
+    public String getNaploShortDatum(long naplodatum) {
+        return dateformatter.format(new Date(naplodatum));
+    }
 }

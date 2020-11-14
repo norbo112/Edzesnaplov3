@@ -42,6 +42,7 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.listadapters.GyakorlatItemAda
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.ModelConverter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.VideoUtils;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.VideoUtilsInterface;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.report.SorozatReportTabletUtil;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.GyakorlatViewModel;
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -58,6 +59,9 @@ public class MvvmGyakorlatokActivity extends BaseActiviry<MvvmGyakorlatActivityB
 
     @Inject
     VideoUtils videoUtils;
+
+    @Inject
+    SorozatReportTabletUtil tabletUtil;
 
     public MvvmGyakorlatokActivity() {
         super(R.layout.mvvm_gyakorlat_activity);
@@ -84,7 +88,18 @@ public class MvvmGyakorlatokActivity extends BaseActiviry<MvvmGyakorlatActivityB
             }
         });
 
+        if (isTablet()) {
+            binding.gyakReportActivityLayoutSrc.toolbar.setVisibility(View.GONE);
+            if(kijelotGyakPoz != -1)
+                initGyakDiagramok((GyakorlatUI) binding.gyakorlatokLista.getAdapter().getItem(kijelotGyakPoz));
+        }
+
         binding.bottomNavigation.setOnNavigationItemSelectedListener(this);
+    }
+
+    private void initGyakDiagramok(GyakorlatUI gyakorlatUI) {
+        tabletUtil.initChartsForTablet(this, gyakorlatUI.getId(), binding.gyakReportActivityLayoutSrc.osszsulyesismChart,
+                binding.gyakReportActivityLayoutSrc.elteltIdoChart);
     }
 
     private void sharedVideoLink(String aLink) {
@@ -106,6 +121,8 @@ public class MvvmGyakorlatokActivity extends BaseActiviry<MvvmGyakorlatActivityB
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         kijelotGyakPoz = position;
+        if(isTablet())
+            initGyakDiagramok((GyakorlatUI) binding.gyakorlatokLista.getAdapter().getItem(kijelotGyakPoz));
     }
 
     @Override
@@ -269,5 +286,9 @@ public class MvvmGyakorlatokActivity extends BaseActiviry<MvvmGyakorlatActivityB
                 break;
         }
         return true;
+    }
+
+    private boolean isTablet() {
+        return getResources().getBoolean(R.bool.isTablet);
     }
 }
