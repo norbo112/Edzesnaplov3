@@ -157,8 +157,8 @@ public class SorozatUtil {
             sorozats.sort((o1, o2) -> Long.compare(o2.getIsmidopont(), o1.getIsmidopont()));
             int elteltIdo = getElteltIdo(sorozats.get(0).getIsmidopont(),
                     sorozats.get(sorozats.size() - 1).getIsmidopont());
-            Log.i(TAG, "getEleltIdoList: 0: "+formatter.getTime(sorozats.get(0).getIsmidopont())+", 1: "+
-                    formatter.getTime(sorozats.get(sorozats.size() - 1).getIsmidopont())+", eltelt idő: "+elteltIdo);
+//            Log.i(TAG, "getEleltIdoList: 0: "+formatter.getTime(sorozats.get(0).getIsmidopont())+", 1: "+
+//                    formatter.getTime(sorozats.get(sorozats.size() - 1).getIsmidopont())+", eltelt idő: "+elteltIdo);
             gyakorlatSorozatElteltIdo.add(new GyakorlatSorozatElteltIdo(nd, elteltIdo));
         }
 
