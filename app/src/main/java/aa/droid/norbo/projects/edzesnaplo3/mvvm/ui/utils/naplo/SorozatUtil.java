@@ -152,16 +152,20 @@ public class SorozatUtil {
                     sorozats.add(sorozat);
                 }
             }
-            int elteltIdo = (int) (Duration.between(
-                    Instant.ofEpochMilli(sorozats.get(0).getIsmidopont()),
-                    Instant.ofEpochMilli(sorozats.get(sorozats.size() - 1).getIsmidopont()))
-                                .getSeconds() / 60);
+            int elteltIdo = getElteltIdo(sorozats.get(0).getIsmidopont(),
+                    sorozats.get(sorozats.size() - 1).getIsmidopont());
             gyakorlatSorozatElteltIdo.add(new GyakorlatSorozatElteltIdo(nd, elteltIdo));
         }
 
         gyakorlatSorozatElteltIdo.sort((o1, o2) -> Long.compare(o1.getNaploDatum(), o2.getNaploDatum()));
 
         return gyakorlatSorozatElteltIdo;
+    }
+
+    private int getElteltIdo(long start, long end) {
+        Duration between = Duration.between(Instant.ofEpochMilli(start),
+                Instant.ofEpochMilli(end));
+        return Math.abs((int) (between.toMinutes() % 60));
     }
 
     public DateTimeFormatter getFormatter() {

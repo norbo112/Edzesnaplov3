@@ -10,6 +10,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.LegendEntry;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
@@ -125,7 +127,6 @@ public class MvvmGyakorlatReportActivity extends BaseActiviry<GyakorlatReportAct
         setSulyEsIsmetlesData(sulyChart, sorozats);
 
         sulyChart.animateX(1500);
-        sulyChart.getLegend().setEnabled(false);
     }
 
     private void setSulyEsIsmetlesData(LineChart sulyChart, List<OsszSorozat> sorozats) {
@@ -136,13 +137,33 @@ public class MvvmGyakorlatReportActivity extends BaseActiviry<GyakorlatReportAct
         sets.add(getLineDataSet(sulyChart, entries, "Össz súly", Color.RED));
         sets.add(getLineDataSet(sulyChart, entriesIsm, "Ismétlés", Color.GREEN));
 
+        setLegends(sulyChart, new String[]{"Össz súly", "Ismétlés"}, new int[]{Color.RED, Color.GREEN});
+
         LineData data = new LineData(sets);
         sulyChart.setData(data);
     }
 
+    private void setLegends(LineChart sulyChart, String[] labels, int[] colors) {
+        Legend legend = sulyChart.getLegend();
+        legend.setEnabled(true);
+        legend.setForm(Legend.LegendForm.CIRCLE);
+        legend.setTextColor(Color.WHITE);
+
+        List<LegendEntry> legendEntries = new ArrayList<>();
+        for (int i = 0; i < labels.length; i++) {
+            legendEntries.add(getLegendEntry(labels[i], colors[i]));
+        }
+        legend.setCustom(legendEntries);
+    }
+
+    private LegendEntry getLegendEntry(String label, int color) {
+        return new LegendEntry(label, Legend.LegendForm.CIRCLE, 10f, 10f,
+                null, color);
+    }
+
     private void setEleltIdoData(LineChart elteltIdoChart, List<GyakorlatSorozatElteltIdo> elteltIdos) {
         ArrayList<Entry> entries = getEleltIdoEntries(elteltIdos);
-        LineDataSet lineDataSet = new LineDataSet(entries, "Elelt idő");
+        LineDataSet lineDataSet = getLineDataSet(elteltIdoChart, entries, "Eltelt idő", Color.CYAN);
         elteltIdoChart.setData(new LineData(lineDataSet));
     }
 
@@ -171,7 +192,7 @@ public class MvvmGyakorlatReportActivity extends BaseActiviry<GyakorlatReportAct
             set = new LineDataSet(entries, label);
             set.setDrawIcons(false);
             set.enableDashedLine(10f, 5f, 0f);
-            set.setColor(Color.WHITE);
+            set.setColor(Color.DKGRAY);
             set.setCircleColor(color);
             set.setLineWidth(1f);
             set.setCircleRadius(3f);
