@@ -3,6 +3,7 @@ package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.naplo;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +42,7 @@ import dagger.hilt.android.scopes.ActivityScoped;
 
 @ActivityScoped
 public class SorozatUtil {
+    private static final String TAG = "SorozatUtil";
     private Context context;
     private DateTimeFormatter formatter;
     private SorozatViewModel sorozatViewModel;
@@ -152,8 +154,11 @@ public class SorozatUtil {
                     sorozats.add(sorozat);
                 }
             }
+            sorozats.sort((o1, o2) -> Long.compare(o2.getIsmidopont(), o1.getIsmidopont()));
             int elteltIdo = getElteltIdo(sorozats.get(0).getIsmidopont(),
                     sorozats.get(sorozats.size() - 1).getIsmidopont());
+            Log.i(TAG, "getEleltIdoList: 0: "+formatter.getTime(sorozats.get(0).getIsmidopont())+", 1: "+
+                    formatter.getTime(sorozats.get(sorozats.size() - 1).getIsmidopont())+", eltelt idő: "+elteltIdo);
             gyakorlatSorozatElteltIdo.add(new GyakorlatSorozatElteltIdo(nd, elteltIdo));
         }
 

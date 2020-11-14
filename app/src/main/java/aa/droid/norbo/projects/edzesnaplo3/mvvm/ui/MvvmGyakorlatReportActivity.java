@@ -32,6 +32,7 @@ import javax.inject.Inject;
 
 import aa.droid.norbo.projects.edzesnaplo3.R;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.GyakorlatReportActivityLayoutBinding;
+import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmKorabbiSorozatItemBinding;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.GyakorlatUI;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.toolmodels.OsszSorozat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Gyakorlat;
@@ -104,9 +105,9 @@ public class MvvmGyakorlatReportActivity extends BaseActiviry<GyakorlatReportAct
         xAxis.setGranularityEnabled(true);
 
         setEleltIdoData(elteltIdoChart, gyakorlatSorozatElteltIdos);
+        setLegends(elteltIdoChart, new String[]{"Eltelt idő"}, new int[]{Color.CYAN});
 
         elteltIdoChart.animateX(1500);
-        elteltIdoChart.getLegend().setEnabled(false);
     }
 
     private void initOsszsulyEsIsmetlesChart(LineChart sulyChart, List<OsszSorozat> sorozats) {
@@ -192,7 +193,7 @@ public class MvvmGyakorlatReportActivity extends BaseActiviry<GyakorlatReportAct
             set = new LineDataSet(entries, label);
             set.setDrawIcons(false);
             set.enableDashedLine(10f, 5f, 0f);
-            set.setColor(Color.DKGRAY);
+            set.setColor(Color.LTGRAY);
             set.setCircleColor(color);
             set.setLineWidth(1f);
             set.setCircleRadius(3f);
@@ -258,10 +259,13 @@ public class MvvmGyakorlatReportActivity extends BaseActiviry<GyakorlatReportAct
         } else if(e.getData() instanceof GyakorlatSorozatElteltIdo) {
             String elteltIdoStr = String.format(Locale.getDefault(), "Eltelt idő: %d perc",
                     ((GyakorlatSorozatElteltIdo) e.getData()).getElteltIdo());
+            MvvmKorabbiSorozatItemBinding binding = MvvmKorabbiSorozatItemBinding.inflate(getLayoutInflater());
+            binding.korabbiSorozatDatumLabel.setText(
+                    sorozatUtil.getFormatter().getNaploDatum(((GyakorlatSorozatElteltIdo)e.getData()).getNaploDatum()));
+            binding.korabbiSorozatLista.setText(elteltIdoStr);
             new AlertDialog.Builder(this)
-                    .setTitle(sorozatUtil.getFormatter().getNaploDatum(((GyakorlatSorozatElteltIdo)e.getData()).getNaploDatum()))
                     .setPositiveButton("ok", (dialog, which) -> dialog.dismiss())
-                    .setMessage(elteltIdoStr)
+                    .setView(binding.getRoot())
                     .show();
         }
     }
