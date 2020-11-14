@@ -17,6 +17,8 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -32,6 +34,7 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.toolmodels.OsszSorozat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Sorozat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.rcviews.KorabbiSorozatRcViewAdapter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.DateTimeFormatter;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.naplo.model.GyakorlatSorozatElteltIdo;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.SorozatViewModel;
 import dagger.hilt.android.qualifiers.ActivityContext;
 import dagger.hilt.android.scopes.ActivityScoped;
@@ -136,6 +139,33 @@ public class SorozatUtil {
 
     private String getSorozatOsszSuly(List<Sorozat> sorozats) {
         return String.format(Locale.getDefault(), "%,d Kg", sorozats.stream().mapToInt(sor -> sor.getSuly() * sor.getIsmetles()).sum());
+    }
+
+    public List<GyakorlatSorozatElteltIdo> getEleltIdoList(List<Sorozat> sorozatList) {
+        List<GyakorlatSorozatElteltIdo> gyakorlatSorozatElteltIdo = new ArrayList<>();
+
+        List<Long> naploDatumok = sorozatList.stream().map(Sorozat::getNaplodatum).distinct().collect(Collectors.toList());
+        for(Long nd: naploDatumok) {
+            List<Sorozat> sorozats = new ArrayList<>();
+            for(Sorozat sorozat: sorozatList) {
+                if(sorozat.getNaplodatum() == nd) {
+                    sorozats.add(sorozat);
+                }
+            }
+            int elteltIdo = (int) (Duration.between(
+                    Instant.ofEpochMilli(sorozats.get(0).getIsmidopont()),
+                    Instant.ofEpochMilli(sorozats.get(sorozats.size() - 1).getIsmidopont()))
+                                .getSeconds() / 60);
+            gyakorlatSorozatElteltIdo.add(new GyakorlatSorozatElteltIdo(nd, elteltIdo));
+        }
+
+        gyakorlatSorozatElteltIdo.sort((o1, o2) -> Long.compare(o1.getNaploDatum(), o2.getNaploDatum()));
+
+        return gyakorlatSorozatElteltIdo;
+    }
+
+    public DateTimeFormatter getFormatter() {
+        return formatter;
     }
 
     private class NaploEsSorozat {

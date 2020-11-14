@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -34,6 +35,7 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.toolmodels.OsszSorozat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Gyakorlat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.ModelConverter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.naplo.SorozatUtil;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.naplo.model.GyakorlatSorozatElteltIdo;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.SorozatViewModel;
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -72,15 +74,37 @@ public class MvvmGyakorlatReportActivity extends BaseActiviry<GyakorlatReportAct
         sorozatViewModel.getOsszSorozatByGyakorlat(gyakorlatUI.getId()).observe(this, osszSorozats -> {
             if(osszSorozats != null && osszSorozats.size() > 0) {
                 initOsszsulyEsIsmetlesChart(binding.osszsulyesismChart, osszSorozats);
-                initElteltIdoChart(binding.elteltIdoChart, osszSorozats);
             } else {
                 Toast.makeText(this, "Sajnos ehhez a gyakorlathoz nincs sorozat rögzítve", Toast.LENGTH_SHORT).show();
             }
         });
+
+        sorozatViewModel.getSorozatByGyakorlat(gyakorlatUI.getId()).observe(this, sorozats -> {
+            if(sorozats != null && sorozats.size() > 0) {
+                initElteltIdoChart(binding.elteltIdoChart, sorozatUtil.getEleltIdoList(sorozats));
+            }
+        });
     }
 
-    private void initElteltIdoChart(LineChart elteltIdoChart, List<OsszSorozat> osszSorozats) {
-        //TODO majd itten inicializálom az eltelt idő pont diagramot
+    private void initElteltIdoChart(LineChart elteltIdoChart, List<GyakorlatSorozatElteltIdo> gyakorlatSorozatElteltIdos) {
+        elteltIdoChart.getDescription().setEnabled(false);
+        elteltIdoChart.setDrawGridBackground(false);
+        elteltIdoChart.getAxisRight().setEnabled(false);
+        elteltIdoChart.getAxisLeft().setTextColor(Color.WHITE);
+        elteltIdoChart.setOnChartValueSelectedListener(this);
+
+        XAxis xAxis = elteltIdoChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE);
+        xAxis.setEnabled(true);
+        xAxis.setTextColor(Color.WHITE);
+        xAxis.setValueFormatter(getEleltIdoDateValueFormatter(gyakorlatSorozatElteltIdos));
+        xAxis.setGranularity(1f);
+        xAxis.setGranularityEnabled(true);
+
+        setEleltIdoData(elteltIdoChart, gyakorlatSorozatElteltIdos);
+
+        elteltIdoChart.animateX(1500);
+        elteltIdoChart.getLegend().setEnabled(false);
     }
 
     private void initOsszsulyEsIsmetlesChart(LineChart sulyChart, List<OsszSorozat> sorozats) {
@@ -116,9 +140,21 @@ public class MvvmGyakorlatReportActivity extends BaseActiviry<GyakorlatReportAct
         sulyChart.setData(data);
     }
 
+    private void setEleltIdoData(LineChart elteltIdoChart, List<GyakorlatSorozatElteltIdo> elteltIdos) {
+        ArrayList<Entry> entries = getEleltIdoEntries(elteltIdos);
+        LineDataSet lineDataSet = new LineDataSet(entries, "Elelt idő");
+        elteltIdoChart.setData(new LineData(lineDataSet));
+    }
+
     private IndexAxisValueFormatter getDateValueFormatter(List<OsszSorozat> list) {
         return new IndexAxisValueFormatter(
                 list.stream().map(sor -> format.format(new Date(sor.getNaplodatum()))).collect(Collectors.toList())
+        );
+    }
+
+    private IndexAxisValueFormatter getEleltIdoDateValueFormatter(List<GyakorlatSorozatElteltIdo> list) {
+        return new IndexAxisValueFormatter(
+                list.stream().map(sor -> format.format(new Date(sor.getNaploDatum()))).collect(Collectors.toList())
         );
     }
 
@@ -145,6 +181,15 @@ public class MvvmGyakorlatReportActivity extends BaseActiviry<GyakorlatReportAct
             set.setFormSize(15.f);
         }
         return set;
+    }
+
+    private ArrayList<Entry> getEleltIdoEntries(List<GyakorlatSorozatElteltIdo> elteltIdos) {
+        ArrayList<Entry> entries = new ArrayList<>(elteltIdos.size());
+        for (int i = 0; i < elteltIdos.size(); i++) {
+            entries.add(new Entry(i,
+                    elteltIdos.get(i).getElteltIdo(), elteltIdos.get(i)));
+        }
+        return entries;
     }
 
     private ArrayList<Entry> getIsmetlesEntries(List<OsszSorozat> lencseList) {
@@ -186,8 +231,18 @@ public class MvvmGyakorlatReportActivity extends BaseActiviry<GyakorlatReportAct
 
     @Override
     public void onValueSelected(Entry e, Highlight h) {
-        sorozatUtil.osszSorozatNezoke(this, (OsszSorozat) e.getData(),
-                Long.toString(((OsszSorozat)e.getData()).getNaplodatum()), this);
+        if(e.getData() instanceof OsszSorozat) {
+            sorozatUtil.osszSorozatNezoke(this, (OsszSorozat) e.getData(),
+                    Long.toString(((OsszSorozat) e.getData()).getNaplodatum()), this);
+        } else if(e.getData() instanceof GyakorlatSorozatElteltIdo) {
+            String elteltIdoStr = String.format(Locale.getDefault(), "Eltelt idő: %d perc",
+                    ((GyakorlatSorozatElteltIdo) e.getData()).getElteltIdo());
+            new AlertDialog.Builder(this)
+                    .setTitle(sorozatUtil.getFormatter().getNaploDatum(((GyakorlatSorozatElteltIdo)e.getData()).getNaploDatum()))
+                    .setPositiveButton("ok", (dialog, which) -> dialog.dismiss())
+                    .setMessage(elteltIdoStr)
+                    .show();
+        }
     }
 
     @Override
