@@ -16,7 +16,7 @@
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="0dp"
-            android:layout_height="200dp"
+            android:layout_height="155dp"
             android:background="#000"
             android:contentDescription="@string/welcomeimage"
             android:scaleType="matrix"
