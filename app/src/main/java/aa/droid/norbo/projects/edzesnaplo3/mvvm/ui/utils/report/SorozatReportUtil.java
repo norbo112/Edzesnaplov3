@@ -41,7 +41,7 @@ import dagger.hilt.android.qualifiers.ActivityContext;
 import dagger.hilt.android.scopes.ActivityScoped;
 
 @ActivityScoped
-public class SorozatReportTabletUtil {
+public class SorozatReportUtil {
     private Context context;
     private SorozatViewModel sorozatViewModel;
     private SorozatUtil sorozatUtil;
@@ -50,20 +50,22 @@ public class SorozatReportTabletUtil {
     private Activity activity;
 
     @Inject
-    public SorozatReportTabletUtil(@ActivityContext Context context, SorozatViewModel sorozatViewModel,
-                                   DateTimeFormatter formatter, SorozatUtil sorozatUtil) {
+    public SorozatReportUtil(@ActivityContext Context context, SorozatViewModel sorozatViewModel,
+                             DateTimeFormatter formatter, SorozatUtil sorozatUtil) {
         this.context = context;
         this.sorozatViewModel = sorozatViewModel;
         this.formatter = formatter;
         this.sorozatUtil = sorozatUtil;
     }
 
-    public void initChartsForTablet(Activity activity, int gyakId, LineChart sulyismChart, LineChart elteltidoChart) {
+    public void initSorozatReportCharts(Activity activity, int gyakId, LineChart sulyChart, LineChart elteltidoChart,
+                                        LineChart osszIsmChart) {
         this.activity = activity;
 
         sorozatViewModel.getOsszSorozatByGyakorlat(gyakId).observe((LifecycleOwner) activity, osszSorozats -> {
             if(osszSorozats != null && osszSorozats.size() > 0) {
-                initOsszsulyEsIsmetlesChart(sulyismChart, osszSorozats);
+                initOsszSulyChart(sulyChart, osszSorozats);
+                initOsszIsmetles(osszIsmChart, osszSorozats);
             } else {
                 Toast.makeText(context, "Sajnos ehhez a gyakorlathoz nincs sorozat rögzítve", Toast.LENGTH_SHORT).show();
             }
@@ -74,6 +76,27 @@ public class SorozatReportTabletUtil {
                 initElteltIdoChart(elteltidoChart, sorozatUtil.getEleltIdoList(sorozats));
             }
         });
+    }
+
+    private void initOsszIsmetles(LineChart osszIsmChart, List<OsszSorozat> osszSorozats) {
+        osszIsmChart.getDescription().setEnabled(false);
+        osszIsmChart.setDrawGridBackground(false);
+        osszIsmChart.getAxisRight().setEnabled(false);
+        osszIsmChart.getAxisLeft().setTextColor(Color.WHITE);
+        osszIsmChart.setOnChartValueSelectedListener(chartListener);
+
+        XAxis xAxis = osszIsmChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE);
+        xAxis.setEnabled(true);
+        xAxis.setTextColor(Color.WHITE);
+        xAxis.setValueFormatter(getDateValueFormatter(osszSorozats));
+        xAxis.setGranularity(1f);
+        xAxis.setGranularityEnabled(true);
+
+        setOsszIsmChartData(osszIsmChart, osszSorozats);
+//        setLegends(elteltIdoChart, new String[]{"Eltelt idő"}, new int[]{Color.CYAN});
+
+        osszIsmChart.animateX(1500);
     }
 
     private void initElteltIdoChart(LineChart elteltIdoChart, List<GyakorlatSorozatElteltIdo> gyakorlatSorozatElteltIdos) {
@@ -97,7 +120,7 @@ public class SorozatReportTabletUtil {
         elteltIdoChart.animateX(1500);
     }
 
-    private void initOsszsulyEsIsmetlesChart(LineChart sulyChart, List<OsszSorozat> sorozats) {
+    private void initOsszSulyChart(LineChart sulyChart, List<OsszSorozat> sorozats) {
         sulyChart.getDescription().setEnabled(false);
         sulyChart.setDrawGridBackground(false);
         sulyChart.getAxisRight().setEnabled(false);
@@ -112,20 +135,29 @@ public class SorozatReportTabletUtil {
         xAxis.setGranularity(1f);
         xAxis.setGranularityEnabled(true);
 
-        setSulyEsIsmetlesData(sulyChart, sorozats);
+        setOsszSulyChartData(sulyChart, sorozats);
 
         sulyChart.animateX(1500);
     }
 
-    private void setSulyEsIsmetlesData(LineChart sulyChart, List<OsszSorozat> sorozats) {
+    private void setOsszSulyChartData(LineChart sulyChart, List<OsszSorozat> sorozats) {
         ArrayList<Entry> entries = getOsszSulyEntries(sorozats);
-        ArrayList<Entry> entriesIsm = getIsmetlesEntries(sorozats);
+//        ArrayList<Entry> entriesIsm = getIsmetlesEntries(sorozats);
 
         ArrayList<ILineDataSet> sets = new ArrayList<>();
         sets.add(getLineDataSet(sulyChart, entries, "Össz súly", Color.RED));
-        sets.add(getLineDataSet(sulyChart, entriesIsm, "Ismétlés", Color.GREEN));
+        setLegends(sulyChart, new String[]{"Össz súly"}, new int[]{Color.RED});
 
-        setLegends(sulyChart, new String[]{"Össz súly", "Ismétlés"}, new int[]{Color.RED, Color.GREEN});
+        LineData data = new LineData(sets);
+        sulyChart.setData(data);
+    }
+
+    private void setOsszIsmChartData(LineChart sulyChart, List<OsszSorozat> sorozats) {
+        ArrayList<Entry> entriesIsm = getIsmetlesEntries(sorozats);
+
+        ArrayList<ILineDataSet> sets = new ArrayList<>();
+        sets.add(getLineDataSet(sulyChart, entriesIsm, "Ismétlés", Color.GREEN));
+        setLegends(sulyChart, new String[]{"Ismétlés"}, new int[]{Color.GREEN});
 
         LineData data = new LineData(sets);
         sulyChart.setData(data);

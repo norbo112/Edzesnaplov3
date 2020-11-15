@@ -10,20 +10,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/edzesHatter"
+        android:background="@drawable/tablet_tevekenyseg_hatter"
         android:fitsSystemWindows="true">
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="0dp"
-            android:layout_height="155dp"
-            android:background="#000"
-            android:contentDescription="@string/welcomeimage"
-            android:scaleType="matrix"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar"
-            app:srcCompat="@mipmap/belepokep" />
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -39,12 +27,13 @@
             android:id="@+id/bal_cview"
             android:layout_width="350dp"
             android:layout_height="0dp"
-            android:layout_margin="5dp"
-            app:cardElevation="5dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="5dp"
             app:cardCornerRadius="15dp"
+            app:cardElevation="5dp"
             app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView">
+            app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
             <ListView
                 android:id="@+id/gyakorlatok_lista"
@@ -60,16 +49,19 @@
             android:id="@+id/jobb_cview"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_margin="5dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
             app:cardCornerRadius="15dp"
             app:cardElevation="5dp"
             app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/bal_cview"
-            app:layout_constraintTop_toBottomOf="@+id/imageView">
+            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
             <include
                 android:id="@+id/gyak_report_activity_layout_src"
-                layout="@layout/gyakorlat_report_activity_layout"/>
+                layout="@layout/gyakorlat_report_activity_layout" />
         </androidx.cardview.widget.CardView>
 
         <com.google.android.material.bottomnavigation.BottomNavigationView

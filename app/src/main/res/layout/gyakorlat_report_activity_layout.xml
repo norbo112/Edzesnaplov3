@@ -51,15 +51,44 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Összes súly és ismétlés"
+                            android:text="Összes súly"
                             android:textAlignment="center"
                             android:textColor="@android:color/white"
                             android:textSize="18sp" />
 
                         <com.github.mikephil.charting.charts.LineChart
-                            android:id="@+id/osszsulyesism_chart"
+                            android:id="@+id/osszsulyChart"
                             android:layout_width="match_parent"
-                            android:layout_height="210dp" />
+                            android:layout_height="250dp" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    app:cardBackgroundColor="#125698"
+                    app:cardCornerRadius="15dp"
+                    app:cardElevation="5dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:text="Ismétlés"
+                            android:textAlignment="center"
+                            android:textColor="@android:color/white"
+                            android:textSize="18sp" />
+
+                        <com.github.mikephil.charting.charts.LineChart
+                            android:id="@+id/osszismChart"
+                            android:layout_width="match_parent"
+                            android:layout_height="250dp" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
@@ -87,7 +116,7 @@
                         <com.github.mikephil.charting.charts.LineChart
                             android:id="@+id/eltelt_ido_chart"
                             android:layout_width="match_parent"
-                            android:layout_height="210dp" />
+                            android:layout_height="250dp" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
             </LinearLayout>

@@ -1,6 +1,5 @@
 package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -10,23 +9,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Filter;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.view.menu.MenuBuilder;
-import androidx.appcompat.view.menu.MenuPopupHelper;
-import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.SearchView;
-import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
 
-import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -34,7 +25,6 @@ import javax.inject.Inject;
 
 import aa.droid.norbo.projects.edzesnaplo3.R;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmGyakorlatActivityBinding;
-import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmGyakorlatVideoLinkSharedBinding;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmGyakorlatdialogBinding;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.GyakorlatUI;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Gyakorlat;
@@ -42,7 +32,7 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.listadapters.GyakorlatItemAda
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.ModelConverter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.VideoUtils;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.VideoUtilsInterface;
-import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.report.SorozatReportTabletUtil;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.report.SorozatReportUtil;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.GyakorlatViewModel;
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -61,7 +51,7 @@ public class MvvmGyakorlatokActivity extends BaseActiviry<MvvmGyakorlatActivityB
     VideoUtils videoUtils;
 
     @Inject
-    SorozatReportTabletUtil tabletUtil;
+    SorozatReportUtil tabletUtil;
 
     public MvvmGyakorlatokActivity() {
         super(R.layout.mvvm_gyakorlat_activity);
@@ -98,8 +88,8 @@ public class MvvmGyakorlatokActivity extends BaseActiviry<MvvmGyakorlatActivityB
     }
 
     private void initGyakDiagramok(GyakorlatUI gyakorlatUI) {
-        tabletUtil.initChartsForTablet(this, gyakorlatUI.getId(), binding.gyakReportActivityLayoutSrc.osszsulyesismChart,
-                binding.gyakReportActivityLayoutSrc.elteltIdoChart);
+        tabletUtil.initSorozatReportCharts(this, gyakorlatUI.getId(), binding.gyakReportActivityLayoutSrc.osszsulyChart,
+                binding.gyakReportActivityLayoutSrc.elteltIdoChart, binding.gyakReportActivityLayoutSrc.osszismChart);
     }
 
     private void sharedVideoLink(String aLink) {
