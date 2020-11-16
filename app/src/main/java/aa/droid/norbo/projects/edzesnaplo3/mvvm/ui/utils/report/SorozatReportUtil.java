@@ -208,7 +208,7 @@ public class SorozatReportUtil {
     private DefaultValueFormatter defaultValueFormatter = new DefaultValueFormatter(0) {
         @Override
         public String getFormattedValue(float value) {
-            return String.format(Locale.getDefault(), "%,.0f", value);
+            return String.format(Locale.getDefault(), "%,d", (int)value);
         }
     };
 

@@ -152,7 +152,7 @@ public class SorozatUtil {
                 }
             }
             sorozats.sort((o1, o2) -> Long.compare(o2.getIsmidopont(), o1.getIsmidopont()));
-            int elteltIdo = getElteltIdo(sorozats.get(0).getIsmidopont(),
+            long elteltIdo = getElteltIdo(sorozats.get(0).getIsmidopont(),
                     sorozats.get(sorozats.size() - 1).getIsmidopont());
             gyakorlatSorozatElteltIdo.add(new GyakorlatSorozatElteltIdo(nd, elteltIdo));
         }
@@ -162,10 +162,10 @@ public class SorozatUtil {
         return gyakorlatSorozatElteltIdo;
     }
 
-    private int getElteltIdo(long start, long end) {
+    private long getElteltIdo(long start, long end) {
         Duration between = Duration.between(Instant.ofEpochMilli(start),
                 Instant.ofEpochMilli(end));
-        return Math.abs((int) (between.toMinutes() % 60));
+        return Math.abs(between.toMinutes() % 60);
     }
 
     public DateTimeFormatter getFormatter() {

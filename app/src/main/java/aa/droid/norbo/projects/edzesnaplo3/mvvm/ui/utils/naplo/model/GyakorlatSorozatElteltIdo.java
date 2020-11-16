@@ -2,9 +2,9 @@ package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.naplo.model;
 
 public class GyakorlatSorozatElteltIdo {
     private long naploDatum;
-    private int elteltIdo;
+    private long elteltIdo;
 
-    public GyakorlatSorozatElteltIdo(long naploDatum, int elteltIdo) {
+    public GyakorlatSorozatElteltIdo(long naploDatum, long elteltIdo) {
         this.naploDatum = naploDatum;
         this.elteltIdo = elteltIdo;
     }
@@ -17,11 +17,11 @@ public class GyakorlatSorozatElteltIdo {
         this.naploDatum = naploDatum;
     }
 
-    public int getElteltIdo() {
+    public long getElteltIdo() {
         return elteltIdo;
     }
 
-    public void setElteltIdo(int elteltIdo) {
+    public void setElteltIdo(long elteltIdo) {
         this.elteltIdo = elteltIdo;
     }
 }
