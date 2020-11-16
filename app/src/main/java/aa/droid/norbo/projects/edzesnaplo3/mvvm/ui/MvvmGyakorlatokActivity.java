@@ -88,8 +88,8 @@ public class MvvmGyakorlatokActivity extends BaseActiviry<MvvmGyakorlatActivityB
     }
 
     private void initGyakDiagramok(GyakorlatUI gyakorlatUI) {
-        tabletUtil.initSorozatReportCharts(this, gyakorlatUI.getId(), binding.gyakReportActivityLayoutSrc.osszsulyChart,
-                binding.gyakReportActivityLayoutSrc.elteltIdoChart, binding.gyakReportActivityLayoutSrc.osszismChart);
+        tabletUtil.initSorozatReportCharts(this, gyakorlatUI.getId(), binding.gyakReportActivityLayoutSrc.osszsulyEsIsmChart,
+                binding.gyakReportActivityLayoutSrc.elteltIdoChart);
     }
 
     private void sharedVideoLink(String aLink) {

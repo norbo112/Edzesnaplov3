@@ -54,9 +54,8 @@ public class MvvmGyakorlatReportActivity extends BaseActiviry<GyakorlatReportAct
         }
 
         sorozatReportUtil.initSorozatReportCharts(this, gyakorlatUI.getId(),
-                binding.osszsulyChart,
-                binding.elteltIdoChart,
-                binding.osszismChart);
+                binding.osszsulyEsIsmChart,
+                binding.elteltIdoChart);
     }
 
 

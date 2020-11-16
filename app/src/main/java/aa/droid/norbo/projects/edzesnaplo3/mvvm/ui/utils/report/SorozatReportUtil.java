@@ -17,6 +17,7 @@ import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.DefaultValueFormatter;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
@@ -48,6 +49,12 @@ public class SorozatReportUtil {
     private DateTimeFormatter formatter;
 
     private Activity activity;
+    private DefaultValueFormatter defaultValueFormatter = new DefaultValueFormatter(0) {
+        @Override
+        public String getFormattedValue(float value) {
+            return String.format(Locale.getDefault(), "%,.0f", value);
+        }
+    };
 
     @Inject
     public SorozatReportUtil(@ActivityContext Context context, SorozatViewModel sorozatViewModel,
@@ -58,46 +65,43 @@ public class SorozatReportUtil {
         this.sorozatUtil = sorozatUtil;
     }
 
-    public void initSorozatReportCharts(Activity activity, int gyakId, LineChart sulyChart, LineChart elteltidoChart,
-                                        LineChart osszIsmChart) {
+    public void initSorozatReportCharts(Activity activity, int gyakId, LineChart sulyChart, LineChart elteltidoChart) {
         this.activity = activity;
 
         sorozatViewModel.getOsszSorozatByGyakorlat(gyakId).observe((LifecycleOwner) activity, osszSorozats -> {
-            if(osszSorozats != null && osszSorozats.size() > 0) {
+            if (osszSorozats != null && osszSorozats.size() > 0) {
                 initOsszSulyChart(sulyChart, osszSorozats);
-                initOsszIsmetles(osszIsmChart, osszSorozats);
             } else {
                 Toast.makeText(context, "Sajnos ehhez a gyakorlathoz nincs sorozat rögzítve", Toast.LENGTH_SHORT).show();
             }
         });
 
         sorozatViewModel.getSorozatByGyakorlat(gyakId).observe((LifecycleOwner) activity, sorozats -> {
-            if(sorozats != null && sorozats.size() > 0) {
+            if (sorozats != null && sorozats.size() > 0) {
                 initElteltIdoChart(elteltidoChart, sorozatUtil.getEleltIdoList(sorozats));
             }
         });
     }
 
-    private void initOsszIsmetles(LineChart osszIsmChart, List<OsszSorozat> osszSorozats) {
-        osszIsmChart.getDescription().setEnabled(false);
-        osszIsmChart.setDrawGridBackground(false);
-        osszIsmChart.getAxisRight().setEnabled(false);
-        osszIsmChart.getAxisLeft().setTextColor(Color.WHITE);
-        osszIsmChart.setOnChartValueSelectedListener(chartListener);
-
-        XAxis xAxis = osszIsmChart.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE);
-        xAxis.setEnabled(true);
-        xAxis.setTextColor(Color.WHITE);
-        xAxis.setValueFormatter(getDateValueFormatter(osszSorozats));
-        xAxis.setGranularity(1f);
-        xAxis.setGranularityEnabled(true);
-
-        setOsszIsmChartData(osszIsmChart, osszSorozats);
-//        setLegends(elteltIdoChart, new String[]{"Eltelt idő"}, new int[]{Color.CYAN});
-
-        osszIsmChart.animateX(1500);
-    }
+//    private void initOsszIsmetles(LineChart osszIsmChart, List<OsszSorozat> osszSorozats) {
+//        osszIsmChart.getDescription().setEnabled(false);
+//        osszIsmChart.setDrawGridBackground(false);
+//        osszIsmChart.getAxisRight().setEnabled(false);
+//        osszIsmChart.getAxisLeft().setTextColor(Color.WHITE);
+//        osszIsmChart.setOnChartValueSelectedListener(chartListener);
+//
+//        XAxis xAxis = osszIsmChart.getXAxis();
+//        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE);
+//        xAxis.setEnabled(true);
+//        xAxis.setTextColor(Color.WHITE);
+//        xAxis.setValueFormatter(getDateValueFormatter(osszSorozats));
+//        xAxis.setGranularity(1f);
+//        xAxis.setGranularityEnabled(true);
+//
+//        setOsszIsmChartData(osszIsmChart, osszSorozats);
+//
+//        osszIsmChart.animateX(1500);
+//    }
 
     private void initElteltIdoChart(LineChart elteltIdoChart, List<GyakorlatSorozatElteltIdo> gyakorlatSorozatElteltIdos) {
         elteltIdoChart.getDescription().setEnabled(false);
@@ -142,26 +146,31 @@ public class SorozatReportUtil {
 
     private void setOsszSulyChartData(LineChart sulyChart, List<OsszSorozat> sorozats) {
         ArrayList<Entry> entries = getOsszSulyEntries(sorozats);
-//        ArrayList<Entry> entriesIsm = getIsmetlesEntries(sorozats);
-
-        ArrayList<ILineDataSet> sets = new ArrayList<>();
-        sets.add(getLineDataSet(sulyChart, entries, "Össz súly", Color.RED));
-        setLegends(sulyChart, new String[]{"Össz súly"}, new int[]{Color.RED});
-
-        LineData data = new LineData(sets);
-        sulyChart.setData(data);
-    }
-
-    private void setOsszIsmChartData(LineChart sulyChart, List<OsszSorozat> sorozats) {
         ArrayList<Entry> entriesIsm = getIsmetlesEntries(sorozats);
 
         ArrayList<ILineDataSet> sets = new ArrayList<>();
+        sets.add(getLineDataSet(sulyChart, entries, "Össz súly", Color.RED));
         sets.add(getLineDataSet(sulyChart, entriesIsm, "Ismétlés", Color.GREEN));
-        setLegends(sulyChart, new String[]{"Ismétlés"}, new int[]{Color.GREEN});
+        setLegends(sulyChart, new String[]{"Össz súly", "Ismétlés"}, new int[]{Color.RED, Color.GREEN});
 
         LineData data = new LineData(sets);
+        data.setValueTextColor(Color.WHITE);
+        data.setValueFormatter(defaultValueFormatter);
         sulyChart.setData(data);
     }
+
+//    private void setOsszIsmChartData(LineChart sulyChart, List<OsszSorozat> sorozats) {
+//        ArrayList<Entry> entriesIsm = getIsmetlesEntries(sorozats);
+//
+//        ArrayList<ILineDataSet> sets = new ArrayList<>();
+//        sets.add(getLineDataSet(sulyChart, entriesIsm, "Ismétlés", Color.GREEN));
+//        setLegends(sulyChart, new String[]{"Ismétlés"}, new int[]{Color.GREEN});
+//
+//        LineData data = new LineData(sets);
+//        data.setValueTextColor(Color.WHITE);
+//        data.setValueFormatter(defaultValueFormatter);
+//        sulyChart.setData(data);
+//    }
 
     private void setLegends(LineChart sulyChart, String[] labels, int[] colors) {
         Legend legend = sulyChart.getLegend();
@@ -184,7 +193,10 @@ public class SorozatReportUtil {
     private void setEleltIdoData(LineChart elteltIdoChart, List<GyakorlatSorozatElteltIdo> elteltIdos) {
         ArrayList<Entry> entries = getEleltIdoEntries(elteltIdos);
         LineDataSet lineDataSet = getLineDataSet(elteltIdoChart, entries, "Eltelt idő", Color.CYAN);
-        elteltIdoChart.setData(new LineData(lineDataSet));
+        LineData data = new LineData(lineDataSet);
+        data.setValueTextColor(Color.WHITE);
+        data.setValueFormatter(defaultValueFormatter);
+        elteltIdoChart.setData(data);
     }
 
     private IndexAxisValueFormatter getDateValueFormatter(List<OsszSorozat> list) {
@@ -201,14 +213,14 @@ public class SorozatReportUtil {
 
     private LineDataSet getLineDataSet(LineChart lineChart, ArrayList<Entry> entries, String label, int color) {
         LineDataSet set;
-        if (lineChart.getData() != null &&
-                lineChart.getData().getDataSetCount() > 0) {
-            set = (LineDataSet) lineChart.getData().getDataSetByIndex(0);
-            set.setValues(entries);
-            set.notifyDataSetChanged();
-            lineChart.getData().notifyDataChanged();
-            lineChart.notifyDataSetChanged();
-        } else {
+//        if (lineChart.getData() != null &&
+//                lineChart.getData().getDataSetCount() > 0) {
+//            set = (LineDataSet) lineChart.getData().getDataSetByIndex(0);
+//            set.setValues(entries);
+//            set.notifyDataSetChanged();
+//            lineChart.getData().notifyDataChanged();
+//            lineChart.notifyDataSetChanged();
+//        } else {
             set = new LineDataSet(entries, label);
             set.setDrawIcons(false);
             set.enableDashedLine(10f, 5f, 0f);
@@ -220,7 +232,7 @@ public class SorozatReportUtil {
             set.setFormLineWidth(1f);
             set.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
             set.setFormSize(15.f);
-        }
+//        }
         return set;
     }
 
@@ -256,15 +268,15 @@ public class SorozatReportUtil {
     private OnChartValueSelectedListener chartListener = new OnChartValueSelectedListener() {
         @Override
         public void onValueSelected(Entry e, Highlight h) {
-            if(e.getData() instanceof OsszSorozat) {
+            if (e.getData() instanceof OsszSorozat) {
                 sorozatUtil.osszSorozatNezoke(activity, (OsszSorozat) e.getData(),
                         Long.toString(((OsszSorozat) e.getData()).getNaplodatum()), reportInterface);
-            } else if(e.getData() instanceof GyakorlatSorozatElteltIdo) {
+            } else if (e.getData() instanceof GyakorlatSorozatElteltIdo) {
                 String elteltIdoStr = String.format(Locale.getDefault(), "Eltelt idő: %d perc",
                         ((GyakorlatSorozatElteltIdo) e.getData()).getElteltIdo());
                 MvvmKorabbiSorozatItemBinding binding = MvvmKorabbiSorozatItemBinding.inflate(activity.getLayoutInflater());
                 binding.korabbiSorozatDatumLabel.setText(
-                        sorozatUtil.getFormatter().getNaploDatum(((GyakorlatSorozatElteltIdo)e.getData()).getNaploDatum()));
+                        sorozatUtil.getFormatter().getNaploDatum(((GyakorlatSorozatElteltIdo) e.getData()).getNaploDatum()));
                 binding.korabbiSorozatLista.setText(elteltIdoStr);
                 new AlertDialog.Builder(context)
                         .setPositiveButton("ok", (dialog, which) -> dialog.dismiss())
