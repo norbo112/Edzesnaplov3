@@ -102,9 +102,6 @@ public class SorozatUtil {
 
                 NaploEsSorozat item = getItem(position);
                 itemBinding.korabbiSorozatDatumLabel.setText(formatter.getNaploDatum(item.naplodatum) + " " + getSorozatOsszSuly(item.sorozats));
-//                itemBinding.korabbiSorozatLista.setAdapter(new KorabbiSorozatRcViewAdapter(item.sorozats, formatter));
-//                itemBinding.korabbiSorozatLista.setLayoutManager(new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false));
-//                itemBinding.korabbiSorozatLista.setLayoutManager(new LinearLayoutManager(context));
                 StringBuilder sb = new StringBuilder();
                 item.sorozats.forEach(sorozat -> sb.append(sorozat).append("\n"));
                 itemBinding.korabbiSorozatLista.setText(sb.toString());
@@ -157,8 +154,6 @@ public class SorozatUtil {
             sorozats.sort((o1, o2) -> Long.compare(o2.getIsmidopont(), o1.getIsmidopont()));
             int elteltIdo = getElteltIdo(sorozats.get(0).getIsmidopont(),
                     sorozats.get(sorozats.size() - 1).getIsmidopont());
-//            Log.i(TAG, "getEleltIdoList: 0: "+formatter.getTime(sorozats.get(0).getIsmidopont())+", 1: "+
-//                    formatter.getTime(sorozats.get(sorozats.size() - 1).getIsmidopont())+", eltelt idő: "+elteltIdo);
             gyakorlatSorozatElteltIdo.add(new GyakorlatSorozatElteltIdo(nd, elteltIdo));
         }
 
