@@ -35,14 +35,35 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
-            <ListView
-                android:id="@+id/gyakorlatok_lista"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center|top"
-                android:background="#fff"
-                android:choiceMode="singleChoice"
-                android:nestedScrollingEnabled="true" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="#0089C8">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/gyak_activity_tablet_label1"
+                    android:textSize="19sp"
+                    android:textAlignment="center"
+                    android:textColor="#fff" />
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/spinIzomcsop"/>
+
+                <ListView
+                    android:id="@+id/gyakorlatok_lista"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center|top"
+                    android:layout_marginTop="10dp"
+                    android:background="#fff"
+                    android:choiceMode="singleChoice"
+                    android:nestedScrollingEnabled="true" />
+            </LinearLayout>
+
+
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView

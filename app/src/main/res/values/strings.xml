@@ -61,4 +61,5 @@
     <string name="gyakorlat_search_menu_szerkeszt">Szerkesztés</string>
     <string name="gyakorlat_search_menu_torles">Törlés</string>
     <string name="gyakorlat_search_menu_video">Video</string>
+    <string name="gyak_activity_tablet_label1">Gyakorlat ill. izomcsoport kiválasztása</string>
 </resources>

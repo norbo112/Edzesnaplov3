@@ -9,6 +9,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Filter;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,6 +20,8 @@ import androidx.databinding.DataBindingUtil;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -40,6 +44,7 @@ import dagger.hilt.android.AndroidEntryPoint;
 public class MvvmGyakorlatokActivity extends BaseActiviry<MvvmGyakorlatActivityBinding>
         implements VideoUtilsInterface, AdapterView.OnItemClickListener, BottomNavigationView.OnNavigationItemSelectedListener {
     private static final String TAG = "MvvmGyakorlatokActivity";
+    private static final String VALASSZ_IZOMCSOP = "Válassz...";
 
     @Inject
     GyakorlatViewModel gyakorlatViewModel;
@@ -69,9 +74,10 @@ public class MvvmGyakorlatokActivity extends BaseActiviry<MvvmGyakorlatActivityB
             if (gyakorlats != null && gyakorlats.size() > 0) {
                 binding.gyakorlatokLista.setAdapter(
                         new GyakorlatItemAdapter(gyakorlats.stream().map(gy -> modelConverter.fromEntity(gy)).collect(Collectors.toList()), MvvmGyakorlatokActivity.this));
-//                binding.gyakorlatokLista.setOnItemClickListener(this);
                 binding.gyakorlatokLista.setOnItemClickListener(this);
-                binding.gyakorlatokLista.setNestedScrollingEnabled(true);
+
+                if(isTablet())
+                    initIzomcsoportSpinner(gyakorlats, binding.spinIzomcsop);
             } else {
                 binding.gyakorlatokLista.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,
                         Stream.of("Nincsenek gyakorlatok rögzítve...", "Kérlek vegyél fel párat a hozzáadás gombbal").collect(Collectors.toList())));
@@ -276,6 +282,32 @@ public class MvvmGyakorlatokActivity extends BaseActiviry<MvvmGyakorlatActivityB
                 break;
         }
         return true;
+    }
+
+    private void initIzomcsoportSpinner(List<Gyakorlat> gyakorlats, Spinner spinner) {
+        List<String> izomcsoportList = new ArrayList<>();
+        izomcsoportList.add(VALASSZ_IZOMCSOP);
+        izomcsoportList.addAll(gyakorlats.stream().map(Gyakorlat::getCsoport).distinct().collect(Collectors.toList()));
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, izomcsoportList);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                try {
+                    Filter filter = ((GyakorlatItemAdapter) binding.gyakorlatokLista.getAdapter()).getFilter();
+                    filter.filter(spinner.getSelectedItem().equals(VALASSZ_IZOMCSOP) ? "" : spinner.getSelectedItem().toString());
+                } catch (NullPointerException ex) {
+                    Log.i(TAG, "onItemSelected: null pointer filter!");
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     private boolean isTablet() {
