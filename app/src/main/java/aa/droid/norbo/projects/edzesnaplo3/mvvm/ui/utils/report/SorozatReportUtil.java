@@ -49,12 +49,6 @@ public class SorozatReportUtil {
     private DateTimeFormatter formatter;
 
     private Activity activity;
-    private DefaultValueFormatter defaultValueFormatter = new DefaultValueFormatter(0) {
-        @Override
-        public String getFormattedValue(float value) {
-            return String.format(Locale.getDefault(), "%,.0f", value);
-        }
-    };
 
     @Inject
     public SorozatReportUtil(@ActivityContext Context context, SorozatViewModel sorozatViewModel,
@@ -70,7 +64,7 @@ public class SorozatReportUtil {
 
         sorozatViewModel.getOsszSorozatByGyakorlat(gyakId).observe((LifecycleOwner) activity, osszSorozats -> {
             if (osszSorozats != null && osszSorozats.size() > 0) {
-                initOsszSulyChart(sulyChart, osszSorozats);
+                initOsszSulyEsIsmChart(sulyChart, osszSorozats);
             } else {
                 Toast.makeText(context, "Sajnos ehhez a gyakorlathoz nincs sorozat rögzítve", Toast.LENGTH_SHORT).show();
             }
@@ -124,7 +118,7 @@ public class SorozatReportUtil {
         elteltIdoChart.animateX(1500);
     }
 
-    private void initOsszSulyChart(LineChart sulyChart, List<OsszSorozat> sorozats) {
+    private void initOsszSulyEsIsmChart(LineChart sulyChart, List<OsszSorozat> sorozats) {
         sulyChart.getDescription().setEnabled(false);
         sulyChart.setDrawGridBackground(false);
         sulyChart.getAxisRight().setEnabled(false);
@@ -139,12 +133,12 @@ public class SorozatReportUtil {
         xAxis.setGranularity(1f);
         xAxis.setGranularityEnabled(true);
 
-        setOsszSulyChartData(sulyChart, sorozats);
+        setOsszSulyEsIsmChartData(sulyChart, sorozats);
 
         sulyChart.animateX(1500);
     }
 
-    private void setOsszSulyChartData(LineChart sulyChart, List<OsszSorozat> sorozats) {
+    private void setOsszSulyEsIsmChartData(LineChart sulyChart, List<OsszSorozat> sorozats) {
         ArrayList<Entry> entries = getOsszSulyEntries(sorozats);
         ArrayList<Entry> entriesIsm = getIsmetlesEntries(sorozats);
 
@@ -210,6 +204,13 @@ public class SorozatReportUtil {
                 list.stream().map(sor -> formatter.getNaploShortDatum(sor.getNaploDatum())).collect(Collectors.toList())
         );
     }
+
+    private DefaultValueFormatter defaultValueFormatter = new DefaultValueFormatter(0) {
+        @Override
+        public String getFormattedValue(float value) {
+            return String.format(Locale.getDefault(), "%,.0f", value);
+        }
+    };
 
     private LineDataSet getLineDataSet(LineChart lineChart, ArrayList<Entry> entries, String label, int color) {
         LineDataSet set;

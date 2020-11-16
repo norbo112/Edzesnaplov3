@@ -44,7 +44,7 @@ import dagger.hilt.android.AndroidEntryPoint;
 public class MvvmGyakorlatokActivity extends BaseActiviry<MvvmGyakorlatActivityBinding>
         implements VideoUtilsInterface, AdapterView.OnItemClickListener, BottomNavigationView.OnNavigationItemSelectedListener {
     private static final String TAG = "MvvmGyakorlatokActivity";
-    private static final String VALASSZ_IZOMCSOP = "Válassz...";
+    private static final String VALASSZ_IZOMCSOP = "Mind látszik...";
 
     @Inject
     GyakorlatViewModel gyakorlatViewModel;
