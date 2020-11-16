@@ -79,6 +79,18 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView18" />
 
+                    <TextView
+                        android:id="@+id/mentett_naplo_db_osszsuly"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:textAlignment="center"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView17" />
+
                     <androidx.cardview.widget.CardView
                         android:id="@+id/belepo_info"
                         android:layout_width="match_parent"
@@ -89,10 +101,10 @@
                         app:cardBackgroundColor="#85D9FF"
                         app:cardCornerRadius="10dp"
                         app:cardUseCompatPadding="true"
-                        app:layout_constraintBottom_toTopOf="@+id/mentett_naplo_db_osszsuly"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView17">
+                        app:layout_constraintTop_toBottomOf="@+id/mentett_naplo_db_osszsuly">
 
                         <TextView
                             android:id="@+id/mentett_naplok_warning_label"
@@ -110,20 +122,6 @@
                             android:layout_margin="10dp"
                             android:choiceMode="singleChoice" />
                     </androidx.cardview.widget.CardView>
-
-                    <TextView
-                        android:id="@+id/mentett_naplo_db_osszsuly"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="5dp"
-                        android:textAlignment="center"
-                        android:textColor="#fff"
-                        android:textSize="18sp"
-                        android:textStyle="italic"
-                        android:background="#000"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 

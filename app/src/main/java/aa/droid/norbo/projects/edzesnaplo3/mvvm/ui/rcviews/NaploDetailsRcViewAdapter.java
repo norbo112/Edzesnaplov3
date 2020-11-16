@@ -3,10 +3,12 @@ package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.rcviews;
 import android.content.Context;
 import android.os.Build;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,6 +20,8 @@ import java.util.Locale;
 
 import aa.droid.norbo.projects.edzesnaplo3.R;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmGyakSorozatRcitemBinding;
+import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmGyakorlatListItemBinding;
+import aa.droid.norbo.projects.edzesnaplo3.databinding.NaploDetailsRcgyaksorozatItemViewBinding;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.GyakorlatSorozatUI;
 
 public class NaploDetailsRcViewAdapter extends RecyclerView.Adapter<NaploDetailsRcViewAdapter.NaploDetailsViewHolder> {
@@ -59,11 +63,32 @@ public class NaploDetailsRcViewAdapter extends RecyclerView.Adapter<NaploDetails
 
             binding.setSorozatesgyakorlat(sorozat);
             binding.rcitemGyakSorozatList
-                    .setAdapter(new ArrayAdapter<>(binding.getRoot().getContext(), android.R.layout.simple_list_item_1, sorozat.getSorozats()));
+                    .setAdapter(getGyakorozatListAdapter(sorozat));
             binding.info.setText(String.format(Locale.getDefault(), "Megmozgatott súly %,d Kg", osszsuly));
             long el = elteltIdo(sorozat);
             binding.info.append(String.format(Locale.getDefault(), "\n %d óra és %d perc alatt elvégezve", el/60, el%60));
             binding.executePendingBindings();
+        }
+
+        private ArrayAdapter getGyakorozatListAdapter(GyakorlatSorozatUI sorozat) {
+            return new ArrayAdapter(binding.getRoot().getContext(), R.layout.naplo_details_rcgyaksorozat_item_view, sorozat.getSorozats()) {
+                @NonNull
+                @Override
+                public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                    NaploDetailsRcgyaksorozatItemViewBinding itemBinding;
+                    if(convertView == null) {
+                        convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.naplo_details_rcgyaksorozat_item_view, parent, false);
+                        itemBinding = DataBindingUtil.bind(convertView);
+                        convertView.setTag(itemBinding);
+                    } else {
+                        itemBinding = (NaploDetailsRcgyaksorozatItemViewBinding) convertView.getTag();
+                    }
+
+                    itemBinding.naploDetailsRcgyaksorozatItemLabel.setText(getItem(position).toString());
+
+                    return itemBinding.getRoot();
+                }
+            };
         }
 
         private long elteltIdo(GyakorlatSorozatUI gyakorlatSorozatUI) {

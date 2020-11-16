@@ -10,6 +10,7 @@ import javax.inject.Singleton;
 
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.api.SorozatRepository;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.SorozatWithGyakorlat;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.toolmodels.OsszSorozat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Sorozat;
 
 
@@ -34,6 +35,10 @@ public class SorozatViewModel extends ViewModel {
 
     public LiveData<List<Sorozat>> getSorozatByGyakorlat(int gyakorlatid) {
         return sorozatRepository.getSorozatByGyakorlat(gyakorlatid);
+    }
+
+    public LiveData<List<OsszSorozat>> getOsszSorozatByGyakorlat(int gyakid) {
+        return sorozatRepository.getOsszSorozatByGyakorlat(gyakid);
     }
 
     public void deleteSorozat(long naplodatum) {

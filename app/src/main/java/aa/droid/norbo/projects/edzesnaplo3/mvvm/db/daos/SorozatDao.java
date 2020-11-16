@@ -10,6 +10,7 @@ import androidx.room.Transaction;
 
 import java.util.List;
 
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.toolmodels.OsszSorozat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Sorozat;
 
 
@@ -24,6 +25,10 @@ public interface SorozatDao {
     @Transaction
     @Query("SELECT * FROM sorozattabla")
     LiveData<List<SorozatWithGyakorlatAndNaplo>> getAllWithNaplo();
+
+    @Transaction
+    @Query("select sum(ismetles) as osszism, sum(suly) as osszsuly,  naplodatum from sorozattabla where gyakorlatid =:gyakid group by naplodatum")
+    LiveData<List<OsszSorozat>> getOsszSorozatByGyakorlat(int gyakid);
 
     @Query("SELECT * FROM sorozattabla")
     LiveData<List<Sorozat>> getall();

@@ -42,7 +42,7 @@
             app:cardBackgroundColor="#29B6F6"
             app:cardCornerRadius="10dp"
             app:cardUseCompatPadding="true"
-            app:layout_constraintBottom_toTopOf="@+id/mentett_naplo_db_osszsuly"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView">
@@ -71,6 +71,15 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                 <TextView
+                    android:id="@+id/mentett_naplo_db_osszsuly"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:textAlignment="center"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
+
+                <TextView
                     android:id="@+id/mentett_naplok_warning_label"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -87,17 +96,5 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <TextView
-            android:id="@+id/mentett_naplo_db_osszsuly"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:textAlignment="center"
-            android:textColor="#fff"
-            android:textSize="18sp"
-            android:textStyle="italic"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

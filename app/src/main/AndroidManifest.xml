@@ -49,6 +49,7 @@
         <activity
             android:name=".mvvm.ui.edzesterv.EdzesTervNezokeActivity"
             android:parentActivityName=".mvvm.ui.edzesterv.EdzesTervBelepoActivity" />
+        <activity android:name=".mvvm.ui.MvvmGyakorlatReportActivity"/>
         <activity android:name=".mvvm.ui.MvvmBelepoActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

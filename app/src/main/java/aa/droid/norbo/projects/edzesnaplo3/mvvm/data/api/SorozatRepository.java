@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData;
 import java.util.List;
 
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.SorozatWithGyakorlat;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.toolmodels.OsszSorozat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Sorozat;
 
 public interface SorozatRepository {
@@ -18,4 +19,6 @@ public interface SorozatRepository {
     void deleteSorozatByNaplo(long naplodatum);
 
     void insert(Sorozat sorozat);
+
+    LiveData<List<OsszSorozat>> getOsszSorozatByGyakorlat(int gyakid);
 }

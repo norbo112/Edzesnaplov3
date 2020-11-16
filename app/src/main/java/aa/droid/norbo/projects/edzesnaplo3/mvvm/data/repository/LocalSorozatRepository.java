@@ -12,6 +12,7 @@ import javax.inject.Singleton;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.api.SorozatRepository;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.EdzesNaploDatabase;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.SorozatWithGyakorlat;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.toolmodels.OsszSorozat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Sorozat;
 
 @Singleton
@@ -56,5 +57,10 @@ public class LocalSorozatRepository implements SorozatRepository {
     @Override
     public void insert(Sorozat sorozat) {
         executorService.execute(() -> database.sorozatDao().insert(sorozat));
+    }
+
+    @Override
+    public LiveData<List<OsszSorozat>> getOsszSorozatByGyakorlat(int gyakid) {
+        return database.sorozatDao().getOsszSorozatByGyakorlat(gyakid);
     }
 }
