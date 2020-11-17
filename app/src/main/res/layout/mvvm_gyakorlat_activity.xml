@@ -89,7 +89,6 @@
             app:itemBackground="@color/edzesHatter"
             app:itemIconTint="@android:color/holo_blue_light"
             app:itemTextColor="@android:color/holo_blue_light"
-            app:labelVisibilityMode="labeled"
-            app:fabAlignmentMode="center" />
+            app:labelVisibilityMode="labeled" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
