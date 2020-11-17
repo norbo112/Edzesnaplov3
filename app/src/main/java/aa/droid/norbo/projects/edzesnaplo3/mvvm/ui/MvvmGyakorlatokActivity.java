@@ -99,9 +99,7 @@ public class MvvmGyakorlatokActivity extends BaseActiviry<MvvmGyakorlatActivityB
     }
 
     private void sharedVideoLink(String aLink) {
-        Log.i(TAG, "sharedVideoLink: brnnr vagyok");
         gyakorlatViewModel.getGyakorlatForVideoLinkEdit().whenComplete((gyakorlats, throwable) -> {
-            Log.i(TAG, "sharedVideoLink: whenComplete");
             if (throwable != null) {
                 runOnUiThread(() -> Toast.makeText(MvvmGyakorlatokActivity.this, "Hiba lépett fel", Toast.LENGTH_SHORT).show());
                 Log.e(TAG, "sharedVideoLink: gyakorlat betöltés hiba", throwable);

@@ -23,16 +23,8 @@ import dagger.hilt.android.AndroidEntryPoint;
 public class MvvmGyakorlatReportActivity extends BaseActiviry<GyakorlatReportActivityLayoutBinding> {
     public static final String EXTRA_GYAK = "aa.droid.norbo.projects.edzesnaplo3.mvvm.EXTRA_GYAK";
 
-    private SimpleDateFormat format = new SimpleDateFormat("MM-dd", Locale.getDefault());
-
     @Inject
     ModelConverter modelConverter;
-
-    @Inject
-    SorozatViewModel sorozatViewModel;
-
-    @Inject
-    SorozatUtil sorozatUtil;
 
     @Inject
     SorozatReportUtil sorozatReportUtil;
