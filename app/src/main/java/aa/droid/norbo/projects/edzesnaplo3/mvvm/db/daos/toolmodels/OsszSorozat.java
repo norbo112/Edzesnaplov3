@@ -1,6 +1,8 @@
 package aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.toolmodels;
 
-public class OsszSorozat {
+import java.io.Serializable;
+
+public class OsszSorozat implements Serializable {
     private int osszism;
     private int osszsuly;
     private long naplodatum;

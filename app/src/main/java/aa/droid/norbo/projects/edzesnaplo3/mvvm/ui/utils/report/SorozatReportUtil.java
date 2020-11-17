@@ -33,6 +33,7 @@ import javax.inject.Inject;
 import aa.droid.norbo.projects.edzesnaplo3.R;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmKorabbiSorozatItemBinding;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.toolmodels.OsszSorozat;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Sorozat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.NaploDetailsActivity;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.DateTimeFormatter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.naplo.SorozatUtil;
@@ -44,57 +45,43 @@ import dagger.hilt.android.scopes.ActivityScoped;
 @ActivityScoped
 public class SorozatReportUtil {
     private Context context;
-    private SorozatViewModel sorozatViewModel;
+    //    private SorozatViewModel sorozatViewModel;
     private SorozatUtil sorozatUtil;
     private DateTimeFormatter formatter;
 
     private Activity activity;
 
     @Inject
-    public SorozatReportUtil(@ActivityContext Context context, SorozatViewModel sorozatViewModel,
+    public SorozatReportUtil(@ActivityContext Context context,
                              DateTimeFormatter formatter, SorozatUtil sorozatUtil) {
         this.context = context;
-        this.sorozatViewModel = sorozatViewModel;
+//        this.sorozatViewModel = sorozatViewModel;
         this.formatter = formatter;
         this.sorozatUtil = sorozatUtil;
     }
 
-    public void initSorozatReportCharts(Activity activity, int gyakId, LineChart sulyChart, LineChart elteltidoChart) {
+    public void initSorozatReportCharts(Activity activity, List<OsszSorozat> osszSorozats, List<Sorozat> sorozats, LineChart sulyChart, LineChart elteltidoChart) {
         this.activity = activity;
-
-        sorozatViewModel.getOsszSorozatByGyakorlat(gyakId).observe((LifecycleOwner) activity, osszSorozats -> {
-            if (osszSorozats != null && osszSorozats.size() > 0) {
-                initOsszSulyEsIsmChart(sulyChart, osszSorozats);
-            } else {
-                Toast.makeText(context, "Sajnos ehhez a gyakorlathoz nincs sorozat rögzítve", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        sorozatViewModel.getSorozatByGyakorlat(gyakId).observe((LifecycleOwner) activity, sorozats -> {
-            if (sorozats != null && sorozats.size() > 0) {
-                initElteltIdoChart(elteltidoChart, sorozatUtil.getEleltIdoList(sorozats));
-            }
-        });
+        initOsszSulyEsIsmChart(sulyChart, osszSorozats);
+        initElteltIdoChart(elteltidoChart, sorozatUtil.getEleltIdoList(sorozats));
     }
 
-//    private void initOsszIsmetles(LineChart osszIsmChart, List<OsszSorozat> osszSorozats) {
-//        osszIsmChart.getDescription().setEnabled(false);
-//        osszIsmChart.setDrawGridBackground(false);
-//        osszIsmChart.getAxisRight().setEnabled(false);
-//        osszIsmChart.getAxisLeft().setTextColor(Color.WHITE);
-//        osszIsmChart.setOnChartValueSelectedListener(chartListener);
+//    public void initSorozatReportCharts(Activity activity, int gyakId, LineChart sulyChart, LineChart elteltidoChart) {
+//        this.activity = activity;
 //
-//        XAxis xAxis = osszIsmChart.getXAxis();
-//        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE);
-//        xAxis.setEnabled(true);
-//        xAxis.setTextColor(Color.WHITE);
-//        xAxis.setValueFormatter(getDateValueFormatter(osszSorozats));
-//        xAxis.setGranularity(1f);
-//        xAxis.setGranularityEnabled(true);
+//        sorozatViewModel.getOsszSorozatByGyakorlat(gyakId).observe((LifecycleOwner) activity, osszSorozats -> {
+//            if (osszSorozats != null && osszSorozats.size() > 0) {
+//                initOsszSulyEsIsmChart(sulyChart, osszSorozats);
+//            } else {
+//                Toast.makeText(context, "Sajnos ehhez a gyakorlathoz nincs sorozat rögzítve", Toast.LENGTH_SHORT).show();
+//            }
+//        });
 //
-//        setOsszIsmChartData(osszIsmChart, osszSorozats);
-//
-//        osszIsmChart.animateX(1500);
+//        sorozatViewModel.getSorozatByGyakorlat(gyakId).observe((LifecycleOwner) activity, sorozats -> {
+//            if (sorozats != null && sorozats.size() > 0) {
+//                initElteltIdoChart(elteltidoChart, sorozatUtil.getEleltIdoList(sorozats));
+//            }
+//        });
 //    }
 
     private void initElteltIdoChart(LineChart elteltIdoChart, List<GyakorlatSorozatElteltIdo> gyakorlatSorozatElteltIdos) {
@@ -222,17 +209,17 @@ public class SorozatReportUtil {
 //            lineChart.getData().notifyDataChanged();
 //            lineChart.notifyDataSetChanged();
 //        } else {
-            set = new LineDataSet(entries, label);
-            set.setDrawIcons(false);
-            set.enableDashedLine(10f, 5f, 0f);
-            set.setColor(Color.LTGRAY);
-            set.setCircleColor(color);
-            set.setLineWidth(1f);
-            set.setCircleRadius(3f);
-            set.setCircleHoleRadius(3f);
-            set.setFormLineWidth(1f);
-            set.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
-            set.setFormSize(15.f);
+        set = new LineDataSet(entries, label);
+        set.setDrawIcons(false);
+        set.enableDashedLine(10f, 5f, 0f);
+        set.setColor(Color.LTGRAY);
+        set.setCircleColor(color);
+        set.setLineWidth(1f);
+        set.setCircleRadius(3f);
+        set.setCircleHoleRadius(3f);
+        set.setFormLineWidth(1f);
+        set.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
+        set.setFormSize(15.f);
 //        }
         return set;
     }
