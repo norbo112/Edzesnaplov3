@@ -49,7 +49,6 @@ import dagger.hilt.android.scopes.ActivityScoped;
 @ActivityScoped
 public class SorozatReportUtil {
     private Context context;
-    //    private SorozatViewModel sorozatViewModel;
     private SorozatUtil sorozatUtil;
     private DateTimeFormatter formatter;
 
@@ -59,7 +58,6 @@ public class SorozatReportUtil {
     public SorozatReportUtil(@ActivityContext Context context,
                              DateTimeFormatter formatter, SorozatUtil sorozatUtil) {
         this.context = context;
-//        this.sorozatViewModel = sorozatViewModel;
         this.formatter = formatter;
         this.sorozatUtil = sorozatUtil;
     }
