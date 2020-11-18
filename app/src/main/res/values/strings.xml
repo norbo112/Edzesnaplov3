@@ -62,4 +62,6 @@
     <string name="gyakorlat_search_menu_torles">Törlés</string>
     <string name="gyakorlat_search_menu_video">Video</string>
     <string name="gyak_activity_tablet_label1">Gyakorlat ill. izomcsoport kiválasztása</string>
+    <string name="gyak_report_activity_suylismchart_label">Összes súly és ismétlés</string>
+    <string name="gyak_report_activity_elteltido_label">Eltelt idő</string>
 </resources>
