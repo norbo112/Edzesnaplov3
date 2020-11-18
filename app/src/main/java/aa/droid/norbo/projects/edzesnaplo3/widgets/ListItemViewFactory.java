@@ -4,6 +4,7 @@ import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
@@ -26,26 +27,28 @@ import aa.droid.norbo.projects.edzesnaplo3.widgets.withhilt.EdzesnaploWidget;
 import dagger.hilt.android.AndroidEntryPoint;
 
 public class ListItemViewFactory implements RemoteViewsService.RemoteViewsFactory {
+    private static final String TAG = "ListItemViewFactory";
     private List<NaploGyakOsszsuly> naploGyakOsszsulyList;
     private Context context;
     private int appWidgetId;
     private SimpleDateFormat simpleDateFormat;
+    private NaploRepository naploRepository;
 
-    public ListItemViewFactory(Context context, Intent intent) {
+    public ListItemViewFactory(Context context, Intent intent, NaploRepository naploRepository) {
         this.context = context;
         this.appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
-//        this.naploGyakOsszsulyList = (List<NaploGyakOsszsuly>) intent.getSerializableExtra(EdzesnaploWidget.ADATOK_NAPLO);
+        this.naploRepository = naploRepository;
         this.simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
     }
 
     @Override
     public void onCreate() {
-        naploGyakOsszsulyList = getNaploGyakOsszsuly(context);
+        naploGyakOsszsulyList = getNaploGyakOsszsuly();
     }
 
     @Override
     public void onDataSetChanged() {
-        naploGyakOsszsulyList = getNaploGyakOsszsuly(context);
+        naploGyakOsszsulyList = getNaploGyakOsszsuly();
     }
 
     @Override
@@ -95,10 +98,12 @@ public class ListItemViewFactory implements RemoteViewsService.RemoteViewsFactor
         return true;
     }
 
-    private List<NaploGyakOsszsuly> getNaploGyakOsszsuly(Context context) {
+    private List<NaploGyakOsszsuly> getNaploGyakOsszsuly() {
         List<NaploGyakOsszsuly> naploGyakOsszsulies = new ArrayList<>();
 
-        Cursor c = context.getContentResolver().query(NaploContentProviderWithHilt.GET_NAPLO_GYAK_ES_OSSZSULY, null, null, null, null);
+//        Cursor c = context.getContentResolver().query(NaploContentProviderWithHilt.GET_NAPLO_GYAK_ES_OSSZSULY, null, null, null, null);
+        Cursor c = naploRepository.getNaploOsszSulyBy();
+        Log.i(TAG, "getNaploGyakOsszsuly: Naplo repository használva");
         if (c != null) {
             while (c.moveToNext()) {
                 naploGyakOsszsulies.add(new NaploGyakOsszsuly(
