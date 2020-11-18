@@ -11,7 +11,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.widget.RemoteViews;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,10 +34,11 @@ public class EdzesnaploWidget extends AppWidgetProvider {
     @Inject
     NaploRepository naploRepository;
 
-    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
-                                int appWidgetId, Cursor naploList) {
+    public void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
+                                int appWidgetId) {
 
 //        Cursor listnaplo = naploRepository.getNaploList();
+        Cursor naploList = naploRepository.getNaploList();
 
         //teszt
         Intent intent = new Intent(context, ListItemService.class);
@@ -46,9 +46,10 @@ public class EdzesnaploWidget extends AppWidgetProvider {
         intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
 
         // Construct the RemoteViews object
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.naplo_app_widget);
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.naplo_new_app_widget);
         views.setTextViewText(R.id.naplo_cnt_text, ((naploList != null) ? naploList.getCount()+" db napló":"0 db napló") + " rögzítve");
         views.setRemoteAdapter(R.id.listView, intent);
+
 
         Intent titleIntent = new Intent(context, MvvmBelepoActivity.class);
         PendingIntent titlePendingIntent = PendingIntent.getActivity(context, 0, titleIntent, 0);
@@ -61,7 +62,7 @@ public class EdzesnaploWidget extends AppWidgetProvider {
                 .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
         views.setPendingIntentTemplate(R.id.listView, pendingIntentToast);
 
-//        if(naploList != null) naploList.close();
+        if(naploList != null) naploList.close();
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
@@ -70,9 +71,8 @@ public class EdzesnaploWidget extends AppWidgetProvider {
     @Override
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
-        final String action = intent.getAction();
 
-        Cursor naploList = naploRepository.getNaploList();
+        final String action = intent.getAction();
 
         if(action.equals(AppWidgetManager.ACTION_APPWIDGET_UPDATE)) {
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
@@ -80,14 +80,9 @@ public class EdzesnaploWidget extends AppWidgetProvider {
             appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetManager.getAppWidgetIds(cn),
                     R.id.listView);
             for (int appwidgetid: appWidgetManager.getAppWidgetIds(cn)) {
-                updateAppWidget(context, appWidgetManager, appwidgetid, naploList);
+                updateAppWidget(context, appWidgetManager, appwidgetid);
             }
         }
-
-        if (naploList != null) {
-            naploList.close();
-        }
-
     }
 
     @Override
@@ -95,7 +90,7 @@ public class EdzesnaploWidget extends AppWidgetProvider {
         Cursor naploList = naploRepository.getNaploList();
         // There may be multiple widgets active, so update all of them
         for (int appWidgetId : appWidgetIds) {
-            updateAppWidget(context, appWidgetManager, appWidgetId, naploList);
+            updateAppWidget(context, appWidgetManager, appWidgetId);
         }
 
         if (naploList != null) {
@@ -113,17 +108,15 @@ public class EdzesnaploWidget extends AppWidgetProvider {
         // Enter relevant functionality for when the last widget is disabled
     }
 
-    private List<NaploGyakOsszsuly> getNaploGyakOsszsuly() {
+    private List<NaploGyakOsszsuly> getNaploGyakOsszsuly(Cursor cursor) {
         List<NaploGyakOsszsuly> naploGyakOsszsulies = new ArrayList<>();
-
-        Cursor c = naploRepository.getNaploOsszSulyBy();
-        if (c != null) {
-            while (c.moveToNext()) {
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
                 naploGyakOsszsulies.add(new NaploGyakOsszsuly(
-                        Long.parseLong(c.getString(1)),
-                        Integer.parseInt(c.getString(0))));
+                        Long.parseLong(cursor.getString(1)),
+                        Integer.parseInt(cursor.getString(0))));
             }
-            c.close();
+            cursor.close();
         }
         return naploGyakOsszsulies;
     }

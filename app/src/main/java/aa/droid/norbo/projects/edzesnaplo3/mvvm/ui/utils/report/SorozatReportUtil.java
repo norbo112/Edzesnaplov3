@@ -3,8 +3,10 @@ package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.report;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -23,6 +25,7 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -39,6 +42,7 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.DateTimeFormatter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.naplo.SorozatUtil;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.naplo.model.GyakorlatSorozatElteltIdo;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.SorozatViewModel;
+import aa.droid.norbo.projects.edzesnaplo3.widgets.NaploGyakOsszsuly;
 import dagger.hilt.android.qualifiers.ActivityContext;
 import dagger.hilt.android.scopes.ActivityScoped;
 
@@ -65,24 +69,6 @@ public class SorozatReportUtil {
         initOsszSulyEsIsmChart(sulyChart, osszSorozats);
         initElteltIdoChart(elteltidoChart, sorozatUtil.getEleltIdoList(sorozats));
     }
-
-//    public void initSorozatReportCharts(Activity activity, int gyakId, LineChart sulyChart, LineChart elteltidoChart) {
-//        this.activity = activity;
-//
-//        sorozatViewModel.getOsszSorozatByGyakorlat(gyakId).observe((LifecycleOwner) activity, osszSorozats -> {
-//            if (osszSorozats != null && osszSorozats.size() > 0) {
-//                initOsszSulyEsIsmChart(sulyChart, osszSorozats);
-//            } else {
-//                Toast.makeText(context, "Sajnos ehhez a gyakorlathoz nincs sorozat rögzítve", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//
-//        sorozatViewModel.getSorozatByGyakorlat(gyakId).observe((LifecycleOwner) activity, sorozats -> {
-//            if (sorozats != null && sorozats.size() > 0) {
-//                initElteltIdoChart(elteltidoChart, sorozatUtil.getEleltIdoList(sorozats));
-//            }
-//        });
-//    }
 
     private void initElteltIdoChart(LineChart elteltIdoChart, List<GyakorlatSorozatElteltIdo> gyakorlatSorozatElteltIdos) {
         elteltIdoChart.getDescription().setEnabled(false);
