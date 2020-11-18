@@ -23,10 +23,6 @@ public interface SorozatDao {
     void insert(List<Sorozat> sorozats);
 
     @Transaction
-    @Query("SELECT * FROM sorozattabla")
-    LiveData<List<SorozatWithGyakorlatAndNaplo>> getAllWithNaplo();
-
-    @Transaction
     @Query("select sum(ismetles) as osszism, sum(suly) as osszsuly,  naplodatum from sorozattabla where gyakorlatid =:gyakid group by naplodatum")
     LiveData<List<OsszSorozat>> getOsszSorozatByGyakorlat(int gyakid);
 
@@ -63,12 +59,6 @@ public interface SorozatDao {
     @Transaction
     @Query("SELECT * FROM sorozattabla WHERE naplodatum =:naplodatum")
     List<SorozatWithGyakorlat> getSorozatWithGyakorlatToList(String naplodatum);
-
-    @Transaction
-    @Query(
-            "SELECT SUM(suly * ismetles) FROM sorozattabla WHERE naplodatum = :naplodatum"
-    )
-    int getOsszSulyByNaplo(String naplodatum);
 
     @Transaction
     @Query(
