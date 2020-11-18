@@ -10,6 +10,9 @@ public class NaploGyakOsszsuly implements Serializable {
     private Long naplodatum;
     private Integer gyakorlatOsszsulys;
 
+    public NaploGyakOsszsuly() {
+    }
+
     public NaploGyakOsszsuly(Long naplodatum, Integer gyakorlatOsszsulys) {
         this.naplodatum = naplodatum;
         this.gyakorlatOsszsulys = gyakorlatOsszsulys;
@@ -21,6 +24,14 @@ public class NaploGyakOsszsuly implements Serializable {
 
     public Integer getGyakorlatOsszsulys() {
         return gyakorlatOsszsulys;
+    }
+
+    public void setNaplodatum(Long naplodatum) {
+        this.naplodatum = naplodatum;
+    }
+
+    public void setGyakorlatOsszsulys(Integer gyakorlatOsszsulys) {
+        this.gyakorlatOsszsulys = gyakorlatOsszsulys;
     }
 
     @NonNull

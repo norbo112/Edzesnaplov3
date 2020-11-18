@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Edzesnaplo v3</string>
     <string name="app_name_v4">Edzésnapló</string>
+    <string name="app_name_v4_2">Edzésnapló NEW</string>
     <string name="menu_mentett_naplok_title">Mentett naplók</string>
     <string name="sorozat_list_title">Elvégzett sorozatok</string>
     <string name="korabbi_sorozat_list_title">Korábban elvégzett sorozatok</string>
