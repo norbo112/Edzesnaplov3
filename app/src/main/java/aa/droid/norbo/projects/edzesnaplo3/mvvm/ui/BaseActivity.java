@@ -22,14 +22,14 @@ import androidx.databinding.ViewDataBinding;
 
 import aa.droid.norbo.projects.edzesnaplo3.R;
 
-public abstract class BaseActiviry<T extends ViewDataBinding> extends AppCompatActivity {
+public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatActivity {
     protected final static String VALASZTOTT_TERV_ID = "választott terv";
     protected final static String VALASZTOTT_TERV_MEGNEVEZES = "választott terv megnevezés";
 
     protected T binding;
     private int layoutResource;
 
-    public BaseActiviry(int layoutResource) {
+    public BaseActivity(int layoutResource) {
         this.layoutResource = layoutResource;
     }
 

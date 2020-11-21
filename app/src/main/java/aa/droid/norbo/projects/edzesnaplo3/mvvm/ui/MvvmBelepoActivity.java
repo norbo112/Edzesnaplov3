@@ -24,7 +24,7 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.SorozatViewModel;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class MvvmBelepoActivity extends BaseActiviry<MvvmActivityBelepoBinding> {
+public class MvvmBelepoActivity extends BaseActivity<MvvmActivityBelepoBinding> {
     private static final String TAG = "MvvmBelepoActivity";
     public static final String AUDIO_RECORD_IS = "aa.droid.norbo.projects.edzesnaplo3.AUDIO_RECORD_IS";
     private static final int MY_PERMISSION = 200;

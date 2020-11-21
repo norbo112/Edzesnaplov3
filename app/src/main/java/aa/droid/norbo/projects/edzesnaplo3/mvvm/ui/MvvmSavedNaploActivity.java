@@ -44,7 +44,7 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.v3.NaploAll;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class MvvmSavedNaploActivity extends BaseActiviry<MvvmActivityMentettNaplokBinding> implements NaploListUtil.NaploTorlesInterface {
+public class MvvmSavedNaploActivity extends BaseActivity<MvvmActivityMentettNaplokBinding> implements NaploListUtil.NaploTorlesInterface {
     private static final String TAG = "MvvmSavedNaploActivity";
     private static final int FILE_LOAD_RCODE = 10001;
     private static final int FILE_V3_LOAD = 2001;

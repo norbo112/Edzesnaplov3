@@ -40,7 +40,7 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.SorozatViewModel;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class TevekenysegActivity extends BaseActiviry<MvvmActivityTestBinding> implements AdatKozloInterface, EdzesTervManageUtil.TervValasztoInterface {
+public class TevekenysegActivity extends BaseActivity<MvvmActivityTestBinding> implements AdatKozloInterface, EdzesTervManageUtil.TervValasztoInterface {
     private static final String TAG = "TestActivity";
     private GyakorlatUI gyakorlatUI;
 

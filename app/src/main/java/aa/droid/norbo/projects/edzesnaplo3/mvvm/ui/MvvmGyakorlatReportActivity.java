@@ -1,30 +1,23 @@
 package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui;
 
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Locale;
 
 import javax.inject.Inject;
 
 import aa.droid.norbo.projects.edzesnaplo3.R;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.GyakorlatReportActivityLayoutBinding;
-import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.GyakorlatUI;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.toolmodels.OsszSorozat;
-import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Gyakorlat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Sorozat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.ModelConverter;
-import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.naplo.SorozatUtil;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.report.SorozatReportUtil;
-import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.SorozatViewModel;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class MvvmGyakorlatReportActivity extends BaseActiviry<GyakorlatReportActivityLayoutBinding> {
+public class MvvmGyakorlatReportActivity extends BaseActivity<GyakorlatReportActivityLayoutBinding> {
     private static final String TAG = "MvvmGyakorlatReportActi";
     public static final String EXTRA_GYAK = "aa.droid.norbo.projects.edzesnaplo3.mvvm.EXTRA_GYAK";
     public static final String EXTRA_OSSZ_SOR = "aa.droid.norbo.projects.edzesnaplo3.mvvm.EXTRA_OSSZ_SOR";

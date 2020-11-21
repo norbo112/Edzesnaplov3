@@ -17,7 +17,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.SearchView;
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.LifecycleOwner;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -44,7 +43,7 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.SorozatViewModel;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class MvvmGyakorlatokActivity extends BaseActiviry<MvvmGyakorlatActivityBinding>
+public class MvvmGyakorlatokActivity extends BaseActivity<MvvmGyakorlatActivityBinding>
         implements VideoUtilsInterface, AdapterView.OnItemClickListener, BottomNavigationView.OnNavigationItemSelectedListener {
     private static final String TAG = "MvvmGyakorlatokActivity";
     private static final String VALASSZ_IZOMCSOP = "Mind látszik...";
