@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.File;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -27,10 +28,12 @@ import javax.inject.Inject;
 import aa.droid.norbo.projects.edzesnaplo3.R;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmNaploDetailsActivityBinding;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.SorozatWithGyakorlat;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Naplo;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.service.files.MyFileService;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.rcviews.NaploDetailsRcViewAdapterFactory;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.DateTimeFormatter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.NaploListUtil;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.WidgetUtil;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.NaploViewModel;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.SorozatViewModel;
 import dagger.hilt.android.AndroidEntryPoint;
@@ -39,7 +42,7 @@ import dagger.hilt.android.AndroidEntryPoint;
 public class NaploDetailsActivity extends BaseActivity<MvvmNaploDetailsActivityBinding> implements NaploListUtil.NaploTorlesInterface {
     private static final String TAG = "NaploDetailsActivity";
     public static final String EXTRA_NAPLO_DATUM = "aa.droid.norbo.projects.edzesnaplo3.v4.EXTRA_NAPLO_DATUM";
-    public static final String EXTRA_NAPLO_LABEL = "aa.droid.norbo.projects.edzesnaplo3.v4.EXTRA_NAPLO_LABEL";
+    public static final String EXTRA_NAPLO_COMMENT = "aa.droid.norbo.projects.edzesnaplo3.v4.EXTRA_NAPLO_COMMENT";
 
     @Inject
     NaploDetailsRcViewAdapterFactory adapterFactory;
@@ -56,7 +59,11 @@ public class NaploDetailsActivity extends BaseActivity<MvvmNaploDetailsActivityB
     @Inject
     MyFileService myFileService;
 
+    @Inject
+    WidgetUtil widgetUtil;
+
     private Long naploDatum;
+    private String naploComment;
 
     public NaploDetailsActivity() {
         super(R.layout.mvvm_naplo_details_activity);
@@ -68,6 +75,8 @@ public class NaploDetailsActivity extends BaseActivity<MvvmNaploDetailsActivityB
 
         naploDatum = Long.parseLong(
                 Objects.requireNonNull(getIntent().getStringExtra(EXTRA_NAPLO_DATUM), "Nem lett átadva a megfelelő adat!"));
+
+        naploComment = getIntent().getStringExtra(EXTRA_NAPLO_COMMENT);
 
         if(naploDatum != 0) {
             setupRcViewWithDate(naploDatum);
@@ -161,6 +170,15 @@ public class NaploDetailsActivity extends BaseActivity<MvvmNaploDetailsActivityB
     public void naplotTorol(long naplodatum) {
         naploViewModel.deleteNaplo(naplodatum);
         sorozatViewModel.deleteSorozat(naplodatum);
+
+        if(naploComment != null) {
+            File f = new File(naploComment);
+            if (f.exists()) {
+                f.delete();
+            }
+        }
+
+        widgetUtil.updateWidget();
         Toast.makeText(this, "Napló törölve", Toast.LENGTH_SHORT).show();
     }
 

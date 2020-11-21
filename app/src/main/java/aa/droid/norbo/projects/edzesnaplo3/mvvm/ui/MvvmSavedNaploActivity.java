@@ -110,6 +110,7 @@ public class MvvmSavedNaploActivity extends BaseActivity<MvvmActivityMentettNapl
                         Intent intent = new Intent(this, NaploDetailsActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         intent.putExtra(NaploDetailsActivity.EXTRA_NAPLO_DATUM, item.daonaplo.getNaplodatum());
+                        intent.putExtra(NaploDetailsActivity.EXTRA_NAPLO_COMMENT, item.daonaplo.getCommentFilePath());
                         startActivity(intent);
                         overridePendingTransition(R.anim.move_right_in_activity, R.anim.move_left_out_activity);
                     } else {
