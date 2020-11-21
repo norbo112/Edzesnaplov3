@@ -8,6 +8,7 @@ import android.content.Intent;
 import javax.inject.Inject;
 
 import aa.droid.norbo.projects.edzesnaplo3.widgets.NaploCntAppWidget;
+import aa.droid.norbo.projects.edzesnaplo3.widgets.withhilt.EdzesnaploWidget;
 import dagger.hilt.android.qualifiers.ActivityContext;
 import dagger.hilt.android.scopes.ActivityScoped;
 
@@ -26,7 +27,7 @@ public class WidgetUtil {
     public void updateWidget() {
         Intent intent = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-        ComponentName thisWidget = new ComponentName(context, NaploCntAppWidget.class);
+        ComponentName thisWidget = new ComponentName(context, EdzesnaploWidget.class);
         int[] appWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
         context.sendBroadcast(intent);

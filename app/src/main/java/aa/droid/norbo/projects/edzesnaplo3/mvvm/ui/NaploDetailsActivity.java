@@ -1,6 +1,7 @@
 package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -124,6 +125,18 @@ public class NaploDetailsActivity extends BaseActivity<MvvmNaploDetailsActivityB
             naplotMent(naploDatum);
         } else if(item.getItemId() == R.id.naplo_details_delete) {
             uiNaplotTorol(naploDatum);
+        } else if(item.getItemId() == R.id.naplo_details_comment) {
+            naploViewModel.getNaploByNaploDatum(naploDatum).observe(this, naplo -> {
+                if(naplo != null && naplo.getCommentFilePath() != null && naplo.getCommentFilePath().length() > 0) {
+                    Intent commentActivity = new Intent(this, CommentActivity.class);
+                    commentActivity.putExtra("audio_play_on", true);
+                    commentActivity.putExtra("extra_file_name", naplo.getCommentFilePath());
+                    startActivity(commentActivity);
+                    overridePendingTransition(R.anim.move_right_in_activity, R.anim.move_left_out_activity);
+                } else {
+                    Toast.makeText(this, "Nincs audio comment rögzítve!", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
 
         return super.onContextItemSelected(item);

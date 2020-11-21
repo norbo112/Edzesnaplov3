@@ -1,5 +1,6 @@
 package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -42,6 +43,7 @@ import dagger.hilt.android.AndroidEntryPoint;
 @AndroidEntryPoint
 public class TevekenysegActivity extends BaseActivity<MvvmActivityTestBinding> implements AdatKozloInterface, EdzesTervManageUtil.TervValasztoInterface {
     private static final String TAG = "TestActivity";
+    private static final int AUDIO_COMMENT_RES = 3000;
     private GyakorlatUI gyakorlatUI;
 
     @Inject
@@ -187,6 +189,11 @@ public class TevekenysegActivity extends BaseActivity<MvvmActivityTestBinding> i
             sorozatUtil.sorozatNezokeDialog(this, gyakorlatUI);
         } else if(item.getItemId() == R.id.tevekenyseg_edzesterv_valaszto) {
             edzesTervManageUtil.makeValasztoDialog(this, this, this);
+        } else if(item.getItemId() == R.id.tevekenyseg_audio_comment) {
+            Intent commentActivity = new Intent(this, CommentActivity.class);
+            commentActivity.putExtra("extra_file_name", naploWorker.getNaplo().getNaplodatum()+"_audiocomment.3gp");
+            startActivityForResult(commentActivity, AUDIO_COMMENT_RES);
+            overridePendingTransition(R.anim.move_right_in_activity, R.anim.move_left_out_activity);
         }
         return super.onContextItemSelected(item);
     }
@@ -211,5 +218,15 @@ public class TevekenysegActivity extends BaseActivity<MvvmActivityTestBinding> i
                 ((EdzesTervManageUtil.TervValasztoInterface)fragment).tervValasztva(edzesTerv);
             }
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == AUDIO_COMMENT_RES && resultCode == RESULT_OK) {
+            String extra_file_name = data.getStringExtra("extra_file_name");
+            naploWorker.getNaplo().setCommentFilePath(extra_file_name);
+            Toast.makeText(this, "Audio Fájl mentve: " + extra_file_name, Toast.LENGTH_SHORT).show();
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

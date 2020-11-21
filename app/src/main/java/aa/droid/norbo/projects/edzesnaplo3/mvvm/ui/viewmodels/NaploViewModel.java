@@ -48,6 +48,10 @@ public class NaploViewModel extends ViewModel {
         return naploRepository.getSyncNaploWithOnlySorozats(naplodatum);
     }
 
+    public LiveData<Naplo> getNaploByNaploDatum(long naplodatum) {
+        return naploRepository.getNaploByNaploDatum(naplodatum);
+    }
+
     public void insert(Naplo naplo) {
         naploRepository.insert(naplo);
     }

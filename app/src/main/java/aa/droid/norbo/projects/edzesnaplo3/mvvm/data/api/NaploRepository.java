@@ -28,4 +28,5 @@ public interface NaploRepository {
 
     Cursor getNaploOsszSulyBy();
 
+    LiveData<Naplo> getNaploByNaploDatum(long naplodatum);
 }

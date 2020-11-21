@@ -4,11 +4,12 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">#000000</item>
-        <item name="colorPrimaryDark">#000000</item>
+        <item name="colorPrimaryDark">#090F32</item>
         <item name="colorAccent">@color/colorPrimaryDark</item>
         <item name="android:windowFullscreen">true</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
 
 </resources>

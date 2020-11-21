@@ -9,4 +9,8 @@
         android:id="@+id/naplo_details_save"
         android:icon="@drawable/ic_save"
         android:title="Napló mentés féjlba" />
+    <item
+        android:id="@+id/naplo_details_comment"
+        android:icon="@drawable/ic_headset"
+        android:title="Audio Comment" />
 </menu>

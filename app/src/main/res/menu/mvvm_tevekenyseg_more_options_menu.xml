@@ -17,4 +17,9 @@
         android:icon="@drawable/ic_edzesterv1"
         android:title="Edzésterv"
         app:showAsAction="never" />
+    <item
+        android:title="Audio Comment"
+        android:id="@+id/tevekenyseg_audio_comment"
+        android:icon="@drawable/ic_headset"
+        app:showAsAction="never"/>
 </menu>
