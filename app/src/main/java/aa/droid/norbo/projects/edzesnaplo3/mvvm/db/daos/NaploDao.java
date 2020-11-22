@@ -63,5 +63,5 @@ public interface NaploDao {
     List<NaploWithSorozat> getNaploWithSorozatList();
 
     @Query("SELECT * FROM naplo WHERE naplodatum =:naplodatum")
-    LiveData<Naplo> getNaploByNaploDatum(long naplodatum);
+    Naplo getOneByDatum(long naplodatum);
 }

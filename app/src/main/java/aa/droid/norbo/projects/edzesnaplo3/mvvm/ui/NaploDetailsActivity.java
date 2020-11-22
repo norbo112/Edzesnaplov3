@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.view.menu.MenuPopupHelper;
@@ -20,7 +21,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.io.File;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
@@ -29,10 +29,10 @@ import aa.droid.norbo.projects.edzesnaplo3.R;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmNaploDetailsActivityBinding;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.NaploUI;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.SorozatWithGyakorlat;
-import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Naplo;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.service.files.MyFileService;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.rcviews.NaploDetailsRcViewAdapterFactory;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.DateTimeFormatter;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.ModelConverter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.NaploListUtil;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.WidgetUtil;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.NaploViewModel;
@@ -42,9 +42,13 @@ import dagger.hilt.android.AndroidEntryPoint;
 @AndroidEntryPoint
 public class NaploDetailsActivity extends BaseActivity<MvvmNaploDetailsActivityBinding> implements NaploListUtil.NaploTorlesInterface {
     private static final String TAG = "NaploDetailsActivity";
+    private static final int COMMENT = 3000;
     public static final String EXTRA_NAPLO_DATUM = "aa.droid.norbo.projects.edzesnaplo3.v4.EXTRA_NAPLO_DATUM";
     public static final String EXTRA_NAPLO_COMMENT = "aa.droid.norbo.projects.edzesnaplo3.v4.EXTRA_NAPLO_COMMENT";
     public static final String EXTRA_NAPLO = "aa.droid.norbo.projects.edzesnaplo3.v4.EXTRA_NAPLO";
+    public static final String EXTRA_FILE_NAME = "aa.droid.norbo.projects.edzesnaplo3.v4.extra_file_name";
+    public static final String EXTRA_NEW_COMMENT= "aa.droid.norbo.projects.edzesnaplo3.v4.extra_new_comment";
+    public static final String EXTRA_ONLY_PLAY = "only_play_extra";
 
     @Inject
     NaploDetailsRcViewAdapterFactory adapterFactory;
@@ -64,8 +68,12 @@ public class NaploDetailsActivity extends BaseActivity<MvvmNaploDetailsActivityB
     @Inject
     WidgetUtil widgetUtil;
 
+    @Inject
+    ModelConverter modelConverter;
+
     private Long naploDatum;
     private NaploUI naploUI;
+    private String commentFilePath;
 
     public NaploDetailsActivity() {
         super(R.layout.mvvm_naplo_details_activity);
@@ -76,14 +84,39 @@ public class NaploDetailsActivity extends BaseActivity<MvvmNaploDetailsActivityB
         super.onCreate(savedInstanceState);
 
         naploUI = (NaploUI) getIntent().getSerializableExtra(EXTRA_NAPLO);
-
+        naploDatum = (Long) getIntent().getExtras().get(EXTRA_NAPLO_DATUM);
         if (naploUI != null) {
             naploDatum = naploUI.getNaplodatum();
-            setupRcViewWithDate(naploUI);
+            setupRcViewWithNaploUI(naploUI);
+        } else if (naploDatum != 0L) {
+            setupRcViewWithDate(naploDatum);
         }
     }
 
-    private void setupRcViewWithDate(NaploUI naploUI) {
+    private void setupRcViewWithDate(long naploDatum) {
+        naploViewModel.getOneByDate(naploDatum).whenComplete((naplo, throwable) -> {
+            if(throwable == null) {
+                if(naplo != null)
+                    commentFilePath = modelConverter.fromNaploEntity(naplo).getCommentFilePath();
+            }
+        });
+
+        sorozatViewModel.getForNaplo(naploDatum).observe(this, sorozatWithGyakorlats -> {
+            if (sorozatWithGyakorlats != null) {
+                binding.naploDetailsDatumLabel.setText(dateTimeFormatter.getNaploDatum(naploDatum));
+                binding.naploDetailsRcView.setAdapter(adapterFactory.create(sorozatWithGyakorlats));
+                binding.naploDetailsRcView.setItemAnimator(new DefaultItemAnimator());
+                binding.naploDetailsRcView.setLayoutManager(new LinearLayoutManager(NaploDetailsActivity.this, RecyclerView.HORIZONTAL, false));
+
+                binding.naploDetailsSulyLabel.setText(String.format(Locale.getDefault(), "Összesen %,d Kg megmozgatott súly",
+                        sorozatWithGyakorlats.stream().mapToInt(gyak -> gyak.sorozat.getIsmetles() * gyak.sorozat.getSuly()).sum()));
+                binding.naploDetailsInfoLabel.setText(String.format(Locale.getDefault(), "Elvégzett gyakorlatok száma [%d] db", getGyakDarabSzam(sorozatWithGyakorlats)));
+            }
+        });
+    }
+
+    private void setupRcViewWithNaploUI(NaploUI naploUI) {
+        commentFilePath = naploUI.getCommentFilePath();
         binding.naploDetailsDatumLabel.setText(dateTimeFormatter.getNaploDatum(naploUI.getNaplodatum()));
         binding.naploDetailsRcView.setAdapter(adapterFactory.create(naploUI.getSorozats()));
         binding.naploDetailsRcView.setItemAnimator(new DefaultItemAnimator());
@@ -131,22 +164,50 @@ public class NaploDetailsActivity extends BaseActivity<MvvmNaploDetailsActivityB
         } else if (item.getItemId() == R.id.naplo_details_delete) {
             uiNaplotTorol(naploDatum);
         } else if (item.getItemId() == R.id.naplo_details_comment) {
-            //ez itt megint nem jo, mert kétszer jelenik meg az observe miatt a cumo, mint pl a toast...
-            //a végén csak átkell inkább adnom a naplo objt
-            naploViewModel.getNaploByNaploDatum(naploDatum).observe(this, naplo -> {
-                if (naplo != null && naplo.getCommentFilePath() != null && naplo.getCommentFilePath().length() > 0) {
-                    Intent commentActivity = new Intent(this, CommentActivity.class);
-                    commentActivity.putExtra("audio_play_on", true);
-                    commentActivity.putExtra("extra_file_name", naplo.getCommentFilePath());
-                    startActivity(commentActivity);
-                    overridePendingTransition(R.anim.move_right_in_activity, R.anim.move_left_out_activity);
-                } else {
-                    Toast.makeText(this, "Nincs audio comment rögzítve!", Toast.LENGTH_SHORT).show();
-                }
-            });
+            Intent commentActivity = new Intent(this, CommentActivity.class);
+            commentActivity.putExtra(EXTRA_NAPLO_DATUM, naploDatum);
+            if(commentFilePath == null) {
+                new AlertDialog.Builder(this)
+                        .setMessage("Nincs hang anyag rögzítve, szeretnél újat?")
+                        .setPositiveButton("ok", (dialog, which) -> {
+                            commentActivity.putExtra(EXTRA_NEW_COMMENT, true);
+                            commentActivity.putExtra(EXTRA_FILE_NAME, naploDatum + "_comment.3gp");
+                            startActivityForResult(commentActivity, COMMENT);
+                            overridePendingTransition(R.anim.move_right_in_activity, R.anim.move_left_out_activity);
+                        })
+                        .setNeutralButton("mégse", (dialog, which) -> dialog.dismiss())
+                        .show();
+            } else if(commentFilePath.length() != 0) {
+                commentActivity.putExtra(EXTRA_ONLY_PLAY, true);
+                commentActivity.putExtra(EXTRA_FILE_NAME, commentFilePath);
+                startActivityForResult(commentActivity, COMMENT);
+                overridePendingTransition(R.anim.move_right_in_activity, R.anim.move_left_out_activity);
+            } else {
+                new AlertDialog.Builder(this)
+                        .setMessage("Nincs hang anyag rögzítve, szeretnél újat?")
+                        .setPositiveButton("ok", (dialog, which) -> {
+                            commentActivity.putExtra(EXTRA_NEW_COMMENT, true);
+                            commentActivity.putExtra(EXTRA_FILE_NAME, naploDatum + "_comment.3gp");
+                            startActivityForResult(commentActivity, COMMENT);
+                            overridePendingTransition(R.anim.move_right_in_activity, R.anim.move_left_out_activity);
+                        })
+                        .setNeutralButton("mégse", (dialog, which) -> dialog.dismiss())
+                        .show();
+            }
         }
-
         return super.onContextItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == COMMENT && resultCode == RESULT_OK) {
+            if (data != null && data.getExtras().get(EXTRA_FILE_NAME) != null) {
+                naploUI.setCommentFilePath((String) data.getExtras().get(EXTRA_FILE_NAME));
+                naploViewModel.update(modelConverter.fromNaploUI(naploUI));
+                Toast.makeText(this, "Audio Comment sikeresen rögzítve", Toast.LENGTH_SHORT).show();
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     private void uiNaplotTorol(Long naploDatum) {

@@ -3,6 +3,7 @@ package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui
 import aa.droid.norbo.projects.edzesnaplo3.R
 import aa.droid.norbo.projects.edzesnaplo3.databinding.ActivityCommentBinding
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.comment.AudioComment
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.media.AudioManager
 import android.media.MediaPlayer
@@ -14,9 +15,10 @@ import java.io.File
 class CommentActivity : BaseActivity<ActivityCommentBinding>(R.layout.activity_comment) {
     private var audioComment: AudioComment? = null
     private var felvetelVan: Boolean = false
-    private var playAudio: Boolean = false
     private var filename: String = ""
     private var naplodatumStr: String = ""
+    private var naploDatumFromIntent: Long? = null
+    private var onlyplay: Boolean = false
 
     override fun setupCustomActionBar() {
         setSupportActionBar(binding.toolbar)
@@ -24,13 +26,21 @@ class CommentActivity : BaseActivity<ActivityCommentBinding>(R.layout.activity_c
         supportActionBar?.setIcon(R.drawable.ic_headset)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val bundle: Bundle? = intent.extras
-        filename = bundle!!.getString("extra_file_name", "")
+        filename = bundle!!.getString(NaploDetailsActivity.EXTRA_FILE_NAME, "")
+        naploDatumFromIntent = bundle.getLong(NaploDetailsActivity.EXTRA_NAPLO_DATUM)
+        onlyplay = bundle.getBoolean(NaploDetailsActivity.EXTRA_ONLY_PLAY)
         naplodatumStr = filename
         audioComment = AudioComment(this)
+
+        if(bundle.getBoolean(NaploDetailsActivity.EXTRA_NEW_COMMENT, false))
+            binding.newCommentLabel.text = "Új audio comment rögzítése"
+        else
+            binding.newCommentLabel.visibility = View.GONE
 
         binding.filename.text = filename
 
@@ -72,6 +82,7 @@ class CommentActivity : BaseActivity<ActivityCommentBinding>(R.layout.activity_c
                 binding.filename.text = naplodatumStr.subSequence(naplodatumStr.lastIndexOf('/')+1, naplodatumStr.length)
                 binding.btnDeleteRecord.isEnabled = false
                 binding.btnStartRecord.isEnabled = true
+                onlyplay = false
             }
         }
 
@@ -79,8 +90,8 @@ class CommentActivity : BaseActivity<ActivityCommentBinding>(R.layout.activity_c
 
     override fun onBackPressed() {
         val intentReply = Intent()
-        if (audioComment!!.isPlayable(filename)) {
-            intentReply.putExtra("extra_file_name", filename)
+        if (audioComment!!.isPlayable(filename) and !onlyplay) {
+            intentReply.putExtra(NaploDetailsActivity.EXTRA_FILE_NAME, filename)
             setResult(RESULT_OK, intentReply)
         } else {
             setResult(RESULT_CANCELED)

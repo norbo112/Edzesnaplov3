@@ -94,7 +94,7 @@ public class NaploDetailsRcViewAdapter extends RecyclerView.Adapter<NaploDetails
         private long elteltIdo(GyakorlatSorozatUI gyakorlatSorozatUI) {
             Duration between = Duration.between(Instant.ofEpochMilli(gyakorlatSorozatUI.getSorozats().get(0).getIsmidopont()),
                     Instant.ofEpochMilli(gyakorlatSorozatUI.getSorozats().get(gyakorlatSorozatUI.getSorozats().size() - 1).getIsmidopont()));
-            return between.toMinutes();
+            return Math.abs(between.toMinutes());
         }
     }
 }

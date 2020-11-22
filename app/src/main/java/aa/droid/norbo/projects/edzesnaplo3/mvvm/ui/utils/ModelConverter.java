@@ -50,6 +50,14 @@ public class ModelConverter {
         return naploUI;
     }
 
+    public NaploUI fromNaploEntity(Naplo naplo) {
+        return new NaploUI(naplo.getId(), naplo.getNaplodatum(), naplo.getFelhasznalonev(), naplo.getCommentFilePath());
+    }
+
+    public Naplo fromNaploUI(NaploUI naploUI) {
+        return new Naplo(naploUI.getId(), naploUI.getNaplodatum(), naploUI.getFelhasznalonev(), naploUI.getCommentFilePath());
+    }
+
     /**
      * V3-as naplók mentésének betöltésére szolgál
      * @param naplo

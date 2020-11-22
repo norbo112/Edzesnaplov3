@@ -31,7 +31,16 @@ class AudioComment (private val context: Context) {
     }
 
     private fun getFile(filename: String): File {
-        file = File(context.getExternalFilesDir(null), filename)
+        var _file: String = ""
+        if(filename.startsWith("/storage/")) {
+            _file = filename.subSequence(filename.lastIndexOf('/') + 1, filename.length).toString()
+        } else {
+            _file = filename
+        }
+
+        file = File(context.getExternalFilesDir(null), _file)
+        if(!file!!.exists())
+            file!!.createNewFile()
         return file as File
     }
 

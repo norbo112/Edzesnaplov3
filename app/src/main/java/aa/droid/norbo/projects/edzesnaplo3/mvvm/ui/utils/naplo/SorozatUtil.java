@@ -48,7 +48,7 @@ public class SorozatUtil {
     private SorozatViewModel sorozatViewModel;
 
     public interface SorozatUtilReportInterface {
-        void viewNaploFromReport(String naplodatum);
+        void viewNaploFromReport(long naplodatum);
     }
 
     @Inject
@@ -77,7 +77,7 @@ public class SorozatUtil {
         });
     }
 
-    public void osszSorozatNezoke(Activity activity, OsszSorozat osszSorozat, String naplodatum, SorozatUtilReportInterface reportInterface) {
+    public void osszSorozatNezoke(Activity activity, OsszSorozat osszSorozat, long naplodatum, SorozatUtilReportInterface reportInterface) {
         new AlertDialog.Builder(context)
                 .setView(getOsszSorozatView(activity, osszSorozat))
                 .setPositiveButton("ok", (dialog, which) -> dialog.dismiss())

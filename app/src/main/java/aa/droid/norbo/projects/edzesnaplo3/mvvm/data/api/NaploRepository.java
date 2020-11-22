@@ -5,6 +5,7 @@ import android.database.Cursor;
 import androidx.lifecycle.LiveData;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.toolmodels.NaploWithOnlySorozats;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.toolmodels.NaploWithSorozat;
@@ -13,6 +14,8 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Naplo;
 public interface NaploRepository {
     void insert(Naplo naplo);
     LiveData<List<Naplo>> getAll();
+
+    CompletableFuture<Naplo> getOneByDatum(long naplodatum);
 
     void delete(long naplodatum);
 
@@ -28,7 +31,7 @@ public interface NaploRepository {
 
     Cursor getNaploOsszSulyBy();
 
-    LiveData<Naplo> getNaploByNaploDatum(long naplodatum);
-
     List<NaploWithSorozat> getNaploWithSorozatList();
+
+    void update(Naplo naplo);
 }

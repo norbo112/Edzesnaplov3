@@ -242,7 +242,7 @@ public class SorozatReportUtil {
         public void onValueSelected(Entry e, Highlight h) {
             if (e.getData() instanceof OsszSorozat) {
                 sorozatUtil.osszSorozatNezoke(activity, (OsszSorozat) e.getData(),
-                        Long.toString(((OsszSorozat) e.getData()).getNaplodatum()), reportInterface);
+                        ((OsszSorozat) e.getData()).getNaplodatum(), reportInterface);
             } else if (e.getData() instanceof GyakorlatSorozatElteltIdo) {
                 String elteltIdoStr = String.format(Locale.getDefault(), "Eltelt idő: %d perc",
                         ((GyakorlatSorozatElteltIdo) e.getData()).getElteltIdo());
@@ -265,7 +265,7 @@ public class SorozatReportUtil {
 
     SorozatUtil.SorozatUtilReportInterface reportInterface = new SorozatUtil.SorozatUtilReportInterface() {
         @Override
-        public void viewNaploFromReport(String naplodatum) {
+        public void viewNaploFromReport(long naplodatum) {
             Intent intent = new Intent(context, NaploDetailsActivity.class);
             intent.putExtra(NaploDetailsActivity.EXTRA_NAPLO_DATUM, naplodatum);
             activity.startActivity(intent);

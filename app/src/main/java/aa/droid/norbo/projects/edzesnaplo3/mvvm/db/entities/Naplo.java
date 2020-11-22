@@ -28,6 +28,14 @@ public class Naplo implements Serializable {
     public Naplo(){}
 
     @Ignore
+    public Naplo(int id, long naplodatum, String felhasznalonev, String commentFilePath) {
+        this.id = id;
+        this.naplodatum = naplodatum;
+        this.felhasznalonev = felhasznalonev;
+        this.commentFilePath = commentFilePath;
+    }
+
+    @Ignore
     public Naplo(@NonNull long naplodatum, String felhasznalonev) {
         this.naplodatum = naplodatum;
         this.felhasznalonev = felhasznalonev;

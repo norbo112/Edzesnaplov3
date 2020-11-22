@@ -193,7 +193,7 @@ public class TevekenysegActivity extends BaseActivity<MvvmActivityTestBinding> i
             Intent commentActivity = new Intent(this, CommentActivity.class);
             String filename = naploWorker.getNaplo().getCommentFilePath() != null ? naploWorker.getNaplo().getCommentFilePath() :
                     naploWorker.getNaplo().getNaplodatum()+"_audiocomment.3gp";
-            commentActivity.putExtra("extra_file_name", filename);
+            commentActivity.putExtra(NaploDetailsActivity.EXTRA_FILE_NAME, filename);
             startActivityForResult(commentActivity, AUDIO_COMMENT_RES);
             overridePendingTransition(R.anim.move_right_in_activity, R.anim.move_left_out_activity);
         }
@@ -226,7 +226,7 @@ public class TevekenysegActivity extends BaseActivity<MvvmActivityTestBinding> i
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == AUDIO_COMMENT_RES) {
             if (resultCode == RESULT_OK) {
-                String extra_file_name = data.getStringExtra("extra_file_name");
+                String extra_file_name = data.getStringExtra(NaploDetailsActivity.EXTRA_FILE_NAME);
                 naploWorker.getNaplo().setCommentFilePath(extra_file_name);
                 Toast.makeText(this, "Audio Fájl mentve: " + extra_file_name, Toast.LENGTH_SHORT).show();
             } else {

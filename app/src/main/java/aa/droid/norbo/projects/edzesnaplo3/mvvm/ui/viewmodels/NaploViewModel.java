@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -48,11 +49,15 @@ public class NaploViewModel extends ViewModel {
         return naploRepository.getSyncNaploWithOnlySorozats(naplodatum);
     }
 
-    public LiveData<Naplo> getNaploByNaploDatum(long naplodatum) {
-        return naploRepository.getNaploByNaploDatum(naplodatum);
+    public void update(Naplo naplo) {
+        naploRepository.update(naplo);
     }
 
     public void insert(Naplo naplo) {
         naploRepository.insert(naplo);
+    }
+
+    public CompletableFuture<Naplo> getOneByDate(long naplodatum) {
+        return naploRepository.getOneByDatum(naplodatum);
     }
 }
