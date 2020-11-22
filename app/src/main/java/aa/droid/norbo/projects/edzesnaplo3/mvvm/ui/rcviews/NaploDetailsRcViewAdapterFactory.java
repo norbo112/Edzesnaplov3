@@ -38,10 +38,12 @@ public class NaploDetailsRcViewAdapterFactory {
                 if(sorozatWithGyakorlat.gyakorlat.equals(gyakorlat))
                     gyakorlatSorozatUI.addSorozat(sorozatWithGyakorlat.sorozat);
             }
+            gyakorlatSorozatUI.getSorozats().sort((o1, o2) -> Long.compare(o1.getIsmidopont(), o2.getIsmidopont()));
             list.add(gyakorlatSorozatUI);
         }
 
-        list.sort((o1, o2) -> Long.compare(o1.getSorozats().get(0).getIsmidopont(), o2.getSorozats().get(o2.getSorozats().size() -1).getIsmidopont()));
+        list.sort((o1, o2) -> Long.compare(o1.getSorozats().get(0).getIsmidopont(),
+                o2.getSorozats().get(o2.getSorozats().size() -1).getIsmidopont()));
 
         return list;
     }

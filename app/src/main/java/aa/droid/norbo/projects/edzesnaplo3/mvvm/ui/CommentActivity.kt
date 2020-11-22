@@ -12,6 +12,7 @@ import android.view.View
 import android.widget.Toast
 import java.io.File
 
+
 class CommentActivity : BaseActivity<ActivityCommentBinding>(R.layout.activity_comment) {
     private var audioComment: AudioComment? = null
     private var felvetelVan: Boolean = false
@@ -69,8 +70,12 @@ class CommentActivity : BaseActivity<ActivityCommentBinding>(R.layout.activity_c
         binding.btnStartPlay.setOnClickListener {
             if (filename.isNotEmpty()) {
                 if (audioComment!!.isPlayable(filename)) {
+                    binding.btnStartPlay.isEnabled = false
                     binding.progressBar.visibility = View.VISIBLE
-                    audioComment!!.startPlaying(filename, MediaPlayer.OnCompletionListener { binding.progressBar.visibility = View.GONE })
+                    audioComment!!.startPlaying(filename) {
+                        binding.progressBar.visibility = View.GONE
+                        binding.btnStartPlay.isEnabled = true
+                    }
                 } else {
                     Toast.makeText(this, "Nem létezik a fájl", Toast.LENGTH_SHORT).show()
                 }
@@ -89,9 +94,10 @@ class CommentActivity : BaseActivity<ActivityCommentBinding>(R.layout.activity_c
     }
 
     override fun onBackPressed() {
-        val intentReply = Intent()
         if (audioComment!!.isPlayable(filename) and !onlyplay) {
-            intentReply.putExtra(NaploDetailsActivity.EXTRA_FILE_NAME, filename)
+            val intentReply = Intent().apply {
+                putExtra(NaploDetailsActivity.EXTRA_FILE_NAME, filename)
+            }
             setResult(RESULT_OK, intentReply)
         } else {
             setResult(RESULT_CANCELED)
