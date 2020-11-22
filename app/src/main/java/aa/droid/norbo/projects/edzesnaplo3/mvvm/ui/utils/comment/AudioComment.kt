@@ -3,11 +3,13 @@ package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.comment
 import android.content.Context
 import android.media.MediaPlayer
 import android.media.MediaRecorder
+import android.util.Log
 import android.widget.Toast
 import java.io.File
 import java.io.IOException
 
 class AudioComment (private val context: Context) {
+    private val TAG: String? = "AudioComment"
     var mediaRecorder: MediaRecorder? = null
     var mediaPlayer: MediaPlayer? = null
     var file: File? = null
@@ -20,10 +22,12 @@ class AudioComment (private val context: Context) {
         mediaRecorder!!.setOutputFile(getFile(filename))
         try {
             mediaRecorder!!.prepare()
+            mediaRecorder!!.start()
         } catch (e: IOException) {
             Toast.makeText(context, "Hiba történt a rögzítés közben :(", Toast.LENGTH_SHORT).show()
+        } catch (e: IllegalStateException) {
+            Log.e(TAG, "recordComment: hiba történt", e)
         }
-        mediaRecorder!!.start()
     }
 
     private fun getFile(filename: String): File {
