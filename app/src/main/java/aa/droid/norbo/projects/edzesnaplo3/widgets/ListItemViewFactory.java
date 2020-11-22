@@ -20,8 +20,10 @@ import javax.inject.Inject;
 
 import aa.droid.norbo.projects.edzesnaplo3.R;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.api.NaploRepository;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.toolmodels.NaploWithSorozat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.NaploDetailsActivity;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.DateTimeFormatter;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.ModelConverter;
 import aa.droid.norbo.projects.edzesnaplo3.providers.NaploContentProviderWithHilt;
 import aa.droid.norbo.projects.edzesnaplo3.widgets.withhilt.EdzesnaploWidget;
 import dagger.hilt.android.AndroidEntryPoint;
@@ -33,9 +35,12 @@ public class ListItemViewFactory implements RemoteViewsService.RemoteViewsFactor
     private int appWidgetId;
     private SimpleDateFormat simpleDateFormat;
     private NaploRepository naploRepository;
+    private ModelConverter modelConverter;
 
-    public ListItemViewFactory(Context context, Intent intent, NaploRepository naploRepository) {
+    public ListItemViewFactory(Context context, Intent intent, NaploRepository naploRepository,
+                               ModelConverter modelConverter) {
         this.context = context;
+        this.modelConverter = modelConverter;
         this.appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
         this.naploRepository = naploRepository;
         this.simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
@@ -71,8 +76,7 @@ public class ListItemViewFactory implements RemoteViewsService.RemoteViewsFactor
                 String.format(Locale.getDefault(), "%,d Kg", naploGyakOsszsuly.getGyakorlatOsszsulys()));
 
         Intent fillInIntent = new Intent();
-        fillInIntent.putExtra(NaploDetailsActivity.EXTRA_NAPLO_DATUM,
-                Long.toString(naploGyakOsszsuly.getNaplodatum()));
+        fillInIntent.putExtra(NaploDetailsActivity.EXTRA_NAPLO, naploGyakOsszsuly.getNaploUI());
         views.setOnClickFillInIntent(R.id.tvNaploDatum, fillInIntent);
 
         return views;
@@ -101,16 +105,14 @@ public class ListItemViewFactory implements RemoteViewsService.RemoteViewsFactor
     private List<NaploGyakOsszsuly> getNaploGyakOsszsuly() {
         List<NaploGyakOsszsuly> naploGyakOsszsulies = new ArrayList<>();
 
-//        Cursor c = context.getContentResolver().query(NaploContentProviderWithHilt.GET_NAPLO_GYAK_ES_OSSZSULY, null, null, null, null);
-        Cursor c = naploRepository.getNaploOsszSulyBy();
-        Log.i(TAG, "getNaploGyakOsszsuly: Naplo repository használva");
-        if (c != null) {
-            while (c.moveToNext()) {
-                naploGyakOsszsulies.add(new NaploGyakOsszsuly(
-                        Long.parseLong(c.getString(1)),
-                        Integer.parseInt(c.getString(0))));
+        List<NaploWithSorozat> naploWithSorozats = naploRepository.getNaploWithSorozatList();
+
+        if (naploWithSorozats != null) {
+            for (NaploWithSorozat sorozat : naploWithSorozats) {
+                naploGyakOsszsulies.add(new NaploGyakOsszsuly(sorozat.daonaplo.getNaplodatum(),
+                        sorozat.sorozats.stream().mapToInt(sor ->sor.sorozat.getIsmetles() * sor.sorozat.getSuly()).sum(),
+                        modelConverter.fromNaploEntity(sorozat)));
             }
-            c.close();
         }
         return naploGyakOsszsulies;
     }

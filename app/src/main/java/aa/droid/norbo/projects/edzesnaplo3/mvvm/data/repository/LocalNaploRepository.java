@@ -76,4 +76,9 @@ public class LocalNaploRepository implements NaploRepository {
     public LiveData<Naplo> getNaploByNaploDatum(long naplodatum) {
         return database.naploDao().getNaploByNaploDatum(naplodatum);
     }
+
+    @Override
+    public List<NaploWithSorozat> getNaploWithSorozatList() {
+        return database.naploDao().getNaploWithSorozatList();
+    }
 }

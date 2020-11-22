@@ -107,18 +107,5 @@ public class EdzesnaploWidget extends AppWidgetProvider {
     public void onDisabled(Context context) {
         // Enter relevant functionality for when the last widget is disabled
     }
-
-    private List<NaploGyakOsszsuly> getNaploGyakOsszsuly(Cursor cursor) {
-        List<NaploGyakOsszsuly> naploGyakOsszsulies = new ArrayList<>();
-        if (cursor != null) {
-            while (cursor.moveToNext()) {
-                naploGyakOsszsulies.add(new NaploGyakOsszsuly(
-                        Long.parseLong(cursor.getString(1)),
-                        Integer.parseInt(cursor.getString(0))));
-            }
-            cursor.close();
-        }
-        return naploGyakOsszsulies;
-    }
 }
 

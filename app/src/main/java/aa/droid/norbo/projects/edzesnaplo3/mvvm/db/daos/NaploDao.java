@@ -58,6 +58,10 @@ public interface NaploDao {
     @Query("SELECT * FROM naplo WHERE naplodatum =:naplodatum")
     NaploWithOnlySorozats getSyncNaploWithOnlySorozats(long naplodatum);
 
+    @Transaction
+    @Query("SELECT * FROM naplo")
+    List<NaploWithSorozat> getNaploWithSorozatList();
+
     @Query("SELECT * FROM naplo WHERE naplodatum =:naplodatum")
     LiveData<Naplo> getNaploByNaploDatum(long naplodatum);
 }
