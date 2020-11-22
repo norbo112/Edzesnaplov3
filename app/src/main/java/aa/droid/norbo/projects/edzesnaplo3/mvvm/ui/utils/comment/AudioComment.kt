@@ -36,8 +36,9 @@ class AudioComment (private val context: Context) {
         mediaRecorder!!.release()
     }
 
-    fun startPlaying(filename: String) {
+    fun startPlaying(filename: String, whencomplete: MediaPlayer.OnCompletionListener) {
         mediaPlayer = MediaPlayer()
+        mediaPlayer!!.setOnCompletionListener(whencomplete)
         try {
             mediaPlayer!!.setDataSource(filename)
             mediaPlayer!!.prepare()
@@ -47,9 +48,13 @@ class AudioComment (private val context: Context) {
         }
     }
 
-    fun stopPlaying() {
-        if(mediaPlayer != null)
-            mediaPlayer?.release()
-        mediaPlayer = null
+    fun deleteComment(filename: String): Boolean {
+        val file = File(filename)
+        this.file = null
+        return file.delete()
+    }
+
+    fun isPlayable(filename: String) : Boolean {
+        return File(filename).exists()
     }
 }

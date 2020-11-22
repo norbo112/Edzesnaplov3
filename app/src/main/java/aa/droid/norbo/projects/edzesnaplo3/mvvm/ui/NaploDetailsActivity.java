@@ -27,6 +27,7 @@ import javax.inject.Inject;
 
 import aa.droid.norbo.projects.edzesnaplo3.R;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmNaploDetailsActivityBinding;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.NaploUI;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.SorozatWithGyakorlat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Naplo;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.service.files.MyFileService;
@@ -43,6 +44,7 @@ public class NaploDetailsActivity extends BaseActivity<MvvmNaploDetailsActivityB
     private static final String TAG = "NaploDetailsActivity";
     public static final String EXTRA_NAPLO_DATUM = "aa.droid.norbo.projects.edzesnaplo3.v4.EXTRA_NAPLO_DATUM";
     public static final String EXTRA_NAPLO_COMMENT = "aa.droid.norbo.projects.edzesnaplo3.v4.EXTRA_NAPLO_COMMENT";
+    public static final String EXTRA_NAPLO = "aa.droid.norbo.projects.edzesnaplo3.v4.EXTRA_NAPLO";
 
     @Inject
     NaploDetailsRcViewAdapterFactory adapterFactory;
@@ -63,7 +65,7 @@ public class NaploDetailsActivity extends BaseActivity<MvvmNaploDetailsActivityB
     WidgetUtil widgetUtil;
 
     private Long naploDatum;
-    private String naploComment;
+    private NaploUI naploUI;
 
     public NaploDetailsActivity() {
         super(R.layout.mvvm_naplo_details_activity);
@@ -73,29 +75,23 @@ public class NaploDetailsActivity extends BaseActivity<MvvmNaploDetailsActivityB
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        naploDatum = Long.parseLong(
-                Objects.requireNonNull(getIntent().getStringExtra(EXTRA_NAPLO_DATUM), "Nem lett átadva a megfelelő adat!"));
+        naploUI = (NaploUI) getIntent().getSerializableExtra(EXTRA_NAPLO);
 
-        naploComment = getIntent().getStringExtra(EXTRA_NAPLO_COMMENT);
-
-        if(naploDatum != 0) {
-            setupRcViewWithDate(naploDatum);
+        if (naploUI != null) {
+            naploDatum = naploUI.getNaplodatum();
+            setupRcViewWithDate(naploUI);
         }
     }
 
-    private void setupRcViewWithDate(long naploDatum) {
-        sorozatViewModel.getForNaplo(naploDatum).observe(this, sorozatWithGyakorlats -> {
-            if(sorozatWithGyakorlats != null) {
-                binding.naploDetailsDatumLabel.setText(dateTimeFormatter.getNaploDatum(naploDatum));
-                binding.naploDetailsRcView.setAdapter(adapterFactory.create(sorozatWithGyakorlats));
-                binding.naploDetailsRcView.setItemAnimator(new DefaultItemAnimator());
-                binding.naploDetailsRcView.setLayoutManager(new LinearLayoutManager(NaploDetailsActivity.this, RecyclerView.HORIZONTAL, false));
+    private void setupRcViewWithDate(NaploUI naploUI) {
+        binding.naploDetailsDatumLabel.setText(dateTimeFormatter.getNaploDatum(naploUI.getNaplodatum()));
+        binding.naploDetailsRcView.setAdapter(adapterFactory.create(naploUI.getSorozats()));
+        binding.naploDetailsRcView.setItemAnimator(new DefaultItemAnimator());
+        binding.naploDetailsRcView.setLayoutManager(new LinearLayoutManager(NaploDetailsActivity.this, RecyclerView.HORIZONTAL, false));
 
-                binding.naploDetailsSulyLabel.setText(String.format(Locale.getDefault(), "Összesen %,d Kg megmozgatott súly",
-                        sorozatWithGyakorlats.stream().mapToInt(gyak -> gyak.sorozat.getIsmetles() * gyak.sorozat.getSuly()).sum()));
-                binding.naploDetailsInfoLabel.setText(String.format(Locale.getDefault(), "Elvégzett gyakorlatok száma [%d] db", getGyakDarabSzam(sorozatWithGyakorlats)));
-            }
-        });
+        binding.naploDetailsSulyLabel.setText(String.format(Locale.getDefault(), "Összesen %,d Kg megmozgatott súly",
+                naploUI.getSorozats().stream().mapToInt(gyak -> gyak.sorozat.getIsmetles() * gyak.sorozat.getSuly()).sum()));
+        binding.naploDetailsInfoLabel.setText(String.format(Locale.getDefault(), "Elvégzett gyakorlatok száma [%d] db", getGyakDarabSzam(naploUI.getSorozats())));
     }
 
     private int getGyakDarabSzam(List<SorozatWithGyakorlat> sorozatWithGyakorlats) {
@@ -122,7 +118,7 @@ public class NaploDetailsActivity extends BaseActivity<MvvmNaploDetailsActivityB
     @Override
     public void setupCustomActionBar() {
         setSupportActionBar(binding.toolbar.customToolbar);
-        if(getSupportActionBar() != null) {
+        if (getSupportActionBar() != null) {
             binding.toolbar.naploDetails.setVisibility(View.GONE);
             binding.toolbar.moreOptions.setOnClickListener(this::showMoreOptionsPopupMenu);
         }
@@ -130,13 +126,15 @@ public class NaploDetailsActivity extends BaseActivity<MvvmNaploDetailsActivityB
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == R.id.naplo_details_save) {
+        if (item.getItemId() == R.id.naplo_details_save) {
             naplotMent(naploDatum);
-        } else if(item.getItemId() == R.id.naplo_details_delete) {
+        } else if (item.getItemId() == R.id.naplo_details_delete) {
             uiNaplotTorol(naploDatum);
-        } else if(item.getItemId() == R.id.naplo_details_comment) {
+        } else if (item.getItemId() == R.id.naplo_details_comment) {
+            //ez itt megint nem jo, mert kétszer jelenik meg az observe miatt a cumo, mint pl a toast...
+            //a végén csak átkell inkább adnom a naplo objt
             naploViewModel.getNaploByNaploDatum(naploDatum).observe(this, naplo -> {
-                if(naplo != null && naplo.getCommentFilePath() != null && naplo.getCommentFilePath().length() > 0) {
+                if (naplo != null && naplo.getCommentFilePath() != null && naplo.getCommentFilePath().length() > 0) {
                     Intent commentActivity = new Intent(this, CommentActivity.class);
                     commentActivity.putExtra("audio_play_on", true);
                     commentActivity.putExtra("extra_file_name", naplo.getCommentFilePath());
@@ -152,7 +150,7 @@ public class NaploDetailsActivity extends BaseActivity<MvvmNaploDetailsActivityB
     }
 
     private void uiNaplotTorol(Long naploDatum) {
-        if(naploDatum != null && naploDatum != 0) {
+        if (naploDatum != null && naploDatum != 0) {
             new AlertDialog.Builder(this)
                     .setTitle("Törés")
                     .setMessage("Biztosan törölni szeretnéd a naplót?")
@@ -171,8 +169,8 @@ public class NaploDetailsActivity extends BaseActivity<MvvmNaploDetailsActivityB
         naploViewModel.deleteNaplo(naplodatum);
         sorozatViewModel.deleteSorozat(naplodatum);
 
-        if(naploComment != null) {
-            File f = new File(naploComment);
+        if (naploUI.getCommentFilePath() != null) {
+            File f = new File(naploUI.getCommentFilePath());
             if (f.exists()) {
                 f.delete();
             }

@@ -135,8 +135,8 @@ public class TevekenysegActivity extends BaseActivity<MvvmActivityTestBinding> i
                 String title = "Napló "+formatter.getNaploDatum(naplo.getNaplodatum());
                 title += String.format(Locale.getDefault(), " (%,.0f Kg)", naplo.getSorozats().stream().mapToDouble(s -> s.getSuly() * s.getIsmetles()).sum());
                 title += " (mentés)";
+                title += "\n"+ (naplo.getCommentFilePath() != null && naplo.getCommentFilePath().length() > 0 ? "audio megjegyzéssel" : "");
                 new AlertDialog.Builder(this)
-//                        .setTitle("Napló "+formatter.getNaploDatum(naploWorker.getNaplo().getNaplodatum())+" (mentés)")
                         .setTitle(title)
                         .setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, naplo.getSorozats()), null)
                         .setNeutralButton("ok", (dialog, which) -> dialog.dismiss())
@@ -191,7 +191,9 @@ public class TevekenysegActivity extends BaseActivity<MvvmActivityTestBinding> i
             edzesTervManageUtil.makeValasztoDialog(this, this, this);
         } else if(item.getItemId() == R.id.tevekenyseg_audio_comment) {
             Intent commentActivity = new Intent(this, CommentActivity.class);
-            commentActivity.putExtra("extra_file_name", naploWorker.getNaplo().getNaplodatum()+"_audiocomment.3gp");
+            String filename = naploWorker.getNaplo().getCommentFilePath() != null ? naploWorker.getNaplo().getCommentFilePath() :
+                    naploWorker.getNaplo().getNaplodatum()+"_audiocomment.3gp";
+            commentActivity.putExtra("extra_file_name", filename);
             startActivityForResult(commentActivity, AUDIO_COMMENT_RES);
             overridePendingTransition(R.anim.move_right_in_activity, R.anim.move_left_out_activity);
         }
@@ -222,10 +224,14 @@ public class TevekenysegActivity extends BaseActivity<MvvmActivityTestBinding> i
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == AUDIO_COMMENT_RES && resultCode == RESULT_OK) {
-            String extra_file_name = data.getStringExtra("extra_file_name");
-            naploWorker.getNaplo().setCommentFilePath(extra_file_name);
-            Toast.makeText(this, "Audio Fájl mentve: " + extra_file_name, Toast.LENGTH_SHORT).show();
+        if (requestCode == AUDIO_COMMENT_RES) {
+            if (resultCode == RESULT_OK) {
+                String extra_file_name = data.getStringExtra("extra_file_name");
+                naploWorker.getNaplo().setCommentFilePath(extra_file_name);
+                Toast.makeText(this, "Audio Fájl mentve: " + extra_file_name, Toast.LENGTH_SHORT).show();
+            } else {
+                naploWorker.getNaplo().setCommentFilePath(null);
+            }
         }
         super.onActivityResult(requestCode, resultCode, data);
     }

@@ -68,13 +68,13 @@ from
     <filter-actions connection-id="c04e3ea8-b1da-4da8-bfb8-c7f42166aa05" dataset="main.EdzesnapEntity" active-filter-id="021f21ce-5d34-4d27-a7a6-dfca423d82ae">
       <filter id="021f21ce-5d34-4d27-a7a6-dfca423d82ae" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND" />
     </filter-actions>
-    <filter-actions connection-id="e6b19e2b-0bcd-4096-89b1-d9a4df557ba0" dataset="main.sorozattabla" active-filter-id="" />
     <filter-actions connection-id="34a19e45-1185-4b09-ab81-24e5e8e7e5dc" dataset="main.naplo" active-filter-id="f6f95976-20f2-4ce0-9101-e0575aeb8de8">
       <filter id="f6f95976-20f2-4ce0-9101-e0575aeb8de8" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND" />
     </filter-actions>
     <filter-actions connection-id="34a19e45-1185-4b09-ab81-24e5e8e7e5dc" dataset="main.sorozattabla" active-filter-id="bccce907-063a-4976-9727-de82533421d0">
       <filter id="bccce907-063a-4976-9727-de82533421d0" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND" />
     </filter-actions>
+    <filter-actions connection-id="e6b19e2b-0bcd-4096-89b1-d9a4df557ba0" dataset="main.sorozattabla" active-filter-id="" />
     <filter-actions connection-id="c57bd236-2a6d-4ab2-a2d2-08a47b0e554a" dataset="main.CsoportEntity" active-filter-id="3d131c5f-301a-42d2-bfb3-6d5164ed8d0a">
       <filter id="3d131c5f-301a-42d2-bfb3-6d5164ed8d0a" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND" />
     </filter-actions>

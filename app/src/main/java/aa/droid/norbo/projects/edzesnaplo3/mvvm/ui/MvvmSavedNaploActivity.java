@@ -109,8 +109,9 @@ public class MvvmSavedNaploActivity extends BaseActivity<MvvmActivityMentettNapl
                     if(!getResources().getBoolean(R.bool.isTablet)) {
                         Intent intent = new Intent(this, NaploDetailsActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        intent.putExtra(NaploDetailsActivity.EXTRA_NAPLO_DATUM, item.daonaplo.getNaplodatum());
-                        intent.putExtra(NaploDetailsActivity.EXTRA_NAPLO_COMMENT, item.daonaplo.getCommentFilePath());
+                        intent.putExtra(NaploDetailsActivity.EXTRA_NAPLO, modelConverter.fromNaploEntity(item));
+//                        intent.putExtra(NaploDetailsActivity.EXTRA_NAPLO_DATUM, item.daonaplo.getNaplodatum());
+//                        intent.putExtra(NaploDetailsActivity.EXTRA_NAPLO_COMMENT, item.daonaplo.getCommentFilePath());
                         startActivity(intent);
                         overridePendingTransition(R.anim.move_right_in_activity, R.anim.move_left_out_activity);
                     } else {
@@ -129,7 +130,7 @@ public class MvvmSavedNaploActivity extends BaseActivity<MvvmActivityMentettNapl
         //Teszt
         binding.naploReszletek.startAnimation(naploKiAnim);
 
-        long naplodatum = Long.parseLong(item.daonaplo.getNaplodatum());
+        long naplodatum = item.daonaplo.getNaplodatum();
         sorozatViewModel.getForNaplo(naplodatum).observe(this, sorozatWithGyakorlats -> {
             if(sorozatWithGyakorlats != null) {
                 binding.naploReszletek.startAnimation(naploBeAnim);

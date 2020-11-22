@@ -73,7 +73,7 @@ public class NaploListUtil {
                 }
 
                 NaploWithSorozat naploWithSorozat = getItem(position);
-                long naplodatum = Long.parseLong(naploWithSorozat.daonaplo.getNaplodatum());
+                long naplodatum = naploWithSorozat.daonaplo.getNaplodatum();
                 itemBinding.mvvmMentettNaploWithDelLabel.setText(timeFormatter.getNaploDatum(naplodatum));
                 if(!withDialog)
                     itemBinding.mvvmMentettNaploIzomcsoportlista.setText(getIzomcsoportLista(naploWithSorozat));

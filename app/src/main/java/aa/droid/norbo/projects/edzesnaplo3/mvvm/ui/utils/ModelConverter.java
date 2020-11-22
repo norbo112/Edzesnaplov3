@@ -1,10 +1,14 @@
 package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils;
 
+import java.util.stream.Collectors;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.GyakorlatUI;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.NaploUI;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.SorozatUI;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.toolmodels.NaploWithSorozat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Gyakorlat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Naplo;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Sorozat;
@@ -37,6 +41,13 @@ public class ModelConverter {
                 Integer.parseInt(sorozatUI.getSuly()),
                 Integer.parseInt(sorozatUI.getIsmetles()), sorozatUI.getIsmidopont(),
                 sorozatUI.getNaplodatum());
+    }
+
+    public NaploUI fromNaploEntity(NaploWithSorozat naploWithSorozat) {
+        Naplo naplo = naploWithSorozat.daonaplo;
+        NaploUI naploUI = new NaploUI(naplo.getId(), naplo.getNaplodatum(), naplo.getFelhasznalonev(), naplo.getCommentFilePath());
+        naploUI.setSorozats(naploWithSorozat.sorozats);
+        return naploUI;
     }
 
     /**
