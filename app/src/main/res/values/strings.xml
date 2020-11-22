@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Edzesnaplo v3</string>
     <string name="app_name_v4">Edzésnapló</string>
+    <string name="app_name_v4_2">Edzésnapló NEW</string>
     <string name="menu_mentett_naplok_title">Mentett naplók</string>
     <string name="sorozat_list_title">Elvégzett sorozatok</string>
     <string name="korabbi_sorozat_list_title">Korábban elvégzett sorozatok</string>
@@ -62,4 +63,6 @@
     <string name="gyakorlat_search_menu_torles">Törlés</string>
     <string name="gyakorlat_search_menu_video">Video</string>
     <string name="gyak_activity_tablet_label1">Gyakorlat ill. izomcsoport kiválasztása</string>
+    <string name="gyak_report_activity_suylismchart_label">Összes súly és ismétlés</string>
+    <string name="gyak_report_activity_elteltido_label">Eltelt idő</string>
 </resources>

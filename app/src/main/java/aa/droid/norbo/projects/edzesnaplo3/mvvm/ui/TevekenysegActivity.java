@@ -1,5 +1,6 @@
 package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -40,8 +41,9 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.SorozatViewModel;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class TevekenysegActivity extends BaseActiviry<MvvmActivityTestBinding> implements AdatKozloInterface, EdzesTervManageUtil.TervValasztoInterface {
+public class TevekenysegActivity extends BaseActivity<MvvmActivityTestBinding> implements AdatKozloInterface, EdzesTervManageUtil.TervValasztoInterface {
     private static final String TAG = "TestActivity";
+    private static final int AUDIO_COMMENT_RES = 3000;
     private GyakorlatUI gyakorlatUI;
 
     @Inject
@@ -133,8 +135,8 @@ public class TevekenysegActivity extends BaseActiviry<MvvmActivityTestBinding> i
                 String title = "Napló "+formatter.getNaploDatum(naplo.getNaplodatum());
                 title += String.format(Locale.getDefault(), " (%,.0f Kg)", naplo.getSorozats().stream().mapToDouble(s -> s.getSuly() * s.getIsmetles()).sum());
                 title += " (mentés)";
+                title += "\n"+ (naplo.getCommentFilePath() != null && naplo.getCommentFilePath().length() > 0 ? "audio megjegyzéssel" : "");
                 new AlertDialog.Builder(this)
-//                        .setTitle("Napló "+formatter.getNaploDatum(naploWorker.getNaplo().getNaplodatum())+" (mentés)")
                         .setTitle(title)
                         .setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, naplo.getSorozats()), null)
                         .setNeutralButton("ok", (dialog, which) -> dialog.dismiss())
@@ -187,6 +189,13 @@ public class TevekenysegActivity extends BaseActiviry<MvvmActivityTestBinding> i
             sorozatUtil.sorozatNezokeDialog(this, gyakorlatUI);
         } else if(item.getItemId() == R.id.tevekenyseg_edzesterv_valaszto) {
             edzesTervManageUtil.makeValasztoDialog(this, this, this);
+        } else if(item.getItemId() == R.id.tevekenyseg_audio_comment) {
+            Intent commentActivity = new Intent(this, CommentActivity.class);
+            String filename = naploWorker.getNaplo().getCommentFilePath() != null ? naploWorker.getNaplo().getCommentFilePath() :
+                    naploWorker.getNaplo().getNaplodatum()+"_audiocomment.3gp";
+            commentActivity.putExtra(NaploDetailsActivity.EXTRA_FILE_NAME, filename);
+            startActivityForResult(commentActivity, AUDIO_COMMENT_RES);
+            overridePendingTransition(R.anim.move_right_in_activity, R.anim.move_left_out_activity);
         }
         return super.onContextItemSelected(item);
     }
@@ -211,5 +220,19 @@ public class TevekenysegActivity extends BaseActiviry<MvvmActivityTestBinding> i
                 ((EdzesTervManageUtil.TervValasztoInterface)fragment).tervValasztva(edzesTerv);
             }
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == AUDIO_COMMENT_RES) {
+            if (resultCode == RESULT_OK) {
+                String extra_file_name = data.getStringExtra(NaploDetailsActivity.EXTRA_FILE_NAME);
+                naploWorker.getNaplo().setCommentFilePath(extra_file_name);
+                Toast.makeText(this, "Audio Fájl mentve: " + extra_file_name, Toast.LENGTH_SHORT).show();
+            } else {
+                naploWorker.getNaplo().setCommentFilePath(null);
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

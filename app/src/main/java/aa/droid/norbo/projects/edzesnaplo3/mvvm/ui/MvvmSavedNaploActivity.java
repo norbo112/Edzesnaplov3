@@ -44,7 +44,7 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.v3.NaploAll;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class MvvmSavedNaploActivity extends BaseActiviry<MvvmActivityMentettNaplokBinding> implements NaploListUtil.NaploTorlesInterface {
+public class MvvmSavedNaploActivity extends BaseActivity<MvvmActivityMentettNaplokBinding> implements NaploListUtil.NaploTorlesInterface {
     private static final String TAG = "MvvmSavedNaploActivity";
     private static final int FILE_LOAD_RCODE = 10001;
     private static final int FILE_V3_LOAD = 2001;
@@ -109,7 +109,9 @@ public class MvvmSavedNaploActivity extends BaseActiviry<MvvmActivityMentettNapl
                     if(!getResources().getBoolean(R.bool.isTablet)) {
                         Intent intent = new Intent(this, NaploDetailsActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        intent.putExtra(NaploDetailsActivity.EXTRA_NAPLO_DATUM, item.daonaplo.getNaplodatum());
+                        intent.putExtra(NaploDetailsActivity.EXTRA_NAPLO, modelConverter.fromNaploEntity(item));
+//                        intent.putExtra(NaploDetailsActivity.EXTRA_NAPLO_DATUM, item.daonaplo.getNaplodatum());
+//                        intent.putExtra(NaploDetailsActivity.EXTRA_NAPLO_COMMENT, item.daonaplo.getCommentFilePath());
                         startActivity(intent);
                         overridePendingTransition(R.anim.move_right_in_activity, R.anim.move_left_out_activity);
                     } else {
@@ -128,7 +130,7 @@ public class MvvmSavedNaploActivity extends BaseActiviry<MvvmActivityMentettNapl
         //Teszt
         binding.naploReszletek.startAnimation(naploKiAnim);
 
-        long naplodatum = Long.parseLong(item.daonaplo.getNaplodatum());
+        long naplodatum = item.daonaplo.getNaplodatum();
         sorozatViewModel.getForNaplo(naplodatum).observe(this, sorozatWithGyakorlats -> {
             if(sorozatWithGyakorlats != null) {
                 binding.naploReszletek.startAnimation(naploBeAnim);

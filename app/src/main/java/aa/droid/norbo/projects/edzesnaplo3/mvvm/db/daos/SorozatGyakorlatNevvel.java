@@ -5,8 +5,8 @@ import androidx.room.Embedded;
 import androidx.room.Ignore;
 import androidx.room.Relation;
 
-import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.v3.Gyakorlat;
-import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.v3.Sorozat;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Gyakorlat;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Sorozat;
 
 public class SorozatGyakorlatNevvel {
     @Embedded public Sorozat sorozat;

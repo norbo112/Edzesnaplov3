@@ -15,26 +15,39 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <receiver android:name=".widgets.NaploCntAppWidget"
-            android:label="@string/app_name_v4"
-            android:exported="true">
+        <activity android:name=".mvvm.ui.CommentActivity"/>
+
+        <receiver
+            android:name=".widgets.withhilt.EdzesnaploWidget"
+            android:exported="true"
+            android:label="@string/app_name_v4_2">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
-            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget"/>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/edzesnaplowidget" />
         </receiver>
-        <service android:name=".widgets.ListItemService"
-            android:permission="android.permission.BIND_REMOTEVIEWS"/>
+
+        <service
+            android:name=".widgets.ListItemService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
         <provider
-            android:authorities="aa.dorid.norbo.projects.edzesnaplo3.providers"
             android:name=".providers.NaploContentProviderWithHilt"
+            android:authorities="aa.dorid.norbo.projects.edzesnaplo3.providers"
             android:exported="true" />
-        <activity android:name=".mvvm.ui.MvvmGyakorlatokActivity"
+
+        <activity
+            android:name=".mvvm.ui.MvvmGyakorlatokActivity"
             android:parentActivityName=".mvvm.ui.MvvmBelepoActivity">
             <intent-filter android:label="Videó mentése">
-                <action android:name="android.intent.action.SEND"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <data android:mimeType="text/*"/>
+                <action android:name="android.intent.action.SEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="text/*" />
             </intent-filter>
         </activity>
         <activity
@@ -49,7 +62,7 @@
         <activity
             android:name=".mvvm.ui.edzesterv.EdzesTervNezokeActivity"
             android:parentActivityName=".mvvm.ui.edzesterv.EdzesTervBelepoActivity" />
-        <activity android:name=".mvvm.ui.MvvmGyakorlatReportActivity"/>
+        <activity android:name=".mvvm.ui.MvvmGyakorlatReportActivity" />
         <activity android:name=".mvvm.ui.MvvmBelepoActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

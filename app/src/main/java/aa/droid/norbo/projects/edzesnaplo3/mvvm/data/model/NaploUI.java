@@ -1,4 +1,4 @@
-package aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities;
+package aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
@@ -10,52 +10,32 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.SorozatWithGyakorlat;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Sorozat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.DateTimeFormatter;
 
-
-@Entity(tableName = "naplo")
-public class Naplo implements Serializable {
-    @PrimaryKey(autoGenerate = true)
+public class NaploUI implements Serializable {
     private int id;
-    @ColumnInfo(index = true)
     private long naplodatum;
     private String felhasznalonev;
-    @ColumnInfo(name = "sound_comment_fname")
     private String commentFilePath;
-    @Ignore
-    private List<Sorozat> sorozats;
+    private List<SorozatWithGyakorlat> sorozats;
 
-    public Naplo(){}
+    public NaploUI(){}
 
-    @Ignore
-    public Naplo(int id, long naplodatum, String felhasznalonev, String commentFilePath) {
+    public NaploUI(int id, long naplodatum, String felhasznalonev) {
+        this.id = id;
+        this.naplodatum = naplodatum;
+        this.felhasznalonev = felhasznalonev;
+        this.sorozats = new ArrayList<>();
+    }
+
+    public NaploUI(int id, long naplodatum, String felhasznalonev, String commentFilePath) {
         this.id = id;
         this.naplodatum = naplodatum;
         this.felhasznalonev = felhasznalonev;
         this.commentFilePath = commentFilePath;
-    }
-
-    @Ignore
-    public Naplo(@NonNull long naplodatum, String felhasznalonev) {
-        this.naplodatum = naplodatum;
-        this.felhasznalonev = felhasznalonev;
         this.sorozats = new ArrayList<>();
-    }
-
-    @Ignore
-    public Naplo(long naplodatum, String felhasznalonev, String commentFilePath) {
-        this.naplodatum = naplodatum;
-        this.felhasznalonev = felhasznalonev;
-        this.commentFilePath = commentFilePath;
-        this.sorozats = new ArrayList<>();
-    }
-
-    public void addSorozat(Sorozat sorozat) {
-        sorozats.add(sorozat);
-    }
-
-    public boolean removeSorozat(Sorozat sorozat) {
-        return sorozats.remove(sorozat);
     }
 
     public int getId() {
@@ -90,19 +70,12 @@ public class Naplo implements Serializable {
         this.commentFilePath = commentFilePath;
     }
 
-    @Ignore
-    public List<Sorozat> getSorozats() {
+    public List<SorozatWithGyakorlat> getSorozats() {
         return sorozats;
     }
 
-    @Ignore
-    public void setSorozats(List<Sorozat> sorozats) {
+    public void setSorozats(List<SorozatWithGyakorlat> sorozats) {
         this.sorozats = sorozats;
-    }
-
-    @Ignore
-    public void addAllSorozat(final List<Sorozat> sorozats) {
-        this.sorozats.addAll(sorozats);
     }
 
     @NonNull

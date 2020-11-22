@@ -20,6 +20,7 @@ import androidx.databinding.DataBindingUtil;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,16 +39,20 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.VideoUtils;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.VideoUtilsInterface;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.report.SorozatReportUtil;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.GyakorlatViewModel;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.SorozatViewModel;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class MvvmGyakorlatokActivity extends BaseActiviry<MvvmGyakorlatActivityBinding>
+public class MvvmGyakorlatokActivity extends BaseActivity<MvvmGyakorlatActivityBinding>
         implements VideoUtilsInterface, AdapterView.OnItemClickListener, BottomNavigationView.OnNavigationItemSelectedListener {
     private static final String TAG = "MvvmGyakorlatokActivity";
     private static final String VALASSZ_IZOMCSOP = "Mind látszik...";
 
     @Inject
     GyakorlatViewModel gyakorlatViewModel;
+
+    @Inject
+    SorozatViewModel sorozatViewModel;
 
     @Inject
     ModelConverter modelConverter;
@@ -94,14 +99,22 @@ public class MvvmGyakorlatokActivity extends BaseActiviry<MvvmGyakorlatActivityB
     }
 
     private void initGyakDiagramok(GyakorlatUI gyakorlatUI) {
-        tabletUtil.initSorozatReportCharts(this, gyakorlatUI.getId(), binding.gyakReportActivityLayoutSrc.osszsulyEsIsmChart,
-                binding.gyakReportActivityLayoutSrc.elteltIdoChart);
+        sorozatViewModel.getOsszSorozatByGyakorlat(gyakorlatUI.getId()).observe(this, osszSorozats -> {
+            if (osszSorozats != null && osszSorozats.size() > 0) {
+                sorozatViewModel.getSorozatByGyakorlat(gyakorlatUI.getId()).observe(this, sorozats -> {
+                    if(sorozats != null) {
+                        tabletUtil.initSorozatReportCharts(this, osszSorozats, sorozats, binding.gyakReportActivityLayoutSrc.osszsulyEsIsmChart,
+                                binding.gyakReportActivityLayoutSrc.elteltIdoChart);
+                    }
+                });
+            } else {
+                Toast.makeText(this, "Sajnos ehhez a gyakorlathoz nincs sorozat rögzítve", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void sharedVideoLink(String aLink) {
-        Log.i(TAG, "sharedVideoLink: brnnr vagyok");
         gyakorlatViewModel.getGyakorlatForVideoLinkEdit().whenComplete((gyakorlats, throwable) -> {
-            Log.i(TAG, "sharedVideoLink: whenComplete");
             if (throwable != null) {
                 runOnUiThread(() -> Toast.makeText(MvvmGyakorlatokActivity.this, "Hiba lépett fel", Toast.LENGTH_SHORT).show());
                 Log.e(TAG, "sharedVideoLink: gyakorlat betöltés hiba", throwable);
@@ -274,11 +287,25 @@ public class MvvmGyakorlatokActivity extends BaseActiviry<MvvmGyakorlatActivityB
                     Toast.makeText(this, "Kérlek válassz egy gyakorlatot!", Toast.LENGTH_SHORT).show();
                     return false;
                 }
-                Intent intent = new Intent(this, MvvmGyakorlatReportActivity.class);
-                intent.putExtra(MvvmGyakorlatReportActivity.EXTRA_GYAK,
-                        modelConverter.fromUI((GyakorlatUI) binding.gyakorlatokLista.getAdapter().getItem(kijelotGyakPoz)));
-                startActivity(intent);
-                overridePendingTransition(R.anim.move_right_in_activity, R.anim.move_left_out_activity);
+
+                Gyakorlat gyakorlat1 = modelConverter.fromUI((GyakorlatUI) binding.gyakorlatokLista.getAdapter().getItem(kijelotGyakPoz));
+
+                sorozatViewModel.getOsszSorozatByGyakorlat(gyakorlat1.getId()).observe(this, osszSorozats -> {
+                    if (osszSorozats != null && osszSorozats.size() > 0) {
+                        sorozatViewModel.getSorozatByGyakorlat(gyakorlat1.getId()).observe(this, sorozats -> {
+                            if(sorozats != null) {
+                                Intent intent = new Intent(this, MvvmGyakorlatReportActivity.class);
+                                intent.putExtra(MvvmGyakorlatReportActivity.EXTRA_GYAK, gyakorlat1.getMegnevezes());
+                                intent.putExtra(MvvmGyakorlatReportActivity.EXTRA_OSSZ_SOR, (Serializable) osszSorozats);
+                                intent.putExtra(MvvmGyakorlatReportActivity.EXTRA_SOROZAT, (Serializable) sorozats);
+                                startActivity(intent);
+                                overridePendingTransition(R.anim.move_right_in_activity, R.anim.move_left_out_activity);
+                            }
+                        });
+                    } else {
+                        Toast.makeText(this, "Sajnos ehhez a gyakorlathoz nincs sorozat rögzítve", Toast.LENGTH_SHORT).show();
+                    }
+                });
                 break;
         }
         return true;

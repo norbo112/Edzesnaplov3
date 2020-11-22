@@ -29,15 +29,20 @@
                     android:textSize="21sp"
                     android:textStyle="bold" />
 
-                <TextView
+                <Button
+                    style="@style/Widget.AppCompat.Button.Borderless.Colored"
                     android:id="@+id/terv_megnevezes"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
                     android:text="@string/gyakorlat_valaszto_terv_megnevezes_simple"
                     android:textAlignment="center"
-                    android:textStyle="italic" />
+                    android:textStyle="italic"
+                    android:textSize="17sp"
+                    android:layout_gravity="center"
+                    android:drawableEnd="@drawable/ic__touch"
+                    android:drawableTint="@color/colorPrimaryDark"/>
 
                 <LinearLayout
                     android:id="@+id/searcglayout"

@@ -17,7 +17,7 @@ import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmVideoActivityBinding;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Gyakorlat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.VideoUtils;
 
-public class VideoActivity extends BaseActiviry<MvvmVideoActivityBinding> implements YouTubePlayer.OnInitializedListener {
+public class VideoActivity extends BaseActivity<MvvmVideoActivityBinding> implements YouTubePlayer.OnInitializedListener {
     public static final String EXTRA_GYAKORLAT = "aa.droid.norbo.projects.edzesnaplov3.EXTRA_GYAKORLAT";
     private Gyakorlat gyakorlat;
 

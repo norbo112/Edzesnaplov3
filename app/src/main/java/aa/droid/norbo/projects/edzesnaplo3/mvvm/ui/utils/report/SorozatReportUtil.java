@@ -3,8 +3,10 @@ package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.report;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -23,6 +25,7 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -33,69 +36,37 @@ import javax.inject.Inject;
 import aa.droid.norbo.projects.edzesnaplo3.R;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmKorabbiSorozatItemBinding;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.toolmodels.OsszSorozat;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Sorozat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.NaploDetailsActivity;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.DateTimeFormatter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.naplo.SorozatUtil;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.naplo.model.GyakorlatSorozatElteltIdo;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.SorozatViewModel;
+import aa.droid.norbo.projects.edzesnaplo3.widgets.NaploGyakOsszsuly;
 import dagger.hilt.android.qualifiers.ActivityContext;
 import dagger.hilt.android.scopes.ActivityScoped;
 
 @ActivityScoped
 public class SorozatReportUtil {
     private Context context;
-    private SorozatViewModel sorozatViewModel;
     private SorozatUtil sorozatUtil;
     private DateTimeFormatter formatter;
 
     private Activity activity;
 
     @Inject
-    public SorozatReportUtil(@ActivityContext Context context, SorozatViewModel sorozatViewModel,
+    public SorozatReportUtil(@ActivityContext Context context,
                              DateTimeFormatter formatter, SorozatUtil sorozatUtil) {
         this.context = context;
-        this.sorozatViewModel = sorozatViewModel;
         this.formatter = formatter;
         this.sorozatUtil = sorozatUtil;
     }
 
-    public void initSorozatReportCharts(Activity activity, int gyakId, LineChart sulyChart, LineChart elteltidoChart) {
+    public void initSorozatReportCharts(Activity activity, List<OsszSorozat> osszSorozats, List<Sorozat> sorozats, LineChart sulyChart, LineChart elteltidoChart) {
         this.activity = activity;
-
-        sorozatViewModel.getOsszSorozatByGyakorlat(gyakId).observe((LifecycleOwner) activity, osszSorozats -> {
-            if (osszSorozats != null && osszSorozats.size() > 0) {
-                initOsszSulyEsIsmChart(sulyChart, osszSorozats);
-            } else {
-                Toast.makeText(context, "Sajnos ehhez a gyakorlathoz nincs sorozat rögzítve", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        sorozatViewModel.getSorozatByGyakorlat(gyakId).observe((LifecycleOwner) activity, sorozats -> {
-            if (sorozats != null && sorozats.size() > 0) {
-                initElteltIdoChart(elteltidoChart, sorozatUtil.getEleltIdoList(sorozats));
-            }
-        });
+        initOsszSulyEsIsmChart(sulyChart, osszSorozats);
+        initElteltIdoChart(elteltidoChart, sorozatUtil.getEleltIdoList(sorozats));
     }
-
-//    private void initOsszIsmetles(LineChart osszIsmChart, List<OsszSorozat> osszSorozats) {
-//        osszIsmChart.getDescription().setEnabled(false);
-//        osszIsmChart.setDrawGridBackground(false);
-//        osszIsmChart.getAxisRight().setEnabled(false);
-//        osszIsmChart.getAxisLeft().setTextColor(Color.WHITE);
-//        osszIsmChart.setOnChartValueSelectedListener(chartListener);
-//
-//        XAxis xAxis = osszIsmChart.getXAxis();
-//        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE);
-//        xAxis.setEnabled(true);
-//        xAxis.setTextColor(Color.WHITE);
-//        xAxis.setValueFormatter(getDateValueFormatter(osszSorozats));
-//        xAxis.setGranularity(1f);
-//        xAxis.setGranularityEnabled(true);
-//
-//        setOsszIsmChartData(osszIsmChart, osszSorozats);
-//
-//        osszIsmChart.animateX(1500);
-//    }
 
     private void initElteltIdoChart(LineChart elteltIdoChart, List<GyakorlatSorozatElteltIdo> gyakorlatSorozatElteltIdos) {
         elteltIdoChart.getDescription().setEnabled(false);
@@ -222,17 +193,17 @@ public class SorozatReportUtil {
 //            lineChart.getData().notifyDataChanged();
 //            lineChart.notifyDataSetChanged();
 //        } else {
-            set = new LineDataSet(entries, label);
-            set.setDrawIcons(false);
-            set.enableDashedLine(10f, 5f, 0f);
-            set.setColor(Color.LTGRAY);
-            set.setCircleColor(color);
-            set.setLineWidth(1f);
-            set.setCircleRadius(3f);
-            set.setCircleHoleRadius(3f);
-            set.setFormLineWidth(1f);
-            set.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
-            set.setFormSize(15.f);
+        set = new LineDataSet(entries, label);
+        set.setDrawIcons(false);
+        set.enableDashedLine(10f, 5f, 0f);
+        set.setColor(Color.LTGRAY);
+        set.setCircleColor(color);
+        set.setLineWidth(1f);
+        set.setCircleRadius(3f);
+        set.setCircleHoleRadius(3f);
+        set.setFormLineWidth(1f);
+        set.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
+        set.setFormSize(15.f);
 //        }
         return set;
     }
@@ -271,7 +242,7 @@ public class SorozatReportUtil {
         public void onValueSelected(Entry e, Highlight h) {
             if (e.getData() instanceof OsszSorozat) {
                 sorozatUtil.osszSorozatNezoke(activity, (OsszSorozat) e.getData(),
-                        Long.toString(((OsszSorozat) e.getData()).getNaplodatum()), reportInterface);
+                        ((OsszSorozat) e.getData()).getNaplodatum(), reportInterface);
             } else if (e.getData() instanceof GyakorlatSorozatElteltIdo) {
                 String elteltIdoStr = String.format(Locale.getDefault(), "Eltelt idő: %d perc",
                         ((GyakorlatSorozatElteltIdo) e.getData()).getElteltIdo());
@@ -294,7 +265,7 @@ public class SorozatReportUtil {
 
     SorozatUtil.SorozatUtilReportInterface reportInterface = new SorozatUtil.SorozatUtilReportInterface() {
         @Override
-        public void viewNaploFromReport(String naplodatum) {
+        public void viewNaploFromReport(long naplodatum) {
             Intent intent = new Intent(context, NaploDetailsActivity.class);
             intent.putExtra(NaploDetailsActivity.EXTRA_NAPLO_DATUM, naplodatum);
             activity.startActivity(intent);
