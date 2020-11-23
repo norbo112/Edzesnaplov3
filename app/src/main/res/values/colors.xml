@@ -6,5 +6,6 @@
 
     <color name="recon">#FF0000</color>
     <color name="recoff">#009DF3</color>
+    <color name="naplo_item_details_bg">#013A60</color>
 
 </resources>

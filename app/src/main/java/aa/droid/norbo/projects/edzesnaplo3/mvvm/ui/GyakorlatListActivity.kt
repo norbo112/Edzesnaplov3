@@ -1,5 +1,6 @@
 package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui
 
+import aa.droid.norbo.projects.edzesnaplo3.R
 import aa.droid.norbo.projects.edzesnaplo3.databinding.ActivityGyakorlatListBinding
 import aa.droid.norbo.projects.edzesnaplo3.widgets.withhilt.EdzesnaploWidget
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +13,9 @@ class GyakorlatListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityGyakorlatListBinding.inflate(layoutInflater)
+
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.title = resources.getString(R.string.app_name_v4)
 
         val gyakorlatAdatok = intent.extras?.get(EdzesnaploWidget.ADATOK_NAPLO) as String
 
