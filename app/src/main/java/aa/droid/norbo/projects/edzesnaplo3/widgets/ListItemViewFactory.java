@@ -22,6 +22,7 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Gyakorlat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.NaploDetailsActivity;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.ModelConverter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.NaploListUtil;
+import aa.droid.norbo.projects.edzesnaplo3.widgets.withhilt.EdzesnaploWidget;
 
 public class ListItemViewFactory implements RemoteViewsService.RemoteViewsFactory {
     private static final String TAG = "ListItemViewFactory";
@@ -72,9 +73,14 @@ public class ListItemViewFactory implements RemoteViewsService.RemoteViewsFactor
         views.setTextViewText(R.id.tvIzomcsop, naploEsNaplo.getIzomcsoportLista(naploEsNaplo.getNaploWithSorozatList().get(position)));
 
         Intent fillInIntent = new Intent();
+        fillInIntent.setAction(EdzesnaploWidget.ACTION_DETAILS);
         fillInIntent.putExtra(NaploDetailsActivity.EXTRA_NAPLO, naploGyakOsszsuly.getNaploUI());
         views.setOnClickFillInIntent(R.id.tvNaploDatum, fillInIntent);
 
+        Intent fillInToToast = new Intent();
+        fillInToToast.setAction(EdzesnaploWidget.ACTION_GYAKORLATOK);
+        fillInToToast.putExtra(EdzesnaploWidget.ADATOK_NAPLO, naploEsNaplo.getGyakorlatLista(naploEsNaplo.getNaploWithSorozatList().get(position)));
+        views.setOnClickFillInIntent(R.id.tvIzomcsop, fillInToToast);
         return views;
     }
 

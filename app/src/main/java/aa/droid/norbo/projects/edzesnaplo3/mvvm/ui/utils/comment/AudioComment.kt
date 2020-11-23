@@ -41,7 +41,7 @@ class AudioComment @Inject constructor(@ActivityContext val context: Context) {
     }
 
     private fun getFile(filename: String): File {
-        var _file: String = ""
+        var _file = ""
         if (filename.startsWith("/storage/")) {
             _file = filename.subSequence(filename.lastIndexOf('/') + 1, filename.length).toString()
         } else {
@@ -85,7 +85,7 @@ class AudioComment @Inject constructor(@ActivityContext val context: Context) {
         val builder = AlertDialog.Builder(context).apply {
             setTitle("Audio Comment")
             setMessage("Nincs hanganyag rögzítve, szeretnél újat?")
-            setPositiveButton("igen") { dialog, which ->
+            setPositiveButton("igen") { _, _ ->
                 val intent = Intent(context, CommentActivity::class.java).apply {
                     putExtra(NaploDetailsActivity.EXTRA_NEW_COMMENT, true)
                     putExtra(NaploDetailsActivity.EXTRA_FILE_NAME, newFileName)
@@ -93,7 +93,7 @@ class AudioComment @Inject constructor(@ActivityContext val context: Context) {
                 activity.startActivityForResult(intent, NaploDetailsActivity.COMMENT)
                 activity.overridePendingTransition(R.anim.move_right_in_activity, R.anim.move_left_out_activity)
             }
-            setNeutralButton("mégse") { dialog, which ->
+            setNeutralButton("mégse") { dialog, _ ->
                 dialog.dismiss()
             }
         }

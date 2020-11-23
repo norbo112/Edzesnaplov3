@@ -15,7 +15,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".mvvm.ui.CommentActivity"/>
+        <activity android:name=".mvvm.ui.GyakorlatListActivity"/>
+        <activity android:name=".mvvm.ui.CommentActivity" />
 
         <receiver
             android:name=".widgets.withhilt.EdzesnaploWidget"
