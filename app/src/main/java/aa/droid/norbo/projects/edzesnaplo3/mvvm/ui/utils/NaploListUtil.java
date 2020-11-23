@@ -122,7 +122,7 @@ public class NaploListUtil {
                 .create();
     }
 
-    public String getIzomcsoportLista(NaploWithSorozat naploWithSorozats) {
+    private String getIzomcsoportLista(NaploWithSorozat naploWithSorozats) {
         Set<String> izomcsoportok = new LinkedHashSet<>();
         for (SorozatWithGyakorlat sorozat : naploWithSorozats.sorozats) {
             Gyakorlat gyakorlat = sorozat.gyakorlat;
@@ -137,7 +137,7 @@ public class NaploListUtil {
         return izomcsoportok.size() > 0 ? sb.toString().substring(0, sb.toString().lastIndexOf(',')) : "";
     }
 
-    private int getNaploOsszSuly(NaploWithSorozat naploWithSorozat) {
+    public int getNaploOsszSuly(NaploWithSorozat naploWithSorozat) {
         int ossz = 0;
         for (SorozatWithGyakorlat sorozat: naploWithSorozat.sorozats) {
             ossz += sorozat.sorozat.getSuly() * sorozat.sorozat.getIsmetles();

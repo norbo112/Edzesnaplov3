@@ -65,4 +65,5 @@
     <string name="gyak_activity_tablet_label1">Gyakorlat ill. izomcsoport kiválasztása</string>
     <string name="gyak_report_activity_suylismchart_label">Összes súly és ismétlés</string>
     <string name="gyak_report_activity_elteltido_label">Eltelt idő</string>
+    <string name="widget_img_label">mutató</string>
 </resources>

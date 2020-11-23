@@ -4,23 +4,47 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="5dp">
+    android:orientation="vertical">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_touch2"
+            android:contentDescription="@string/widget_img_label" />
+        <TextView
+            android:id="@+id/tvNaploDatum"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:text="TextView"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/tvGyakOssz"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textAlignment="textEnd"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:text="TextView" />
+    </LinearLayout>
     <TextView
-        android:id="@+id/tvNaploDatum"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textStyle="italic"
+        android:background="#800A68BA"
+        android:padding="5dp"
         android:layout_weight="1"
-        android:text="TextView"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/tvGyakOssz"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:text="TextView" />
-
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:id="@+id/tvIzomcsop"/>
 </LinearLayout>

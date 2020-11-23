@@ -7,6 +7,7 @@ import javax.inject.Inject;
 
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.api.NaploRepository;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.ModelConverter;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.NaploListUtil;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
