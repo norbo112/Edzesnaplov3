@@ -56,14 +56,7 @@ public class EdzesnaploWidget extends AppWidgetProvider {
         PendingIntent titlePendingIntent = PendingIntent.getActivity(context, 0, titleIntent, 0);
         views.setOnClickPendingIntent(R.id.naplo_cnt_text, titlePendingIntent);
 
-//        //item on click
-//        Intent detailsIntent = new Intent(context, NaploDetailsActivity.class);
-////        detailsIntent.setAction(ACTION_DETAILS);
-//        PendingIntent pendintDetailsIntent = TaskStackBuilder.create(context)
-//                .addNextIntentWithParentStack(detailsIntent)
-//                .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-//        views.setPendingIntentTemplate(R.id.listView, pendintDetailsIntent);
-
+        //item on click
         Intent toastIntent = new Intent(context, EdzesnaploWidget.class);
         PendingIntent pendingToast = PendingIntent.getBroadcast(context, 0, toastIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         views.setPendingIntentTemplate(R.id.listView, pendingToast);
@@ -96,11 +89,11 @@ public class EdzesnaploWidget extends AppWidgetProvider {
             context.startActivity(detailsIntent);
         } else if(action.equals(ACTION_GYAKORLATOK)) {
             String stringExtra = intent.getStringExtra(EdzesnaploWidget.ADATOK_NAPLO);
-            Intent gyaklistIntent = new Intent(context, GyakorlatListActivity.class);
-            gyaklistIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            gyaklistIntent.putExtra(ADATOK_NAPLO, stringExtra);
-            context.startActivity(gyaklistIntent);
-//            Toast.makeText(context, stringExtra, Toast.LENGTH_SHORT).show();
+//            Intent gyaklistIntent = new Intent(context, GyakorlatListActivity.class);
+//            gyaklistIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            gyaklistIntent.putExtra(ADATOK_NAPLO, stringExtra);
+//            context.startActivity(gyaklistIntent);
+            Toast.makeText(context, stringExtra, Toast.LENGTH_SHORT).show();
         }
     }
 
