@@ -15,7 +15,7 @@ public interface NaploRepository {
     void insert(Naplo naplo);
     LiveData<List<Naplo>> getAll();
 
-    CompletableFuture<Naplo> getOneByDatum(long naplodatum);
+    CompletableFuture<NaploWithSorozat> getOneByDatum(long naplodatum);
 
     void delete(long naplodatum);
 

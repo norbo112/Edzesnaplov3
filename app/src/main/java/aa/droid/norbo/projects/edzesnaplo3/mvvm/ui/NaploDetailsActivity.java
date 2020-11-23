@@ -102,23 +102,23 @@ public class NaploDetailsActivity extends BaseActivity<MvvmNaploDetailsActivityB
             if(throwable == null) {
                 if(naplo != null) {
                     naploUI = modelConverter.fromNaploEntity(naplo);
-                    commentFilePath = naploUI.getCommentFilePath();
+                    setupRcViewWithNaploUI(naploUI);
                 }
             }
         });
 
-        sorozatViewModel.getForNaplo(naploDatum).observe(this, sorozatWithGyakorlats -> {
-            if (sorozatWithGyakorlats != null) {
-                binding.naploDetailsDatumLabel.setText(dateTimeFormatter.getNaploDatum(naploDatum));
-                binding.naploDetailsRcView.setAdapter(adapterFactory.create(sorozatWithGyakorlats));
-                binding.naploDetailsRcView.setItemAnimator(new DefaultItemAnimator());
-                binding.naploDetailsRcView.setLayoutManager(new LinearLayoutManager(NaploDetailsActivity.this, RecyclerView.HORIZONTAL, false));
-
-                binding.naploDetailsSulyLabel.setText(String.format(Locale.getDefault(), "Összesen %,d Kg megmozgatott súly",
-                        sorozatWithGyakorlats.stream().mapToInt(gyak -> gyak.sorozat.getIsmetles() * gyak.sorozat.getSuly()).sum()));
-                binding.naploDetailsInfoLabel.setText(String.format(Locale.getDefault(), "Elvégzett gyakorlatok száma [%d] db", getGyakDarabSzam(sorozatWithGyakorlats)));
-            }
-        });
+//        sorozatViewModel.getForNaplo(naploDatum).observe(this, sorozatWithGyakorlats -> {
+//            if (sorozatWithGyakorlats != null) {
+//                binding.naploDetailsDatumLabel.setText(dateTimeFormatter.getNaploDatum(naploDatum));
+//                binding.naploDetailsRcView.setAdapter(adapterFactory.create(sorozatWithGyakorlats));
+//                binding.naploDetailsRcView.setItemAnimator(new DefaultItemAnimator());
+//                binding.naploDetailsRcView.setLayoutManager(new LinearLayoutManager(NaploDetailsActivity.this, RecyclerView.HORIZONTAL, false));
+//
+//                binding.naploDetailsSulyLabel.setText(String.format(Locale.getDefault(), "Összesen %,d Kg megmozgatott súly",
+//                        sorozatWithGyakorlats.stream().mapToInt(gyak -> gyak.sorozat.getIsmetles() * gyak.sorozat.getSuly()).sum()));
+//                binding.naploDetailsInfoLabel.setText(String.format(Locale.getDefault(), "Elvégzett gyakorlatok száma [%d] db", getGyakDarabSzam(sorozatWithGyakorlats)));
+//            }
+//        });
     }
 
     private void setupRcViewWithNaploUI(NaploUI naploUI) {

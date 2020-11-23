@@ -39,7 +39,7 @@ public class LocalNaploRepository implements NaploRepository {
     }
 
     @Override
-    public CompletableFuture<Naplo> getOneByDatum(long naplodatum) {
+    public CompletableFuture<NaploWithSorozat> getOneByDatum(long naplodatum) {
         return CompletableFuture.supplyAsync(() -> database.naploDao().getOneByDatum(naplodatum));
     }
 

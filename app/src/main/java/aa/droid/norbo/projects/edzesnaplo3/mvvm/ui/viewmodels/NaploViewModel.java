@@ -57,7 +57,7 @@ public class NaploViewModel extends ViewModel {
         naploRepository.insert(naplo);
     }
 
-    public CompletableFuture<Naplo> getOneByDate(long naplodatum) {
+    public CompletableFuture<NaploWithSorozat> getOneByDate(long naplodatum) {
         return naploRepository.getOneByDatum(naplodatum);
     }
 }

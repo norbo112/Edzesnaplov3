@@ -62,6 +62,7 @@ public interface NaploDao {
     @Query("SELECT * FROM naplo ORDER BY naplodatum DESC")
     List<NaploWithSorozat> getNaploWithSorozatList();
 
+    @Transaction
     @Query("SELECT * FROM naplo WHERE naplodatum =:naplodatum")
-    Naplo getOneByDatum(long naplodatum);
+    NaploWithSorozat getOneByDatum(long naplodatum);
 }
