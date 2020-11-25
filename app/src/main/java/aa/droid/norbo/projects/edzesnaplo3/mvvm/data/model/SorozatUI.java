@@ -132,7 +132,7 @@ public class SorozatUI implements Serializable, Parcelable {
     @Override
     public String toString() {
         DateTimeFormatter dateTimeFormatter = new DateTimeFormatter();
-        return "["+gyakorlatid+"] "+suly+"X"+ismetles+" "+ dateTimeFormatter.getTime(ismidopont) +" "+
+        return suly+"X"+ismetles+" "+ dateTimeFormatter.getTime(ismidopont) +" "+
                 (Integer.parseInt(suly)*Integer.parseInt(ismetles))+" Kg\n";
     }
 

@@ -77,7 +77,7 @@ class AudioComment @Inject constructor(@ActivityContext val context: Context) {
         return file.delete()
     }
 
-    fun isPlayable(filename: String): Boolean {
+    fun isAvailable(filename: String): Boolean {
         return File(filename).exists()
     }
 

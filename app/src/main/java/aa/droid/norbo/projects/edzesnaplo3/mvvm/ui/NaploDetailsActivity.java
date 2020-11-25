@@ -157,9 +157,7 @@ public class NaploDetailsActivity extends BaseActivity<MvvmNaploDetailsActivityB
         } else if (item.getItemId() == R.id.naplo_details_delete) {
             uiNaplotTorol(naploDatum);
         } else if (item.getItemId() == R.id.naplo_details_comment) {
-            if(commentFilePath == null) {
-                audioComment.askNewCommentDialog(this, naploDatum+"_comment.3gp");
-            } else if(commentFilePath.length() != 0) {
+            if(commentFilePath != null && commentFilePath.length() != 0 && audioComment.isAvailable(commentFilePath)) {
                 audioComment.gotoCommentDialog(this, commentFilePath, naploDatum);
             } else {
                 audioComment.askNewCommentDialog(this, naploDatum+"_comment.4gp");
