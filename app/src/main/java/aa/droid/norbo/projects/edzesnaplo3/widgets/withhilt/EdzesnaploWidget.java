@@ -16,7 +16,6 @@ import javax.inject.Inject;
 
 import aa.droid.norbo.projects.edzesnaplo3.R;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.api.NaploRepository;
-import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.GyakorlatListActivity;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.MvvmBelepoActivity;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.NaploDetailsActivity;
 import aa.droid.norbo.projects.edzesnaplo3.widgets.ListItemService;
