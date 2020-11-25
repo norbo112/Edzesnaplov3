@@ -198,7 +198,7 @@ public class MvvmSavedNaploActivity extends BaseActivity<MvvmActivityMentettNapl
                 return;
             }
 
-            if(naploAllList != null) {
+            if(naploAllList != null && !naploAllList.isEmpty()) {
                 for (NaploAll egyNaplo : naploAllList) {
                     naploViewModel.insert(modelConverter.getNaploFromV3(egyNaplo.getNaplo()));
                     List<Sorozat> sorozats = egyNaplo.getSorozatWithGyakorlats()
@@ -208,6 +208,8 @@ public class MvvmSavedNaploActivity extends BaseActivity<MvvmActivityMentettNapl
                     sorozatViewModel.insertAll(sorozats);
                 }
                 toast("Sikeresen betöltve a naplók!");
+            } else {
+                toast("Nincsenek V3 fájlok a mappában!");
             }
         });
     }
