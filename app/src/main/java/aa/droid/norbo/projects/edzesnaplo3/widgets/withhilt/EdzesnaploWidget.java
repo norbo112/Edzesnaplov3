@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.text.style.UpdateLayout;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
@@ -54,6 +55,11 @@ public class EdzesnaploWidget extends AppWidgetProvider {
         Intent titleIntent = new Intent(context, MvvmBelepoActivity.class);
         PendingIntent titlePendingIntent = PendingIntent.getActivity(context, 0, titleIntent, 0);
         views.setOnClickPendingIntent(R.id.naplo_cnt_text, titlePendingIntent);
+
+        Intent refresClickIntent = new Intent(context, EdzesnaploWidget.class);
+        refresClickIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        PendingIntent pendingIntentRefresh = PendingIntent.getBroadcast(context, 0, refresClickIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        views.setOnClickPendingIntent(R.id.widget_refresh, pendingIntentRefresh);
 
         //item on click
         Intent toastIntent = new Intent(context, EdzesnaploWidget.class);
