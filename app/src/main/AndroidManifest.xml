@@ -15,7 +15,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".mvvm.ui.CommentActivity"/>
+<!--        <activity android:name=".mvvm.ui.GyakorlatVideoSaverActivity"/>-->
+        <activity android:name=".mvvm.ui.CommentActivity" />
 
         <receiver
             android:name=".widgets.withhilt.EdzesnaploWidget"
@@ -69,23 +70,8 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity> <!-- <provider -->
-        <!-- android:name=".providers.NaploContentProvider" -->
-        <!-- android:authorities="aa.dorid.norbo.projects.edzesnaplo3.contentprovider" -->
-        <!-- android:enabled="true" -->
-        <!-- android:exported="true" /> -->
-        <!-- <receiver android:name=".widgets.NaploCntAppWidget"> -->
-        <!-- <intent-filter> -->
-        <!-- <action android:name="android.appwidget.action.APPWIDGET_UPDATE" /> -->
-        <!-- </intent-filter> -->
-        <!-- <meta-data -->
-        <!-- android:name="android.appwidget.provider" -->
-        <!-- android:resource="@xml/naplo_cnt_app_widget_info" /> -->
-        <!-- </receiver> -->
-        <!-- <service -->
-        <!-- android:name=".widgets.ListItemService" -->
-        <!-- android:exported="false" -->
-        <!-- android:permission="android.permission.BIND_REMOTEVIEWS" /> -->
+        </activity>
+
         <activity android:name=".mvvm.ui.MvvmSavedNaploActivity" />
         <activity android:name=".mvvm.ui.NaploDetailsActivity" />
         <activity android:name=".mvvm.ui.TevekenysegActivity" />

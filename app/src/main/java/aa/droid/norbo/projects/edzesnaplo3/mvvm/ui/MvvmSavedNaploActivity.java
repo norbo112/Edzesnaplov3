@@ -177,8 +177,6 @@ public class MvvmSavedNaploActivity extends BaseActivity<MvvmActivityMentettNapl
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.naplo_details_load_from_file) {
             loadNaploFileFromSD();
-        } else if(item.getItemId() == R.id.naplo_details_v3_load) {
-            loadV3NaploFromDirectory();
         }
         return super.onContextItemSelected(item);
     }
@@ -189,27 +187,6 @@ public class MvvmSavedNaploActivity extends BaseActivity<MvvmActivityMentettNapl
         filechooser.putExtra(Intent.EXTRA_MIME_TYPES, new String[]{"application/octet-stream", "application/json"});
         filechooser.addCategory(Intent.CATEGORY_OPENABLE);
         startActivityForResult(filechooser, FILE_LOAD_RCODE);
-    }
-
-    private void loadV3NaploFromDirectory() {
-        myFileService.futureLoadV3saves().whenComplete((naploAllList, throwable) -> {
-            if(throwable != null) {
-                toast("Nem sikerült betölteni a fájlokat\n"+throwable.getMessage());
-                return;
-            }
-
-            if(naploAllList != null) {
-                for (NaploAll egyNaplo : naploAllList) {
-                    naploViewModel.insert(modelConverter.getNaploFromV3(egyNaplo.getNaplo()));
-                    List<Sorozat> sorozats = egyNaplo.getSorozatWithGyakorlats()
-                            .stream()
-                            .map(srs -> modelConverter.getSorozatFromV3(srs.sorozat))
-                            .collect(Collectors.toList());
-                    sorozatViewModel.insertAll(sorozats);
-                }
-                toast("Sikeresen betöltve a naplók!");
-            }
-        });
     }
 
     @Override

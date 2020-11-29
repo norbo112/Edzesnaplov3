@@ -2,10 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/naplo_details_v3_load"
-        android:icon="@drawable/ic_file_upload"
-        android:title="V3 Betöltés" />
-    <item
         android:id="@+id/naplo_details_load_from_file"
         android:icon="@drawable/ic_folder"
         android:title="Betöltés fájlból" />

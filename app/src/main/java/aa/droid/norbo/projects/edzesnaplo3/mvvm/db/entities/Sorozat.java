@@ -148,7 +148,7 @@ public class Sorozat implements Serializable, Parcelable {
     @Override
     public String toString() {
         DateTimeFormatter dateTimeFormatter = new DateTimeFormatter();
-        return "["+(gyakorlat != null ? gyakorlat.getMegnevezes().substring(0, 5)+"..." : gyakorlatid)+"] " +
+        return (gyakorlat != null ? "["+gyakorlat.getMegnevezes().substring(0, 5)+"...]" : "" )+
                 suly+"X"+ismetles+" "+ dateTimeFormatter.getTime(ismidopont) +" "+(suly*ismetles)+" Kg\n";
     }
 

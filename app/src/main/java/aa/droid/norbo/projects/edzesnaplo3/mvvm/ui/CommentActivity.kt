@@ -5,12 +5,9 @@ import aa.droid.norbo.projects.edzesnaplo3.databinding.ActivityCommentBinding
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.comment.AudioComment
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.media.AudioManager
-import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import java.io.File
 
 
 class CommentActivity : BaseActivity<ActivityCommentBinding>(R.layout.activity_comment) {
@@ -45,7 +42,7 @@ class CommentActivity : BaseActivity<ActivityCommentBinding>(R.layout.activity_c
 
         binding.filename.text = filename
 
-        if (filename.isNotEmpty() && audioComment!!.isPlayable(filename)) {
+        if (filename.isNotEmpty() && audioComment!!.isAvailable(filename)) {
             binding.btnStartRecord.isEnabled = false
             binding.btnDeleteRecord.isEnabled = true
         }
@@ -69,7 +66,7 @@ class CommentActivity : BaseActivity<ActivityCommentBinding>(R.layout.activity_c
 
         binding.btnStartPlay.setOnClickListener {
             if (filename.isNotEmpty()) {
-                if (audioComment!!.isPlayable(filename)) {
+                if (audioComment!!.isAvailable(filename)) {
                     binding.btnStartPlay.isEnabled = false
                     binding.progressBar.visibility = View.VISIBLE
                     audioComment!!.startPlaying(filename) {
@@ -94,7 +91,7 @@ class CommentActivity : BaseActivity<ActivityCommentBinding>(R.layout.activity_c
     }
 
     override fun onBackPressed() {
-        if (audioComment!!.isPlayable(filename) and !onlyplay) {
+        if (audioComment!!.isAvailable(filename) and !onlyplay) {
             val intentReply = Intent().apply {
                 putExtra(NaploDetailsActivity.EXTRA_FILE_NAME, filename)
             }

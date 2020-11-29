@@ -6,21 +6,38 @@
     android:background="#1E88E5"
     android:padding="@dimen/widget_margin">
 
-    <TextView
-        android:id="@+id/naplo_cnt_text"
+    <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#000000"
-        android:gravity="center"
-        android:text="cnt"
-        android:textColor="#ffffff"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/naplo_cnt_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_weight="3"
+            android:gravity="center"
+            android:text="cnt"
+            android:textColor="#ffffff"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/widget_refresh"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:contentDescription="update widget"
+            android:src="@drawable/ic_refresh" />
+    </LinearLayout>
 
     <ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/naplo_cnt_text" />
-
+        android:layout_below="@id/linearLayout" />
 </RelativeLayout>

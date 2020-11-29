@@ -29,7 +29,6 @@ import dagger.hilt.android.scopes.ActivityScoped;
 @ActivityScoped
 public class MyFileService {
     private static final String TAG = "FilaService";
-    private static final String APP_CHILD_FOLDER = "1001";
     private Context context;
     private ExecutorService fileExecutorService;
     private NaploViewModel naploViewModel;
@@ -57,33 +56,6 @@ public class MyFileService {
         return fileUri;
     }
 
-    /**
-     * NaploAll osztály nem akarom használni, csak a régi edzésekez szeretném betölteni az uj adatbázisba
-     * @return
-     */
-    private List<NaploAll> getV3Naplo() {
-        List<NaploAll> naploAlls = null;
-        File folder = new File(context.getExternalFilesDir(null), APP_CHILD_FOLDER);
-        if(folder.isDirectory()) {
-            naploAlls = new ArrayList<>();
-            for (File file : folder.listFiles()) {
-                Uri uri = Uri.parse(file.getAbsolutePath());
-                try (InputStreamReader inputStream =
-                             new InputStreamReader(new FileInputStream(file.getAbsolutePath()))) {
-                    naploAlls.add(new Gson().fromJson(inputStream, NaploAll.class));
-                    if (file.delete()) {
-                        Log.i(TAG, "getV3Naplo: "+file.getName()+" törölve a kártyáról!");
-                    }
-                } catch (Exception e) {
-                    Log.e(TAG, "loadSaveFile: ", e);
-                    return null;
-                }
-            }
-        }
-
-        return naploAlls;
-    }
-
     private NaploWithOnlySorozats loadSaveFile(Uri data) {
         try(InputStreamReader inputStream = new InputStreamReader(context.getContentResolver().openInputStream(data))) {
             return new Gson().fromJson(inputStream, NaploWithOnlySorozats.class);
@@ -102,9 +74,5 @@ public class MyFileService {
 
     public CompletableFuture<NaploWithOnlySorozats> futureLoadSaveFile(Uri data) {
         return CompletableFuture.supplyAsync(() -> loadSaveFile(data));
-    }
-
-    public CompletableFuture<List<NaploAll>> futureLoadV3saves() {
-        return CompletableFuture.supplyAsync(() -> getV3Naplo());
     }
 }

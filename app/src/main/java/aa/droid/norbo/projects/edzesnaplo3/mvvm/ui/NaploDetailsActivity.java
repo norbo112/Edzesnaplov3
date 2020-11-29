@@ -106,19 +106,6 @@ public class NaploDetailsActivity extends BaseActivity<MvvmNaploDetailsActivityB
                 }
             }
         });
-
-//        sorozatViewModel.getForNaplo(naploDatum).observe(this, sorozatWithGyakorlats -> {
-//            if (sorozatWithGyakorlats != null) {
-//                binding.naploDetailsDatumLabel.setText(dateTimeFormatter.getNaploDatum(naploDatum));
-//                binding.naploDetailsRcView.setAdapter(adapterFactory.create(sorozatWithGyakorlats));
-//                binding.naploDetailsRcView.setItemAnimator(new DefaultItemAnimator());
-//                binding.naploDetailsRcView.setLayoutManager(new LinearLayoutManager(NaploDetailsActivity.this, RecyclerView.HORIZONTAL, false));
-//
-//                binding.naploDetailsSulyLabel.setText(String.format(Locale.getDefault(), "Összesen %,d Kg megmozgatott súly",
-//                        sorozatWithGyakorlats.stream().mapToInt(gyak -> gyak.sorozat.getIsmetles() * gyak.sorozat.getSuly()).sum()));
-//                binding.naploDetailsInfoLabel.setText(String.format(Locale.getDefault(), "Elvégzett gyakorlatok száma [%d] db", getGyakDarabSzam(sorozatWithGyakorlats)));
-//            }
-//        });
     }
 
     private void setupRcViewWithNaploUI(NaploUI naploUI) {
@@ -170,9 +157,7 @@ public class NaploDetailsActivity extends BaseActivity<MvvmNaploDetailsActivityB
         } else if (item.getItemId() == R.id.naplo_details_delete) {
             uiNaplotTorol(naploDatum);
         } else if (item.getItemId() == R.id.naplo_details_comment) {
-            if(commentFilePath == null) {
-                audioComment.askNewCommentDialog(this, naploDatum+"_comment.3gp");
-            } else if(commentFilePath.length() != 0) {
+            if(commentFilePath != null && commentFilePath.length() != 0 && audioComment.isAvailable(commentFilePath)) {
                 audioComment.gotoCommentDialog(this, commentFilePath, naploDatum);
             } else {
                 audioComment.askNewCommentDialog(this, naploDatum+"_comment.4gp");

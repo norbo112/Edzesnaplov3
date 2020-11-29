@@ -8,7 +8,7 @@
     <item
         android:id="@+id/naplo_details_save"
         android:icon="@drawable/ic_save"
-        android:title="Napló mentés féjlba" />
+        android:title="Napló mentés fájlba" />
     <item
         android:id="@+id/naplo_details_comment"
         android:icon="@drawable/ic_headset"
