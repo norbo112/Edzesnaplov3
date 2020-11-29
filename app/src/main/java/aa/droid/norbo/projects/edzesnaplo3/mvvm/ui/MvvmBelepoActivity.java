@@ -99,23 +99,6 @@ public class MvvmBelepoActivity extends BaseActivity<MvvmActivityBelepoBinding> 
             startActivity(new Intent(this, MvvmGyakorlatokActivity.class));
             overridePendingTransition(R.anim.move_right_in_activity, R.anim.move_left_out_activity);
         });
-
-        //test for naplo content provider
-//        Cursor naplolist = getContentResolver().query(NaploContentProviderWithHilt.GET_NAPLO, null, null, null, null);
-//        if(naplolist != null) {
-//            Log.i(TAG, "onCreate: naplolist count: " + naplolist.getCount());
-//            naplolist.close();
-//        }
-
-//        Cursor naplolist = getContentResolver().query(NaploContentProviderWithHilt.GET_NAPLO_GYAK_ES_OSSZSULY, null, null, null, null);
-//        if(naplolist != null) {
-//            @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.forLanguageTag("Hu-hu"));
-//            while (naplolist.moveToNext()) {
-//                Log.i(TAG, "Naplo Cursor: "
-//                        + simpleDateFormat.format(new Date(Long.parseLong(naplolist.getString(1))))+" "+naplolist.getString(0)+" Kg");
-//            }
-//            naplolist.close();
-//        }
     }
 
     @Override
