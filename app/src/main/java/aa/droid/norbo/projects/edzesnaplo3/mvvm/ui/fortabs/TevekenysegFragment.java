@@ -114,9 +114,8 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface 
     @SuppressLint("SetTextI18n")
     @Override
     public void gyakorlatAtado(GyakorlatUI gyakorlatUI) {
-        binding.gyakTitle.setText(gyakorlatUI.getMegnevezes()+" használata");
         this.gyakorlatUI = gyakorlatUI;
-//        naploWorker.setGyakorlat(modelConverter.fromUI(gyakorlatUI));
+        binding.gyakTitle.setText(gyakorlatUI.getMegnevezes()+" használata");
         binding.btnSorozatAdd.setEnabled(true);
 
         if(getResources().getBoolean(R.bool.isTablet)) {

@@ -27,8 +27,6 @@ import dagger.hilt.android.scopes.ActivityScoped;
 
 @ActivityScoped
 public class NaploWorker {
-    private static final String TAG = "NaploWorker";
-    private Context context;
     private Naplo naplo;
     private List<Sorozat> sorozats;
     private MutableLiveData<List<Sorozat>> liveSorozatLista;
@@ -38,15 +36,13 @@ public class NaploWorker {
     private WidgetUtil widgetUtil;
 
     @Inject
-    public NaploWorker(NaploRepository naploRepository, SorozatRepository sorozatRepository, @ActivityContext Context context,
-                       WidgetUtil widgetUtil) {
+    public NaploWorker(NaploRepository naploRepository, SorozatRepository sorozatRepository, WidgetUtil widgetUtil) {
         this.naploRepository = naploRepository;
         this.sorozatRepository = sorozatRepository;
         this.naplo = new Naplo(System.currentTimeMillis(), "TestÜzem");
         this.sorozats = new ArrayList<>();
         this.liveSorozatLista = new MutableLiveData<>();
         this.gyakorlatSzam = new MutableLiveData<>();
-        this.context = context;
         this.widgetUtil = widgetUtil;
     }
 
