@@ -34,6 +34,7 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.adatkozlo.AdatKozloIn
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.AlertDialogUtil;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.DateTimeFormatter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.NaploListUtil;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.WidgetUtil;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.naplo.NaploWorker;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.naplo.SorozatUtil;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.NaploViewModel;
@@ -72,6 +73,9 @@ public class TevekenysegActivity extends BaseActivity<MvvmActivityTestBinding> i
 
     @Inject
     NaploViewModel naploViewModel;
+
+    @Inject
+    WidgetUtil widgetUtil;
 
     public TevekenysegActivity() {
         super(R.layout.mvvm_activity_test);
@@ -143,6 +147,7 @@ public class TevekenysegActivity extends BaseActivity<MvvmActivityTestBinding> i
                         .setPositiveButton("mentés", (dialog, which) -> {
                             if(naplo.getSorozats().size() != 0) {
                                 naploWorker.saveNaplo();
+                                widgetUtil.updateWidget();
                                 finish();
                                 Toast.makeText(this, "Napló mentve!", Toast.LENGTH_SHORT).show();
                             } else {
