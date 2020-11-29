@@ -116,7 +116,7 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface 
     public void gyakorlatAtado(GyakorlatUI gyakorlatUI) {
         binding.gyakTitle.setText(gyakorlatUI.getMegnevezes()+" használata");
         this.gyakorlatUI = gyakorlatUI;
-        naploWorker.setGyakorlat(modelConverter.fromUI(gyakorlatUI));
+//        naploWorker.setGyakorlat(modelConverter.fromUI(gyakorlatUI));
         binding.btnSorozatAdd.setEnabled(true);
 
         if(getResources().getBoolean(R.bool.isTablet)) {
@@ -147,7 +147,7 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface 
 
             SorozatDisplay sorozatUI = binding.getSorozatUI();
             if(!sorozatUI.suly.equals("0") && !sorozatUI.ism.equals("0")) {
-                naploWorker.addSorozat(Integer.parseInt(sorozatUI.suly), Integer.parseInt(sorozatUI.ism));
+                naploWorker.addSorozat(modelConverter.fromUI(gyakorlatUI), Integer.parseInt(sorozatUI.suly), Integer.parseInt(sorozatUI.ism));
 
                 timerRunner = new TimerRunner();
                 handler.postDelayed(timerRunner, 500);

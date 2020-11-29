@@ -30,7 +30,6 @@ public class NaploWorker {
     private static final String TAG = "NaploWorker";
     private Context context;
     private Naplo naplo;
-    private Gyakorlat gyakorlat;
     private List<Sorozat> sorozats;
     private MutableLiveData<List<Sorozat>> liveSorozatLista;
     private MutableLiveData<Integer> gyakorlatSzam;
@@ -51,16 +50,9 @@ public class NaploWorker {
         this.widgetUtil = widgetUtil;
     }
 
-    public void addSorozat(int suly, int ism) {
-        if(gyakorlat != null) {
-            sorozats.add(new Sorozat(gyakorlat, suly, ism, System.currentTimeMillis(), naplo.getNaplodatum()));
-        }
-
+    public void addSorozat(Gyakorlat gyakorlat, int suly, int ism) {
+        sorozats.add(new Sorozat(gyakorlat, suly, ism, System.currentTimeMillis(), naplo.getNaplodatum()));
         liveSorozatLista.postValue(sorozats);
-    }
-
-    public void setGyakorlat(Gyakorlat gyakorlat) {
-        this.gyakorlat = gyakorlat;
     }
 
     public void prepareUjGyakorlat() {
