@@ -37,6 +37,7 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.listadapters.GyakorlatItemAda
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.ModelConverter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.VideoUtils;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.VideoUtilsInterface;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.naplo.SorozatUtil;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.report.SorozatReportUtil;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.GyakorlatViewModel;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.SorozatViewModel;
@@ -62,6 +63,9 @@ public class MvvmGyakorlatokActivity extends BaseActivity<MvvmGyakorlatActivityB
 
     @Inject
     SorozatReportUtil tabletUtil;
+
+    @Inject
+    SorozatUtil sorozatUtil;
 
     public MvvmGyakorlatokActivity() {
         super(R.layout.mvvm_gyakorlat_activity);
@@ -150,7 +154,7 @@ public class MvvmGyakorlatokActivity extends BaseActivity<MvvmGyakorlatActivityB
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.mvvm_gyakorlatok_search_menu, menu);
+        getMenuInflater().inflate(R.menu.gyak_activity_options_menu, menu);
         //kereső aktiválása
         MenuItem searchViewItem = menu.findItem(R.id.gyakorlatokSearch);
         SearchView searchView = (SearchView) searchViewItem.getActionView();
@@ -168,6 +172,18 @@ public class MvvmGyakorlatokActivity extends BaseActivity<MvvmGyakorlatActivityB
             }
         });
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.korabbi_sorozat_optmenu) {
+            if(kijelotGyakPoz == -1) {
+                Toast.makeText(this, "Kérlek válassz egy gyakorlatot!", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+            sorozatUtil.sorozatNezokeDialog(this, (GyakorlatUI) binding.gyakorlatokLista.getAdapter().getItem(kijelotGyakPoz));
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void showAlertGyakTorles(Gyakorlat gyakorlat) {

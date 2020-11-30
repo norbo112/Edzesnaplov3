@@ -67,4 +67,12 @@
     <string name="gyak_report_activity_elteltido_label">Eltelt idő</string>
     <string name="widget_img_label">mutató</string>
     <string name="gyakorlat_video_saver_belepo_kep">Belépő kép</string>
+    <string name="gyakActivitySzerkMenu_sorozat_label">Sorozat</string>
+    <string name="gyakActivitySzerkMenu_diagram_label">Diagram</string>
+    <string name="gyakActivitySzerkMenu_video_label">Video</string>
+    <string name="gyakActivitySzerkMenu_delete_label">Törlés</string>
+    <string name="gyakActivitySzerkMenu_szerk_label">Szerkesztés</string>
+    <string name="gyakActivitySzerkMenu_new_label">Új</string>
+    <string name="gyak_activity_options_menu_sorozat_labeldesc">Korábbi sorozatok megtekintése</string>
+    <string name="gyak_activity_options_menu_sorozat_label">Korábbi sorozat</string>
 </resources>

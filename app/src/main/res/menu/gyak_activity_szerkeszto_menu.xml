@@ -4,33 +4,28 @@
     <item
         android:id="@+id/ujgyak"
         android:icon="@drawable/ic_add"
-        android:orderInCategory="101"
-        android:title="Új"
-        app:showAsAction="never" />
+        android:enabled="true"
+        android:title="@string/gyakActivitySzerkMenu_new_label" />
 
     <item
         android:id="@+id/gyakszerk"
         android:icon="@drawable/ic_edit"
-        android:orderInCategory="102"
-        android:title="Szerkesztés"
-        app:showAsAction="never" />
+        android:enabled="true"
+        android:title="@string/gyakActivitySzerkMenu_szerk_label" />
     <item
         android:id="@+id/gyaktorol"
         android:icon="@drawable/ic_delete"
-        android:orderInCategory="103"
-        android:title="Törlés"
-        app:showAsAction="never" />
+        android:enabled="true"
+        android:title="@string/gyakActivitySzerkMenu_delete_label" />
     <item
         android:id="@+id/gyakszerk_menu_video"
         android:icon="@drawable/ic_ondemand_video"
-        android:orderInCategory="104"
-        android:title="Video"
-        app:showAsAction="never" />
+        android:enabled="true"
+        android:title="@string/gyakActivitySzerkMenu_video_label" />
 
     <item
         android:id="@+id/gyakdiagram"
         android:icon="@drawable/ic_chart"
-        android:orderInCategory="105"
-        android:title="Diagram"
-        app:showAsAction="never" />
+        android:enabled="true"
+        android:title="@string/gyakActivitySzerkMenu_diagram_label" />
 </menu>
