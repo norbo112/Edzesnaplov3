@@ -13,9 +13,8 @@
         android:id="@+id/korabbi_sorozat_optmenu"
         android:title="@string/gyak_activity_options_menu_sorozat_label"
         android:enabled="true"
-        android:icon="@drawable/ic_directions_walk_black_24dp"
+        android:icon="@drawable/ic_walk_black_light"
         app:showAsAction="withText|ifRoom"
-        android:iconTint="@color/recoff"
         android:contentDescription="@string/gyak_activity_options_menu_sorozat_labeldesc"
         />
 </menu>
