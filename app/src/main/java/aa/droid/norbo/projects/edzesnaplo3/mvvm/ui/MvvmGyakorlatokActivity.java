@@ -102,10 +102,12 @@ public class MvvmGyakorlatokActivity extends BaseActivity<MvvmGyakorlatActivityB
                 initGyakDiagramok((GyakorlatUI) binding.gyakorlatokLista.getAdapter().getItem(kijelotGyakPoz));
         }
 
-        toggle = new ActionBarDrawerToggle(this, binding.mainDrawer, R.string.Open, R.string.Close);
-        toggle.syncState();
-        binding.mainDrawer.addDrawerListener(toggle);
-        binding.nv.setNavigationItemSelectedListener(this::onNavigationItemSelected);
+        if(!isTablet()) {
+            toggle = new ActionBarDrawerToggle(this, binding.mainDrawer, R.string.Open, R.string.Close);
+            toggle.syncState();
+            binding.mainDrawer.addDrawerListener(toggle);
+            binding.nv.setNavigationItemSelectedListener(this::onNavigationItemSelected);
+        }
 //        binding.bottomNavigation.setOnNavigationItemSelectedListener(this);
 
     }
@@ -155,7 +157,9 @@ public class MvvmGyakorlatokActivity extends BaseActivity<MvvmGyakorlatActivityB
     public void setupCustomActionBar() {
         setSupportActionBar(binding.toolbar);
         if (getSupportActionBar() != null) {
-//            getSupportActionBar().setLogo(R.drawable.ic_gyakorlatok_kis_logo);
+            if(isTablet())
+                getSupportActionBar().setLogo(R.drawable.ic_gyakorlatok_kis_logo);
+
             getSupportActionBar().setTitle(R.string.welcome_gyakorlatok_title);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
