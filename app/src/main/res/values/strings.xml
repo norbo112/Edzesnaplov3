@@ -75,4 +75,6 @@
     <string name="gyakActivitySzerkMenu_new_label">Új</string>
     <string name="gyak_activity_options_menu_sorozat_labeldesc">Korábbi sorozatok megtekintése</string>
     <string name="gyak_activity_options_menu_sorozat_label">Korábbi sorozat</string>
+    <string name="Open">open</string>
+    <string name="Close">close</string>
 </resources>

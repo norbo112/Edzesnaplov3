@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:title="Szerkesztő">
+        <menu>
     <item
         android:id="@+id/ujgyak"
         android:icon="@drawable/ic_add"
@@ -17,6 +19,10 @@
         android:icon="@drawable/ic_delete"
         android:enabled="true"
         android:title="@string/gyakActivitySzerkMenu_delete_label" />
+        </menu>
+    </item>
+    <item android:title="Nézőke">
+        <menu>
     <item
         android:id="@+id/gyakszerk_menu_video"
         android:icon="@drawable/ic_ondemand_video"
@@ -28,4 +34,13 @@
         android:icon="@drawable/ic_chart"
         android:enabled="true"
         android:title="@string/gyakActivitySzerkMenu_diagram_label" />
+    <item
+        android:id="@+id/korabbi_sorozat_optmenu"
+        android:title="@string/gyak_activity_options_menu_sorozat_label"
+        android:enabled="true"
+        android:icon="@drawable/ic_walk_black_light"
+        android:contentDescription="@string/gyak_activity_options_menu_sorozat_labeldesc"
+        />
+        </menu>
+    </item>
 </menu>

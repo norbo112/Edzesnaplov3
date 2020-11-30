@@ -14,8 +14,10 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.SearchView;
+import androidx.core.view.GravityCompat;
 import androidx.databinding.DataBindingUtil;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -48,6 +50,7 @@ public class MvvmGyakorlatokActivity extends BaseActivity<MvvmGyakorlatActivityB
         implements VideoUtilsInterface, AdapterView.OnItemClickListener, BottomNavigationView.OnNavigationItemSelectedListener {
     private static final String TAG = "MvvmGyakorlatokActivity";
     private static final String VALASSZ_IZOMCSOP = "Mind látszik...";
+    private ActionBarDrawerToggle toggle;
 
     @Inject
     GyakorlatViewModel gyakorlatViewModel;
@@ -99,7 +102,12 @@ public class MvvmGyakorlatokActivity extends BaseActivity<MvvmGyakorlatActivityB
                 initGyakDiagramok((GyakorlatUI) binding.gyakorlatokLista.getAdapter().getItem(kijelotGyakPoz));
         }
 
-        binding.bottomNavigation.setOnNavigationItemSelectedListener(this);
+        toggle = new ActionBarDrawerToggle(this, binding.mainDrawer, R.string.Open, R.string.Close);
+        toggle.syncState();
+        binding.mainDrawer.addDrawerListener(toggle);
+        binding.nv.setNavigationItemSelectedListener(this::onNavigationItemSelected);
+//        binding.bottomNavigation.setOnNavigationItemSelectedListener(this);
+
     }
 
     private void initGyakDiagramok(GyakorlatUI gyakorlatUI) {
@@ -147,8 +155,9 @@ public class MvvmGyakorlatokActivity extends BaseActivity<MvvmGyakorlatActivityB
     public void setupCustomActionBar() {
         setSupportActionBar(binding.toolbar);
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setLogo(R.drawable.ic_gyakorlatok_kis_logo);
+//            getSupportActionBar().setLogo(R.drawable.ic_gyakorlatok_kis_logo);
             getSupportActionBar().setTitle(R.string.welcome_gyakorlatok_title);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
     }
 
@@ -176,14 +185,28 @@ public class MvvmGyakorlatokActivity extends BaseActivity<MvvmGyakorlatActivityB
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == R.id.korabbi_sorozat_optmenu) {
-            if(kijelotGyakPoz == -1) {
-                Toast.makeText(this, "Kérlek válassz egy gyakorlatot!", Toast.LENGTH_SHORT).show();
-                return false;
-            }
-            sorozatUtil.sorozatNezokeDialog(this, (GyakorlatUI) binding.gyakorlatokLista.getAdapter().getItem(kijelotGyakPoz));
+//        if(item.getItemId() == R.id.korabbi_sorozat_optmenu) {
+//            if(kijelotGyakPoz == -1) {
+//                Toast.makeText(this, "Kérlek válassz egy gyakorlatot!", Toast.LENGTH_SHORT).show();
+//                return false;
+//            }
+//            sorozatUtil.sorozatNezokeDialog(this, (GyakorlatUI) binding.gyakorlatokLista.getAdapter().getItem(kijelotGyakPoz));
+//        }
+        if(item.getItemId() == android.R.id.home) {
+            binding.mainDrawer.openDrawer(GravityCompat.START);
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (binding.mainDrawer.isDrawerOpen(GravityCompat.START)) {
+            binding.mainDrawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 
     private void showAlertGyakTorles(Gyakorlat gyakorlat) {
@@ -322,6 +345,13 @@ public class MvvmGyakorlatokActivity extends BaseActivity<MvvmGyakorlatActivityB
                         Toast.makeText(this, "Sajnos ehhez a gyakorlathoz nincs sorozat rögzítve", Toast.LENGTH_SHORT).show();
                     }
                 });
+                break;
+            case R.id.korabbi_sorozat_optmenu :
+                    if(kijelotGyakPoz == -1) {
+                        Toast.makeText(this, "Kérlek válassz egy gyakorlatot!", Toast.LENGTH_SHORT).show();
+                        return false;
+                    }
+                    sorozatUtil.sorozatNezokeDialog(this, (GyakorlatUI) binding.gyakorlatokLista.getAdapter().getItem(kijelotGyakPoz));
                 break;
         }
         return true;
