@@ -5,7 +5,6 @@ import androidx.room.RoomDatabase;
 
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.GyakorlatDao;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.NaploDao;
-import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.NaploUserDao;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.daos.SorozatDao;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Gyakorlat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Naplo;
