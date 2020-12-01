@@ -15,12 +15,10 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Sorozat;
 
 @Database(entities = {Gyakorlat.class, Sorozat.class, Naplo.class, NaploUser.class}, version = 1)
 public abstract class EdzesNaploDatabase extends RoomDatabase {
-    private static final String TAG = "EdzésnaplóAdatbázis";
     public static final String DBNAME = "edzesnaplov4_db";
 
     public abstract GyakorlatDao gyakorlatDao();
     public abstract NaploDao naploDao();
     public abstract SorozatDao sorozatDao();
-    public abstract NaploUserDao naploUserDao();
 
 }
