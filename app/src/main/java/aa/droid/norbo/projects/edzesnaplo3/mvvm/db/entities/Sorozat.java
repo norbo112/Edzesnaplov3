@@ -22,6 +22,7 @@ public class Sorozat implements Serializable, Parcelable {
     private int ismetles;
     private long ismidopont;
     private long naplodatum;
+    private String szettek;
     @Ignore
     private Gyakorlat gyakorlat;
 
@@ -124,6 +125,14 @@ public class Sorozat implements Serializable, Parcelable {
 
     public void setNaplodatum(long naplodatum) {
         this.naplodatum = naplodatum;
+    }
+
+    public String getSzettek() {
+        return szettek;
+    }
+
+    public void setSzettek(String szettek) {
+        this.szettek = szettek;
     }
 
     @Ignore

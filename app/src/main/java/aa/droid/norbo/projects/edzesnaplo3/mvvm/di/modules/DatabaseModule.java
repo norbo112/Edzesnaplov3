@@ -31,7 +31,8 @@ public class DatabaseModule {
         return Room.databaseBuilder(application,
                 EdzesNaploDatabase.class, EdzesNaploDatabase.DBNAME)
                 .allowMainThreadQueries()
-                .fallbackToDestructiveMigration()
+//                .fallbackToDestructiveMigration()
+                .addMigrations(EdzesNaploDatabase.MIGRATION_1_2)
                 .build();
     }
 

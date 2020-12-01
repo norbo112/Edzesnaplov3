@@ -19,6 +19,7 @@ public class SorozatUI implements Serializable, Parcelable {
     private String ismetles;
     private long ismidopont;
     private long naplodatum;
+    private String szettek;
     private Gyakorlat gyakorlat;
 
     public SorozatUI(){}
@@ -48,6 +49,16 @@ public class SorozatUI implements Serializable, Parcelable {
         this.ismetles = ismetles;
         this.ismidopont = ismidopont;
         this.naplodatum = naplodatum;
+    }
+
+    public SorozatUI(Gyakorlat gyakorlat, String suly, String ismetles, long ismidopont, long naplodatum, String szettek) {
+        this.gyakorlat = gyakorlat;
+        this.gyakorlatid = gyakorlat.getId();
+        this.suly = suly;
+        this.ismetles = ismetles;
+        this.ismidopont = ismidopont;
+        this.naplodatum = naplodatum;
+        this.szettek = szettek;
     }
 
     public static final Creator<SorozatUI> CREATOR = new Creator<SorozatUI>() {
@@ -110,6 +121,14 @@ public class SorozatUI implements Serializable, Parcelable {
         this.naplodatum = naplodatum;
     }
 
+    public String getSzettek() {
+        return szettek;
+    }
+
+    public void setSzettek(String szettek) {
+        this.szettek = szettek;
+    }
+
     @Ignore
     public Gyakorlat getGyakorlat() {
         return gyakorlat;
@@ -151,6 +170,7 @@ public class SorozatUI implements Serializable, Parcelable {
         dest.writeString(ismetles);
         dest.writeLong(ismidopont);
         dest.writeLong(naplodatum);
+        dest.writeString(szettek);
         dest.writeSerializable(gyakorlat);
     }
 }

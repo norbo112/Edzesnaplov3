@@ -33,7 +33,7 @@ public class ModelConverter {
     public SorozatUI fromSorozatEntity(Sorozat sorozat) {
         return new SorozatUI(sorozat.getGyakorlat(),
                 Integer.toString(sorozat.getSuly()),
-                Integer.toString(sorozat.getIsmetles()), sorozat.getIsmidopont(), sorozat.getNaplodatum());
+                Integer.toString(sorozat.getIsmetles()), sorozat.getIsmidopont(), sorozat.getNaplodatum(), sorozat.getSzettek());
     }
 
     public Sorozat fromSorozatUI(SorozatUI sorozatUI) {
