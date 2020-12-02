@@ -45,17 +45,19 @@ public class Sorozat implements Serializable, Parcelable {
         ismetles = parcel.readInt();
         ismidopont = parcel.readLong();
         naplodatum = parcel.readLong();
+        szettek = parcel.readString();
         gyakorlat = (Gyakorlat) parcel.readSerializable();
     }
 
     @Ignore
-    public Sorozat(Gyakorlat gyakorlat, int suly, int ismetles, long ismidopont, long naplodatum) {
+    public Sorozat(Gyakorlat gyakorlat, int suly, int ismetles, long ismidopont, long naplodatum, String szettek) {
         this.gyakorlat = gyakorlat;
         this.gyakorlatid = gyakorlat.getId();
         this.suly = suly;
         this.ismetles = ismetles;
         this.ismidopont = ismidopont;
         this.naplodatum = naplodatum;
+        this.szettek = szettek;
     }
 
     @Ignore
@@ -176,6 +178,7 @@ public class Sorozat implements Serializable, Parcelable {
         dest.writeInt(ismetles);
         dest.writeLong(ismidopont);
         dest.writeLong(naplodatum);
+        dest.writeString(szettek);
         dest.writeSerializable(gyakorlat);
     }
 }

@@ -8,6 +8,12 @@
         android:title="Kiválaszt"
         app:showAsAction="never|ifRoom" />
     <item
+        android:id="@+id/gyakszuperszett"
+        android:icon="@drawable/ic_add"
+        android:iconTint="@color/recoff"
+        android:title="Szuperszett"
+        app:showAsAction="ifRoom"/>
+    <item
         android:id="@+id/gyakszerk_menu_korabbisorozat"
         android:icon="@drawable/ic_directions_walk_black_24dp"
         android:title="Korábbi sorozatok"

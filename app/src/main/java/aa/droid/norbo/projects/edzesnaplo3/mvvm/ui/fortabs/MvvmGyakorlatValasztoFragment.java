@@ -174,6 +174,13 @@ public class MvvmGyakorlatValasztoFragment extends Fragment implements AdapterVi
                     Toast.makeText(getContext(), "Gyakorlat választása az edzés NEW gombbal történik!", Toast.LENGTH_SHORT).show();
                 }
                 break;
+            case R.id.gyakszuperszett :
+                if(gyakorlatValasztva) {
+                    adatKozloInterface.pluszGyakorlatFelvetele(valasztottGyakorlat);
+                } else {
+                    Toast.makeText(getContext(), "Kérlek válassz egy fő gyakorlatot a szuperszettben történő edzéshez", Toast.LENGTH_SHORT).show();
+                }
+                break;
             case R.id.gyakszerk_menu_korabbisorozat :
                 sorozatUtil.sorozatNezokeDialog(this, valasztottGyakorlat);
                 break;

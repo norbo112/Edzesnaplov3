@@ -40,7 +40,7 @@ public class ModelConverter {
         return new Sorozat(sorozatUI.getGyakorlat(),
                 Integer.parseInt(sorozatUI.getSuly()),
                 Integer.parseInt(sorozatUI.getIsmetles()), sorozatUI.getIsmidopont(),
-                sorozatUI.getNaplodatum());
+                sorozatUI.getNaplodatum(), sorozatUI.getSzettek());
     }
 
     public NaploUI fromNaploEntity(NaploWithSorozat naploWithSorozat) {

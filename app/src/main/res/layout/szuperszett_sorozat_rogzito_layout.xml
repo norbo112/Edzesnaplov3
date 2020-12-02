@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="sorozatUI"
+            type="aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.TevekenysegFragment.SorozatDisplay" />
+        <variable
+            name="gyakorlatUI"
+            type="aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.GyakorlatUI" />
+        <variable
+            name="sorozatAction"
+            type="aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.TevekenysegFragment.SorozatAction" />
+        <variable
+            name="action"
+            type="aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.TevekenysegFragment.TevekenysegSzuperszettSorozat" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/edzes_card_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="#fff"
+            app:cardCornerRadius="15dp"
+            app:contentPadding="10dp"
+            android:layout_margin="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/sorozat_hozzaadas_hatter"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/pluszGyakorlatLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#0277BD"
+                    android:gravity="center"
+                    android:text="@{gyakorlatUI.megnevezes}"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="#fff" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/suly_label"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:background="#0277BD"
+                                android:text="@string/mvvm_tevekenyseg_suly_label"
+                                android:textAlignment="center"
+                                android:textColor="#fff"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                app:layout_constraintEnd_toEndOf="@+id/linearLayout3"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:background="#0277BD"
+                                android:gravity="center"
+                                android:text="@string/mvvm_tevekenyseg_x"
+                                android:textColor="#fff"
+                                android:textSize="21sp"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toStartOf="@+id/etIsm"
+                                app:layout_constraintStart_toEndOf="@+id/linearLayout3"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/ism_label"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:background="#0277BD"
+                                android:text="@string/mvvm_tevekenyseg_ismetles_label"
+                                android:textAlignment="center"
+                                android:textColor="#fff"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="@+id/etIsm"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/etSuly"
+                                android:layout_width="50dp"
+                                android:layout_height="0dp"
+                                android:gravity="center"
+                                android:text="@={sorozatUI.suly}"
+                                android:textSize="21sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/suly_label" />
+
+                            <LinearLayout
+                                android:id="@+id/linearLayout3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toEndOf="@+id/etSuly"
+                                app:layout_constraintTop_toBottomOf="@+id/suly_label">
+
+                                <ImageView
+                                    android:id="@+id/suly_up"
+                                    android:layout_width="50dp"
+                                    android:layout_height="wrap_content"
+                                    android:contentDescription="@string/mvvm_tevekenyseg_sulynovelo_image_desc"
+                                    android:onClick="@{() -> sorozatAction.increaseSorozatSuly()}"
+                                    app:srcCompat="@drawable/ic_up" />
+
+                                <ImageView
+                                    android:id="@+id/suly_down"
+                                    android:layout_width="50dp"
+                                    android:layout_height="wrap_content"
+                                    android:contentDescription="@string/mvvm_tevekenyseg_sulycsokk_image_desc"
+                                    android:onClick="@{() -> sorozatAction.decreaseSorozatSuly()}"
+                                    app:srcCompat="@drawable/ic_down" />
+                            </LinearLayout>
+
+
+                            <TextView
+                                android:id="@+id/etIsm"
+                                android:layout_width="50dp"
+                                android:layout_height="0dp"
+                                android:gravity="center"
+                                android:text="@={sorozatUI.ism}"
+                                android:textSize="21sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toStartOf="@+id/linearLayout4"
+                                app:layout_constraintTop_toBottomOf="@+id/ism_label" />
+
+                            <LinearLayout
+                                android:id="@+id/linearLayout4"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/ism_label">
+
+                                <ImageView
+                                    android:id="@+id/ism_up"
+                                    android:layout_width="50dp"
+                                    android:layout_height="wrap_content"
+                                    android:contentDescription="@string/mvvm_tevekenyseg_ismnovelo_image_desc"
+                                    android:onClick="@{() -> sorozatAction.increaseSorozatIsm()}"
+                                    app:srcCompat="@drawable/ic_up" />
+
+                                <ImageView
+                                    android:id="@+id/ism_down"
+                                    android:layout_width="50dp"
+                                    android:layout_height="wrap_content"
+                                    android:contentDescription="@string/mvvm_tevekenyseg_ismcsokk_image_desc"
+                                    android:onClick="@{() -> sorozatAction.decreaseSorozatIsm()}"
+                                    app:srcCompat="@drawable/ic_down" />
+                            </LinearLayout>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="15dp"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+                            <androidx.appcompat.widget.SwitchCompat
+                                android:id="@+id/plusz10switch"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="2dp"
+                                android:layout_marginEnd="2dp"
+                                android:layout_marginBottom="2dp"
+                                android:layout_weight="1"
+                                android:background="#E2F0F3"
+                                android:paddingStart="5dp"
+                                android:paddingEnd="5dp"
+                                android:text="@string/mvvm_tevekenyseg_sorozat_szorzo1"
+                                android:textSize="14sp" />
+                            <Button
+                                android:id="@+id/btnSorozatAdd"
+                                style="@style/Widget.AppCompat.Button.Colored"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:onClick="@{() -> action.pluszSzettSorozat()}"
+                                android:text="@string/mvvm_tevekenyseg_sorozat_plusz" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

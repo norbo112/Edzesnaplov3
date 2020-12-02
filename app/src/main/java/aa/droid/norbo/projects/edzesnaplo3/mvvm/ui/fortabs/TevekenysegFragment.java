@@ -4,16 +4,20 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
@@ -22,6 +26,7 @@ import javax.inject.Inject;
 import aa.droid.norbo.projects.edzesnaplo3.R;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmEdzesNezetBinding;
 import aa.droid.norbo.projects.edzesnaplo3.databinding.MvvmSorozatSzerkesztoBinding;
+import aa.droid.norbo.projects.edzesnaplo3.databinding.SzuperszettSorozatRogzitoLayoutBinding;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.GyakorlatUI;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.data.model.SorozatUI;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Sorozat;
@@ -30,6 +35,7 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.DateTimeFormatter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.ModelConverter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.naplo.NaploWorker;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.naplo.SorozatUtil;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.szuperszett.SzettekInterface;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.SorozatViewModel;
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -65,7 +71,27 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface 
         binding.setSorozatUI(new SorozatDisplay());
         binding.setAction(new TevekenysegClick());
         binding.btnSorozatAdd.setEnabled(false);
-        binding.setSorozatAction(new SorozatAction());
+        binding.setSorozatAction(new SorozatAction(new SzettekInterface() {
+            @Override
+            public SwitchCompat getSwitchCompat() {
+                return binding.plusz10switch;
+            }
+
+            @Override
+            public SorozatDisplay getSorozatUI() {
+                return binding.getSorozatUI();
+            }
+
+            @Override
+            public TextView getEtSulyView() {
+                return binding.etSuly;
+            }
+
+            @Override
+            public TextView getEtIsmView() {
+                return binding.etIsm;
+            }
+        }));
         binding.sorozatLista.setNestedScrollingEnabled(true);
 
         if(getResources().getBoolean(R.bool.isTablet))
@@ -130,6 +156,38 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface 
         }
     }
 
+    @Override
+    public void pluszGyakorlatFelvetele(GyakorlatUI gyakorlatUI) {
+        if(binding.szuperszettSorozatFelvetele != null) {
+            SzuperszettSorozatRogzitoLayoutBinding layoutBinding = SzuperszettSorozatRogzitoLayoutBinding.inflate(getLayoutInflater());
+            layoutBinding.setAction(new TevekenysegSzuperszettSorozat(layoutBinding));
+            layoutBinding.setSorozatAction(new SorozatAction(new SzettekInterface() {
+                @Override
+                public SwitchCompat getSwitchCompat() {
+                    return layoutBinding.plusz10switch;
+                }
+
+                @Override
+                public SorozatDisplay getSorozatUI() {
+                    return layoutBinding.getSorozatUI();
+                }
+
+                @Override
+                public TextView getEtSulyView() {
+                    return layoutBinding.etSuly;
+                }
+
+                @Override
+                public TextView getEtIsmView() {
+                    return layoutBinding.etIsm;
+                }
+            }));
+            layoutBinding.setGyakorlatUI(gyakorlatUI);
+            layoutBinding.setSorozatUI(new SorozatDisplay());
+            this.binding.szuperszettSorozatFelvetele.addView(layoutBinding.getRoot());
+        }
+    }
+
     private void korabbiSorozatReset() {
         if(getResources().getBoolean(R.bool.isTablet)) {
             binding.tvSorozatKorabbiTitle.setText(R.string.korabbi_sorozat_list_title);
@@ -146,7 +204,7 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface 
 
             SorozatDisplay sorozatUI = binding.getSorozatUI();
             if(!sorozatUI.suly.equals("0") && !sorozatUI.ism.equals("0")) {
-                naploWorker.addSorozat(modelConverter.fromUI(gyakorlatUI), Integer.parseInt(sorozatUI.suly), Integer.parseInt(sorozatUI.ism));
+                naploWorker.addSorozat(modelConverter.fromUI(gyakorlatUI), Integer.parseInt(sorozatUI.suly), Integer.parseInt(sorozatUI.ism), null);
 
                 timerRunner = new TimerRunner();
                 handler.postDelayed(timerRunner, 500);
@@ -160,6 +218,11 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface 
             if (! getActivity().getResources().getBoolean(R.bool.isTablet)) {
                 ((ViewPager)getActivity().findViewById(R.id.view_pager)).setCurrentItem(0, true);
             }
+
+            if(binding.szuperszettSorozatFelvetele != null) {
+                binding.szuperszettSorozatFelvetele.removeAllViews();
+            }
+
             binding.gyakTitle.setText(R.string.mvvm_edzes_nezet_gyakorlat_label);
             binding.etSuly.setText("0");
             binding.etIsm.setText("0");
@@ -174,6 +237,24 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface 
         }
     }
 
+    public class TevekenysegSzuperszettSorozat<T extends ViewDataBinding> {
+        private final T binding;
+
+        public TevekenysegSzuperszettSorozat(T binding) {
+            this.binding = binding;
+        }
+
+        public void pluszSzettSorozat() {
+            if(binding instanceof SzuperszettSorozatRogzitoLayoutBinding) {
+                GyakorlatUI gyakorlatUI = ((SzuperszettSorozatRogzitoLayoutBinding)binding).getGyakorlatUI();
+                SorozatDisplay sorozatUI = ((SzuperszettSorozatRogzitoLayoutBinding)binding).getSorozatUI();
+//                if (!sorozatUI.suly.equals("0") && !sorozatUI.ism.equals("0")) {
+                    Log.i(TAG, "pluszSzettSorozat: "+gyakorlatUI.getMegnevezes()+"= suly=" + sorozatUI.suly + ", ism=" + sorozatUI.ism);
+//                }
+            }
+        }
+    }
+
     private void gyakorlatValasztastAllit() {
         for (Fragment fragment : getActivity().getSupportFragmentManager().getFragments()) {
             if(fragment instanceof MvvmGyakorlatValasztoFragment) {
@@ -183,42 +264,52 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface 
     }
 
     public class SorozatAction {
-        public void increaseSorozatSuly(SorozatDisplay sorozatUI) {
+        private final SzettekInterface anInterface;
+
+        public SorozatAction(SzettekInterface anInterface) {
+            this.anInterface = anInterface;
+        }
+
+        public void increaseSorozatSuly() {
+            SorozatDisplay sorozatUI = anInterface.getSorozatUI();
             int suly = Integer.parseInt(sorozatUI.getSuly());
-            if(binding.plusz10switch != null && binding.plusz10switch.isChecked())
+            if (anInterface.getSwitchCompat() != null && anInterface.getSwitchCompat().isChecked())
                 suly += 10;
             else
                 suly += 2;
-            binding.etSuly.setText(Integer.toString(suly));
+            anInterface.getEtSulyView().setText(Integer.toString(suly));
         }
 
-        public void decreaseSorozatSuly(SorozatDisplay sorozatUI) {
+        public void decreaseSorozatSuly() {
+            SorozatDisplay sorozatUI = anInterface.getSorozatUI();
             int suly = Integer.parseInt(sorozatUI.getSuly());
-            if(binding.plusz10switch != null && binding.plusz10switch.isChecked())
+            if(anInterface.getSwitchCompat() != null && anInterface.getSwitchCompat().isChecked())
                 suly -= 10;
             else
                 suly -= 2;
             if(suly < 0) suly = 0;
-            binding.etSuly.setText(Integer.toString(suly));
+            anInterface.getEtSulyView().setText(Integer.toString(suly));
         }
 
-        public void increaseSorozatIsm(SorozatDisplay sorozatUI) {
+        public void increaseSorozatIsm() {
+            SorozatDisplay sorozatUI = anInterface.getSorozatUI();
             int ism = Integer.parseInt(sorozatUI.getIsm());
-            if(binding.plusz10switch != null && binding.plusz10switch.isChecked())
+            if(anInterface.getSwitchCompat() != null && anInterface.getSwitchCompat().isChecked())
                 ism += 10;
             else
                 ism += 1;
-            binding.etIsm.setText(Integer.toString(ism));
+            anInterface.getEtIsmView().setText(Integer.toString(ism));
         }
 
-        public void decreaseSorozatIsm(SorozatDisplay sorozatUI) {
+        public void decreaseSorozatIsm() {
+            SorozatDisplay sorozatUI = anInterface.getSorozatUI();
             int ism = Integer.parseInt(sorozatUI.getIsm());
-            if(binding.plusz10switch != null && binding.plusz10switch.isChecked())
+            if(anInterface.getSwitchCompat()!= null && anInterface.getSwitchCompat().isChecked())
                 ism -= 10;
             else
                 ism -= 1;
             if(ism < 0) ism = 0;
-            binding.etIsm.setText(Integer.toString(ism));
+            anInterface.getEtIsmView().setText(Integer.toString(ism));
         }
     }
 

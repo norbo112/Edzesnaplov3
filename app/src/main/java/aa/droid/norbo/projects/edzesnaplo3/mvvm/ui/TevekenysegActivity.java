@@ -178,6 +178,20 @@ public class TevekenysegActivity extends BaseActivity<MvvmActivityTestBinding> i
     }
 
     @Override
+    public void pluszGyakorlatFelvetele(GyakorlatUI gyakorlatUI) {
+        List<Fragment> fragments = getSupportFragmentManager().getFragments();
+        for (Fragment fragment: fragments) {
+            if(fragment instanceof TevekenysegFragment) {
+                ((TevekenysegFragment)fragment).pluszGyakorlatFelvetele(gyakorlatUI);
+            }
+        }
+
+        if (!getResources().getBoolean(R.bool.isTablet)) {
+            binding.viewPager.setCurrentItem(1, true);
+        }
+    }
+
+    @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.tevekenyseg_naplo_view) {
             AlertDialog dialog = alertDialogUtil.laodingDialog(this);

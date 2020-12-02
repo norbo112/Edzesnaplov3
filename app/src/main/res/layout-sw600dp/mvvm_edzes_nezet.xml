@@ -184,7 +184,7 @@
                                     android:layout_width="50dp"
                                     android:layout_height="wrap_content"
                                     android:contentDescription="Súly növelése"
-                                    android:onClick="@{() -> sorozatAction.increaseSorozatSuly(sorozatUI)}"
+                                    android:onClick="@{() -> sorozatAction.increaseSorozatSuly()}"
                                     app:srcCompat="@drawable/ic_up" />
 
                                 <ImageView
@@ -192,7 +192,7 @@
                                     android:layout_width="50dp"
                                     android:layout_height="wrap_content"
                                     android:contentDescription="Súly csökkentése"
-                                    android:onClick="@{() -> sorozatAction.decreaseSorozatSuly(sorozatUI)}"
+                                    android:onClick="@{() -> sorozatAction.decreaseSorozatSuly()}"
                                     app:srcCompat="@drawable/ic_down" />
                             </LinearLayout>
 
@@ -249,7 +249,7 @@
                                     android:layout_width="50dp"
                                     android:layout_height="wrap_content"
                                     android:contentDescription="Ismétlés növelése"
-                                    android:onClick="@{() -> sorozatAction.increaseSorozatIsm(sorozatUI)}"
+                                    android:onClick="@{() -> sorozatAction.increaseSorozatIsm()}"
                                     app:srcCompat="@drawable/ic_up" />
 
                                 <ImageView
@@ -257,7 +257,7 @@
                                     android:layout_width="50dp"
                                     android:layout_height="wrap_content"
                                     android:contentDescription="Ismétlés csökkentése"
-                                    android:onClick="@{() -> sorozatAction.decreaseSorozatIsm(sorozatUI)}"
+                                    android:onClick="@{() -> sorozatAction.decreaseSorozatIsm()}"
                                     app:srcCompat="@drawable/ic_down" />
                             </LinearLayout>
 

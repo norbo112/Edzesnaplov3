@@ -46,8 +46,8 @@ public class NaploWorker {
         this.widgetUtil = widgetUtil;
     }
 
-    public void addSorozat(Gyakorlat gyakorlat, int suly, int ism) {
-        sorozats.add(new Sorozat(gyakorlat, suly, ism, System.currentTimeMillis(), naplo.getNaplodatum()));
+    public void addSorozat(Gyakorlat gyakorlat, int suly, int ism, String szettek) {
+        sorozats.add(new Sorozat(gyakorlat, suly, ism, System.currentTimeMillis(), naplo.getNaplodatum(), szettek));
         liveSorozatLista.postValue(sorozats);
     }
 
