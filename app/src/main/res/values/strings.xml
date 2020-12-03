@@ -77,4 +77,5 @@
     <string name="gyak_activity_options_menu_sorozat_label">Korábbi sorozat</string>
     <string name="Open">open</string>
     <string name="Close">close</string>
+    <string name="szuperszett_triszett_felv_tele">Szuperszett, triszett felvétele</string>
 </resources>
