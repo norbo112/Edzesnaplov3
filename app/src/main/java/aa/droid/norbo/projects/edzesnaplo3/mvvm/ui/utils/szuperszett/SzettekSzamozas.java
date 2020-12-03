@@ -21,10 +21,13 @@ public class SzettekSzamozas {
         int kovetkezoSzam;
         for (int i = 0; i < szettek.size(); i++) {
             String s = szettek.get(i);
-            if(s.charAt(0) == TRISZETT) {
+            if(!s.isEmpty() && s.charAt(0) == TRISZETT) {
                 n++;
             }
         }
+
+        if(n == 0) return 1;
+
         kovetkezoSzam = n / 3 + 1;
         return kovetkezoSzam;
     }
@@ -34,10 +37,13 @@ public class SzettekSzamozas {
         int kovetkezoSzam;
         for (int i = 0; i < szettek.size(); i++) {
             String s = szettek.get(i);
-            if(s.charAt(0) == SZUPERSZETT) {
+            if(!s.isEmpty() && s.charAt(0) == SZUPERSZETT) {
                 n++;
             }
         }
+
+        if(n == 0) return 1;
+
         kovetkezoSzam = n / 2 + 1;
         return kovetkezoSzam;
     }
@@ -47,10 +53,13 @@ public class SzettekSzamozas {
         int kovetkezoSzam;
         for (int i = 0; i < szettek.size(); i++) {
             String s = szettek.get(i);
-            if(s.charAt(0) == ORIASSZETT) {
+            if(!s.isEmpty() && s.charAt(0) == ORIASSZETT) {
                 n++;
             }
         }
+
+        if(n == 0) return 1;
+
         kovetkezoSzam = n / 4 + 1;
         return kovetkezoSzam;
     }

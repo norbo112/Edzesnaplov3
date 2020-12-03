@@ -125,7 +125,7 @@
                                 android:id="@+id/linearLayout3"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:orientation="vertical"
+                                android:orientation="horizontal"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toEndOf="@+id/etSuly"
                                 app:layout_constraintTop_toBottomOf="@+id/suly_label">
@@ -163,7 +163,7 @@
                                 android:id="@+id/linearLayout4"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:orientation="vertical"
+                                android:orientation="horizontal"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toBottomOf="@+id/ism_label">
