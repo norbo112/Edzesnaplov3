@@ -6,13 +6,13 @@
     <data>
         <variable
             name="sorozatUI"
-            type="aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.TevekenysegFragment.SorozatDisplay" />
+            type="aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.SorozatDisplay" />
         <variable
             name="action"
             type="aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.TevekenysegFragment.TevekenysegClick" />
         <variable
             name="sorozatAction"
-            type="aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.TevekenysegFragment.SorozatAction" />
+            type="aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.uiactions.SorozatAction" />
     </data>
 
     <androidx.core.widget.NestedScrollView

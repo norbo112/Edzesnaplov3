@@ -10,13 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.widget.SwitchCompat;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
@@ -35,7 +33,9 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.DateTimeFormatter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.ModelConverter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.naplo.NaploWorker;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.naplo.SorozatUtil;
-import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.szuperszett.SzettekInterface;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.uiactions.MainTevekenysegAction;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.uiactions.SorozatAction;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.uiactions.SzuperszettActionInterface;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.SorozatViewModel;
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -71,27 +71,7 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface 
         binding.setSorozatUI(new SorozatDisplay());
         binding.setAction(new TevekenysegClick());
         binding.btnSorozatAdd.setEnabled(false);
-        binding.setSorozatAction(new SorozatAction(new SzettekInterface() {
-            @Override
-            public SwitchCompat getSwitchCompat() {
-                return binding.plusz10switch;
-            }
-
-            @Override
-            public SorozatDisplay getSorozatUI() {
-                return binding.getSorozatUI();
-            }
-
-            @Override
-            public TextView getEtSulyView() {
-                return binding.etSuly;
-            }
-
-            @Override
-            public TextView getEtIsmView() {
-                return binding.etIsm;
-            }
-        }));
+        binding.setSorozatAction(new SorozatAction(new MainTevekenysegAction(binding)));
         binding.sorozatLista.setNestedScrollingEnabled(true);
 
         if(getResources().getBoolean(R.bool.isTablet))
@@ -161,27 +141,7 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface 
         if(binding.szuperszettSorozatFelvetele != null) {
             SzuperszettSorozatRogzitoLayoutBinding layoutBinding = SzuperszettSorozatRogzitoLayoutBinding.inflate(getLayoutInflater());
             layoutBinding.setAction(new TevekenysegSzuperszettSorozat(layoutBinding));
-            layoutBinding.setSorozatAction(new SorozatAction(new SzettekInterface() {
-                @Override
-                public SwitchCompat getSwitchCompat() {
-                    return layoutBinding.plusz10switch;
-                }
-
-                @Override
-                public SorozatDisplay getSorozatUI() {
-                    return layoutBinding.getSorozatUI();
-                }
-
-                @Override
-                public TextView getEtSulyView() {
-                    return layoutBinding.etSuly;
-                }
-
-                @Override
-                public TextView getEtIsmView() {
-                    return layoutBinding.etIsm;
-                }
-            }));
+            layoutBinding.setSorozatAction(new SorozatAction(new SzuperszettActionInterface(layoutBinding)));
             layoutBinding.setGyakorlatUI(gyakorlatUI);
             layoutBinding.setSorozatUI(new SorozatDisplay());
             this.binding.szuperszettSorozatFelvetele.addView(layoutBinding.getRoot());
@@ -237,20 +197,18 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface 
         }
     }
 
-    public class TevekenysegSzuperszettSorozat<T extends ViewDataBinding> {
-        private final T binding;
+    public class TevekenysegSzuperszettSorozat {
+        private final SzuperszettSorozatRogzitoLayoutBinding binding;
 
-        public TevekenysegSzuperszettSorozat(T binding) {
+        public TevekenysegSzuperszettSorozat(SzuperszettSorozatRogzitoLayoutBinding binding) {
             this.binding = binding;
         }
 
         public void pluszSzettSorozat() {
-            if(binding instanceof SzuperszettSorozatRogzitoLayoutBinding) {
-                GyakorlatUI gyakorlatUI = ((SzuperszettSorozatRogzitoLayoutBinding)binding).getGyakorlatUI();
-                SorozatDisplay sorozatUI = ((SzuperszettSorozatRogzitoLayoutBinding)binding).getSorozatUI();
-//                if (!sorozatUI.suly.equals("0") && !sorozatUI.ism.equals("0")) {
-                    Log.i(TAG, "pluszSzettSorozat: "+gyakorlatUI.getMegnevezes()+"= suly=" + sorozatUI.suly + ", ism=" + sorozatUI.ism);
-//                }
+            if(binding != null && binding instanceof SzuperszettSorozatRogzitoLayoutBinding) {
+                GyakorlatUI gyakorlatUI = binding.getGyakorlatUI();
+                SorozatDisplay sorozatUI = binding.getSorozatUI();
+                Log.i(TAG, "pluszSzettSorozat: "+gyakorlatUI.getMegnevezes()+"= suly=" + sorozatUI.suly + ", ism=" + sorozatUI.ism);
             }
         }
     }
@@ -260,56 +218,6 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface 
             if(fragment instanceof MvvmGyakorlatValasztoFragment) {
                 ((MvvmGyakorlatValasztoFragment)fragment).setGyakorlatValasztva(false);
             }
-        }
-    }
-
-    public class SorozatAction {
-        private final SzettekInterface anInterface;
-
-        public SorozatAction(SzettekInterface anInterface) {
-            this.anInterface = anInterface;
-        }
-
-        public void increaseSorozatSuly() {
-            SorozatDisplay sorozatUI = anInterface.getSorozatUI();
-            int suly = Integer.parseInt(sorozatUI.getSuly());
-            if (anInterface.getSwitchCompat() != null && anInterface.getSwitchCompat().isChecked())
-                suly += 10;
-            else
-                suly += 2;
-            anInterface.getEtSulyView().setText(Integer.toString(suly));
-        }
-
-        public void decreaseSorozatSuly() {
-            SorozatDisplay sorozatUI = anInterface.getSorozatUI();
-            int suly = Integer.parseInt(sorozatUI.getSuly());
-            if(anInterface.getSwitchCompat() != null && anInterface.getSwitchCompat().isChecked())
-                suly -= 10;
-            else
-                suly -= 2;
-            if(suly < 0) suly = 0;
-            anInterface.getEtSulyView().setText(Integer.toString(suly));
-        }
-
-        public void increaseSorozatIsm() {
-            SorozatDisplay sorozatUI = anInterface.getSorozatUI();
-            int ism = Integer.parseInt(sorozatUI.getIsm());
-            if(anInterface.getSwitchCompat() != null && anInterface.getSwitchCompat().isChecked())
-                ism += 10;
-            else
-                ism += 1;
-            anInterface.getEtIsmView().setText(Integer.toString(ism));
-        }
-
-        public void decreaseSorozatIsm() {
-            SorozatDisplay sorozatUI = anInterface.getSorozatUI();
-            int ism = Integer.parseInt(sorozatUI.getIsm());
-            if(anInterface.getSwitchCompat()!= null && anInterface.getSwitchCompat().isChecked())
-                ism -= 10;
-            else
-                ism -= 1;
-            if(ism < 0) ism = 0;
-            anInterface.getEtIsmView().setText(Integer.toString(ism));
         }
     }
 
@@ -338,27 +246,6 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface 
             ism -= 10;
             if(ism < 0) ism = 0;
             binding.etIsm.setText(Integer.toString(ism));
-        }
-    }
-
-    public class SorozatDisplay {
-        String suly = "0";
-        String ism = "0";
-
-        public String getSuly() {
-            return suly;
-        }
-
-        public void setSuly(String suly) {
-            this.suly = suly;
-        }
-
-        public String getIsm() {
-            return ism;
-        }
-
-        public void setIsm(String ism) {
-            this.ism = ism;
         }
     }
 

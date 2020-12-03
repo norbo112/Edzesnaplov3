@@ -7,7 +7,7 @@
 
         <variable
             name="sorozatUI"
-            type="aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.TevekenysegFragment.SorozatDisplay" />
+            type="aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.SorozatDisplay" />
 
         <variable
             name="action"
@@ -15,7 +15,7 @@
 
         <variable
             name="sorozatAction"
-            type="aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.TevekenysegFragment.SorozatAction" />
+            type="aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.uiactions.SorozatAction" />
 
         <variable
             name="sorozatActionForTab2x"
