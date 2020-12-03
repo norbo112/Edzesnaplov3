@@ -2,6 +2,9 @@ package aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.uiactions;
 
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.SorozatDisplay;
 
+/**
+ * Súly és ismétlés növelése ill. csökkentése UI vezérlőgombok segítségével
+ */
 public class SorozatAction {
     private final ActionsInterface anInterface;
 
