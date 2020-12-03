@@ -15,7 +15,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
@@ -35,7 +34,7 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.naplo.NaploWorker;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.naplo.SorozatUtil;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.uiactions.MainTevekenysegAction;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.uiactions.SorozatAction;
-import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.uiactions.SzuperszettActionInterface;
+import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.uiactions.SorozatRogzitoAction;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.SorozatViewModel;
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -141,7 +140,7 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface 
         if(binding.szuperszettSorozatFelvetele != null) {
             SzuperszettSorozatRogzitoLayoutBinding layoutBinding = SzuperszettSorozatRogzitoLayoutBinding.inflate(getLayoutInflater());
             layoutBinding.setAction(new TevekenysegSzuperszettSorozat(layoutBinding));
-            layoutBinding.setSorozatAction(new SorozatAction(new SzuperszettActionInterface(layoutBinding)));
+            layoutBinding.setSorozatAction(new SorozatAction(new SorozatRogzitoAction(layoutBinding)));
             layoutBinding.setGyakorlatUI(gyakorlatUI);
             layoutBinding.setSorozatUI(new SorozatDisplay());
             this.binding.szuperszettSorozatFelvetele.addView(layoutBinding.getRoot());

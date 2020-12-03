@@ -12,10 +12,10 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.SorozatDisplay;
  * Amikor felveszünk egy gyakorlatot, akkor egy új View-t adok különféle elemekkel egy linearlayout
  * -hoz, és ezeket az elemeket kell külön vezérelnem, súly növelése, csökkentése stb
  */
-public class SzuperszettActionInterface implements ActionsInterface {
+public class SorozatRogzitoAction implements ActionsInterface {
     private final SzuperszettSorozatRogzitoLayoutBinding binding;
 
-    public SzuperszettActionInterface(SzuperszettSorozatRogzitoLayoutBinding binding) {
+    public SorozatRogzitoAction(SzuperszettSorozatRogzitoLayoutBinding binding) {
         this.binding = binding;
     }
 
