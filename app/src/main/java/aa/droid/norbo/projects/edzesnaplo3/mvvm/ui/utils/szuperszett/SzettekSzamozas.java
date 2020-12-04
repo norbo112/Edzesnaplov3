@@ -8,9 +8,9 @@ import dagger.hilt.android.scopes.ActivityScoped;
 
 @ActivityScoped
 public class SzettekSzamozas {
-    private static final Character SZUPERSZETT = 'S';
-    private static final Character TRISZETT = 'T';
-    private static final Character ORIASSZETT = 'O'; //négy gyakorlat egyszerre
+    public static final Character SZUPERSZETT = 'S';
+    public static final Character TRISZETT = 'T';
+    public static final Character ORIASSZETT = 'O'; //négy gyakorlat egyszerre
 
     @Inject
     public SzettekSzamozas() {

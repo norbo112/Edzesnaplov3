@@ -152,7 +152,7 @@ public class SorozatUI implements Serializable, Parcelable {
     public String toString() {
         DateTimeFormatter dateTimeFormatter = new DateTimeFormatter();
         return suly+"X"+ismetles+" "+ dateTimeFormatter.getTime(ismidopont) +" "+
-                (Integer.parseInt(suly)*Integer.parseInt(ismetles))+" Kg\n";
+                (Integer.parseInt(suly)*Integer.parseInt(ismetles))+" Kg ("+szettek+")\n";
     }
 
     @Ignore

@@ -78,4 +78,5 @@
     <string name="Open">open</string>
     <string name="Close">close</string>
     <string name="szuperszett_triszett_felv_tele">Szuperszett, triszett felvétele</string>
+    <string name="mvvm_tevekenyseg_sorozat_minusz">kivesz</string>
 </resources>
