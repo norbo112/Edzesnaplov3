@@ -231,12 +231,13 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface,
         }
 
         private boolean szettekBevitele() {
-            if (sorozatRogzitoLayoutBindings.size() == 0) return true;
+            boolean okes = false;
+            if (sorozatRogzitoLayoutBindings.size() == 0) okes = true;
             for (SzuperszettSorozatRogzitoLayoutBinding binding : sorozatRogzitoLayoutBindings) {
                 SorozatDisplay sorozatUI = binding.getSorozatUI();
-                return !sorozatUI.suly.equals("0") && !sorozatUI.ism.equals("0");
+                okes = !sorozatUI.suly.equals("0") && !sorozatUI.ism.equals("0");
             }
-            return false;
+            return okes;
         }
     }
 
