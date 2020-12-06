@@ -150,17 +150,15 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface,
 
     @Override
     public void pluszGyakorlatFelvetele(GyakorlatUI gyakorlatUI) {
-        if (binding.szuperszettSorozatFelvetele != null) {
-            binding.sztrszettLabel.setVisibility(View.VISIBLE);
-            SzuperszettSorozatRogzitoLayoutBinding layoutBinding = SzuperszettSorozatRogzitoLayoutBinding.inflate(getLayoutInflater());
-            layoutBinding.setAction(new TevekenysegSzuperszettSorozat(layoutBinding, this));
-            layoutBinding.setSorozatAction(new SorozatAction(new SorozatRogzitoAction(layoutBinding)));
-            layoutBinding.setGyakorlatUI(gyakorlatUI);
-            layoutBinding.setSorozatUI(new SorozatDisplay());
-            layoutBinding.setViewCnt(szuperSzettViewCount++);
-            sorozatRogzitoLayoutBindings.add(layoutBinding);
-            this.binding.szuperszettSorozatFelvetele.addView(layoutBinding.getRoot());
-        }
+        binding.sztrszettLabel.setVisibility(View.VISIBLE);
+        SzuperszettSorozatRogzitoLayoutBinding layoutBinding = SzuperszettSorozatRogzitoLayoutBinding.inflate(getLayoutInflater());
+        layoutBinding.setAction(new TevekenysegSzuperszettSorozat(layoutBinding, this));
+        layoutBinding.setSorozatAction(new SorozatAction(new SorozatRogzitoAction(layoutBinding)));
+        layoutBinding.setGyakorlatUI(gyakorlatUI);
+        layoutBinding.setSorozatUI(new SorozatDisplay());
+        layoutBinding.setViewCnt(szuperSzettViewCount++);
+        sorozatRogzitoLayoutBindings.add(layoutBinding);
+        this.binding.szuperszettSorozatFelvetele.addView(layoutBinding.getRoot());
     }
 
     private void korabbiSorozatReset() {
@@ -174,13 +172,11 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface,
 
     @Override
     public void removeSzettGyakById(int index) {
-        if (binding.szuperszettSorozatFelvetele != null) {
-            binding.szuperszettSorozatFelvetele.removeViewAt(index);
-            sorozatRogzitoLayoutBindings.remove(index);
-            if (binding.szuperszettSorozatFelvetele.getChildCount() < 1) {
-                binding.sztrszettLabel.setVisibility(View.GONE);
-                szuperSzettViewCount = 0;
-            }
+        binding.szuperszettSorozatFelvetele.removeViewAt(index);
+        sorozatRogzitoLayoutBindings.remove(index);
+        if (binding.szuperszettSorozatFelvetele.getChildCount() < 1) {
+            binding.sztrszettLabel.setVisibility(View.GONE);
+            szuperSzettViewCount = 0;
         }
     }
 
@@ -216,12 +212,10 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface,
                 ((ViewPager) getActivity().findViewById(R.id.view_pager)).setCurrentItem(0, true);
             }
 
-            if (binding.szuperszettSorozatFelvetele != null) {
-                binding.szuperszettSorozatFelvetele.removeAllViews();
-                binding.sztrszettLabel.setVisibility(View.GONE);
-                sorozatRogzitoLayoutBindings.clear();
-                szuperSzettViewCount = 0;
-            }
+            binding.szuperszettSorozatFelvetele.removeAllViews();
+            binding.sztrszettLabel.setVisibility(View.GONE);
+            sorozatRogzitoLayoutBindings.clear();
+            szuperSzettViewCount = 0;
 
             binding.gyakTitle.setText(R.string.mvvm_edzes_nezet_gyakorlat_label);
             binding.etSuly.setText("0");
@@ -247,8 +241,6 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface,
     }
 
     private String getSzettJelolo() {
-        if (binding.szuperszettSorozatFelvetele == null)
-            return null;
 
         int szettBindingsSize = sorozatRogzitoLayoutBindings.size();
 
