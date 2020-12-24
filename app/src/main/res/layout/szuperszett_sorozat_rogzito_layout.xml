@@ -15,14 +15,6 @@
         <variable
             name="sorozatAction"
             type="aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.uiactions.SorozatAction" />
-
-        <variable
-            name="action"
-            type="aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.uiactions.TevekenysegSzuperszettSorozat" />
-
-        <variable
-            name="viewCnt"
-            type="Integer" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -192,12 +184,6 @@
                             </LinearLayout>
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginTop="15dp"
-                            android:orientation="horizontal">
-
                             <androidx.appcompat.widget.SwitchCompat
                                 android:id="@+id/plusz10switch"
                                 android:layout_width="match_parent"
@@ -206,23 +192,11 @@
                                 android:layout_marginStart="2dp"
                                 android:layout_marginEnd="2dp"
                                 android:layout_marginBottom="2dp"
-                                android:layout_weight="1"
                                 android:background="#E2F0F3"
                                 android:paddingStart="5dp"
                                 android:paddingEnd="5dp"
                                 android:text="@string/mvvm_tevekenyseg_sorozat_szorzo1"
                                 android:textSize="14sp" />
-
-                            <Button
-                                android:id="@+id/szettSorozatRemoveBtn"
-                                style="@style/Widget.AppCompat.Button.Colored"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:backgroundTint="#C2185B"
-                                android:onClick="@{() -> action.removeSzettGyakorlat(viewCnt)}"
-                                android:text="@string/mvvm_tevekenyseg_sorozat_minusz" />
-                        </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>

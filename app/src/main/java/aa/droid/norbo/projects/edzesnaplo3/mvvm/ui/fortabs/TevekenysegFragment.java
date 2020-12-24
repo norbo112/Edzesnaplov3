@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,13 +39,11 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.szuperszett.SzettekSzam
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.uiactions.MainTevekenysegAction;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.uiactions.SorozatAction;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.uiactions.SorozatRogzitoAction;
-import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.uiactions.SzettGyakRemover;
-import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.uiactions.TevekenysegSzuperszettSorozat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.viewmodels.SorozatViewModel;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class TevekenysegFragment extends Fragment implements AdatKozloInterface, SzettGyakRemover {
+public class TevekenysegFragment extends Fragment implements AdatKozloInterface {
     private static final String TAG = "TevekenysegFragment";
     private MvvmEdzesNezetBinding binding;
     private GyakorlatUI gyakorlatUI;
@@ -146,17 +143,13 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface,
         }
     }
 
-    private int szuperSzettViewCount = 0;
-
     @Override
     public void pluszGyakorlatFelvetele(GyakorlatUI gyakorlatUI) {
         binding.sztrszettLabel.setVisibility(View.VISIBLE);
         SzuperszettSorozatRogzitoLayoutBinding layoutBinding = SzuperszettSorozatRogzitoLayoutBinding.inflate(getLayoutInflater());
-        layoutBinding.setAction(new TevekenysegSzuperszettSorozat(layoutBinding, this));
         layoutBinding.setSorozatAction(new SorozatAction(new SorozatRogzitoAction(layoutBinding)));
         layoutBinding.setGyakorlatUI(gyakorlatUI);
         layoutBinding.setSorozatUI(new SorozatDisplay());
-        layoutBinding.setViewCnt(szuperSzettViewCount++);
         sorozatRogzitoLayoutBindings.add(layoutBinding);
         this.binding.szuperszettSorozatFelvetele.addView(layoutBinding.getRoot());
     }
@@ -167,16 +160,6 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface,
             ArrayAdapter adapter = (ArrayAdapter) binding.korabbanElvegzettSorozatok.getAdapter();
             if (adapter != null)
                 adapter.clear();
-        }
-    }
-
-    @Override
-    public void removeSzettGyakById(int index) {
-        binding.szuperszettSorozatFelvetele.removeViewAt(index);
-        sorozatRogzitoLayoutBindings.remove(index);
-        if (binding.szuperszettSorozatFelvetele.getChildCount() < 1) {
-            binding.sztrszettLabel.setVisibility(View.GONE);
-            szuperSzettViewCount = 0;
         }
     }
 
@@ -195,7 +178,6 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface,
                         SorozatDisplay sorozatUI1 = binding.getSorozatUI();
                         naploWorker.addSorozat(modelConverter.fromUI(binding.getGyakorlatUI()), Integer.parseInt(sorozatUI1.suly),
                                 Integer.parseInt(sorozatUI1.ism), szettJelolo);
-                        binding.szettSorozatRemoveBtn.setEnabled(false); //ha már hozzáadtál egy sorozatot, akkor ne legyen eltávolítható
                     }
                 }
 
@@ -215,7 +197,6 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface,
             binding.szuperszettSorozatFelvetele.removeAllViews();
             binding.sztrszettLabel.setVisibility(View.GONE);
             sorozatRogzitoLayoutBindings.clear();
-            szuperSzettViewCount = 0;
 
             binding.gyakTitle.setText(R.string.mvvm_edzes_nezet_gyakorlat_label);
             binding.etSuly.setText("0");
