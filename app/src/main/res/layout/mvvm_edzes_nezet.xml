@@ -46,6 +46,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
+                android:layout_marginBottom="10dp"
                 app:cardBackgroundColor="#FFFFFF"
                 app:cardCornerRadius="15dp"
                 app:contentPadding="10dp"
@@ -268,31 +269,18 @@
 
             </androidx.cardview.widget.CardView>
 
-            <LinearLayout
-                android:id="@+id/szettek_kontener"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@drawable/custom_supersett_hatter"
-                android:layout_marginTop="10dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/edzes_card_view">
-                <TextView
-                    android:visibility="gone"
-                    android:id="@+id/sztrszett_label"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/szuperszett_triszett_felv_tele"
-                    android:textSize="19sp"
-                    android:textStyle="bold"
-                    android:textAlignment="center" />
+
+
                 <LinearLayout
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/edzes_card_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/szuperszett_sorozat_felvetele"
                     android:orientation="vertical" />
-            </LinearLayout>
+
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView2"

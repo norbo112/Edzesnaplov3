@@ -146,7 +146,7 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface 
 
     @Override
     public void pluszGyakorlatFelvetele(GyakorlatUI gyakorlatUI) {
-        binding.sztrszettLabel.setVisibility(View.VISIBLE);
+//        binding.sztrszettLabel.setVisibility(View.VISIBLE);
         SzuperszettSorozatRogzitoLayoutBinding layoutBinding = SzuperszettSorozatRogzitoLayoutBinding.inflate(getLayoutInflater());
         layoutBinding.setSorozatAction(new SorozatAction(new SorozatRogzitoAction(layoutBinding)));
         layoutBinding.setGyakorlatUI(gyakorlatUI);
@@ -199,7 +199,7 @@ public class TevekenysegFragment extends Fragment implements AdatKozloInterface 
             }
 
             binding.szuperszettSorozatFelvetele.removeAllViews();
-            binding.sztrszettLabel.setVisibility(View.GONE);
+//            binding.sztrszettLabel.setVisibility(View.GONE);
             sorozatRogzitoLayoutBindings.clear();
 
             binding.gyakTitle.setText(R.string.mvvm_edzes_nezet_gyakorlat_label);
