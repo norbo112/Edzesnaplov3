@@ -33,7 +33,6 @@ import aa.droid.norbo.projects.edzesnaplo3.mvvm.db.entities.Sorozat;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.fortabs.adatkozlo.AdatKozloInterface;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.DateTimeFormatter;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.ModelConverter;
-import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.debug.info.LayoutInfo;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.naplo.NaploWorker;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.naplo.SorozatUtil;
 import aa.droid.norbo.projects.edzesnaplo3.mvvm.ui.utils.szuperszett.SzettekSzamozas;
