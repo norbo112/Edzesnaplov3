@@ -97,9 +97,13 @@ public class MvvmGyakorlatokActivity extends BaseActivity<MvvmGyakorlatActivityB
         });
 
         if (isTablet()) {
-            binding.gyakReportActivityLayoutSrc.toolbar.setVisibility(View.GONE);
+            if(binding.gyakReportActivityLayoutSrc != null)
+                binding.gyakReportActivityLayoutSrc.toolbar.setVisibility(View.GONE);
+
             if(kijelotGyakPoz != -1)
                 initGyakDiagramok((GyakorlatUI) binding.gyakorlatokLista.getAdapter().getItem(kijelotGyakPoz));
+
+            binding.bottomNavigation.setOnNavigationItemSelectedListener(this);
         }
 
         if(!isTablet()) {
@@ -108,7 +112,8 @@ public class MvvmGyakorlatokActivity extends BaseActivity<MvvmGyakorlatActivityB
             binding.mainDrawer.addDrawerListener(toggle);
             binding.nv.setNavigationItemSelectedListener(this::onNavigationItemSelected);
         }
-//        binding.bottomNavigation.setOnNavigationItemSelectedListener(this);
+
+
 
     }
 
