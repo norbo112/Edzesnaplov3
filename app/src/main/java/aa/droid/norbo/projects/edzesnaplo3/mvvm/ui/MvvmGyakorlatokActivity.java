@@ -201,17 +201,18 @@ public class MvvmGyakorlatokActivity extends BaseActivity<MvvmGyakorlatActivityB
 //            }
 //            sorozatUtil.sorozatNezokeDialog(this, (GyakorlatUI) binding.gyakorlatokLista.getAdapter().getItem(kijelotGyakPoz));
 //        }
-        if(item.getItemId() == android.R.id.home) {
+        if(item.getItemId() == android.R.id.home && binding.mainDrawer != null) {
             binding.mainDrawer.openDrawer(GravityCompat.START);
             return true;
         } else {
+            onBackPressed();
             return super.onOptionsItemSelected(item);
         }
     }
 
     @Override
     public void onBackPressed() {
-        if (binding.mainDrawer.isDrawerOpen(GravityCompat.START)) {
+        if (binding.mainDrawer != null && binding.mainDrawer.isDrawerOpen(GravityCompat.START)) {
             binding.mainDrawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
